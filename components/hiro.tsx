@@ -28,6 +28,8 @@ export default function PersonalHero() {
       window.location.href = "/networking"; // Redirect to /networking page
     }else if (index === 1) {
       window.location.href = "/pdf_links"; // Redirect to /pdf_links page
+    }else if (index === 2) {
+      window.location.href = "/quiz"; // Redirect to /quiz page
     }
   };
 
