@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Network, File } from "lucide-react";
+import { Network, File, DonutIcon } from "lucide-react";
 
 export default function PersonalHero() {
   const subjects = [
@@ -17,8 +17,14 @@ export default function PersonalHero() {
       icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
       color: "from-red-500 to-red-600",
       description: "Question Papers and Notes",
-      content:
-        "Papers and Notes for various subjects.",
+      content: "Papers and Notes for various subjects.",
+    },
+    {
+      title: "Quiz",
+      icon: <DonutIcon className="w-6 h-6 sm:w-8 sm:h-8" />,
+      color: "from-green-500 to-green-600",
+      description: "",
+      content: "",
     },
   ];
 
@@ -27,6 +33,8 @@ export default function PersonalHero() {
       window.location.href = "/networking"; // Redirect to /networking page
     } else if (index === 1) {
       window.location.href = "/pdf_links"; // Redirect to /pdf_links page
+    }else if (index === 2) {
+      window.location.href = "/quiz"; // Redirect to /quiz page
     }
   };
 
@@ -88,8 +96,8 @@ export default function PersonalHero() {
               Keep Learning, Keep Growing
             </p>
             <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-80">
-            Created by Hasitha Sandakelum
-          </p>
+              Created by Hasitha Sandakelum
+            </p>
 
             <p className="text-slate-300 text-xs sm:text-sm mt-1 sm:mt-2">
               Your educational journey starts here

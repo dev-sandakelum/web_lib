@@ -7,6 +7,7 @@ import {
   Play,
   Search,
 } from "lucide-react";
+import { Ict1161Quiz } from "@/resourses/json/Q2";
 
 // Define types for quiz structure
 interface Question {
@@ -51,7 +52,7 @@ const networkingQuiz: Quiz = {
   ],
 };
 
-const builtInQuizzes: Quiz[] = [networkingQuiz];
+const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz];
 
 export default function ModelQuizzes() {
   const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null);
