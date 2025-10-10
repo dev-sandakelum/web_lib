@@ -481,32 +481,32 @@ export default function PacketTracerGuide() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8">
-          <div className="flex items-center gap-4 mb-4">
-            <Terminal className="w-12 h-12" />
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sm:p-6 lg:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4">
+            <Terminal className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0" />
             <div>
-              <h1 className="text-4xl font-bold">Cisco Packet Tracer</h1>
-              <h2 className="text-2xl font-semibold">Complete Command Reference Guide</h2>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Cisco Packet Tracer</h1>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mt-1">Complete Command Reference Guide</h2>
             </div>
           </div>
-          <p className="text-blue-100 text-lg">
+          <p className="text-blue-100 text-sm sm:text-base lg:text-lg">
             Comprehensive guide to router, switch, and network configuration commands
           </p>
         </div>
 
         {/* Table of Contents */}
-        <div className="p-8 bg-blue-50 border-b border-blue-200">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <BookOpen className="w-6 h-6" />
+        <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 border-b border-blue-200">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
             Table of Contents
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {sections.map((section, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-gray-700">
-                <span className="text-blue-600">{section.icon}</span>
+              <div key={idx} className="flex items-center gap-2 text-gray-700 text-sm sm:text-base">
+                <span className="text-blue-600 flex-shrink-0">{section.icon}</span>
                 <span className="font-medium">{section.title}</span>
               </div>
             ))}
@@ -514,49 +514,49 @@ export default function PacketTracerGuide() {
         </div>
 
         {/* Command Sections */}
-        <div className="p-8">
+        <div className="p-4 sm:p-6 lg:p-8">
           {sections.map((section, sectionIdx) => (
-            <div key={sectionIdx} className="mb-12">
-              <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-blue-600">
-                <div className="text-blue-600">{section.icon}</div>
-                <h2 className="text-3xl font-bold text-gray-800">{section.title}</h2>
+            <div key={sectionIdx} className="mb-8 sm:mb-10 lg:mb-12">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 border-b-2 border-blue-600">
+                <div className="text-blue-600 flex-shrink-0">{section.icon}</div>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">{section.title}</h2>
               </div>
 
               {section.commands.map((cmd, cmdIdx) => (
-                <div key={cmdIdx} className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-                  <h3 className="text-xl font-bold text-indigo-600 mb-3">{cmd.command}</h3>
+                <div key={cmdIdx} className="mb-6 sm:mb-8 p-4 sm:p-5 lg:p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
+                  <h3 className="text-lg sm:text-xl font-bold text-indigo-600 mb-3 break-words">{cmd.command}</h3>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
-                      <span className="font-semibold text-gray-700">Syntax:</span>
-                      <pre className="mt-2 p-3 bg-gray-800 text-green-400 rounded font-mono text-sm overflow-x-auto">
+                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Syntax:</span>
+                      <pre className="mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs sm:text-sm overflow-x-auto">
                         {cmd.syntax}
                       </pre>
                     </div>
 
                     <div>
-                      <span className="font-semibold text-gray-700">Description:</span>
-                      <p className="mt-1 text-gray-600">{cmd.description}</p>
+                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Description:</span>
+                      <p className="mt-1 text-gray-600 text-sm sm:text-base leading-relaxed">{cmd.description}</p>
                     </div>
 
                     <div>
-                      <span className="font-semibold text-gray-700">Why Use This:</span>
-                      <p className="mt-1 text-gray-600">{cmd.why}</p>
+                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Why Use This:</span>
+                      <p className="mt-1 text-gray-600 text-sm sm:text-base leading-relaxed">{cmd.why}</p>
                     </div>
 
                     <div>
-                      <span className="font-semibold text-gray-700">Example:</span>
-                      <pre className="mt-2 p-3 bg-gray-800 text-green-400 rounded font-mono text-sm overflow-x-auto whitespace-pre-wrap">
+                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Example:</span>
+                      <pre className="mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap break-all sm:break-normal">
                         {cmd.example}
                       </pre>
                     </div>
 
                     {cmd.alternatives.length > 0 && (
                       <div>
-                        <span className="font-semibold text-gray-700">Alternative Commands:</span>
-                        <ul className="mt-2 list-disc list-inside text-gray-600">
+                        <span className="font-semibold text-gray-700 text-sm sm:text-base">Alternative Commands:</span>
+                        <ul className="mt-2 list-disc list-inside text-gray-600 text-sm sm:text-base">
                           {cmd.alternatives.map((alt, altIdx) => (
-                            <li key={altIdx} className="ml-4">{alt}</li>
+                            <li key={altIdx} className="ml-4 break-words">{alt}</li>
                           ))}
                         </ul>
                       </div>
@@ -740,9 +740,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-              <h3 className="font-bold text-yellow-700 mb-2">Problem: DHCP not working</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+            <div className="p-3 sm:p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
+              <h3 className="font-bold text-yellow-700 mb-2 text-sm sm:text-base">Problem: DHCP not working</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
                 <li>Verify DHCP pool is configured with network and default-router</li>
                 <li>Check if router interface is in the same subnet as DHCP pool</li>
                 <li>Ensure router interface has an IP address assigned</li>
@@ -751,9 +751,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
-              <h3 className="font-bold text-blue-700 mb-2">Problem: SSH connection refused</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+            <div className="p-3 sm:p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+              <h3 className="font-bold text-blue-700 mb-2 text-sm sm:text-base">Problem: SSH connection refused</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
                 <li>Verify domain name is set: <code className="bg-gray-200 px-2 py-1 rounded">ip domain-name</code></li>
                 <li>Check RSA keys are generated: <code className="bg-gray-200 px-2 py-1 rounded">crypto key generate rsa</code></li>
                 <li>Ensure VTY lines have &quot;transport input ssh&quot; and &quot;login local&quot;</li>
@@ -762,9 +762,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded">
-              <h3 className="font-bold text-green-700 mb-2">Problem: Configuration lost after reload</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+            <div className="p-3 sm:p-4 bg-green-50 border-l-4 border-green-500 rounded">
+              <h3 className="font-bold text-green-700 mb-2 text-sm sm:text-base">Problem: Configuration lost after reload</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
                 <li>Always save configuration: <code className="bg-gray-200 px-2 py-1 rounded">copy run start</code></li>
                 <li>Verify save was successful: <code className="bg-gray-200 px-2 py-1 rounded">show startup-config</code></li>
                 <li>Check NVRAM has space available</li>
@@ -772,9 +772,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
-              <h3 className="font-bold text-purple-700 mb-2">Problem: Cannot access router remotely</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
+            <div className="p-3 sm:p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
+              <h3 className="font-bold text-purple-700 mb-2 text-sm sm:text-base">Problem: Cannot access router remotely</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
                 <li>Verify PC and router are in same subnet or routing is configured</li>
                 <li>Check VTY lines have password configured and &quot;login&quot; enabled</li>
                 <li>Ensure router interface is up and has correct IP address</li>
@@ -786,13 +786,13 @@ export default function PacketTracerGuide() {
         </div>
 
         {/* Best Practices */}
-        <div className="p-8 bg-gradient-to-br from-green-50 to-teal-50">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Best Practices</h2>
+        <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-green-50 to-teal-50">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Best Practices</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-green-600 mb-4">✓ Security</h3>
-              <ul className="space-y-2 text-gray-700">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+              <h3 className="text-lg sm:text-xl font-bold text-green-600 mb-3 sm:mb-4">✓ Security</h3>
+              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold">•</span>
                   <span>Always use &quot;enable secret&quot; instead of &quot;enable password&quot;</span>
@@ -820,9 +820,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-blue-600 mb-4">✓ Configuration Management</h3>
-              <ul className="space-y-2 text-gray-700">
+            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+              <h3 className="text-lg sm:text-xl font-bold text-blue-600 mb-3 sm:mb-4">✓ Configuration Management</h3>
+              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
                 <li className="flex items-start gap-2">
                   <span className="text-blue-600 font-bold">•</span>
                   <span>Always save configuration after changes</span>
@@ -850,9 +850,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-orange-600 mb-4">✓ Network Design</h3>
-              <ul className="space-y-2 text-gray-700">
+            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+              <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-3 sm:mb-4">✓ Network Design</h3>
+              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
                 <li className="flex items-start gap-2">
                   <span className="text-orange-600 font-bold">•</span>
                   <span>Use private IP ranges for internal networks</span>
@@ -880,9 +880,9 @@ export default function PacketTracerGuide() {
               </ul>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-purple-600 mb-4">✓ Troubleshooting</h3>
-              <ul className="space-y-2 text-gray-700">
+            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
+              <h3 className="text-lg sm:text-xl font-bold text-purple-600 mb-3 sm:mb-4">✓ Troubleshooting</h3>
+              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 font-bold">•</span>
                   <span>Use &quot;show&quot; commands extensively for verification</span>

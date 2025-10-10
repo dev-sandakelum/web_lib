@@ -6,10 +6,10 @@ export default function PersonalHero() {
 
   const subjects = [
     {
-      title: "Networking ",
+      title: "Cisco Packet Tracer",
       icon: <Network className="w-8 h-8" />,
       color: "from-blue-500 to-blue-600",
-      description: "Basic Router Commands",
+      description: "Complete Command Reference Guide",
       content: "Enters privileged EXEC mode from user EXEC mode. This mode provides access to all router commands and is password-protected."
     },
     {
