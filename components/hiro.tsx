@@ -88,9 +88,9 @@ export default function PersonalHero() {
             <p className="text-base sm:text-lg font-semibold">
               Keep Learning, Keep Growing
             </p>
-            <p className="text-xs sm:text-sm font-medium mt-2 text-gray-400">
-              Created by Hasitha Sandakelum
-            </p>
+            <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-80">
+            Created by Hasitha Sandakelum
+          </p>
 
             <p className="text-slate-300 text-xs sm:text-sm mt-1 sm:mt-2">
               Your educational journey starts here
