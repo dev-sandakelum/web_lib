@@ -8,8 +8,22 @@ import {
   Search,
 } from "lucide-react";
 
+// Define types for quiz structure
+interface Question {
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
+
+interface Quiz {
+  id: string;
+  title: string;
+  category: string;
+  questions: Question[];
+}
+
 // Separate quiz variables for better structure and scalability
-const networkingQuiz = {
+const networkingQuiz: Quiz = {
   id: "1",
   title: "Networking Basics",
   category: "Networking",
@@ -37,12 +51,10 @@ const networkingQuiz = {
   ],
 };
 
-
-
-const builtInQuizzes = [networkingQuiz,];
+const builtInQuizzes: Quiz[] = [networkingQuiz];
 
 export default function ModelQuizzes() {
-  const [activeQuiz, setActiveQuiz] = useState<any | null>(null);
+  const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [finished, setFinished] = useState(false);
@@ -50,7 +62,7 @@ export default function ModelQuizzes() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const startQuiz = (quiz: any) => {
+  const startQuiz = (quiz: Quiz) => {
     setActiveQuiz(quiz);
     setCurrentQuestion(0);
     setSelectedAnswer(null);
@@ -189,7 +201,7 @@ export default function ModelQuizzes() {
 
             <div className="bg-white border border-green-200 rounded-xl p-5 shadow-md text-left overflow-y-auto max-h-[60vh] mb-6">
               <h3 className="text-lg sm:text-2xl font-bold text-green-700 mb-4">Review Answers</h3>
-              {activeQuiz.questions.map((q: any, idx: number) => (
+              {activeQuiz.questions.map((q: Question, idx: number) => (
                 <div key={idx} className="mb-3 border-b border-green-100 pb-2">
                   <p className="font-semibold text-gray-800 text-sm sm:text-base">{idx + 1}. {q.question}</p>
                   <p className="text-xs sm:text-sm text-gray-700 mt-1">✅ Correct Answer: <span className="text-green-700 font-medium">{q.options[q.correctIndex]}</span></p>

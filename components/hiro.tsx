@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Code, Database, Globe, Briefcase, Award, Network, File } from "lucide-react";
+import { Network, File } from "lucide-react";
 
 export default function PersonalHero() {
   const subjects = [
@@ -11,7 +11,8 @@ export default function PersonalHero() {
       description: "Complete Command Reference Guide",
       content:
         "Enters privileged EXEC mode from user EXEC mode. This mode provides access to all router commands and is password-protected.",
-    },{
+    },
+    {
       title: "PDF links",
       icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
       color: "from-red-500 to-red-600",
@@ -19,17 +20,13 @@ export default function PersonalHero() {
       content:
         "Papers and Notes for various subjects.",
     },
-    {
-    },
   ];
 
   const handleCardClick = (index: number) => {
     if (index === 0) {
       window.location.href = "/networking"; // Redirect to /networking page
-    }else if (index === 1) {
+    } else if (index === 1) {
       window.location.href = "/pdf_links"; // Redirect to /pdf_links page
-    }else if (index === 2) {
-      window.location.href = "/quiz"; // Redirect to /quiz page
     }
   };
 
