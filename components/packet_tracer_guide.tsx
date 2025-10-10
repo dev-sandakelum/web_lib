@@ -915,7 +915,10 @@ export default function PacketTracerGuide() {
         {/* Footer */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 text-center">
           <p className="text-lg font-semibold">Computer Networks</p>
-          <p className="text-blue-100">Hasitha Sandakelum</p>
+           <p className="text-xs sm:text-sm font-medium mt-2 text-gray-400">
+              Created by Hasitha Sandakelum
+            </p>
+
           <p className="text-blue-200 text-sm mt-2">Study hard and practice regularly! 🚀</p>
         </div>
       </div>
