@@ -734,7 +734,7 @@ export default function PacketTracerGuide() {
               <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
                 <li>Check if interfaces are up: <code className="bg-gray-200 px-2 py-1 rounded">show ip interface brief</code></li>
                 <li>Verify IP addresses are in the same subnet or proper routing exists</li>
-                <li>Ensure "no shutdown" was used on router interfaces</li>
+                <li>Ensure &quot;no shutdown&quot; was used on router interfaces</li>
                 <li>Check if correct cables are used (straight-through vs crossover)</li>
                 <li>Verify default gateway is configured on PCs</li>
               </ul>
@@ -746,7 +746,7 @@ export default function PacketTracerGuide() {
                 <li>Verify DHCP pool is configured with network and default-router</li>
                 <li>Check if router interface is in the same subnet as DHCP pool</li>
                 <li>Ensure router interface has an IP address assigned</li>
-                <li>For IPv6 DHCP, verify "ipv6 unicast-routing" is enabled</li>
+                <li>For IPv6 DHCP, verify &quot;ipv6 unicast-routing&quot; is enabled</li>
                 <li>Try releasing and renewing: Set to Static then back to DHCP</li>
               </ul>
             </div>
@@ -756,7 +756,7 @@ export default function PacketTracerGuide() {
               <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
                 <li>Verify domain name is set: <code className="bg-gray-200 px-2 py-1 rounded">ip domain-name</code></li>
                 <li>Check RSA keys are generated: <code className="bg-gray-200 px-2 py-1 rounded">crypto key generate rsa</code></li>
-                <li>Ensure VTY lines have "transport input ssh" and "login local"</li>
+                <li>Ensure VTY lines have &quot;transport input ssh&quot; and &quot;login local&quot;</li>
                 <li>Verify username is created with proper privilege level</li>
                 <li>Check if VTY lines are available (not all in use)</li>
               </ul>
@@ -776,7 +776,7 @@ export default function PacketTracerGuide() {
               <h3 className="font-bold text-purple-700 mb-2">Problem: Cannot access router remotely</h3>
               <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
                 <li>Verify PC and router are in same subnet or routing is configured</li>
-                <li>Check VTY lines have password configured and "login" enabled</li>
+                <li>Check VTY lines have password configured and &quot;login&quot; enabled</li>
                 <li>Ensure router interface is up and has correct IP address</li>
                 <li>Test connectivity with ping before attempting Telnet/SSH</li>
                 <li>For switches, verify VLAN 1 interface is up and has IP address</li>
@@ -795,7 +795,7 @@ export default function PacketTracerGuide() {
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold">•</span>
-                  <span>Always use "enable secret" instead of "enable password"</span>
+                  <span>Always use &quot;enable secret&quot; instead of &quot;enable password&quot;</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold">•</span>
@@ -811,11 +811,11 @@ export default function PacketTracerGuide() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold">•</span>
-                  <span>Use "service password-encryption" for basic protection</span>
+                  <span>Use &quot;service password-encryption&quot; for basic protection</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-green-600 font-bold">•</span>
-                  <span>Create individual user accounts with "username" command</span>
+                  <span>Create individual user accounts with &quot;username&quot; command</span>
                 </li>
               </ul>
             </div>
@@ -885,7 +885,7 @@ export default function PacketTracerGuide() {
               <ul className="space-y-2 text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 font-bold">•</span>
-                  <span>Use "show" commands extensively for verification</span>
+                  <span>Use &quot;show&quot; commands extensively for verification</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 font-bold">•</span>

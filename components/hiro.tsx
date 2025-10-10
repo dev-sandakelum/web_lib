@@ -1,17 +1,16 @@
 "use client"
-import React, { useState } from 'react';
-import { BookOpen, Code, Database, Globe, Briefcase, Award, ArrowLeft } from 'lucide-react';
+import React from 'react';
+import { Code, Database, Globe, Briefcase, Award, Network } from 'lucide-react';
 
 export default function PersonalHero() {
-  const [selectedSubject, setSelectedSubject] = useState<number | null>(null);
 
   const subjects = [
     {
-      title: "Subject 1",
-      icon: <BookOpen className="w-8 h-8" />,
+      title: "Networking ",
+      icon: <Network className="w-8 h-8" />,
       color: "from-blue-500 to-blue-600",
-      description: "Add your subject description here",
-      content: "This is where you can add detailed information about Subject 1. You can include notes, resources, assignments, and anything else related to this subject."
+      description: "Basic Router Commands",
+      content: "Enters privileged EXEC mode from user EXEC mode. This mode provides access to all router commands and is password-protected."
     },
     {
       title: "Subject 2",
