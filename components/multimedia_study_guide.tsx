@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Image, Volume2, Video, Type, Palette, HelpCircle, FileText } from 'lucide-react';
+import { BookOpen, Image, Type, Palette, HelpCircle, FileText } from 'lucide-react';
 
 type Topic = {
   topic: string;
@@ -41,7 +41,7 @@ export default function MultimediaStudyGuide() {
       topics: [
         {
           topic: "What is Multimedia?",
-          description: "Integration of text, sound, graphics, animation and video into a single unit. Multi means 'many/multiple' and medium refers to an interleaving substance through which something is transmitted.",
+          description: "Integration of text, sound, graphics, animation and video into a single unit. Multi means &apos;many/multiple&apos; and medium refers to an interleaving substance through which something is transmitted.",
           keyPoints: [
             "Combination of continuous media (audio, video) and discrete media (text, graphics, images)",
             "Uses multiple content forms to convey digital information",
