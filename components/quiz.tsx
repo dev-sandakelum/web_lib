@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   BookOpen,
   FolderOpen,
@@ -26,7 +27,7 @@ interface Quiz {
 
 // Separate quiz variables for better structure and scalability
 const networkingQuiz: Quiz = {
-  id: "1",
+  id: "networking-basics",
   title: "Networking Basics",
   category: "Networking",
   questions: [
@@ -56,6 +57,9 @@ const networkingQuiz: Quiz = {
 const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz];
 
 export default function ModelQuizzes() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -64,12 +68,30 @@ export default function ModelQuizzes() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Load quiz from URL on component mount
+  useEffect(() => {
+    const quizId = searchParams.get('quiz');
+    if (quizId) {
+      const quiz = builtInQuizzes.find(q => q.id === quizId);
+      if (quiz) {
+        setActiveQuiz(quiz);
+        setCurrentQuestion(0);
+        setSelectedAnswer(null);
+        setScore(0);
+        setFinished(false);
+      }
+    }
+  }, [searchParams]);
+
   const startQuiz = (quiz: Quiz) => {
     setActiveQuiz(quiz);
     setCurrentQuestion(0);
     setSelectedAnswer(null);
     setScore(0);
     setFinished(false);
+    
+    // Update URL with quiz ID
+    router.push(`?quiz=${quiz.id}`, { scroll: false });
   };
 
   const handleAnswer = (index: number) => {
@@ -88,6 +110,12 @@ export default function ModelQuizzes() {
     } else {
       setFinished(true);
     }
+  };
+
+  const backToQuizzes = () => {
+    setActiveQuiz(null);
+    // Clear URL parameters
+    router.push(window.location.pathname, { scroll: false });
   };
 
   const categories = [
@@ -213,7 +241,7 @@ export default function ModelQuizzes() {
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button onClick={() => startQuiz(activeQuiz)} className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-green-700 transition-all">Retry Quiz</button>
-              <button onClick={() => setActiveQuiz(null)} className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-gray-300 transition-all">Back to Quizzes</button>
+              <button onClick={backToQuizzes} className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-gray-300 transition-all">Back to Quizzes</button>
             </div>
           </section>
         ) : (
