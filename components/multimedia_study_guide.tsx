@@ -1217,7 +1217,7 @@ export default function MultimediaStudyGuide() {
           <p className="text-xl font-bold mb-2">Good Luck with Your Exam! 🎓</p>
           <p className="text-blue-100">Study smart, practice well, and you&apos;ll excel!</p>
           <p className="text-sm mt-3 text-blue-200">
-            Created by Hasitha Sandakelum | ICT1122 Multimedia Technology
+            Created by Hasitha Sandakelum | Multimedia Technology
           </p>
         </div>
       </div>
