@@ -25,6 +25,13 @@ export default function PersonalHero() {
       color: "from-green-500 to-green-600",
       description: "",
       content: "",
+    },{
+      title: "Multimedia 1-2",
+      icon: <Network className="w-6 h-6 sm:w-8 sm:h-8" />,
+      color: "from-blue-500 to-blue-600",
+      description: "Complete Guide",
+      content:
+        "Integration of text, sound, graphics, animation and video into a single unit. Multi means 'many/multiple' and medium refers to an interleaving substance through which something is transmitted.",
     },
   ];
 
@@ -35,7 +42,8 @@ export default function PersonalHero() {
       window.location.href = "/pdf_links"; // Redirect to /pdf_links page
     }else if (index === 2) {
       window.location.href = "/quiz"; // Redirect to /quiz page
-    }
+    }else if (index === 3) {
+      window.location.href = "/multimedia"; }// Redirect to /multimedia page
   };
 
   // Remove the extra closing brace above to keep the function body open
