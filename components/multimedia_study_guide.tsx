@@ -448,7 +448,7 @@ export default function MultimediaStudyGuide() {
     },
     {
       title: "Multimedia Hardware",
-      icon: <Image className="w-6 h-6" />,
+      icon: <Image className="w-6 h-6" aria-hidden="true" />,
       topics: [
         {
           topic: "Input Devices",
@@ -1215,7 +1215,7 @@ export default function MultimediaStudyGuide() {
         {/* Footer */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white p-6 text-center">
           <p className="text-xl font-bold mb-2">Good Luck with Your Exam! 🎓</p>
-          <p className="text-blue-100">Study smart, practice well, and you'll excel!</p>
+          <p className="text-blue-100">Study smart, practice well, and you&apos;ll excel!</p>
           <p className="text-sm mt-3 text-blue-200">
             Created by Hasitha Sandakelum | ICT1122 Multimedia Technology
           </p>
