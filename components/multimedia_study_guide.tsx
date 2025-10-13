@@ -4,7 +4,7 @@ export default function CStudyGuide() {
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Page 1: Selection Control Structures */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -33,7 +33,7 @@ export default function CStudyGuide() {
 }`}
                   </pre>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>
                     Executes statements only if condition is <strong>TRUE</strong>
                   </li>
@@ -57,7 +57,7 @@ export default function CStudyGuide() {
 }`}
                   </pre>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>Executes statement1 if TRUE, statement2 if FALSE</li>
                   <li>Only ONE branch executes</li>
                   <li>else must immediately follow if block</li>
@@ -83,7 +83,7 @@ export default function CStudyGuide() {
 }`}
                   </pre>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>
                     Evaluated <strong>top to bottom</strong>
                   </li>
@@ -145,7 +145,7 @@ export default function CStudyGuide() {
 
         {/* Page 2: Repetition Control Structures */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -164,43 +164,45 @@ export default function CStudyGuide() {
                 <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
                   🔹 Types of Loops Comparison
                 </h3>
-                <div className="overflow-x-auto rounded-lg shadow-lg">
-                  <table className="w-full text-xs md:text-sm border-collapse">
-                    <thead>
-                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
-                        <th className="px-3 py-2 text-left font-semibold">Loop Type</th>
-                        <th className="px-3 py-2 text-left font-semibold">Test Location</th>
-                        <th className="px-3 py-2 text-left font-semibold">Minimum Execution</th>
-                        <th className="px-3 py-2 text-left font-semibold">Best For</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>while</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">Pre-test (entry controlled)</td>
-                        <td className="px-3 py-2 border border-gray-200">0 or more times</td>
-                        <td className="px-3 py-2 border border-gray-200">Unknown iterations</td>
-                      </tr>
-                      <tr className="bg-white hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>for</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">Pre-test (entry controlled)</td>
-                        <td className="px-3 py-2 border border-gray-200">0 or more times</td>
-                        <td className="px-3 py-2 border border-gray-200">Known iterations</td>
-                      </tr>
-                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>do-while</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">Post-test (exit controlled)</td>
-                        <td className="px-3 py-2 border border-gray-200">1 or more times</td>
-                        <td className="px-3 py-2 border border-gray-200">At least once execution</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div className="bg-white rounded-lg shadow-md p-4 mb-4 overflow-x-auto">
+                  <div className="min-w-[600px]">
+                    <table className="w-full text-xs md:text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                          <th className="px-3 py-2 text-left font-semibold">Loop Type</th>
+                          <th className="px-3 py-2 text-left font-semibold">Test Location</th>
+                          <th className="px-3 py-2 text-left font-semibold">Minimum Execution</th>
+                          <th className="px-3 py-2 text-left font-semibold">Best For</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-gray-900">
+                        <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>while</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">Pre-test (entry controlled)</td>
+                          <td className="px-3 py-2 border border-gray-200">0 or more times</td>
+                          <td className="px-3 py-2 border border-gray-200">Unknown iterations</td>
+                        </tr>
+                        <tr className="bg-white hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>for</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">Pre-test (entry controlled)</td>
+                          <td className="px-3 py-2 border border-gray-200">0 or more times</td>
+                          <td className="px-3 py-2 border border-gray-200">Known iterations</td>
+                        </tr>
+                        <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>do-while</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">Post-test (exit controlled)</td>
+                          <td className="px-3 py-2 border border-gray-200">1 or more times</td>
+                          <td className="px-3 py-2 border border-gray-200">At least once execution</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
@@ -216,7 +218,7 @@ export default function CStudyGuide() {
 }`}
                   </pre>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>
                     Tests condition <strong>BEFORE</strong> executing body
                   </li>
@@ -262,7 +264,7 @@ export default function CStudyGuide() {
                     <li>Repeat from step 2</li>
                   </ol>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>All three parts optional (but semicolons required)</li>
                   <li>
                     Can declare variable in init: <code className="bg-gray-100 px-1 rounded">for(int i=0; ...)</code>
@@ -283,7 +285,7 @@ export default function CStudyGuide() {
 } while (condition);`}
                   </pre>
                 </div>
-                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-700">
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-900">
                   <li>
                     Tests condition <strong>AFTER</strong> executing body
                   </li>
@@ -305,7 +307,7 @@ export default function CStudyGuide() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div className="bg-white p-3 rounded-lg">
                     <strong className="block text-indigo-600 mb-2 text-sm">Counter-Controlled:</strong>
-                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-800">
+                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-900">
                       <li>Known number of iterations</li>
                       <li>Uses control variable</li>
                       <li>Ex: Print 1 to 100</li>
@@ -313,7 +315,7 @@ export default function CStudyGuide() {
                   </div>
                   <div className="bg-white p-3 rounded-lg">
                     <strong className="block text-purple-600 mb-2 text-sm">Sentinel-Controlled:</strong>
-                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-800">
+                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-900">
                       <li>Unknown iterations</li>
                       <li>Special value terminates</li>
                       <li>Ex: Enter -99 to stop</li>
@@ -381,7 +383,7 @@ export default function CStudyGuide() {
 
         {/* Page 3: Functions */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -410,43 +412,49 @@ export default function CStudyGuide() {
 }`}
                   </pre>
                 </div>
-                <div className="overflow-x-auto rounded-lg shadow-lg">
-                  <table className="w-full text-xs md:text-sm border-collapse">
-                    <thead>
-                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
-                        <th className="px-3 py-2 text-left font-semibold">Component</th>
-                        <th className="px-3 py-2 text-left font-semibold">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>Return Type</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">Data type of returned value (void if none)</td>
-                      </tr>
-                      <tr className="bg-white hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>Function Name</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">
-                          Unique identifier (follows identifier rules)
-                        </td>
-                      </tr>
-                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>Parameters</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">Input values (optional, comma-separated)</td>
-                      </tr>
-                      <tr className="bg-white hover:bg-gray-100 transition-colors">
-                        <td className="px-3 py-2 border border-gray-200">
-                          <strong>Body</strong>
-                        </td>
-                        <td className="px-3 py-2 border border-gray-200">{"Statements to execute (enclosed in {})"}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div className="bg-white rounded-lg shadow-md p-4 mb-4 overflow-x-auto">
+                  <div className="min-w-[500px]">
+                    <table className="w-full text-xs md:text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                          <th className="px-3 py-2 text-left font-semibold">Component</th>
+                          <th className="px-3 py-2 text-left font-semibold">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-gray-900">
+                        <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>Return Type</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">
+                            Data type of returned value (void if none)
+                          </td>
+                        </tr>
+                        <tr className="bg-white hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>Function Name</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">
+                            Unique identifier (follows identifier rules)
+                          </td>
+                        </tr>
+                        <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>Parameters</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">Input values (optional, comma-separated)</td>
+                        </tr>
+                        <tr className="bg-white hover:bg-gray-100 transition-colors">
+                          <td className="px-3 py-2 border border-gray-200">
+                            <strong>Body</strong>
+                          </td>
+                          <td className="px-3 py-2 border border-gray-200">
+                            {"Statements to execute (enclosed in {})"}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
@@ -527,7 +535,7 @@ int addNum(int a, int b);`}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                   <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
                     <strong className="block text-indigo-600 mb-2 text-sm">Arguments (Actual Parameters)</strong>
-                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-700">
+                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-900">
                       <li>
                         Values passed at <strong>function call</strong>
                       </li>
@@ -540,7 +548,7 @@ int addNum(int a, int b);`}
                   </div>
                   <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
                     <strong className="block text-indigo-600 mb-2 text-sm">Parameters (Formal Parameters)</strong>
-                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-700">
+                    <ul className="list-disc ml-5 space-y-1 text-xs text-gray-900">
                       <li>
                         Variables in <strong>function definition</strong>
                       </li>
@@ -644,7 +652,7 @@ int main() {
 
         {/* Page 4: Arrays */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -822,7 +830,7 @@ void func(int arr[][5], int rows);
 
         {/* Page 5: Strings & Key Concepts */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -1140,7 +1148,7 @@ strcmp("zebra", "ant")    // Returns > 0`}
 
         {/* Page 6: Practice Problems */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -1373,7 +1381,7 @@ printf("%d", matrix[1][2]);`}
 
         {/* Page 7: Advanced Examples */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -1590,7 +1598,7 @@ else
 
         {/* Page 8: Final Review */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
@@ -1850,7 +1858,871 @@ else
 
         {/* Page 9: Bonus Tips */}
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-400" />
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
+
+          <div className="p-6 md:p-10">
+            <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
+              <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 tracking-wide">
+                📚 C PROGRAMMING QUIZ STUDY GUIDE
+              </h1>
+              <p className="text-sm md:text-base text-white/95 tracking-wide">Bonus Tips & Tricky Concepts</p>
+            </div>
+
+            <h2 className="text-lg md:text-xl font-bold text-white bg-gradient-to-br from-indigo-500 to-purple-600 px-4 py-3 rounded-lg shadow-lg mb-6 border-l-4 border-white/30">
+              10. TRICKY CONCEPTS & COMMON MISTAKES
+            </h2>
+
+            <div className="space-y-6">
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Operator Precedence (Important!)
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Priority</th>
+                        <th className="px-3 py-2 text-left font-semibold">Operators</th>
+                        <th className="px-3 py-2 text-left font-semibold">Example</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Highest</td>
+                        <td className="px-3 py-2 border border-gray-200">() [] ++ --</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">arr[i++]</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">High</td>
+                        <td className="px-3 py-2 border border-gray-200">* / %</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a * b / c</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Medium</td>
+                        <td className="px-3 py-2 border border-gray-200">+ -</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a + b - c</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Low</td>
+                        <td className="px-3 py-2 border border-gray-200">&lt; &lt;= &gt; &gt;=</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a &lt; b</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Lower</td>
+                        <td className="px-3 py-2 border border-gray-200">== !=</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a == b</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Lowest</td>
+                        <td className="px-3 py-2 border border-gray-200">&& || !</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a && b</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Pre vs Post Increment/Decrement
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                    <strong className="block text-indigo-600 mb-2 text-sm">Pre-increment (++i)</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`int i = 5;
+int x = ++i;
+// i becomes 6 first
+// then x = 6
+// Result: i=6, x=6`}
+                      </pre>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                    <strong className="block text-indigo-600 mb-2 text-sm">Post-increment (i++)</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`int i = 5;
+int x = i++;
+// x = 5 first
+// then i becomes 6
+// Result: i=6, x=5`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Infinite Loop Examples
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`// Forgot to update control variable
+int i = 0;
+while (i < 10) {
+    printf("%d ", i);
+    // Missing i++; causes infinite loop!
+}
+
+// Wrong condition
+for (int i = 0; i >= 0; i++) {
+    // i is always >= 0, infinite!
+}
+
+// Semicolon error
+while (i < 10);  // Semicolon here!
+{
+    i++;  // This is separate, not in loop
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Array Initialization Tricks
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`// Initialize all to zero
+int arr[10] = {0};  // All elements = 0
+
+// Partial initialization
+int arr[5] = {1, 2};  // arr = {1, 2, 0, 0, 0}
+
+// Character array vs String
+char arr1[5] = {'H','i'};     // arr1 = {'H','i',0,0,0}
+char arr2[5] = "Hi";          // arr2 = {'H','i','\\0',0,0}
+
+// 2D array partial init
+int mat[3][3] = {{1}, {2}, {3}};
+// Row 0: {1, 0, 0}
+// Row 1: {2, 0, 0}
+// Row 2: {3, 0, 0}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-100 to-amber-200 border-l-4 border-amber-500 rounded-lg p-4 shadow-lg relative">
+                <div className="absolute top-2 right-3 text-2xl">⚠️</div>
+                <strong className="block text-amber-900 font-bold mb-3 text-sm md:text-base">
+                  ⚠️ TRICKY QUIZ SCENARIOS:
+                </strong>
+                <div className="bg-white p-4 rounded-lg">
+                  <strong className="block text-red-700 mb-3 text-xs md:text-sm">🎯 {"What's"} the Output?</strong>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 mb-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`int arr[5], i;
+for (i = 0; i <= 5; i++)  // Error! Should be i < 5
+    arr[i] = i * 2;       // arr[5] is out of bounds!`}
+                    </pre>
+                  </div>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 mb-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`int x = 5;
+if (x = 10)               // Assignment, not comparison!
+    printf("Equal");      // Always prints (10 is true)
+else
+    printf("Not Equal");`}
+                    </pre>
+                  </div>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`char str[5] = "Hello";    // Error! Needs 6 chars
+// "Hello" = 'H','e','l','l','o','\\0' = 6 bytes!`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Scope and Lifetime
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`int global = 10;  // Global scope
+
+void func() {
+    int local = 5;  // Local to func()
+    printf("%d", global);  // Can access global
+}
+
+int main() {
+    int local = 20;  // Different local variable
+    printf("%d", local);     // Prints 20
+    // printf("%d", func.local); // Error! Can't access
+    func();
+    return 0;
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Common scanf/printf Mistakes
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-red-500">
+                    <strong className="block text-red-700 mb-2 text-sm">❌ WRONG</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`// Missing &
+int x;
+scanf("%d", x);
+
+// Wrong format
+float f = 3.14;
+printf("%d", f);
+
+// Array name with &
+char str[20];
+scanf("%s", &str);`}
+                      </pre>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-green-500">
+                    <strong className="block text-green-700 mb-2 text-sm">✅ CORRECT</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`// Correct &
+int x;
+scanf("%d", &x);
+
+// Correct format
+float f = 3.14;
+printf("%f", f);
+
+// No & for array
+char str[20];
+scanf("%s", str);`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Format Specifiers Quick Reference
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Data Type</th>
+                        <th className="px-3 py-2 text-left font-semibold">scanf</th>
+                        <th className="px-3 py-2 text-left font-semibold">printf</th>
+                        <th className="px-3 py-2 text-left font-semibold">Example</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">int</td>
+                        <td className="px-3 py-2 border border-gray-200">%d</td>
+                        <td className="px-3 py-2 border border-gray-200">%d</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">printf("%d", 10);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">float</td>
+                        <td className="px-3 py-2 border border-gray-200">%f</td>
+                        <td className="px-3 py-2 border border-gray-200">%f or %.2f</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">printf("%.2f", 3.14);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">double</td>
+                        <td className="px-3 py-2 border border-gray-200">%lf</td>
+                        <td className="px-3 py-2 border border-gray-200">%lf or %.2lf</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">scanf("%lf", &d);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">char</td>
+                        <td className="px-3 py-2 border border-gray-200">%c</td>
+                        <td className="px-3 py-2 border border-gray-200">%c</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">{`printf("%c", 'A');`}</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">string</td>
+                        <td className="px-3 py-2 border border-gray-200">%s</td>
+                        <td className="px-3 py-2 border border-gray-200">%s</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">scanf("%s", str);</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Debugging Tips for Quiz
+                </h3>
+                <div className="bg-gradient-to-br from-green-100 to-green-200 border-l-4 border-green-500 rounded-lg p-4 shadow-lg">
+                  <strong className="block text-green-900 font-semibold mb-3 text-sm md:text-base">
+                    ✅ Step-by-Step Code Tracing:
+                  </strong>
+                  <ol className="list-decimal ml-6 space-y-1 text-xs md:text-sm text-gray-800">
+                    <li>
+                      <strong>Initialize:</strong> Write down initial values of all variables
+                    </li>
+                    <li>
+                      <strong>Trace:</strong> Go through each line, update variable values
+                    </li>
+                    <li>
+                      <strong>Conditions:</strong> Evaluate boolean expressions carefully
+                    </li>
+                    <li>
+                      <strong>Loops:</strong> Track iteration count and variable changes
+                    </li>
+                    <li>
+                      <strong>Output:</strong> Write what prints at each printf statement
+                    </li>
+                  </ol>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Edge Cases to Remember
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Scenario</th>
+                        <th className="px-3 py-2 text-left font-semibold">What Happens</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Empty array loop</td>
+                        <td className="px-3 py-2 border border-gray-200">for(i=0; i&lt;0; i++) → Never executes</td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Single element array</td>
+                        <td className="px-3 py-2 border border-gray-200">arr[1] has only index 0</td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Empty string</td>
+                        <td className="px-3 py-2 border border-gray-200">{`char str[] = ""; → Just '\\0'`}</td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Division by zero</td>
+                        <td className="px-3 py-2 border border-gray-200">Runtime error / undefined behavior</td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Modulo negative</td>
+                        <td className="px-3 py-2 border border-gray-200">-5 % 3 → Implementation dependent</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-100 to-blue-200 border-l-4 border-blue-500 rounded-lg p-4 shadow-lg">
+                <strong className="block text-blue-900 font-semibold mb-3 text-sm md:text-base">
+                  💡 PRO TIPS FOR QUIZ SUCCESS:
+                </strong>
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-800">
+                  <li>
+                    <strong>Read Twice:</strong> Read question completely before answering
+                  </li>
+                  <li>
+                    <strong>Check Semicolons:</strong> Most common syntax error
+                  </li>
+                  <li>
+                    <strong>Trace Mentally:</strong> Run code in your head for output questions
+                  </li>
+                  <li>
+                    <strong>Count Carefully:</strong> Array indices, loop iterations
+                  </li>
+                  <li>
+                    <strong>Watch for Tricks:</strong> = vs ==, ; after loop condition
+                  </li>
+                  <li>
+                    <strong>Check Edge Cases:</strong> Empty, first, last elements
+                  </li>
+                  <li>
+                    <strong>Time Management:</strong> {"Don't"} spend too long on one question
+                  </li>
+                  <li>
+                    <strong>Review Answers:</strong> If time permits, double-check
+                  </li>
+                </ul>
+              </div>
+
+              <div className="text-center p-6 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-lg shadow-2xl">
+                <h2 className="text-xl md:text-2xl font-bold mb-2">✨ {"YOU'VE"} GOT THIS! ✨</h2>
+                <p className="text-sm md:text-base mb-2">Review • Practice • Confidence = Success</p>
+                <p className="text-xs md:text-sm opacity-80">Trust Your Preparation!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 9: Bonus Tips */}
+        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
+
+          <div className="p-6 md:p-10">
+            <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
+              <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 tracking-wide">
+                📚 C PROGRAMMING QUIZ STUDY GUIDE
+              </h1>
+              <p className="text-sm md:text-base text-white/95 tracking-wide">Bonus Tips & Tricky Concepts</p>
+            </div>
+
+            <h2 className="text-lg md:text-xl font-bold text-white bg-gradient-to-br from-indigo-500 to-purple-600 px-4 py-3 rounded-lg shadow-lg mb-6 border-l-4 border-white/30">
+              10. TRICKY CONCEPTS & COMMON MISTAKES
+            </h2>
+
+            <div className="space-y-6">
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Operator Precedence (Important!)
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Priority</th>
+                        <th className="px-3 py-2 text-left font-semibold">Operators</th>
+                        <th className="px-3 py-2 text-left font-semibold">Example</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Highest</td>
+                        <td className="px-3 py-2 border border-gray-200">() [] ++ --</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">arr[i++]</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">High</td>
+                        <td className="px-3 py-2 border border-gray-200">* / %</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a * b / c</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Medium</td>
+                        <td className="px-3 py-2 border border-gray-200">+ -</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a + b - c</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Low</td>
+                        <td className="px-3 py-2 border border-gray-200">&lt; &lt;= &gt; &gt;=</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a &lt; b</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Lower</td>
+                        <td className="px-3 py-2 border border-gray-200">== !=</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a == b</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Lowest</td>
+                        <td className="px-3 py-2 border border-gray-200">&& || !</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">a && b</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Pre vs Post Increment/Decrement
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                    <strong className="block text-indigo-600 mb-2 text-sm">Pre-increment (++i)</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`int i = 5;
+int x = ++i;
+// i becomes 6 first
+// then x = 6
+// Result: i=6, x=6`}
+                      </pre>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                    <strong className="block text-indigo-600 mb-2 text-sm">Post-increment (i++)</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`int i = 5;
+int x = i++;
+// x = 5 first
+// then i becomes 6
+// Result: i=6, x=5`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Infinite Loop Examples
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`// Forgot to update control variable
+int i = 0;
+while (i < 10) {
+    printf("%d ", i);
+    // Missing i++; causes infinite loop!
+}
+
+// Wrong condition
+for (int i = 0; i >= 0; i++) {
+    // i is always >= 0, infinite!
+}
+
+// Semicolon error
+while (i < 10);  // Semicolon here!
+{
+    i++;  // This is separate, not in loop
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Array Initialization Tricks
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`// Initialize all to zero
+int arr[10] = {0};  // All elements = 0
+
+// Partial initialization
+int arr[5] = {1, 2};  // arr = {1, 2, 0, 0, 0}
+
+// Character array vs String
+char arr1[5] = {'H','i'};     // arr1 = {'H','i',0,0,0}
+char arr2[5] = "Hi";          // arr2 = {'H','i','\\0',0,0}
+
+// 2D array partial init
+int mat[3][3] = {{1}, {2}, {3}};
+// Row 0: {1, 0, 0}
+// Row 1: {2, 0, 0}
+// Row 2: {3, 0, 0}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-100 to-amber-200 border-l-4 border-amber-500 rounded-lg p-4 shadow-lg relative">
+                <div className="absolute top-2 right-3 text-2xl">⚠️</div>
+                <strong className="block text-amber-900 font-bold mb-3 text-sm md:text-base">
+                  ⚠️ TRICKY QUIZ SCENARIOS:
+                </strong>
+                <div className="bg-white p-4 rounded-lg">
+                  <strong className="block text-red-700 mb-3 text-xs md:text-sm">🎯 {"What's"} the Output?</strong>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 mb-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`int arr[5], i;
+for (i = 0; i <= 5; i++)  // Error! Should be i < 5
+    arr[i] = i * 2;       // arr[5] is out of bounds!`}
+                    </pre>
+                  </div>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 mb-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`int x = 5;
+if (x = 10)               // Assignment, not comparison!
+    printf("Equal");      // Always prints (10 is true)
+else
+    printf("Not Equal");`}
+                    </pre>
+                  </div>
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                    <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                      {`char str[5] = "Hello";    // Error! Needs 6 chars
+// "Hello" = 'H','e','l','l','o','\\0' = 6 bytes!`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Scope and Lifetime
+                </h3>
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-4 shadow-lg relative">
+                  <div className="absolute top-2 right-3 text-xs font-semibold text-slate-500">C</div>
+                  <pre className="text-xs md:text-sm text-slate-200 font-mono overflow-x-auto">
+                    {`int global = 10;  // Global scope
+
+void func() {
+    int local = 5;  // Local to func()
+    printf("%d", global);  // Can access global
+}
+
+int main() {
+    int local = 20;  // Different local variable
+    printf("%d", local);     // Prints 20
+    // printf("%d", func.local); // Error! Can't access
+    func();
+    return 0;
+}`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Common scanf/printf Mistakes
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-red-500">
+                    <strong className="block text-red-700 mb-2 text-sm">❌ WRONG</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`// Missing &
+int x;
+scanf("%d", x);
+
+// Wrong format
+float f = 3.14;
+printf("%d", f);
+
+// Array name with &
+char str[20];
+scanf("%s", &str);`}
+                      </pre>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 p-3 rounded-lg border-2 border-green-500">
+                    <strong className="block text-green-700 mb-2 text-sm">✅ CORRECT</strong>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg p-3 shadow-lg">
+                      <pre className="text-xs text-slate-200 font-mono overflow-x-auto">
+                        {`// Correct &
+int x;
+scanf("%d", &x);
+
+// Correct format
+float f = 3.14;
+printf("%f", f);
+
+// No & for array
+char str[20];
+scanf("%s", str);`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Format Specifiers Quick Reference
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Data Type</th>
+                        <th className="px-3 py-2 text-left font-semibold">scanf</th>
+                        <th className="px-3 py-2 text-left font-semibold">printf</th>
+                        <th className="px-3 py-2 text-left font-semibold">Example</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">int</td>
+                        <td className="px-3 py-2 border border-gray-200">%d</td>
+                        <td className="px-3 py-2 border border-gray-200">%d</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">printf("%d", 10);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">float</td>
+                        <td className="px-3 py-2 border border-gray-200">%f</td>
+                        <td className="px-3 py-2 border border-gray-200">%f or %.2f</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">printf("%.2f", 3.14);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">double</td>
+                        <td className="px-3 py-2 border border-gray-200">%lf</td>
+                        <td className="px-3 py-2 border border-gray-200">%lf or %.2lf</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">scanf("%lf", &d);</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">char</td>
+                        <td className="px-3 py-2 border border-gray-200">%c</td>
+                        <td className="px-3 py-2 border border-gray-200">%c</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">{`printf("%c", 'A');`}</code>
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">string</td>
+                        <td className="px-3 py-2 border border-gray-200">%s</td>
+                        <td className="px-3 py-2 border border-gray-200">%s</td>
+                        <td className="px-3 py-2 border border-gray-200">
+                          <code className="bg-gray-100 px-1 rounded">scanf("%s", str);</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Debugging Tips for Quiz
+                </h3>
+                <div className="bg-gradient-to-br from-green-100 to-green-200 border-l-4 border-green-500 rounded-lg p-4 shadow-lg">
+                  <strong className="block text-green-900 font-semibold mb-3 text-sm md:text-base">
+                    ✅ Step-by-Step Code Tracing:
+                  </strong>
+                  <ol className="list-decimal ml-6 space-y-1 text-xs md:text-sm text-gray-800">
+                    <li>
+                      <strong>Initialize:</strong> Write down initial values of all variables
+                    </li>
+                    <li>
+                      <strong>Trace:</strong> Go through each line, update variable values
+                    </li>
+                    <li>
+                      <strong>Conditions:</strong> Evaluate boolean expressions carefully
+                    </li>
+                    <li>
+                      <strong>Loops:</strong> Track iteration count and variable changes
+                    </li>
+                    <li>
+                      <strong>Output:</strong> Write what prints at each printf statement
+                    </li>
+                  </ol>
+                </div>
+              </div>
+
+              <div className="animate-fadeIn">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800 mb-3 px-4 py-2 bg-gradient-to-r from-gray-50 to-white border-l-4 border-indigo-500 rounded shadow-sm">
+                  🔹 Edge Cases to Remember
+                </h3>
+                <div className="overflow-x-auto rounded-lg shadow-lg">
+                  <table className="w-full text-xs md:text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left font-semibold">Scenario</th>
+                        <th className="px-3 py-2 text-left font-semibold">What Happens</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Empty array loop</td>
+                        <td className="px-3 py-2 border border-gray-200">for(i=0; i&lt;0; i++) → Never executes</td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Single element array</td>
+                        <td className="px-3 py-2 border border-gray-200">arr[1] has only index 0</td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Empty string</td>
+                        <td className="px-3 py-2 border border-gray-200">{`char str[] = ""; → Just '\\0'`}</td>
+                      </tr>
+                      <tr className="bg-white hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Division by zero</td>
+                        <td className="px-3 py-2 border border-gray-200">Runtime error / undefined behavior</td>
+                      </tr>
+                      <tr className="bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <td className="px-3 py-2 border border-gray-200">Modulo negative</td>
+                        <td className="px-3 py-2 border border-gray-200">-5 % 3 → Implementation dependent</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-100 to-blue-200 border-l-4 border-blue-500 rounded-lg p-4 shadow-lg">
+                <strong className="block text-blue-900 font-semibold mb-3 text-sm md:text-base">
+                  💡 PRO TIPS FOR QUIZ SUCCESS:
+                </strong>
+                <ul className="list-disc ml-6 space-y-1 text-xs md:text-sm text-gray-800">
+                  <li>
+                    <strong>Read Twice:</strong> Read question completely before answering
+                  </li>
+                  <li>
+                    <strong>Check Semicolons:</strong> Most common syntax error
+                  </li>
+                  <li>
+                    <strong>Trace Mentally:</strong> Run code in your head for output questions
+                  </li>
+                  <li>
+                    <strong>Count Carefully:</strong> Array indices, loop iterations
+                  </li>
+                  <li>
+                    <strong>Watch for Tricks:</strong> = vs ==, ; after loop condition
+                  </li>
+                  <li>
+                    <strong>Check Edge Cases:</strong> Empty, first, last elements
+                  </li>
+                  <li>
+                    <strong>Time Management:</strong> {"Don't"} spend too long on one question
+                  </li>
+                  <li>
+                    <strong>Review Answers:</strong> If time permits, double-check
+                  </li>
+                </ul>
+              </div>
+
+              <div className="text-center p-6 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-lg shadow-2xl">
+                <h2 className="text-xl md:text-2xl font-bold mb-2">✨ {"YOU'VE"} GOT THIS! ✨</h2>
+                <p className="text-sm md:text-base mb-2">Review • Practice • Confidence = Success</p>
+                <p className="text-xs md:text-sm opacity-80">Trust Your Preparation!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 9: Bonus Tips */}
+        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-blue-400" />
 
           <div className="p-6 md:p-10">
             <div className="text-center mb-8 p-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-lg">
