@@ -32,6 +32,13 @@ export default function PersonalHero() {
       description: "Complete Guide",
       content:
         "Integration of text, sound, graphics, animation and video into a single unit. Multi means 'many/multiple' and medium refers to an interleaving substance through which something is transmitted.",
+    },{
+      title: "C programming",
+      icon: <Network className="w-6 h-6 sm:w-8 sm:h-8" />,
+      color: "from-blue-500 to-blue-600",
+      description: "Complete Guide",
+      content:
+          "C programming is a general-purpose, procedural programming language. It is widely used for system programming, developing operating systems, and embedded systems.",
     },
   ];
 
@@ -44,6 +51,9 @@ export default function PersonalHero() {
       window.location.href = "/quiz"; // Redirect to /quiz page
     }else if (index === 3) {
       window.location.href = "/multimedia"; }// Redirect to /multimedia page
+    else if (index === 4) {
+      window.location.href = "/c"; // Redirect to /c page
+    }
   };
 
   // Remove the extra closing brace above to keep the function body open
