@@ -17,7 +17,7 @@ import {
 import { Ict1161Quiz } from "@/resourses/json/Q2"
 import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
-import { ComputerArchitectureQuiz } from "@/resourses/json/Q5"
+import { ComputerArchitectureQuiz , computerArchitectureQuiz2 } from "@/resourses/json/Q5"
 
 // Define types for quiz structure
 interface Question {
@@ -57,7 +57,7 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz]
+const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz , computerArchitectureQuiz2]
 
 export default function ModelQuizzes() {
   const router = useRouter()
