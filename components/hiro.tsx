@@ -33,12 +33,12 @@ export default function PersonalHero() {
       content:
         "Integration of text, sound, graphics, animation and video into a single unit. Multi means 'many/multiple' and medium refers to an interleaving substance through which something is transmitted.",
     },{
-      title: "C programming",
+      title: "Computer Architecture",
       icon: <Network className="w-6 h-6 sm:w-8 sm:h-8" />,
       color: "from-blue-500 to-blue-600",
-      description: "Complete Guide",
+      description: "Lessons 1 - 4",
       content:
-          "C programming is a general-purpose, procedural programming language. It is widely used for system programming, developing operating systems, and embedded systems.",
+          "Computer architecture is a set of rules and methods that describe the functionality, organization, and implementation of computer systems. It encompasses everything from the design of individual components to the overall system architecture.",
     },
   ];
 
@@ -52,7 +52,7 @@ export default function PersonalHero() {
     }else if (index === 3) {
       window.location.href = "/multimedia"; }// Redirect to /multimedia page
     else if (index === 4) {
-      window.location.href = "/c"; // Redirect to /c page
+      window.location.href = "/architecture"; // Redirect to /c page
     }
   };
 
