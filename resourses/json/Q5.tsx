@@ -256,7 +256,7 @@ export const ComputerArchitectureQuiz = {
   ],
 };
 
-export const computerArchitectureQuiz2 = {
+export const ComputerArchitectureQuiz2 = {
   id: "computer-architecture-advanced-ict1242",
   title: "Computer Architecture Advanced ICT1242",
   category: "Computer Architecture",
