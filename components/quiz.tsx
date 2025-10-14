@@ -17,6 +17,7 @@ import {
 import { Ict1161Quiz } from "@/resourses/json/Q2"
 import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
+import { ComputerArchitectureQuiz } from "@/resourses/json/Q5"
 
 // Define types for quiz structure
 interface Question {
