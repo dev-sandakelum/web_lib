@@ -255,3 +255,261 @@ export const ComputerArchitectureQuiz = {
     },
   ],
 };
+
+export const computerArchitectureQuiz2 = {
+  id: "computer-architecture-advanced-ict1242",
+  title: "Computer Architecture Advanced ICT1242",
+  category: "Computer Architecture",
+  questions: [
+    {
+      question: "What is the relationship between cache levels?",
+      options: ["All same size", "Level n is smaller and faster than n+1", "Higher levels are slower", "L3 is fastest"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which IBM architecture survived from 1970 to modern times?",
+      options: ["System/360", "System/370", "System/390", "zSeries"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does propagation delay affect in bus systems?",
+      options: ["Power consumption", "Performance", "Data storage", "Instruction set"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which component is responsible for overall system operation control?",
+      options: ["Memory", "I/O Module", "CPU", "Bus Controller"],
+      correctIndex: 2,
+    },
+    {
+      question: "What makes I/O functionally similar to memory from computer's viewpoint?",
+      options: ["Both use same voltage", "Both have Read and Write operations", "Both are on motherboard", "Both use same speed"],
+      correctIndex: 1,
+    },
+    {
+      question: "In the instruction format example, how many bits are for opcode?",
+      options: ["8 bits", "4 bits", "12 bits", "16 bits"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is a chip in computer systems?",
+      options: ["Metal connector", "Cooling device", "Silicon with integrated circuits", "Power supply unit"],
+      correctIndex: 2,
+    },
+    {
+      question: "Which is fixed first when designing a computer?",
+      options: ["Organization", "Architecture", "Both simultaneously", "Power requirements"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does the opcode 0001 (hex 1) represent in the example?",
+      options: ["Store AC", "Add to AC", "Load AC from memory", "Jump"],
+      correctIndex: 2,
+    },
+    {
+      question: "How many words can be directly addressed with 12-bit address?",
+      options: ["1024", "2048", "4096", "8192"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the disadvantage of interrupts?",
+      options: ["Slower I/O", "CPU overhead", "More power usage", "Less memory"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which state comes after instruction fetch in the detailed cycle?",
+      options: ["Execute", "Operand fetch", "Instruction operation decoding", "Data operation"],
+      correctIndex: 2,
+    },
+    {
+      question: "What sends interrupt signals to the processor?",
+      options: ["Only memory", "Only timer", "I/O modules can", "Only software"],
+      correctIndex: 2,
+    },
+    {
+      question: "In a 32-bit data bus, how many bits transfer at once?",
+      options: ["8", "16", "32", "64"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is an ISR in interrupt context?",
+      options: ["Instruction Set Register", "Interrupt Service Routine", "Internal System Resource", "Input Signal Register"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which bus type uses separate lines for different functions?",
+      options: ["Multiplexed", "Functional dedication", "Shared", "Virtual"],
+      correctIndex: 1,
+    },
+    {
+      question: "What happens during operand fetch state?",
+      options: ["Instruction is decoded", "Get operand from memory or I/O", "Calculate next address", "Store result"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is an example of a program interrupt?",
+      options: ["Power failure", "Printer done", "Division by zero", "Timer expired"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does a bus controller also referred to as?",
+      options: ["Manager", "Arbiter", "Coordinator", "Scheduler"],
+      correctIndex: 1,
+    },
+    {
+      question: "In the timing example, what priority was the printer ISR?",
+      options: ["1", "2", "4", "5"],
+      correctIndex: 1,
+    },
+    {
+      question: "What determines if instruction or data on data bus?",
+      options: ["Bus speed", "No difference at this level", "Special flag bit", "Memory location"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which interconnection structure is most common?",
+      options: ["Ring topology", "Star topology", "Bus structures", "Mesh network"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does physical dedication in buses involve?",
+      options: ["Separate data and address", "Multiple buses for module subsets", "Single shared bus", "Wireless connections"],
+      correctIndex: 1,
+    },
+    {
+      question: "When does processor check for interrupts?",
+      options: ["Start of fetch cycle", "During execution", "End of instruction cycle", "Randomly"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the purpose of MBR register?",
+      options: ["Store addresses", "Buffer data to/from memory", "Hold instructions", "Control I/O"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which modern computers use point-to-point interconnection?",
+      options: ["Only mainframes", "Embedded systems primarily", "Modern systems increasingly", "Legacy systems only"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does distributed bus arbitration lack?",
+      options: ["Access control", "Central controller", "Bus lines", "Timing mechanism"],
+      correctIndex: 1,
+    },
+    {
+      question: "How does higher-order bits usage differ from lower-order in address bus?",
+      options: ["Speed difference", "Higher selects module, lower selects location within", "No difference", "Power consumption"],
+      correctIndex: 1,
+    },
+    {
+      question: "What type of processing do nested interrupts use?",
+      options: ["Sequential only", "Priority-based", "Random", "First-come-first-served"],
+      correctIndex: 1,
+    },
+    {
+      question: "In the example, what is stored at memory location 940?",
+      options: ["Instruction", "Data value 0003", "Address", "Control signal"],
+      correctIndex: 1,
+    },
+    {
+      question: "What do control signals transmit?",
+      options: ["Only data", "Only addresses", "Command and timing information", "Power"],
+      correctIndex: 2,
+    },
+    {
+      question: "Which generation used vacuum tubes?",
+      options: ["1st", "2nd", "3rd", "4th"],
+      correctIndex: 0,
+    },
+    {
+      question: "What is the main printed circuit board called?",
+      options: ["Expansion board", "Motherboard or system board", "Logic board", "Memory board"],
+      correctIndex: 1,
+    },
+    {
+      question: "How many different opcodes possible with 4 bits?",
+      options: ["4", "8", "16", "32"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does instruction address calculation determine?",
+      options: ["Operand location", "Address of next instruction", "Memory capacity", "Bus speed"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is NOT an advantage of interrupts?",
+      options: ["Increases efficiency", "Decreases waiting", "Simpler hardware", "Stops instruction wastage"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is placed on system stack during interrupt?",
+      options: ["Next instruction only", "User information and state", "I/O data", "Bus address"],
+      correctIndex: 1,
+    },
+    {
+      question: "In Von Neumann, how is memory addressable?",
+      options: ["By data type", "By location regardless of type", "By priority", "By module"],
+      correctIndex: 1,
+    },
+    {
+      question: "What happens if no interrupt is pending?",
+      options: ["System halts", "Proceeds to fetch cycle", "Waits for interrupt", "Resets PC"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which component would you find on a motherboard slot?",
+      options: ["Power supply", "Monitor", "Processor chip", "Keyboard"],
+      correctIndex: 2,
+    },
+    {
+      question: "What makes buses still used in embedded systems?",
+      options: ["They are faster", "Better for microcontrollers", "Cheaper always", "More reliable always"],
+      correctIndex: 1,
+    },
+    {
+      question: "In the example at t=20, what interrupt occurred?",
+      options: ["Printer", "Communication", "Disk", "Timer"],
+      correctIndex: 2,
+    },
+    {
+      question: "What must a module do to send data to another via bus?",
+      options: ["Wait for permission only", "Obtain bus use and transfer data", "Send signal only", "Nothing special"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which register tells CPU which instruction is executing?",
+      options: ["PC", "MAR", "IR", "MBR"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the key for describing complex computer systems?",
+      options: ["Detailed diagrams", "Mathematical formulas", "Recognize hierarchical nature", "Component lists"],
+      correctIndex: 2,
+    },
+    {
+      question: "In operand store state, where is result written?",
+      options: ["Only to memory", "Only to registers", "Memory or I/O", "Cache only"],
+      correctIndex: 2,
+    },
+    {
+      question: "What occurs in a bus cycle?",
+      options: ["Complete program execution", "Single 1-0 clock transmission", "Memory refresh", "Interrupt handling"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which has better scalability?",
+      options: ["Single bus", "Point-to-point", "Multiplexed bus", "All equal"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does the example opcode 0101 (hex 5) do?",
+      options: ["Load AC", "Store AC", "Add to AC from memory", "Subtract"],
+      correctIndex: 2,
+    },
+    {
+      question: "Where does John von Neumann develop the architecture?",
+      options: ["MIT", "Stanford", "Institute for Advanced Studies, Princeton", "Harvard"],
+      correctIndex: 2,
+    },
+  ],
+};
