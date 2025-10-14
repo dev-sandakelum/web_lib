@@ -154,13 +154,6 @@ export default function ModelQuizzes() {
     }
   }
 
-  const previousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1)
-      setSelectedAnswer(userAnswers[currentQuestion - 1])
-    }
-  }
-
   const finishQuiz = () => {
     if (!activeQuiz) return
     let finalScore = 0
@@ -487,7 +480,7 @@ export default function ModelQuizzes() {
                       <div className="ml-11 sm:ml-13 space-y-2">
                         {!isAnswered ? (
                           <p className="text-xs sm:text-sm text-gray-600 italic bg-white px-3 py-2 rounded-lg border border-gray-200">
-                            You didn't answer this question
+                            {"You didn't answer this question"}
                           </p>
                         ) : (
                           <>
@@ -637,11 +630,11 @@ export default function ModelQuizzes() {
 
         {/* Footer */}
         <footer className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-center px-4 py-5 sm:py-6">
-          <p className="text-sm sm:text-base md:text-lg font-semibold">Model Quizzes v2.0 – Learn Smarter 💡</p>
+          <p className="text-sm sm:text-base md:text-lg font-semibold">Model Quizzes – Learn Smarter 💡</p>
           <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-90">Created by Hasitha Sandakelum</p>
           <p className="text-green-100 text-xs sm:text-sm mt-1">Fully responsive for all devices</p>
         </footer>
       </div>
-    </div> 
+    </div>
   )
 }
