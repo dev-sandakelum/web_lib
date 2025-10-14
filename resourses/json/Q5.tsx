@@ -1,4 +1,4 @@
-const ComputerArchitectureQuiz = {
+export const ComputerArchitectureQuiz = {
   id: "computer-architecture",
   title: "Computer Architecture",
   category: "Computer Architecture",
