@@ -56,7 +56,7 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz]
+const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz]
 
 export default function ModelQuizzes() {
   const router = useRouter()
