@@ -401,21 +401,21 @@ const QuizStudyGuide = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <BookOpen className="w-8 h-8 text-indigo-600" />
+        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6 mb-4 sm:mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">Computer Architecture</h1>
-                <p className="text-gray-600">Quiz Study Guide</p>
+                <h1 className="text-xl sm:text-3xl font-bold text-gray-800">Computer Architecture</h1>
+                <p className="text-sm sm:text-base text-gray-600">Quiz Study Guide</p>
               </div>
             </div>
             <button
               onClick={() => setQuizMode(!quizMode)}
-              className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              className="px-4 py-2 sm:px-6 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto"
             >
               {quizMode ? "Study Notes" : "Quiz Mode"}
             </button>
@@ -425,31 +425,33 @@ const QuizStudyGuide = () => {
         {/* Content Area */}
         {!quizMode ? (
           // Study Notes Mode
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {studyContent.map((section) => (
               <div key={section.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <button
                   onClick={() => toggleSection(section.id)}
-                  className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  className="w-full p-3 sm:p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
                 >
-                  <h2 className="text-xl font-bold text-gray-800">{section.title}</h2>
+                  <h2 className="text-base sm:text-xl font-bold text-gray-800 text-left">{section.title}</h2>
                   {expandedSections[section.id] ? (
-                    <ChevronDown className="w-6 h-6 text-indigo-600" />
+                    <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
                   ) : (
-                    <ChevronRight className="w-6 h-6 text-indigo-600" />
+                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
                   )}
                 </button>
 
                 {expandedSections[section.id] && (
-                  <div className="p-6 bg-gray-50 border-t border-gray-200">
+                  <div className="p-3 sm:p-6 bg-gray-50 border-t border-gray-200">
                     {section.topics.map((topic, idx) => (
-                      <div key={idx} className="mb-6 last:mb-0">
-                        <h3 className="text-lg font-semibold text-indigo-700 mb-3">{topic.subtitle}</h3>
-                        <ul className="space-y-2">
+                      <div key={idx} className="mb-4 sm:mb-6 last:mb-0">
+                        <h3 className="text-base sm:text-lg font-semibold text-indigo-700 mb-2 sm:mb-3">
+                          {topic.subtitle}
+                        </h3>
+                        <ul className="space-y-1.5 sm:space-y-2">
                           {topic.points.map((point, pIdx) => (
                             <li key={pIdx} className="flex gap-2">
-                              <span className="text-indigo-600 font-bold mt-1">•</span>
-                              <span className="text-gray-700 flex-1">{point}</span>
+                              <span className="text-indigo-600 font-bold mt-0.5 sm:mt-1">•</span>
+                              <span className="text-sm sm:text-base text-gray-700 flex-1">{point}</span>
                             </li>
                           ))}
                         </ul>
@@ -462,13 +464,13 @@ const QuizStudyGuide = () => {
           </div>
         ) : (
           // Quiz Mode
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-sm font-medium text-gray-600">
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8">
+            <div className="mb-4 sm:mb-6">
+              <div className="flex justify-between items-center mb-3 sm:mb-4">
+                <span className="text-xs sm:text-sm font-medium text-gray-600">
                   Question {currentQuiz + 1} of {quizQuestions.length}
                 </span>
-                <div className="h-2 bg-gray-200 rounded-full flex-1 mx-4">
+                <div className="h-2 bg-gray-200 rounded-full flex-1 mx-2 sm:mx-4">
                   <div
                     className="h-2 bg-indigo-600 rounded-full transition-all"
                     style={{ width: `${((currentQuiz + 1) / quizQuestions.length) * 100}%` }}
@@ -476,39 +478,41 @@ const QuizStudyGuide = () => {
                 </div>
               </div>
 
-              <div className="bg-indigo-50 p-6 rounded-lg mb-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">{quizQuestions[currentQuiz].q}</h3>
+              <div className="bg-indigo-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">
+                  {quizQuestions[currentQuiz].q}
+                </h3>
 
                 {showAnswer && (
-                  <div className="mt-4 p-4 bg-white rounded-lg border-l-4 border-green-500">
+                  <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border-l-4 border-green-500">
                     <div className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-gray-700">{quizQuestions[currentQuiz].a}</p>
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm sm:text-base text-gray-700">{quizQuestions[currentQuiz].a}</p>
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={() => setShowAnswer(!showAnswer)}
-                  className="flex-1 py-3 px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+                  className="flex-1 py-3 px-4 sm:px-6 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium text-sm sm:text-base"
                 >
                   {showAnswer ? "Hide Answer" : "Show Answer"}
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-3 pt-6 border-t border-gray-200">
+            <div className="flex gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-gray-200">
               <button
                 onClick={prevQuestion}
-                className="flex-1 py-2 px-4 border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors font-medium"
+                className="flex-1 py-2.5 sm:py-2 px-3 sm:px-4 border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors font-medium text-sm sm:text-base"
               >
                 Previous
               </button>
               <button
                 onClick={nextQuestion}
-                className="flex-1 py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                className="flex-1 py-2.5 sm:py-2 px-3 sm:px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm sm:text-base"
               >
                 Next
               </button>
@@ -517,7 +521,7 @@ const QuizStudyGuide = () => {
         )}
 
         {/* Footer */}
-        <div className="mt-6 text-center text-gray-600 text-sm">
+        <div className="mt-4 sm:mt-6 text-center text-gray-600 text-xs sm:text-sm px-2">
           <p>💡 Tip: Review all sections in Study Notes, then test yourself in Quiz Mode!</p>
         </div>
       </div>

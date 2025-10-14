@@ -35,7 +35,7 @@ export default function PersonalHero() {
     },{
       title: "Computer Architecture",
       icon: <Network className="w-6 h-6 sm:w-8 sm:h-8" />,
-      color: "from-blue-500 to-blue-600",
+      color: "from-purple-500 to-purple-600",
       description: "Lessons 1 - 4",
       content:
           "Computer architecture is a set of rules and methods that describe the functionality, organization, and implementation of computer systems. It encompasses everything from the design of individual components to the overall system architecture.",
