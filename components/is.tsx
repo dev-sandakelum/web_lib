@@ -25,13 +25,13 @@ const StudyNotes = () => {
   }: { id: string; title: string; children: React.ReactNode; level?: number }) => {
     const isExpanded = expandedSections[id]
     const headingClass = level === 1 ? "text-base sm:text-lg font-bold" : "text-sm sm:text-base font-semibold"
-    const bgClass = level === 1 ? "bg-gradient-to-r from-blue-50 to-indigo-50" : "bg-gray-50"
+    const bgClass = level === 1 ? "bg-blue-100" : "bg-gray-100"
 
     return (
-      <div className="mb-3 border border-gray-200 rounded-lg overflow-hidden">
+      <div className="mb-3 border border-gray-300 rounded-lg overflow-hidden bg-white">
         <button
           onClick={() => toggleSection(id)}
-          className={`w-full px-3 sm:px-4 py-3 ${bgClass} flex items-center justify-between transition-colors hover:bg-blue-100 active:bg-blue-200`}
+          className={`w-full px-3 sm:px-4 py-3 ${bgClass} flex items-center justify-between transition-colors hover:bg-blue-200 active:bg-blue-300`}
         >
           <span className={headingClass}>{title}</span>
           {isExpanded ? (
@@ -539,9 +539,9 @@ const StudyNotes = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg sticky top-0 z-50">
+      <div className="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
@@ -602,7 +602,7 @@ const StudyNotes = () => {
               onClick={() => setActiveLesson("lesson3")}
               className={`px-6 py-2 rounded-lg font-medium transition-all ${
                 activeLesson === "lesson3"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                  ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -612,7 +612,7 @@ const StudyNotes = () => {
               onClick={() => setActiveLesson("lesson4")}
               className={`px-6 py-2 rounded-lg font-medium transition-all ${
                 activeLesson === "lesson4"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                  ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -636,8 +636,7 @@ const StudyNotes = () => {
             <p>{'• "M: Information Systems, 4th edition" by Paige Baltzan (McGraw-Hill, 2017)'}</p>
           </div>
           <div className="mt-3 sm:mt-4 text-center text-xs text-gray-500">
-            <p>University of Ruhuna - Faculty of Technology</p>
-            <p>Department of Information and Communication Technology</p>
+            <p>Created by Hasitha Sandakelum</p>
           </div>
         </div>
       </div>
