@@ -547,7 +547,7 @@ const StudyNotes = () => {
             <div className="flex items-center gap-2 sm:gap-3">
               <BookOpen size={24} className="sm:w-7 sm:h-7 flex-shrink-0" />
               <div>
-                <h1 className="text-lg sm:text-xl font-bold">ICT1161</h1>
+                <h1 className="text-lg sm:text-xl font-bold">Information Systems</h1>
                 <p className="text-xs text-blue-100 hidden sm:block">Fundamentals of Information Systems</p>
               </div>
             </div>
