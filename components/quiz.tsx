@@ -14,7 +14,7 @@ import {
   Award,
   Target,
 } from "lucide-react"
-import { Ict1161Quiz } from "@/resourses/json/Q2"
+import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2"
 import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
 import { ComputerArchitectureQuiz , ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
@@ -57,7 +57,7 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz , ComputerArchitectureQuiz2]
+const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz]
 
 export default function ModelQuizzes() {
   const router = useRouter()

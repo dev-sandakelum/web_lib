@@ -505,3 +505,261 @@ export const Ict1161Quiz = {
     },
   ],
 };
+
+export const MCommerceEnterpriseQuiz = {
+  id: "mcommerce-enterprise",
+  title: "M-Commerce & Enterprise Systems",
+  category: "Information Systems",
+  questions: [
+    {
+      question: "What does M-Commerce primarily rely on?",
+      options: ["Desktop computers", "Mobile wireless devices", "Server systems", "Cloud storage"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which of the following is NOT a type of M-Commerce?",
+      options: ["Mobile Banking", "Mobile Ticketing", "Desktop Gaming", "Mobile Advertising"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the main advantage of location-tracking in M-Commerce?",
+      options: ["Faster internet speed", "Better battery life", "Personalized location-specific content", "Reduced data usage"],
+      correctIndex: 2,
+    },
+    {
+      question: "Which payment service is mentioned as NOT available in Sri Lanka?",
+      options: ["Credit cards", "PayPal", "Mobile banking", "Cash on delivery"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does omni-channel experience refer to?",
+      options: ["Using only online platforms", "Selling through multiple channels including in-store and online", "Television marketing only", "Social media exclusive sales"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is NOT listed as a global challenge for M-Commerce?",
+      options: ["Cultural challenges", "Language barriers", "Weather conditions", "Currency challenges"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does IP in Intellectual Property stand for in the context of M-Commerce threats?",
+      options: ["Internet Protocol", "Works of the mind like books, films, and software", "Installation Package", "Internal Processing"],
+      correctIndex: 1,
+    },
+    {
+      question: "How many key steps are there for successful E-commerce and M-commerce?",
+      options: ["Three", "Five", "Four", "Six"],
+      correctIndex: 2,
+    },
+    {
+      question: "What technology does WWW primarily use to connect information?",
+      options: ["Blockchain", "Hyperlink technology", "Satellite connection", "Fiber optics"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the key difference between Web 1.0 and Web 2.0?",
+      options: ["Speed of internet", "Web 2.0 is two-directional while Web 1.0 is one-directional", "Number of users", "Security features"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is an example of a Rich Internet Application mentioned in the PDF?",
+      options: ["Microsoft Word", "Zoom", "Windows Explorer", "Adobe Photoshop"],
+      correctIndex: 1,
+    },
+    {
+      question: "Twitter is classified as what type of social media platform?",
+      options: ["Social bookmarking", "Microblogging", "Video sharing", "Professional networking"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does SSH provide compared to Telnet?",
+      options: ["Faster connection", "More secure connection", "Graphical interface", "Larger file transfers"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the primary purpose of FTP?",
+      options: ["Send emails", "Browse websites", "Transfer files between computers", "Stream videos"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is an Enterprise System?",
+      options: ["A mobile app", "A system central to organization ensuring information sharing across all functions", "An email service", "A gaming platform"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which system supports supply-chain processes like order processing and inventory?",
+      options: ["CRM", "TPS", "ERP", "GPS"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does TPS stand for?",
+      options: ["Total Processing System", "Transaction Processing Systems", "Technical Program Software", "Transfer Protocol Service"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which of these is NOT a business operation supported by TPS?",
+      options: ["Order entry", "Social media marketing", "Payroll", "Inventory control"],
+      correctIndex: 1,
+    },
+    {
+      question: "In batch processing, when are transactions processed?",
+      options: ["Immediately one by one", "Accumulated over time and processed as a batch", "Only at night", "Every hour automatically"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which processing method is best suited for online banking?",
+      options: ["Batch Processing", "Manual Processing", "OLTP (Online Transaction Processing)", "Delayed Processing"],
+      correctIndex: 2,
+    },
+    {
+      question: "Payroll transactions are typically done using which processing method?",
+      options: ["OLTP", "Real-time processing", "Batch processing", "Cloud processing"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the first step in the Transaction Processing Cycle?",
+      options: ["Data Storage", "Data Editing", "Data Collection", "Document Production"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does data editing involve in TPS?",
+      options: ["Deleting old files", "Checking data for validity and completeness", "Printing reports", "Backing up systems"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the last step in the Transaction Processing Cycle?",
+      options: ["Data Collection", "Data Storage", "Data Manipulation", "Document Production"],
+      correctIndex: 3,
+    },
+    {
+      question: "Which is NOT a TPS objective?",
+      options: ["Process data accurately", "Create marketing campaigns", "Avoid fraudulent transactions", "Improve customer service"],
+      correctIndex: 1,
+    },
+    {
+      question: "What does ERP stand for?",
+      options: ["Electronic Resource Planning", "Enterprise Resource Planning", "Efficient Revenue Processing", "Extended Report Protocol"],
+      correctIndex: 1,
+    },
+    {
+      question: "How does an ERP system store data?",
+      options: ["In separate databases for each department", "Via an integrated database using one set of data", "On paper records", "In cloud only"],
+      correctIndex: 1,
+    },
+    {
+      question: "How long does ERP implementation typically take for large firms?",
+      options: ["1-2 months", "6-12 months", "3-5 years", "10+ years"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is a major advantage of ERP related to systems infrastructure?",
+      options: ["Creates more separate systems", "Eliminates inefficient or outdated systems", "Requires less training", "Works without internet"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is NOT mentioned as an ERP disadvantage?",
+      options: ["Expense and time in implementation", "Too much automation", "Difficulty implementing change", "Risk of implementation failure"],
+      correctIndex: 1,
+    },
+    {
+      question: "What challenge relates to employees potentially retiring rather than adapting to new ERP?",
+      options: ["Expense and time", "Difficulty implementing change", "Integration issues", "Vendor risks"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the first step in Production and Supply Chain Management process?",
+      options: ["Purchasing", "Detailed scheduling", "Sales forecasting", "Materials requirement planning"],
+      correctIndex: 2,
+    },
+    {
+      question: "What does S&OP stand for in the supply chain process?",
+      options: ["Supply and Outlet Planning", "Sales and Operations Plan", "System and Output Protocol", "Standard Operating Procedure"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which step determines the amount of weekly or daily production needed?",
+      options: ["Sales forecasting", "Purchasing", "Demand management", "Production execution"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is the primary goal of CRM systems?",
+      options: ["Reduce employee count", "Understand and anticipate customer needs to increase retention and loyalty", "Eliminate competition", "Automate production"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which is NOT a key feature of CRM systems?",
+      options: ["Contact management", "Manufacturing equipment", "Sales management", "Marketing automation"],
+      correctIndex: 1,
+    },
+    {
+      question: "What CRM feature helps track data on individual customers across the organization?",
+      options: ["Analysis", "Marketing automation", "Contact management", "Customer support"],
+      correctIndex: 2,
+    },
+    {
+      question: "Which CRM feature focuses on capturing and analyzing customer interactions?",
+      options: ["Sales management only", "Marketing automation", "Production control", "Inventory tracking"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the first challenge mentioned for implementing Enterprise Systems?",
+      options: ["System training", "Resistance to change", "Finding the right system that suits your organization", "Budget constraints"],
+      correctIndex: 2,
+    },
+    {
+      question: "How should organizations handle resistance to change during ERP implementation?",
+      options: ["Ignore employee concerns", "Consultation and communication", "Force compliance", "Replace all staff"],
+      correctIndex: 1,
+    },
+    {
+      question: "Why is commitment from junior and middle managers important?",
+      options: ["They control budgets", "They have the most technical knowledge", "They influence staff opinions more directly than senior figures", "They make final decisions"],
+      correctIndex: 2,
+    },
+    {
+      question: "What should be done before the ERP launch date regarding training?",
+      options: ["No training needed", "Training only for managers", "Interactive group training for all staff", "Online videos only"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is a common wrong assumption staff make about new ERP systems?",
+      options: ["It will be difficult to use", "It can solve every organizational problem", "It's too expensive", "It requires internet"],
+      correctIndex: 1,
+    },
+    {
+      question: "Who should test ERP functionality during implementation?",
+      options: ["Only IT department", "External consultants only", "Teams who will use the functionality daily", "Management only"],
+      correctIndex: 2,
+    },
+    {
+      question: "What is a Disaster Recovery Plan?",
+      options: ["A marketing strategy", "A formal plan for restoring computer operations after disaster", "An insurance policy", "A backup generator"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is the purpose of a TPS audit?",
+      options: ["Increase sales", "Prevent accounting irregularities and data privacy loss", "Train employees", "Upgrade hardware"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which infrastructure component is essential for M-Commerce?",
+      options: ["Fax machine", "Electronic Payment Systems", "Printing press", "Radio broadcast"],
+      correctIndex: 1,
+    },
+    {
+      question: "What distinguishes OLTP from batch processing?",
+      options: ["OLTP uses paper records", "OLTP processes each transaction immediately", "OLTP is slower", "OLTP is manual"],
+      correctIndex: 1,
+    },
+    {
+      question: "What is Epinions primarily used for?",
+      options: ["Video streaming", "Consumers voicing opinions about products", "File storage", "Email services"],
+      correctIndex: 1,
+    },
+    {
+      question: "Which best describes Web 2.0 capabilities?",
+      options: ["Read-only websites", "Display and collect information", "Text-only content", "Offline applications"],
+      correctIndex: 1,
+    }
+  ],
+}
