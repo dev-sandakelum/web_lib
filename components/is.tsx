@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { ChevronDown, ChevronUp, BookOpen, Menu, X } from "lucide-react"
 
@@ -20,12 +22,7 @@ const StudyNotes = () => {
     title,
     children,
     level = 1,
-  }: {
-    id: string
-    title: string
-    children: React.ReactNode
-    level?: number
-  }) => {
+  }: { id: string; title: string; children: React.ReactNode; level?: number }) => {
     const isExpanded = expandedSections[id]
     const headingClass = level === 1 ? "text-base sm:text-lg font-bold" : "text-sm sm:text-base font-semibold"
     const bgClass = level === 1 ? "bg-gradient-to-r from-blue-50 to-indigo-50" : "bg-gray-50"
@@ -444,7 +441,7 @@ const StudyNotes = () => {
               <strong>Sales Forecasting:</strong> Estimate future demand
             </li>
             <li>
-              <strong>S&OP:</strong> Determine specific products and timing
+              <strong>{"S&OP"}</strong>: Determine specific products and timing
             </li>
             <li>
               <strong>Demand Management:</strong> Weekly/daily production amounts
@@ -635,8 +632,8 @@ const StudyNotes = () => {
         <div className="mt-4 sm:mt-6 bg-white rounded-xl shadow-lg p-3 sm:p-4">
           <p className="text-xs sm:text-sm font-semibold text-gray-800 mb-2">📚 Recommended Books:</p>
           <div className="space-y-2 text-xs text-gray-600">
-            <p>• "Principles of Information Systems" by Ralph Stair, George Reynolds (Cengage Learning, 2010)</p>
-            <p>• "M: Information Systems, 4th edition" by Paige Baltzan (McGraw-Hill, 2017)</p>
+            <p>{'• "Principles of Information Systems" by Ralph Stair, George Reynolds (Cengage Learning, 2010)'}</p>
+            <p>{'• "M: Information Systems, 4th edition" by Paige Baltzan (McGraw-Hill, 2017)'}</p>
           </div>
           <div className="mt-3 sm:mt-4 text-center text-xs text-gray-500">
             <p>University of Ruhuna - Faculty of Technology</p>
