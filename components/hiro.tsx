@@ -39,6 +39,13 @@ export default function PersonalHero() {
       description: "Lessons 1 - 4",
       content:
           "Computer architecture is a set of rules and methods that describe the functionality, organization, and implementation of computer systems. It encompasses everything from the design of individual components to the overall system architecture.",
+    },{
+      title: "Information Systems 3-4",
+      icon: <Network className="w-6 h-6 sm:w-8 sm:h-8" />,
+      color: "from-purple-500 to-purple-600",
+      description: "Lessons 1 - 4",
+      content:
+          "Information systems encompass the collection, storage, and processing of data to support decision-making and operations within an organization. It involves hardware, software, data, procedures, and people.",
     },
   ];
 
@@ -53,6 +60,8 @@ export default function PersonalHero() {
       window.location.href = "/multimedia"; }// Redirect to /multimedia page
     else if (index === 4) {
       window.location.href = "/architecture"; // Redirect to /c page
+    }else if (index === 5) {
+      window.location.href = "/is3-4"; // Redirect to /is3-4 page
     }
   };
 
