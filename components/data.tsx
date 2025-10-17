@@ -16,18 +16,19 @@ export const mainTopics = [
           {
             id: "n1",
             title: "cisco packet tracer",
-            readTime: "not applicable",
+            readTime: "esaily navigable",
             cardColor: "from-yellow-500 to-purple-600",
             tags: ["networking", "cisco" ,"packet-tracer" ,"guide"],
             link: "/notes/networking/cisco-packet-tracer",
           },
-          // {
-          //   id: "n2",
-          //   title: "TCP/IP Protocol",
-          //   readTime: "8 min",
-          //   tags: ["networking", "protocols"],
-          //   link: "/notes/networking/tcp-ip",
-          // },
+          {
+            id: "n2",
+            title: "cisco packet tracer old",
+            readTime: "unnavigable",
+            cardColor: "from-gray-300 to-gray-600",
+            tags: ["networking", "cisco" ,"packet-tracer" ,"old"],
+            link: "/notes/networking/cisco-packet-tracer-old",
+          },
         ],
       },
       {
