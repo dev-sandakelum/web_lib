@@ -4,6 +4,24 @@ import { useRouter } from "next/navigation"
 import { Network, File, Search, ChevronRight, Home } from "lucide-react"
 import { mainTopics } from "./data"
 
+interface SearchResult {
+  type: "main" | "subtopic" | "item";
+  data: {
+    id?: string;
+    title: string;
+    link?: string;
+    cardColor?: string;
+    readTime?: string;
+  };
+  level: number;
+  parentTopic?: {
+    title: string;
+  };
+  parentSubTopic?: {
+    title: string;
+  };
+}
+
 export default function PersonalHero() {
   const router = useRouter()
   const [currentLevel, setCurrentLevel] = useState<"main" | "subtopic" | "item">("main")
@@ -15,7 +33,7 @@ export default function PersonalHero() {
     if (!searchQuery.trim()) return []
 
     const query = searchQuery.toLowerCase()
-    const results: any[] = []
+    const results: SearchResult[] = []
 
     mainTopics.forEach((topic) => {
       if (topic.title.toLowerCase().includes(query)) {
@@ -60,12 +78,6 @@ export default function PersonalHero() {
   const handleBackToMain = () => {
     setCurrentLevel("main")
     setSelectedMainTopic(null)
-    setSelectedSubTopic(null)
-    setSearchQuery("")
-  }
-
-  const handleBackToSubTopics = () => {
-    setCurrentLevel("subtopic")
     setSelectedSubTopic(null)
     setSearchQuery("")
   }
@@ -142,7 +154,7 @@ export default function PersonalHero() {
                   Search Results ({searchResults.length})
                 </h2>
                 {searchResults.length === 0 ? (
-                  <p className="text-gray-600 text-center py-8">No results found for "{searchQuery}"</p>
+                  <p className="text-gray-600 text-center py-8">No results found for &quot;{searchQuery}&quot;</p>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                     {searchResults.map((result, idx) => (
@@ -226,7 +238,7 @@ export default function PersonalHero() {
                       className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 cursor-pointer overflow-hidden active:scale-95"
                     >
                       <div
-                        className={`bg-gradient-to-r ${(subTopic as any).cardColor || "from-slate-600 to-slate-700"} p-5 sm:p-6 text-white flex items-center justify-center`}
+                        className={`bg-gradient-to-r ${"cardColor" in subTopic ? subTopic.cardColor : "from-slate-600 to-slate-700"} p-5 sm:p-6 text-white flex items-center justify-center`}
                       >
                         <Network className="w-6 h-6 sm:w-8 sm:h-8" />
                       </div>
@@ -263,7 +275,7 @@ export default function PersonalHero() {
                       className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 cursor-pointer overflow-hidden active:scale-95"
                     >
                       <div
-                        className={`bg-gradient-to-r ${(item as any).cardColor ?? "from-slate-600 to-slate-700"} p-5 sm:p-6 text-white flex items-center justify-center`}
+                        className={`bg-gradient-to-r ${"cardColor" in item ? item.cardColor : "from-slate-600 to-slate-700"} p-5 sm:p-6 text-white flex items-center justify-center`}
                       >
                         <File className="w-6 h-6 sm:w-8 sm:h-8" />
                       </div>

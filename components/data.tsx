@@ -1,4 +1,3 @@
-import { link } from "fs"
 import { DonutIcon, File } from "lucide-react"
 
 export const mainTopics = [
