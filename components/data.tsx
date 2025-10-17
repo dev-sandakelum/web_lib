@@ -34,6 +34,7 @@ export const mainTopics = [
       {
         id: "architecture",
         title: "Computer Architecture",
+        cardColor: "from-purple-500 to-indigo-600",
         items: [
           {
             id: "a1",
@@ -54,6 +55,7 @@ export const mainTopics = [
       {
         id: "c1",
         title: "C Programming",
+        cardColor: "from-blue-500 to-cyan-600",
         items: [
           {
             id: "c1-1",
@@ -67,13 +69,28 @@ export const mainTopics = [
       {
         id: "is",
         title: "Information systems",
+        cardColor: "from-green-500 to-teal-600",
         items: [
           {
             id: "is3-4",
             title: "Information systems notes 3rd and 4th ",
             readTime: "unlimited",
             tags: ["information systems", "is" ,"notes"],
-            link: "/notes/information-systems/is3-4",
+            link: "/information-systems/is3-4",
+          },
+        ],
+      },
+      {
+        id: "multimedia",
+        title: "Multimedia",
+        cardColor: "from-pink-500 to-rose-600",
+        items: [
+          {
+            id: "mm1",
+            title: "Multimedia Study Guide",
+            readTime: "comprehensive",
+            tags: ["multimedia", "design", "typography", "CRAP"],
+            link: "/notes/multimedia",
           },
         ],
       },

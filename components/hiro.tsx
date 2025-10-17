@@ -1,6 +1,6 @@
 "use client"
-import { useState, useMemo } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useMemo, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Network, File, Search, ChevronRight, Home } from "lucide-react"
 import { mainTopics } from "./data"
 
@@ -24,10 +24,27 @@ interface SearchResult {
 
 export default function PersonalHero() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [currentLevel, setCurrentLevel] = useState<"main" | "subtopic" | "item">("main")
   const [selectedMainTopic, setSelectedMainTopic] = useState<string | null>(null)
   const [selectedSubTopic, setSelectedSubTopic] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
+
+  // Initialize state from URL params on mount
+  useEffect(() => {
+    const topic = searchParams.get('topic')
+    const subtopic = searchParams.get('subtopic')
+    
+    if (topic) {
+      setSelectedMainTopic(topic)
+      if (subtopic) {
+        setSelectedSubTopic(subtopic)
+        setCurrentLevel("item")
+      } else {
+        setCurrentLevel("subtopic")
+      }
+    }
+  }, [searchParams])
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return []
@@ -56,23 +73,29 @@ export default function PersonalHero() {
 
   const handleMainTopicClick = (topicId: string, link?: string) => {
     if (link) {
+      // If there's a direct link, navigate to it
       router.push(link)
     } else {
       setSelectedMainTopic(topicId)
       setSelectedSubTopic(null)
       setCurrentLevel("subtopic")
       setSearchQuery("")
+      // Update URL with query parameter
+      const params = new URLSearchParams()
+      params.set('topic', topicId)
+      window.history.pushState({}, '', `?${params.toString()}`)
     }
   }
 
-  const handleSubTopicClick = (subTopicId: string, link?: string) => {
-    if (link) {
-      router.push(link)
-    } else {
-      setSelectedSubTopic(subTopicId)
-      setCurrentLevel("item")
-      setSearchQuery("")
-    }
+  const handleSubTopicClick = (subTopicId: string) => {
+    setSelectedSubTopic(subTopicId)
+    setCurrentLevel("item")
+    setSearchQuery("")
+    // Update URL with query parameters
+    const params = new URLSearchParams()
+    if (selectedMainTopic) params.set('topic', selectedMainTopic)
+    params.set('subtopic', subTopicId)
+    window.history.pushState({}, '', `?${params.toString()}`)
   }
 
   const handleBackToMain = () => {
@@ -80,6 +103,18 @@ export default function PersonalHero() {
     setSelectedMainTopic(null)
     setSelectedSubTopic(null)
     setSearchQuery("")
+    // Reset URL to home (remove query params)
+    window.history.pushState({}, '', '/')
+  }
+
+  const handleBackToSubTopics = () => {
+    setCurrentLevel("subtopic")
+    setSelectedSubTopic(null)
+    setSearchQuery("")
+    // Update URL to show only topic param
+    const params = new URLSearchParams()
+    if (selectedMainTopic) params.set('topic', selectedMainTopic)
+    window.history.pushState({}, '', `?${params.toString()}`)
   }
 
   const handleItemClick = (link?: string) => {
@@ -127,7 +162,7 @@ export default function PersonalHero() {
               {currentMainTopic && (
                 <>
                   <button
-                    onClick={handleBackToMain}
+                    onClick={currentLevel === "item" ? handleBackToSubTopics : handleBackToMain}
                     className="text-blue-600 hover:text-blue-700 font-medium text-sm whitespace-nowrap"
                   >
                     {currentMainTopic.title}
