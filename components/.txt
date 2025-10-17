@@ -1,0 +1,130 @@
+import { DonutIcon, File } from "lucide-react"
+
+export const mainTopics = [
+  {
+    id: "notes",
+    title: "Short Notes",
+    icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-blue-500 to-blue-600",
+    description: "Quick reference materials",
+    link: "/notes",
+    subTopics: [
+      {
+        id: "networking",
+        title: "Networking",
+        link: "/notes/networking",
+        cardColor: "from-cyan-500 to-cyan-600",
+        items: [
+          {
+            id: "n1",
+            title: "OSI Model",
+            readTime: "5 min",
+            tags: ["networking", "basics"],
+            link: "/notes/networking/osi-model",
+            cardColor: "from-teal-500 to-teal-600",
+          },
+          {
+            id: "n2",
+            title: "TCP/IP Protocol",
+            readTime: "8 min",
+            tags: ["networking", "protocols"],
+            link: "/notes/networking/tcp-ip",
+            cardColor: "from-teal-500 to-teal-600",
+          },
+        ],
+      },
+      {
+        id: "architecture",
+        title: "Computer Architecture",
+        link: "/notes/architecture",
+        cardColor: "from-indigo-500 to-indigo-600",
+        items: [
+          {
+            id: "a1",
+            title: "CPU Design",
+            readTime: "10 min",
+            tags: ["architecture"],
+            link: "/notes/architecture/cpu-design",
+            cardColor: "from-violet-500 to-violet-600",
+          },
+          {
+            id: "a2",
+            title: "Memory Hierarchy",
+            readTime: "7 min",
+            tags: ["architecture"],
+            link: "/notes/architecture/memory-hierarchy",
+            cardColor: "from-violet-500 to-violet-600",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "quizes",
+    title: "Quizes",
+    icon: <DonutIcon className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-green-500 to-green-600",
+    description: "Interactive assessments",
+    link: "/quizes",
+    subTopics: [
+      {
+        id: "networking-quiz",
+        title: "Networking Quiz",
+        link: "/quizes/networking",
+        cardColor: "from-emerald-500 to-emerald-600",
+        items: [
+          {
+            id: "q1",
+            title: "Basics Quiz",
+            readTime: "15 min",
+            tags: ["quiz", "networking"],
+            link: "/quizes/networking/basics",
+            cardColor: "from-lime-500 to-lime-600",
+          },
+          {
+            id: "q2",
+            title: "Advanced Quiz",
+            readTime: "20 min",
+            tags: ["quiz", "networking"],
+            link: "/quizes/networking/advanced",
+            cardColor: "from-lime-500 to-lime-600",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "pdfs",
+    title: "PDFs",
+    icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-red-500 to-red-600",
+    description: "Comprehensive documents",
+    link: "/pdfs",
+    subTopics: [
+      {
+        id: "papers",
+        title: "Question Papers",
+        link: "/pdfs/papers",
+        cardColor: "from-orange-500 to-orange-600",
+        items: [
+          {
+            id: "p1",
+            title: "2024 Paper",
+            readTime: "30 min",
+            tags: ["pdf", "exam"],
+            link: "/pdfs/papers/2024",
+            cardColor: "from-amber-500 to-amber-600",
+          },
+          {
+            id: "p2",
+            title: "2023 Paper",
+            readTime: "30 min",
+            tags: ["pdf", "exam"],
+            link: "/pdfs/papers/2023",
+            cardColor: "from-amber-500 to-amber-600",
+          },
+        ],
+      },
+    ],
+  },
+]

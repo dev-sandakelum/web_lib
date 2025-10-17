@@ -22,7 +22,7 @@ const QuizStudyGuide = () => {
   }> = [
     {
       id: "intro",
-      title: "Lecture 1: Introduction & Top-Level View",
+      title: " 1: Introduction & Top-Level View",
       topics: [
         {
           subtitle: "Architecture vs Organization",
@@ -99,7 +99,7 @@ const QuizStudyGuide = () => {
     },
     {
       id: "function",
-      title: "Lecture 2: Computer Function & Instruction Cycle",
+      title: " 2: Computer Function & Instruction Cycle",
       topics: [
         {
           subtitle: "Instruction Cycle (2 Steps)",
@@ -143,7 +143,7 @@ const QuizStudyGuide = () => {
     },
     {
       id: "interrupts",
-      title: "Lecture 3: Interrupts",
+      title: " 3: Interrupts",
       topics: [
         {
           subtitle: "What is an Interrupt?",
@@ -206,7 +206,7 @@ const QuizStudyGuide = () => {
     },
     {
       id: "bus",
-      title: "Lecture 4: Bus Architecture & Interconnection",
+      title: " 4: Bus Architecture & Interconnection",
       topics: [
         {
           subtitle: "What is a Bus?",
