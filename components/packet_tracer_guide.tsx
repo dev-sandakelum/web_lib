@@ -1,7 +1,34 @@
-import React from 'react';
-import { BookOpen, Terminal, Network, Settings, HelpCircle } from 'lucide-react';
+"use client";
+import React, { useState } from 'react';
+import { BookOpen, Terminal, Network, Settings, HelpCircle, ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
 
 export default function PacketTracerGuide() {
+  const [expandedSections, setExpandedSections] = useState<Record<number, boolean>>({});
+  const [expandedCommands, setExpandedCommands] = useState<Record<string, boolean>>({});
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  
+  const toggleSection = (sectionIdx: number) => {
+    setExpandedSections((prev: Record<number, boolean>) => ({
+      ...prev,
+      [sectionIdx]: !prev[sectionIdx]
+    }));
+  };
+  
+  const toggleCommand = (key: string) => {
+    setExpandedCommands((prev: Record<string, boolean>) => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+  
+  const scrollToSection = (sectionIdx: number | string) => {
+    const element = document.getElementById(`section-${sectionIdx}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setShowMobileMenu(false);
+    }
+  };
+
   const sections = [
     {
       title: "Basic Router Commands",
@@ -437,489 +464,203 @@ export default function PacketTracerGuide() {
     {
       q: "Why do you need both a hostname and domain name for SSH?",
       a: "The hostname and domain name are concatenated to create the Fully Qualified Domain Name (FQDN), which is used as the identity for the RSA key pair. For example, hostname 'R1' and domain 'cisco.com' creates keys named 'R1.cisco.com'."
-    },
-    {
-      q: "What is the minimum RSA modulus size recommended for SSH?",
-      a: "The minimum recommended size is 1024 bits, though 2048 bits is preferred for stronger security. Anything less than 1024 bits is considered insecure by modern standards."
-    },
-    {
-      q: "What is the difference between 'login' and 'login local'?",
-      a: "'login' uses the password configured on the line (line vty or line con). 'login local' uses the username/password database configured with the 'username' command. 'login local' provides better security with individual user accounts."
-    },
-    {
-      q: "In DHCP configuration, what is the difference between 'network' and 'default-router'?",
-      a: "'network' defines the range of IP addresses the DHCP server can assign to clients. 'default-router' specifies the gateway address that will be given to clients so they can communicate outside their local network."
-    },
-    {
-      q: "What is the purpose of 'logging synchronous'?",
-      a: "It prevents IOS messages and debug output from interrupting your command input. Messages appear on a new line, and your command line is reprinted below them, making the CLI easier to use."
-    },
-    {
-      q: "Why should you use 'transport input ssh' instead of 'transport input all'?",
-      a: "'transport input ssh' allows only secure SSH connections and blocks insecure Telnet. 'transport input all' allows both SSH and Telnet, which creates a security vulnerability because Telnet transmits passwords in plain text."
-    },
-    {
-      q: "What is the difference between IPv4 DHCP and IPv6 DHCP configuration?",
-      a: "IPv4 DHCP uses 'ip dhcp pool' and 'network' commands. IPv6 DHCP uses 'ipv6 dhcp pool', 'address prefix', and requires 'ipv6 dhcp server' on interfaces. IPv6 also has autoconfiguration (SLAAC) as an alternative to DHCP."
-    },
-    {
-      q: "What does 'privilege 15' mean in the username command?",
-      a: "Privilege levels range from 0-15, where level 15 is the highest (equivalent to privileged EXEC mode). Setting a user to privilege 15 gives them full administrative access to all router commands."
-    },
-    {
-      q: "Why do switches need 'ip default-gateway' but routers don't?",
-      a: "Layer 2 switches need a default gateway to send management traffic (like SSH) to networks outside their local subnet. Routers use routing tables instead and don't need a default gateway for forwarding traffic, though they can have one for management purposes."
-    },
-    {
-      q: "What is the purpose of 'show ip interface brief'?",
-      a: "It provides a quick summary of all interfaces showing their IP addresses, Layer 1 status (up/down based on physical connection), and Layer 2 protocol status (up/down based on line protocol). It's the fastest way to check interface status."
-    },
-    {
-      q: "What does '/64' mean in an IPv6 address like '2401:AAAA::1/64'?",
-      a: "The /64 is the prefix length, indicating that the first 64 bits are the network portion and the remaining 64 bits are for host addresses. /64 is the standard subnet size for IPv6 LANs, providing 2^64 possible host addresses."
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sm:p-6 lg:p-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-4">
-            <Terminal className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Sticky Mobile Navigation */}
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg">
+        {/* <div className="flex items-center justify-between p-3 sm:p-4">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Cisco Packet Tracer</h1>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mt-1">Complete Command Reference Guide</h2>
+              <h1 className="text-base sm:text-lg font-bold text-white">Packet Tracer Guide</h1>
+              <p className="text-xs text-blue-100 hidden sm:block">Complete Command Reference</p>
             </div>
           </div>
-          <p className="text-blue-100 text-sm sm:text-base lg:text-lg">
-            Comprehensive guide to router, switch, and network configuration commands
-          </p>
-        </div>
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="p-2 text-white hover:bg-white/20 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {showMobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div> */}
+        
+        {/* Mobile Dropdown Menu */}
+        {showMobileMenu && (
+          <div className="bg-white border-t border-blue-200 shadow-lg max-h-[70vh] overflow-y-auto">
+            <div className="p-4 space-y-2">
+              {sections.map((section, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => scrollToSection(idx)}
+                  className="w-full flex items-center gap-3 p-3 text-left rounded-lg hover:bg-blue-50 transition-colors"
+                >
+                  <span className="text-blue-600">{section.icon}</span>
+                  <span className="font-medium text-gray-800 text-sm">{section.title}</span>
+                </button>
+              ))}
+              <button
+                onClick={() => scrollToSection('qa')}
+                className="w-full flex items-center gap-3 p-3 text-left rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                <HelpCircle className="w-5 h-5 text-blue-600" />
+                <span className="font-medium text-gray-800 text-sm">Practice Q&A</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
-        {/* Table of Contents */}
-        <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 border-b border-blue-200">
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
-            Table of Contents
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {sections.map((section, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-gray-700 text-sm sm:text-base">
-                <span className="text-blue-600 flex-shrink-0">{section.icon}</span>
-                <span className="font-medium">{section.title}</span>
-              </div>
-            ))}
+      <div className="max-w-6xl mx-auto bg-white shadow-2xl">
+        {/* Header Banner */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sm:p-6 lg:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+            <Terminal className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0" />
+            <div>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Cisco Packet Tracer</h2>
+              <p className="text-sm sm:text-base lg:text-lg text-blue-100 mt-1">
+                Complete Command Reference Guide
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Command Sections */}
-        <div className="p-4 sm:p-6 lg:p-8">
+        <div className="p-3 sm:p-4 lg:p-8">
           {sections.map((section, sectionIdx) => (
-            <div key={sectionIdx} className="mb-8 sm:mb-10 lg:mb-12">
-              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 border-b-2 border-blue-600">
-                <div className="text-blue-600 flex-shrink-0">{section.icon}</div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">{section.title}</h2>
-              </div>
-
-              {section.commands.map((cmd, cmdIdx) => (
-                <div key={cmdIdx} className="mb-6 sm:mb-8 p-4 sm:p-5 lg:p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-                  <h3 className="text-lg sm:text-xl font-bold text-indigo-600 mb-3 break-words">{cmd.command}</h3>
-                  
-                  <div className="space-y-3 sm:space-y-4">
-                    <div>
-                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Syntax:</span>
-                      <pre className="mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs sm:text-sm overflow-x-auto">
-                        {cmd.syntax}
-                      </pre>
-                    </div>
-
-                    <div>
-                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Description:</span>
-                      <p className="mt-1 text-gray-600 text-sm sm:text-base leading-relaxed">{cmd.description}</p>
-                    </div>
-
-                    <div>
-                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Why Use This:</span>
-                      <p className="mt-1 text-gray-600 text-sm sm:text-base leading-relaxed">{cmd.why}</p>
-                    </div>
-
-                    <div>
-                      <span className="font-semibold text-gray-700 text-sm sm:text-base">Example:</span>
-                      <pre className="mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap break-all sm:break-normal">
-                        {cmd.example}
-                      </pre>
-                    </div>
-
-                    {cmd.alternatives.length > 0 && (
-                      <div>
-                        <span className="font-semibold text-gray-700 text-sm sm:text-base">Alternative Commands:</span>
-                        <ul className="mt-2 list-disc list-inside text-gray-600 text-sm sm:text-base">
-                          {cmd.alternatives.map((alt, altIdx) => (
-                            <li key={altIdx} className="ml-4 break-words">{alt}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
+            <div key={sectionIdx} id={`section-${sectionIdx}`} className="mb-4 sm:mb-6 scroll-mt-20">
+              {/* Section Header - Collapsible */}
+              <button
+                onClick={() => toggleSection(sectionIdx)}
+                className="w-full flex items-center justify-between gap-3 p-3 sm:p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all"
+              >
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex-shrink-0">{section.icon}</div>
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-left">{section.title}</h2>
                 </div>
-              ))}
+                {expandedSections[sectionIdx] ? (
+                  <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                )}
+              </button>
+
+              {/* Collapsible Content */}
+              {expandedSections[sectionIdx] && (
+                <div className="mt-3 space-y-3 sm:space-y-4">
+                  {section.commands.map((cmd, cmdIdx) => {
+                    const cmdKey = `${sectionIdx}-${cmdIdx}`;
+                    return (
+                      <div
+                        key={cmdIdx}
+                        className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden shadow-sm"
+                      >
+                        {/* Command Header - Collapsible */}
+                        <button
+                          onClick={() => toggleCommand(cmdKey)}
+                          className="w-full flex items-center justify-between gap-2 p-3 sm:p-4 bg-white hover:bg-gray-50 transition-colors"
+                        >
+                          <h3 className="text-sm sm:text-base lg:text-lg font-bold text-indigo-600 text-left break-words">
+                            {cmd.command}
+                          </h3>
+                          {expandedCommands[cmdKey] ? (
+                            <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-gray-500" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-gray-500" />
+                          )}
+                        </button>
+
+                        {/* Command Details */}
+                        {expandedCommands[cmdKey] && (
+                          <div className="p-3 sm:p-4 space-y-3 sm:space-y-4 border-t border-gray-200">
+                            <div>
+                              <span className="font-semibold text-gray-700 text-xs sm:text-sm">Syntax:</span>
+                              <pre className="mt-1 sm:mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs overflow-x-auto">
+{cmd.syntax}
+                              </pre>
+                            </div>
+
+                            <div>
+                              <span className="font-semibold text-gray-700 text-xs sm:text-sm">Description:</span>
+                              <p className="mt-1 text-gray-600 text-xs sm:text-sm leading-relaxed">
+                                {cmd.description}
+                              </p>
+                            </div>
+
+                            <div>
+                              <span className="font-semibold text-gray-700 text-xs sm:text-sm">Why Use This:</span>
+                              <p className="mt-1 text-gray-600 text-xs sm:text-sm leading-relaxed">{cmd.why}</p>
+                            </div>
+
+                            <div>
+                              <span className="font-semibold text-gray-700 text-xs sm:text-sm">Example:</span>
+                              <pre className="mt-1 sm:mt-2 p-2 sm:p-3 bg-gray-800 text-green-400 rounded font-mono text-xs overflow-x-auto whitespace-pre-wrap">
+{cmd.example}
+                              </pre>
+                            </div>
+
+                            {cmd.alternatives.length > 0 && (
+                              <div>
+                                <span className="font-semibold text-gray-700 text-xs sm:text-sm">
+                                  Alternative Commands:
+                                </span>
+                                <ul className="mt-1 sm:mt-2 list-disc list-inside text-gray-600 text-xs sm:text-sm space-y-1">
+                                  {cmd.alternatives.map((alt, altIdx) => (
+                                    <li key={altIdx} className="ml-2 sm:ml-4 break-words">
+                                      {alt}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ))}
         </div>
 
         {/* Practice Questions */}
-        <div className="p-8 bg-gradient-to-br from-indigo-50 to-purple-50">
-          <div className="flex items-center gap-3 mb-6 pb-3 border-b-2 border-indigo-600">
-            <HelpCircle className="w-8 h-8 text-indigo-600" />
-            <h2 className="text-3xl font-bold text-gray-800">Practice Questions & Answers</h2>
+        <div id="section-qa" className="p-3 sm:p-4 lg:p-8 bg-gradient-to-br from-indigo-50 to-purple-50 scroll-mt-20">
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 border-b-2 border-indigo-600">
+            <HelpCircle className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" />
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">Practice Q&A</h2>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-3 sm:space-y-4">
             {questions.map((item, idx) => (
-              <div key={idx} className="p-6 bg-white rounded-lg border-l-4 border-indigo-600 shadow-md">
-                <h3 className="text-lg font-bold text-gray-800 mb-3">
-                  Q{idx + 1}: {item.q}
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
+              <details
+                key={idx}
+                className="group bg-white rounded-lg border-l-4 border-indigo-600 shadow-md overflow-hidden"
+              >
+                <summary className="cursor-pointer p-3 sm:p-4 lg:p-6 font-bold text-gray-800 text-sm sm:text-base hover:bg-indigo-50 transition-colors list-none">
+                  <div className="flex items-start justify-between gap-2">
+                    <span>Q{idx + 1}: {item.q}</span>
+                    <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-open:rotate-180 transition-transform" />
+                  </div>
+                </summary>
+                <div className="p-3 sm:p-4 lg:p-6 pt-0 text-gray-700 text-xs sm:text-sm lg:text-base leading-relaxed border-t border-gray-100">
                   <span className="font-semibold text-indigo-600">Answer:</span> {item.a}
-                </p>
-              </div>
+                </div>
+              </details>
             ))}
           </div>
         </div>
 
-        {/* Quick Reference Cheat Sheet */}
-        <div className="p-8 bg-gray-50">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-            <Terminal className="w-8 h-8 text-blue-600" />
-            Quick Reference Cheat Sheet
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-blue-600 mb-4">Mode Transitions</h3>
-              <div className="space-y-2 font-mono text-sm">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Router&gt;</span>
-                  <span className="text-xs bg-gray-200 px-2 py-1 rounded">User EXEC</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-blue-600">→ enable</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Router#</span>
-                  <span className="text-xs bg-blue-200 px-2 py-1 rounded">Privileged EXEC</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-blue-600">→ configure terminal</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Router(config)#</span>
-                  <span className="text-xs bg-green-200 px-2 py-1 rounded">Global Config</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-blue-600">→ interface g0/0</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Router(config-if)#</span>
-                  <span className="text-xs bg-yellow-200 px-2 py-1 rounded">Interface Config</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-blue-600 mb-4">Essential Shortcuts</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Tab</span>
-                  <span className="text-gray-600">Complete command</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Ctrl-Z</span>
-                  <span className="text-gray-600">Return to privileged mode</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Ctrl-C</span>
-                  <span className="text-gray-600">Cancel current command</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">?</span>
-                  <span className="text-gray-600">Context-sensitive help</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Up Arrow</span>
-                  <span className="text-gray-600">Previous command</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Ctrl-A</span>
-                  <span className="text-gray-600">Move to beginning of line</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-mono text-gray-700">Ctrl-E</span>
-                  <span className="text-gray-600">Move to end of line</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-blue-600 mb-4">Common IP Ranges</h3>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <span className="font-semibold text-gray-700">Class A Private:</span>
-                  <span className="ml-2 font-mono text-gray-600">10.0.0.0 - 10.255.255.255</span>
-                </div>
-                <div>
-                  <span className="font-semibold text-gray-700">Class B Private:</span>
-                  <span className="ml-2 font-mono text-gray-600">172.16.0.0 - 172.31.255.255</span>
-                </div>
-                <div>
-                  <span className="font-semibold text-gray-700">Class C Private:</span>
-                  <span className="ml-2 font-mono text-gray-600">192.168.0.0 - 192.168.255.255</span>
-                </div>
-                <div>
-                  <span className="font-semibold text-gray-700">APIPA Range:</span>
-                  <span className="ml-2 font-mono text-gray-600">169.254.0.0 - 169.254.255.255</span>
-                </div>
-                <div>
-                  <span className="font-semibold text-gray-700">Loopback:</span>
-                  <span className="ml-2 font-mono text-gray-600">127.0.0.0 - 127.255.255.255</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold text-blue-600 mb-4">Subnet Mask Quick Reference</h3>
-              <div className="space-y-2 text-sm font-mono">
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/24</span>
-                  <span className="text-gray-600">255.255.255.0 (254 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/25</span>
-                  <span className="text-gray-600">255.255.255.128 (126 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/26</span>
-                  <span className="text-gray-600">255.255.255.192 (62 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/27</span>
-                  <span className="text-gray-600">255.255.255.224 (30 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/28</span>
-                  <span className="text-gray-600">255.255.255.240 (14 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/29</span>
-                  <span className="text-gray-600">255.255.255.248 (6 hosts)</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-700">/30</span>
-                  <span className="text-gray-600">255.255.255.252 (2 hosts)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Troubleshooting Tips */}
-        <div className="p-8 bg-white">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Common Troubleshooting Tips</h2>
-          
-          <div className="space-y-4">
-            <div className="p-4 bg-red-50 border-l-4 border-red-500 rounded">
-              <h3 className="font-bold text-red-700 mb-2">Problem: Cannot ping between devices</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
-                <li>Check if interfaces are up: <code className="bg-gray-200 px-2 py-1 rounded">show ip interface brief</code></li>
-                <li>Verify IP addresses are in the same subnet or proper routing exists</li>
-                <li>Ensure &quot;no shutdown&quot; was used on router interfaces</li>
-                <li>Check if correct cables are used (straight-through vs crossover)</li>
-                <li>Verify default gateway is configured on PCs</li>
-              </ul>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-              <h3 className="font-bold text-yellow-700 mb-2 text-sm sm:text-base">Problem: DHCP not working</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
-                <li>Verify DHCP pool is configured with network and default-router</li>
-                <li>Check if router interface is in the same subnet as DHCP pool</li>
-                <li>Ensure router interface has an IP address assigned</li>
-                <li>For IPv6 DHCP, verify &quot;ipv6 unicast-routing&quot; is enabled</li>
-                <li>Try releasing and renewing: Set to Static then back to DHCP</li>
-              </ul>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
-              <h3 className="font-bold text-blue-700 mb-2 text-sm sm:text-base">Problem: SSH connection refused</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
-                <li>Verify domain name is set: <code className="bg-gray-200 px-2 py-1 rounded">ip domain-name</code></li>
-                <li>Check RSA keys are generated: <code className="bg-gray-200 px-2 py-1 rounded">crypto key generate rsa</code></li>
-                <li>Ensure VTY lines have &quot;transport input ssh&quot; and &quot;login local&quot;</li>
-                <li>Verify username is created with proper privilege level</li>
-                <li>Check if VTY lines are available (not all in use)</li>
-              </ul>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-green-50 border-l-4 border-green-500 rounded">
-              <h3 className="font-bold text-green-700 mb-2 text-sm sm:text-base">Problem: Configuration lost after reload</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
-                <li>Always save configuration: <code className="bg-gray-200 px-2 py-1 rounded">copy run start</code></li>
-                <li>Verify save was successful: <code className="bg-gray-200 px-2 py-1 rounded">show startup-config</code></li>
-                <li>Check NVRAM has space available</li>
-                <li>For switches, also save VLAN database if modified</li>
-              </ul>
-            </div>
-
-            <div className="p-3 sm:p-4 bg-purple-50 border-l-4 border-purple-500 rounded">
-              <h3 className="font-bold text-purple-700 mb-2 text-sm sm:text-base">Problem: Cannot access router remotely</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-2 sm:ml-4 text-sm sm:text-base">
-                <li>Verify PC and router are in same subnet or routing is configured</li>
-                <li>Check VTY lines have password configured and &quot;login&quot; enabled</li>
-                <li>Ensure router interface is up and has correct IP address</li>
-                <li>Test connectivity with ping before attempting Telnet/SSH</li>
-                <li>For switches, verify VLAN 1 interface is up and has IP address</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Best Practices */}
-        <div className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-green-50 to-teal-50">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Best Practices</h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
-              <h3 className="text-lg sm:text-xl font-bold text-green-600 mb-3 sm:mb-4">✓ Security</h3>
-              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Always use &quot;enable secret&quot; instead of &quot;enable password&quot;</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Use SSH instead of Telnet for remote access</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Set minimum password length (at least 10 characters)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Configure exec-timeout to prevent unauthorized access</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Use &quot;service password-encryption&quot; for basic protection</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 font-bold">•</span>
-                  <span>Create individual user accounts with &quot;username&quot; command</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
-              <h3 className="text-lg sm:text-xl font-bold text-blue-600 mb-3 sm:mb-4">✓ Configuration Management</h3>
-              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Always save configuration after changes</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Use meaningful hostnames for network devices</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Add descriptions to all interfaces for documentation</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Create banner messages for legal warnings</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Keep backup copies of configurations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">•</span>
-                  <span>Document network topology and IP addressing schemes</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
-              <h3 className="text-lg sm:text-xl font-bold text-orange-600 mb-3 sm:mb-4">✓ Network Design</h3>
-              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Use private IP ranges for internal networks</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Plan subnetting before implementation</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Reserve IP addresses for network devices (routers, switches)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Use DHCP for end-user devices to simplify management</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Keep network segments logically organized</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-orange-600 font-bold">•</span>
-                  <span>Use /30 subnets for point-to-point router links</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white p-4 sm:p-5 lg:p-6 rounded-lg shadow-md">
-              <h3 className="text-lg sm:text-xl font-bold text-purple-600 mb-3 sm:mb-4">✓ Troubleshooting</h3>
-              <ul className="space-y-2 text-gray-700 text-sm sm:text-base">
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Use &quot;show&quot; commands extensively for verification</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Always check physical layer first (cables, ports)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Verify IP addressing and subnet masks match</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Use ping and traceroute for connectivity testing</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Check routing tables before blaming configurations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-600 font-bold">•</span>
-                  <span>Work systematically from Layer 1 to Layer 7</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
         {/* Footer */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 text-center">
-          <p className="text-lg font-semibold">Computer Networks</p>
-           <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-80">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 sm:p-6 text-center">
+          <p className="text-base sm:text-lg font-semibold">Computer Networks</p>
+          <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-80">
             Created by Hasitha Sandakelum
           </p>
-
-          <p className="text-blue-200 text-sm mt-2">Study hard and practice regularly! 🚀</p>
+          <p className="text-blue-200 text-xs sm:text-sm mt-2">Study hard and practice regularly! 🚀</p>
         </div>
       </div>
     </div>
