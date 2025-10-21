@@ -18,6 +18,7 @@ import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2"
 import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
 import { ComputerArchitectureQuiz , ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
+import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resourses/json/Q6"
 
 // Define types for quiz structure
 interface Question {
@@ -57,7 +58,9 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz]
+const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,
+          ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz,
+          DigitalImagesQuiz, AnimationBasicsQuiz, AdvancedTopicsQuiz];
 
 export default function ModelQuizzes() {
   const router = useRouter()
@@ -241,41 +244,48 @@ export default function ModelQuizzes() {
 
         {/* Quiz Cards */}
         {!activeQuiz ? (
-          <section className="p-4 sm:p-6 md:p-8">
-            <h3 className="text-lg sm:text-xl md:text-3xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-              Available Quizzes
-            </h3>
-            {filteredQuizzes.length === 0 ? (
-              <div className="text-center text-gray-600 bg-white p-6 sm:p-8 rounded-xl shadow-md text-sm sm:text-base">
-                No quizzes found.
+          <section className="p-4 md:p-8 bg-gray-50">
+  <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+    <FolderOpen className="w-6 h-6 text-green-600" />
+    Available Quizzes
+  </h3>
+
+  {filteredQuizzes.length === 0 ? (
+    <div className="text-center text-gray-600 bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-sm border">
+      No quizzes found.
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {filteredQuizzes.map((quiz) => (
+        <div
+          key={quiz.id}
+          className="bg-white/70 backdrop-blur-md border rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
+                <FileText className="w-5 h-5" />
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                {filteredQuizzes.map((quiz) => (
-                  <div
-                    key={quiz.id}
-                    className="bg-gray-50 border border-green-200 rounded-xl p-4 sm:p-5 shadow-md hover:shadow-lg transition-all"
-                  >
-                    <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-4 sm:p-5 rounded-lg mb-3 sm:mb-4">
-                      <FileText className="w-5 h-5 sm:w-6 sm:h-6 mb-2" />
-                      <div className="inline-block px-2.5 sm:px-3 py-1 bg-white/20 rounded-full text-xs font-medium">
-                        {quiz.category}
-                      </div>
-                    </div>
-                    <h2 className="text-base sm:text-lg font-bold text-gray-800 mb-3 leading-snug">{quiz.title}</h2>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3">{quiz.questions.length} Questions</p>
-                    <button
-                      onClick={() => startQuiz(quiz)}
-                      className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white w-full py-3 sm:py-2.5 rounded-lg font-medium text-sm sm:text-base hover:from-green-700 hover:to-emerald-700 transition-all active:scale-95 touch-manipulation"
-                    >
-                      <Play className="w-4 h-4" /> Start Quiz
-                    </button>
-                  </div>
-                ))}
+              <div>
+                <h2 className="text-base font-semibold text-gray-800">{quiz.title}</h2>
+                <p className="text-xs text-gray-500">{quiz.category}</p>
               </div>
-            )}
-          </section>
+            </div>
+            <p className="text-xs text-gray-600">{quiz.questions.length} Questions</p>
+          </div>
+
+          <button
+            onClick={() => startQuiz(quiz)}
+            className="w-full mt-4 py-2 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all"
+          >
+            Start Quiz
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
         ) : finished ? (
           <section className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-green-50 to-emerald-100">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
