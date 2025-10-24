@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { BookOpen, Terminal, Network, Settings, HelpCircle, ChevronDown, ChevronUp, Menu, X } from 'lucide-react';
+import { BookOpen, Terminal, Network, Settings, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PacketTracerGuide() {
   const [expandedSections, setExpandedSections] = useState<Record<number, boolean>>({});

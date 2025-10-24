@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useRef } from 'react';
-import { Calculator, Keyboard, Loader2, CheckCircle, XCircle, Copy, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calculator, Keyboard, Loader2, CheckCircle, XCircle, Copy, ChevronDown } from 'lucide-react';
 
 // Math symbols organized by category with shortcuts
 const mathSymbols = {
@@ -177,8 +177,7 @@ export default function MathSolver() {
     // Split into sections
     const lines = text.split('\n');
     const formatted: React.ReactNode[] = [];
-    let inCodeBlock = false;
-    let currentSection: string[] = [];
+  let currentSection: string[] = [];
 
     lines.forEach((line, idx) => {
       const trimmed = line.trim();
@@ -358,8 +357,11 @@ equation = result
       const data = await response.json();
       const result = data.choices[0]?.message?.content || 'No solution generated';
       setAnswer(result);
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      let message = 'An error occurred';
+      if (err instanceof Error && err.message) message = err.message;
+      else if (typeof err === 'string') message = err;
+      setError(message);
       console.error('Error:', err);
     } finally {
       setLoading(false);
