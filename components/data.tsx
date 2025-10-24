@@ -76,7 +76,7 @@ export const mainTopics = [
             title: "Information systems notes 3rd and 4th ",
             readTime: "unlimited",
             tags: ["information systems", "is" ,"notes"],
-            link: "/information-systems/is3-4",
+            link: "/notes/information-systems/is3-4",
           },
         ],
       },
@@ -94,6 +94,20 @@ export const mainTopics = [
           },
         ],
       },
+      {
+        id: "maths",
+        title: "Mathematics",
+        cardColor: "from-red-500 to-pink-600",
+        items: [
+          {
+            id: "math1",
+            title: "Math Solver using Groq AI",
+            readTime: "5 min",
+            tags: ["math", "AI", "Groq"],
+            link: "/notes/maths/solver",
+          }
+        ],
+      }
     ],
   },
   {
