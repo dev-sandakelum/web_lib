@@ -109,13 +109,14 @@ const mathSymbols = {
 export default function MathSolver() {
   // Add your Groq API keys here in the code
   const apiKeys = [
-    'process.env.NEXT_PUBLIC_GK1',
-    'process.env.NEXT_PUBLIC_GK2',
-    
+    'process.env.NEXT_PUBLIC_GROQ_API_KEY',
+    'process.env.NEXT_PUBLIC_GROQ_API_KEY2',
+
     
     // Add more API keys as needed
   ];
-  
+  console.log("GK1:", process.env.NEXT_PUBLIC_GROQ_API_KEY);
+  console.log("GK2:", process.env.NEXT_PUBLIC_GROQ_API_KEY2);
   const [currentKeyIndex, setCurrentKeyIndex] = useState(0);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
