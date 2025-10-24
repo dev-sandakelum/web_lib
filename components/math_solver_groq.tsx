@@ -107,17 +107,8 @@ const mathSymbols = {
 };
 
 export default function MathSolver() {
-  // Add your Groq API keys here in the code
-  const apiKeys = [
-    'process.env.NEXT_PUBLIC_GROQ_API_KEY',
-    'process.env.NEXT_PUBLIC_GROQ_API_KEY2',
-
-    
-    // Add more API keys as needed
-  ];
-  console.log("GK1:", process.env.NEXT_PUBLIC_GROQ_API_KEY);
-  console.log("GK2:", process.env.NEXT_PUBLIC_GROQ_API_KEY2);
-  const [currentKeyIndex, setCurrentKeyIndex] = useState(0);
+  // This component calls the server-side route /api/solve which holds the GROQ API key.
+  // Do NOT put secret API keys into client-side code. Set GROQ_API_KEY on the server (Vercel env or .env.local).
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
@@ -258,89 +249,34 @@ export default function MathSolver() {
     return formatted;
   };
 
-  // Solve math problem using Groq
+  // Solve math problem by calling the server-side API route
   const solveMath = async () => {
     if (!question.trim()) {
       setError('Please enter a math question');
       return;
     }
 
-    if (apiKeys.length === 0 || !apiKeys[0] || apiKeys[0] === 'gsk_your_first_api_key_here') {
-      setError('Please add your Groq API keys in the code');
-      return;
-    }
-
-    const currentKey = apiKeys[currentKeyIndex];
-    
     setLoading(true);
     setError('');
     setAnswer('');
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const res = await fetch('/api/solve', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentKey}`
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [
-            {
-              role: 'system',
-              content: `You are an expert mathematics solver. When solving problems:
-
-1. ALWAYS show ALL steps clearly and methodically
-2. Explain your reasoning at each step
-3. Use proper mathematical notation
-4. Break down complex problems into smaller parts
-5. Verify your final answer
-6. For ambiguous problems, state assumptions
-
-Format Guidelines:
-- Use clear headers for each major section (wrap in ** like **Step 1**)
-- Number your steps (Step 1, Step 2, etc.)
-- Show equations on separate lines
-- Highlight the FINAL ANSWER at the end with "Final Answer:" prefix
-- Use proper mathematical symbols (∫, ∑, √, π, etc.)
-
-Example format:
-**Understanding the Problem**
-[explanation]
-
-**Step 1: [Action]**
-[work shown]
-equation = result
-
-**Step 2: [Action]**
-[work shown]
-
-**Final Answer:**
-[clear final result]`
-            },
-            {
-              role: 'user',
-              content: `Solve this math problem step by step:\n\n${question}`
-            }
-          ],
-          temperature: 0.2,
-          max_tokens: 3000,
-          top_p: 0.9
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question })
       });
 
-      if (!response.ok) {
-        if (response.status === 429) {
-          const nextIndex = (currentKeyIndex + 1) % apiKeys.length;
-          setCurrentKeyIndex(nextIndex);
-          throw new Error(`Rate limit reached. Switching to API key ${nextIndex + 1}. Please try again.`);
-        }
-        const errorData = await response.json();
-        throw new Error(errorData.error?.message || 'Failed to get response from Groq');
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Forward server error message when available
+        const message = data?.error || `Server error (${res.status})`;
+        setError(message);
+        return;
       }
 
-      const data = await response.json();
-      const result = data.choices[0]?.message?.content || 'No solution generated';
+      const result: string = data?.result || 'No solution generated';
       setAnswer(result);
     } catch (err: unknown) {
       let message = 'An error occurred';
