@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+import FloatingHomeButton from "@/components/FloatingHomeButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ 
   return (
     <html lang="en">
       <body
@@ -30,7 +32,7 @@ export default function RootLayout({
       >
         <Analytics />
         {children}
-        
+        <FloatingHomeButton />
       </body>
     </html>
   );
