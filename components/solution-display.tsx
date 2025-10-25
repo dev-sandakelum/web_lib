@@ -319,7 +319,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
           }
 
           .solution-wrapper :global(.step) {
-            padding: 10px 8px;
+            padding: 10px 02px;
             border-radius: 8px;
           }
 
@@ -327,7 +327,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
             left: 0px;
             border-radius: 0px;
             top: 12px;
-            width: 4px;
+            width: 1px;
             height: 18px;
 
           }
