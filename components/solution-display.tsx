@@ -448,7 +448,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         /* Extra breathing room for very small screens */
         @media (max-width: 400px) {
           .solution-wrapper {
-            font-size: 14px;
+            font-size: 12px;
             line-height: 1.6;
           }
 
@@ -461,12 +461,11 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
           }
 
           .solution-wrapper :global(.step) {
-            padding: 10px 8px;
-            padding-left: 28px;
+            padding: 10px 6px;
           }
 
           .solution-wrapper :global(p) {
-            font-size: 13px;
+            font-size: 11px;
             line-height: 1.6;
           }
 
@@ -480,7 +479,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
           }
 
           .solution-wrapper :global(.answer-value) {
-            font-size: 14px;
+            font-size: 12px;
             padding: 10px 8px;
           }
         }
