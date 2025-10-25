@@ -1,7 +1,19 @@
-"use client"
-import { useState, useRef } from "react"
-import { Calculator, Keyboard, Loader2, Copy, ChevronDown, ArrowRight, PieChart, Zap, LogsIcon, Grid3x3, Variable } from "lucide-react"
-import { SolutionDisplay } from "./solution-display"
+"use client";
+import { useState, useRef } from "react";
+import {
+  Calculator,
+  Keyboard,
+  Loader2,
+  Copy,
+  ChevronDown,
+  ArrowRight,
+  PieChart,
+  Zap,
+  LogsIcon,
+  Grid3x3,
+  Variable,
+} from "lucide-react";
+import { SolutionDisplay } from "./solution-display";
 
 const mathSymbols = {
   vectors: [
@@ -52,93 +64,105 @@ const mathSymbols = {
     { symbol: "^", label: "^" },
     { symbol: "√", label: "√" },
   ],
-}
+};
 
 const questionTypes = [
   { id: "vectors", label: "Vectors", icon: <ArrowRight className="w-4 h-4" /> },
-  { id: "trigonometry", label: "Trigonometry", icon: <PieChart className="w-4 h-4" /> },
-  { id: "complex", label: "Complex Numbers", icon: <Zap className="w-4 h-4" /> },
-  { id: "logarithms", label: "Logarithms", icon: <LogsIcon className="w-4 h-4" /> },
+  {
+    id: "trigonometry",
+    label: "Trigonometry",
+    icon: <PieChart className="w-4 h-4" />,
+  },
+  {
+    id: "complex",
+    label: "Complex Numbers",
+    icon: <Zap className="w-4 h-4" />,
+  },
+  {
+    id: "logarithms",
+    label: "Logarithms",
+    icon: <LogsIcon className="w-4 h-4" />,
+  },
   { id: "matrices", label: "Matrices", icon: <Grid3x3 className="w-4 h-4" /> },
   { id: "algebra", label: "Algebra", icon: <Variable className="w-4 h-4" /> },
-]
+];
 
 export default function MathSolver() {
-  const [question, setQuestion] = useState("")
-  const [answer, setAnswer] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [showKeyboard, setShowKeyboard] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const [questionType, setQuestionType] = useState("vectors")
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showKeyboard, setShowKeyboard] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [questionType, setQuestionType] = useState("vectors");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const insertSymbol = (symbol: string) => {
-    const textarea = textareaRef.current
-    if (!textarea) return
+    const textarea = textareaRef.current;
+    if (!textarea) return;
 
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    const text = question
-    const before = text.substring(0, start)
-    const after = text.substring(end)
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = question;
+    const before = text.substring(0, start);
+    const after = text.substring(end);
 
-    setQuestion(before + symbol + after)
+    setQuestion(before + symbol + after);
 
     setTimeout(() => {
-      textarea.focus()
-      textarea.setSelectionRange(start + symbol.length, start + symbol.length)
-    }, 0)
-  }
+      textarea.focus();
+      textarea.setSelectionRange(start + symbol.length, start + symbol.length);
+    }, 0);
+  };
 
   const copyAnswer = async () => {
     try {
-      await navigator.clipboard.writeText(answer)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(answer);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy:", err)
+      console.error("Failed to copy:", err);
     }
-  }
+  };
 
   const solveMath = async () => {
     if (!question.trim()) {
-      setError("Please enter a math question")
-      return
+      setError("Please enter a math question");
+      return;
     }
 
-    setLoading(true)
-    setError("")
-    setAnswer("")
+    setLoading(true);
+    setError("");
+    setAnswer("");
 
     try {
       const res = await fetch("/api/solve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, questionType }),
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (!res.ok) {
-        const message = data?.error || `Server error (${res.status})`
-        setError(message)
-        return
+        const message = data?.error || `Server error (${res.status})`;
+        setError(message);
+        return;
       }
 
-      setAnswer(data?.result || "No solution generated")
+      setAnswer(data?.result || "No solution generated");
     } catch (err: unknown) {
-      let message = "An error occurred"
-      if (err instanceof Error && err.message) message = err.message
-      else if (typeof err === "string") message = err
-      setError(message)
-      console.error("Error:", err)
+      let message = "An error occurred";
+      if (err instanceof Error && err.message) message = err.message;
+      else if (typeof err === "string") message = err;
+      setError(message);
+      console.error("Error:", err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const currentType = questionTypes.find((t) => t.id === questionType)
+  const currentType = questionTypes.find((t) => t.id === questionType);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-2 sm:p-3 md:p-6">
@@ -147,16 +171,20 @@ export default function MathSolver() {
         <div className="text-center mb-4 sm:mb-6 md:mb-8 pt-2 sm:pt-4 md:pt-6">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-1 sm:mb-2">
             <Calculator className="w-6 h-6 sm:w-8 md:w-10 text-indigo-600" />
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">AI Math Solver</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
+              AI Math Solver
+            </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600">Powered by Groq</p>
+          <p className="text-xs sm:text-sm text-gray-600">Powered by Groq AI</p>
         </div>
 
         {/* Main Card - Optimized padding for mobile */}
         <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6 mb-4 sm:mb-6">
           {/* Question Type Selector */}
           <div className="mb-4 sm:mb-6">
-            <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3">Question Type</label>
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3">
+              Question Type
+            </label>
             <div className="relative">
               <select
                 value={questionType}
@@ -176,15 +204,21 @@ export default function MathSolver() {
           {/* Input Area */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-2 gap-2">
-              <h2 className="text-sm sm:text-lg font-semibold text-gray-800">Your Question</h2>
+              <h2 className="text-sm sm:text-lg font-semibold text-gray-800">
+                Your Question
+              </h2>
               <button
                 onClick={() => setShowKeyboard(!showKeyboard)}
                 className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors text-xs sm:text-sm"
               >
                 <Keyboard className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">{showKeyboard ? "Hide" : "Show"}</span>
+                <span className="hidden sm:inline">
+                  {showKeyboard ? "Hide" : "Show"}
+                </span>
                 <ChevronDown
-                  className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${showKeyboard ? "rotate-180" : ""}`}
+                  className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${
+                    showKeyboard ? "rotate-180" : ""
+                  }`}
                 />
               </button>
             </div>
@@ -211,15 +245,17 @@ EXAMPLES:
           {showKeyboard && (
             <div className="mb-3 sm:mb-4 p-2 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
               <div className="grid grid-cols-4 sm:grid-cols-6 gap-1 sm:gap-2">
-                {mathSymbols[questionType as keyof typeof mathSymbols].map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => insertSymbol(item.symbol)}
-                    className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:border-indigo-400 active:scale-95 transition-all text-xs sm:text-sm font-medium"
-                  >
-                    {item.label}
-                  </button>
-                ))}
+                {mathSymbols[questionType as keyof typeof mathSymbols].map(
+                  (item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => insertSymbol(item.symbol)}
+                      className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white border border-gray-300 rounded-lg hover:bg-indigo-50 hover:border-indigo-400 active:scale-95 transition-all text-xs sm:text-sm font-medium"
+                    >
+                      {item.label}
+                    </button>
+                  )
+                )}
               </div>
             </div>
           )}
@@ -244,6 +280,10 @@ EXAMPLES:
               </>
             )}
           </button>
+          <p className="text-[10px] sm:text-[12px] text-gray-500  translate-x-[6px] mt-2">
+            This project is still in development, so it may not always work as
+            expected.
+          </p>
         </div>
 
         {/* Error Display - Optimized padding for mobile */}
@@ -255,32 +295,39 @@ EXAMPLES:
         )}
 
         {/* Solution Display - Optimized padding for mobile */}
-        
+
         {answer && (
           <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 border-l-4 border-indigo-600">
             <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Solution</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">
+                Solution
+              </h2>
               <button
                 onClick={copyAnswer}
                 className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg transition-colors text-xs sm:text-sm font-medium"
               >
                 <Copy className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">{copied ? "Copied!" : "Copy"}</span>
+                <span className="hidden sm:inline">
+                  {copied ? "Copied!" : "Copy"}
+                </span>
                 <span className="sm:hidden">{copied ? "✓" : "Copy"}</span>
               </button>
             </div>
             <div className="text-gray-700 text-xs sm:text-sm leading-relaxed">
-              
               <SolutionDisplay content={answer} />
             </div>
           </div>
         )}
 
         {/* Footer */}
-        <div className="text-center text-xs text-gray-500 py-2 sm:py-4">
-          <p>Created by Hasitha Sandakelum</p>
+        <div className="text-center text-xs sm:text-xs text-gray-500 py-2 sm:py-4 mb-2 bottom-0">
+          
+          <p className="opacity-80">
+            © {new Date().getFullYear()} Hasitha Sandakelum <br/> Lightweight and
+            privacy-friendly math solver
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

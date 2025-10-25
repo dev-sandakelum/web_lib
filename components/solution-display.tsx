@@ -53,7 +53,6 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         /* Problem section */
         .solution-wrapper :global(.problem) {
           background: #fafafa;
-          border-left: 4px solid #3b82f6;
         }
 
         .solution-wrapper :global(.problem h3) {
@@ -146,7 +145,6 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         /* Result highlighting */
         .solution-wrapper :global(.result) {
           background: #f0fdf4;
-          border-left: 3px solid #22c55e;
           padding: 10px 12px;
           margin: 12px 0 0 0;
           border-radius: 6px;
@@ -159,7 +157,6 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         .solution-wrapper :global(.answer) {
           background: linear-gradient(to bottom right, #ecfdf5, #d1fae5);
           border: 2px solid #86efac;
-          border-left: 4px solid #22c55e;
         }
 
         .solution-wrapper :global(.answer h3) {
@@ -185,7 +182,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
           padding: 14px;
           font-family: 'JetBrains Mono', monospace;
           font-size: 16px;
-          font-weight: 600;
+          font-weight: 400;
           color: #15803d;
           text-align: center;
           letter-spacing: -0.02em;
@@ -195,7 +192,6 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         .solution-wrapper :global(.note) {
           background: #fffbeb;
           border: 1px solid #fde68a;
-          border-left: 4px solid #f59e0b;
         }
 
         .solution-wrapper :global(.note p) {
@@ -286,7 +282,7 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
         /* Ultra Mobile Responsive - Aggressive optimization for small screens */
         @media (max-width: 640px) {
           .solution-wrapper {
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.7;
             padding: 0;
           }
@@ -300,7 +296,6 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
             padding: 12px 10px;
             border-radius: 10px;
             margin: 0;
-            border-left-width: 3px;
           }
 
           .solution-wrapper :global(.problem) {
@@ -309,62 +304,62 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
           }
 
           .solution-wrapper :global(.problem h3) {
-            font-size: 16px;
+            font-size: 12px;
             margin-bottom: 8px;
             line-height: 1.4;
           }
 
           .solution-wrapper :global(.problem p) {
-            font-size: 14px;
+            font-size: 12px;
             line-height: 1.6;
           }
 
           .solution-wrapper :global(.steps) {
-            gap: 12px;
+            gap: 10px;
           }
 
           .solution-wrapper :global(.step) {
-            padding: 12px 10px;
-            padding-left: 32px;
-            border-left: 3px solid #3b82f6;
+            padding: 10px 8px;
             border-radius: 8px;
           }
 
           .solution-wrapper :global(.step::before) {
-            left: 12px;
-            top: 14px;
-            width: 6px;
-            height: 6px;
+            left: 0px;
+            border-radius: 0px;
+            top: 12px;
+            width: 4px;
+            height: 18px;
+
           }
 
           .solution-wrapper :global(.step h4) {
-            font-size: 15px;
+            font-size: 14px;
             margin-bottom: 8px;
             line-height: 1.4;
             font-weight: 600;
           }
 
           .solution-wrapper :global(.step p) {
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
             margin: 6px 0;
             color: #404040;
           }
 
           .solution-wrapper :global(h3) {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 8px;
             line-height: 1.4;
           }
 
           .solution-wrapper :global(h4) {
-            font-size: 15px;
+            font-size: 14px;
             margin-bottom: 8px;
             line-height: 1.4;
           }
 
           .solution-wrapper :global(p) {
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
             margin: 6px 0;
           }
@@ -388,36 +383,33 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
 
           .solution-wrapper :global(.result) {
             padding: 10px 10px;
-            font-size: 14px;
+            font-size: 12px;
             margin: 10px 0 0 0;
             line-height: 1.5;
-            border-left-width: 3px;
           }
 
           .solution-wrapper :global(.answer) {
             padding: 12px 10px;
-            border-left-width: 3px;
           }
 
           .solution-wrapper :global(.answer h3) {
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 10px;
             line-height: 1.4;
           }
 
           .solution-wrapper :global(.answer-value) {
-            font-size: 15px;
+            font-size: 14px;
             padding: 12px 10px;
             line-height: 1.5;
           }
 
           .solution-wrapper :global(.note) {
             padding: 10px;
-            border-left-width: 3px;
           }
 
           .solution-wrapper :global(.note p) {
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.6;
           }
 
@@ -442,7 +434,17 @@ export function SolutionDisplay({ content }: SolutionDisplayProps) {
             font-weight: 600;
           }
         }
-
+        .generated-by {
+          margin-top: 12px;
+          font-size: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          color: #9ca3af;
+          font-style: italic;
+          text-align: right;
+        }
         /* Extra breathing room for very small screens */
         @media (max-width: 400px) {
           .solution-wrapper {
