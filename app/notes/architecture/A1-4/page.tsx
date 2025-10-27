@@ -1,4 +1,4 @@
-import QuizStudyGuide from '@/components/computer-arch-quiz-notes'
+import QuizStudyGuide from '@/components/notes/computer-arch-quiz-notes'
 import React from 'react'
 
 export default function page() {

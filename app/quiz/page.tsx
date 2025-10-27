@@ -1,4 +1,4 @@
-import ModelQuizzes from '@/components/quiz'
+import ModelQuizzes from '@/components/quiz/quiz'
 import React, { Suspense } from 'react'
 
 export default function page() {

@@ -1,4 +1,4 @@
-import StudyNotes from '@/components/is'
+import StudyNotes from '@/components/notes/is'
 import React from 'react'
 
 export default function page() {
