@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Privacy Policy — [Your Business Name]</title>
+  <style>
+    :root{--bg:#f7f8fb;--card:#ffffff;--accent:#2b6cb0;--muted:#555}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;margin:0;background:var(--bg);color:#111}
+    .wrap{max-width:900px;margin:40px auto;padding:24px}
+    .card{background:var(--card);border-radius:12px;padding:28px;box-shadow:0 6px 20px rgba(16,24,40,0.06)}
+    h1{margin-top:0;color:var(--accent)}
+    h2{margin-bottom:8px}
+    p{margin:0 0 12px}
+    ul{margin:0 0 12px 20px}
+    footer{margin-top:20px;font-size:13px;color:var(--muted)}
+    .meta{font-size:14px;color:var(--muted);margin-bottom:18px}
+    a{color:var(--accent)}
+    code{background:#f3f4f6;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>Privacy Policy</h1>
+      <p class="meta">Effective date: <strong>[YYYY-MM-DD]</strong></p>
+
+      <p>Welcome to <strong>[Your Business Name]</strong> ("we", "us", "our"). We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you interact with us — including when we communicate via WhatsApp.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>We may collect and process the following categories of information:</p>
+      <ul>
+        <li><strong>Contact information:</strong> phone number, name, email address when you provide them to us.</li>
+        <li><strong>Message content:</strong> any messages you send to our WhatsApp business account (these may be retained to provide support).</li>
+        <li><strong>Usage data:</strong> logs and metadata such as timestamps, message status (delivered/read), and device information.</li>
+        <li><strong>Authentication data:</strong> one-time codes or verification tokens needed for account access.</li>
+      </ul>
+
+      <h2>2. How We Use Your Information</h2>
+      <p>We use your information for purposes including:</p>
+      <ul>
+        <li>To provide and maintain our services and respond to your inquiries.</li>
+        <li>To send transactional messages and authentication (OTP) codes via WhatsApp.</li>
+        <li>To improve and personalize our services, including troubleshooting and analytics.</li>
+        <li>To comply with legal obligations and protect our rights.</li>
+      </ul>
+
+      <h2>3. Legal Basis for Processing (where applicable)</h2>
+      <p>If you are in a jurisdiction that requires a legal basis for processing (for example, the EU), our legal bases include:</p>
+      <ul>
+        <li>Performance of a contract (e.g., providing a service you requested).</li>
+        <li>Legitimate interests (e.g., fraud prevention, security, service improvement).</li>
+        <li>Consent, where we request it for marketing communications.</li>
+      </ul>
+
+      <h2>4. Sharing and Disclosure</h2>
+      <p>We do not sell your personal information. We may share information with:</p>
+      <ul>
+        <li>Service providers (e.g., hosting providers, messaging platform partners) who help us operate.</li>
+        <li>When required by law or to respond to lawful requests from public authorities.</li>
+        <li>To protect the rights, property, or safety of our users or others.</li>
+      </ul>
+
+      <h2>5. Data Retention</h2>
+      <p>We retain personal data only as long as necessary to fulfill the purposes described in this Privacy Policy, comply with legal obligations, resolve disputes, and enforce our agreements. Authentication codes are stored only for a short period (e.g., minutes to hours) as necessary for verification.</p>
+
+      <h2>6. Security</h2>
+      <p>We implement reasonable administrative, technical, and physical safeguards designed to protect your personal information. However, no method of transmission over the Internet or method of electronic storage is 100% secure.</p>
+
+      <h2>7. Your Rights</h2>
+      <p>Depending on your jurisdiction, you may have rights including access, correction, deletion, portability, and objection to processing. To exercise these rights, contact us at the email below. We will respond in accordance with applicable law.</p>
+
+      <h2>8. Children</h2>
+      <p>Our services are not intended for children under the age of 16. We do not knowingly collect personal information from children under 16. If you believe we have collected such information, please contact us and we will take steps to remove it.</p>
+
+      <h2>9. Third‑party Links</h2>
+      <p>Our services may contain links to other websites. We are not responsible for the privacy practices of those sites. Please read their privacy policies before providing personal information.</p>
+
+      <h2>10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will post the updated policy at this URL and update the effective date above.</p>
+
+      <h2>11. Contact Us</h2>
+      <p>If you have questions about this Privacy Policy or want to exercise your rights, contact us:</p>
+      <ul>
+        <li>Email: <a href="mailto:[your@email.com]">[your@email.com]</a></li>
+        <li>Website: <a href="https://yourdomain.com">https://yourdomain.com</a></li>
+        <li>Address: [Your business address, optional]</li>
+      </ul>
+
+      <footer>
+        <p>© <span id="year"></span> <strong>[Your Business Name]</strong>. All rights reserved.</p>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    // Replace placeholders automatically if provided via URL query params (optional convenience)
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const name = params.get('name');
+      const email = params.get('email');
+      const url = params.get('url');
+      const date = params.get('date');
+      if(name) document.body.innerHTML = document.body.innerHTML.replace(/\[Your Business Name\]/g,name);
+      if(email) document.body.innerHTML = document.body.innerHTML.replace(/\[your@email.com\]/g,email);
+      if(url) document.body.innerHTML = document.body.innerHTML.replace(/https:\/\/yourdomain.com/g,url);
+      if(date) document.body.innerHTML = document.body.innerHTML.replace(/\[YYYY-MM-DD\]/g,date);
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
