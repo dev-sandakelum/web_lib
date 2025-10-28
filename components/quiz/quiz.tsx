@@ -19,6 +19,7 @@ import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
 import { ComputerArchitectureQuiz , ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
 import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resourses/json/Q6"
+import { AdvancedMemoryQuiz, ExternalMemoryQuiz, InternalMemoryQuiz } from "@/resourses/json/Q7"
 
 // Define types for quiz structure
 interface Question {
@@ -58,7 +59,7 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,
+const builtInQuizzes: Quiz[] = [InternalMemoryQuiz , ExternalMemoryQuiz , AdvancedMemoryQuiz, networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,
           ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz,
           DigitalImagesQuiz, AnimationBasicsQuiz, AdvancedTopicsQuiz];
 
