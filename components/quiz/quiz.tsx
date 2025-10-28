@@ -13,12 +13,11 @@ import {
   TrendingUp,
   Award,
   Target,
-  ArrowLeft,
 } from "lucide-react"
 import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2"
 import { MultimediaQuiz } from "@/resourses/json/Q3"
 import { CProgrammingQuiz } from "@/resourses/json/Q4"
-import { ComputerArchitectureQuiz, ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
+import { ComputerArchitectureQuiz , ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
 import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resourses/json/Q6"
 import { AdvancedMemoryQuiz, ExternalMemoryQuiz, InternalMemoryQuiz } from "@/resourses/json/Q7"
 
@@ -60,21 +59,9 @@ const networkingQuiz: Quiz = {
   ],
 }
 
-const builtInQuizzes: Quiz[] = [
-  InternalMemoryQuiz,
-  ExternalMemoryQuiz,
-  AdvancedMemoryQuiz,
-  networkingQuiz,
-  Ict1161Quiz,
-  MultimediaQuiz,
-  CProgrammingQuiz,
-  ComputerArchitectureQuiz,
-  ComputerArchitectureQuiz2,
-  MCommerceEnterpriseQuiz,
-  DigitalImagesQuiz,
-  AnimationBasicsQuiz,
-  AdvancedTopicsQuiz,
-]
+const builtInQuizzes: Quiz[] = [InternalMemoryQuiz , ExternalMemoryQuiz , AdvancedMemoryQuiz, networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,
+          ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz,
+          DigitalImagesQuiz, AnimationBasicsQuiz, AdvancedTopicsQuiz];
 
 export default function ModelQuizzes() {
   const router = useRouter()
@@ -205,16 +192,18 @@ export default function ModelQuizzes() {
   const answeredCount = userAnswers.filter((a) => a !== null).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 px-3 sm:px-4 md:px-6 py-3 sm:py-6 md:py-8">
-      <div className="max-w-6xl mx-auto bg-slate-900 rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl overflow-hidden border border-purple-800/30">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-3 sm:px-6 md:px-10 py-4 sm:py-10">
+      <div className="max-w-6xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <header className="bg-gradient-to-r from-purple-900 via-purple-800 to-slate-900 text-white px-3 sm:px-5 md:px-8 py-4 sm:py-6 md:py-8 border-b border-purple-700/50">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 md:gap-4">
-            <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-              <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-purple-300 flex-shrink-0" />
-              <div>
-                <h1 className="text-lg sm:text-2xl md:text-3xl font-bold leading-tight">Model Quizzes</h1>
-                <p className="text-xs sm:text-sm md:text-base text-purple-200 mt-0.5">Learn and test your knowledge</p>
+        <header className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 md:px-10 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <div className="text-center sm:text-left">
+                <h1 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight">Model Quizzes</h1>
+                <p className="text-sm sm:text-base md:text-lg text-green-100 mt-1">
+                  Learn and test your knowledge interactively
+                </p>
               </div>
             </div>
           </div>
@@ -222,29 +211,29 @@ export default function ModelQuizzes() {
 
         {/* Search & Category Filter */}
         {!activeQuiz && (
-          <section className="p-3 sm:p-4 md:p-6 bg-slate-800/50 border-b border-purple-700/30">
-            <div className="flex flex-col gap-3 sm:gap-4">
+          <section className="p-4 sm:p-6 md:p-8 bg-green-50 border-b border-green-200">
+            <div className="flex flex-col gap-4 mb-4">
               <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400 w-4 h-4 sm:w-5 sm:h-5" />
+                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   placeholder="Search quizzes..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 sm:pl-10 md:pl-11 pr-3 sm:pr-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-lg md:rounded-xl border border-purple-700/50 focus:border-purple-500 focus:outline-none text-white bg-slate-800 placeholder-purple-400/60 text-xs sm:text-sm md:text-base shadow-sm"
+                  className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 rounded-lg sm:rounded-xl border-2 border-green-200 focus:border-green-500 focus:outline-none text-gray-700 bg-white shadow-sm text-sm sm:text-base"
                 />
               </div>
             </div>
 
-            <div className="flex overflow-x-auto gap-2 mt-3 pb-2 -mx-1 px-1">
+            <div className="flex overflow-x-auto gap-2 pb-2 -mx-1 px-1">
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-lg font-medium text-xs sm:text-sm md:text-base transition-all whitespace-nowrap touch-manipulation ${
+                  className={`flex-shrink-0 px-4 sm:px-5 py-2.5 sm:py-2 rounded-lg font-medium text-xs sm:text-sm md:text-base transition-all whitespace-nowrap touch-manipulation ${
                     selectedCategory === cat.id
-                      ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg border border-purple-500"
-                      : "bg-slate-700 border border-purple-700/40 text-purple-200 hover:bg-slate-600 hover:border-purple-600/60 active:scale-95"
+                      ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-md"
+                      : "bg-white border border-green-200 text-gray-700 hover:bg-green-100 hover:shadow-sm active:scale-95"
                   }`}
                 >
                   {cat.name}
@@ -256,99 +245,96 @@ export default function ModelQuizzes() {
 
         {/* Quiz Cards */}
         {!activeQuiz ? (
-          <section className="p-3 sm:p-4 md:p-8 bg-slate-900">
-            <h3 className="text-base sm:text-lg md:text-2xl font-bold text-purple-200 mb-4 sm:mb-5 md:mb-6 flex items-center gap-2">
-              <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-purple-400" />
-              Available Quizzes
-            </h3>
+          <section className="p-4 md:p-8 bg-gray-50">
+  <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+    <FolderOpen className="w-6 h-6 text-green-600" />
+    Available Quizzes
+  </h3>
 
-            {filteredQuizzes.length === 0 ? (
-              <div className="text-center text-purple-300 bg-slate-800/50 p-4 sm:p-5 md:p-6 rounded-lg md:rounded-xl shadow-sm border border-purple-700/30">
-                No quizzes found.
+  {filteredQuizzes.length === 0 ? (
+    <div className="text-center text-gray-600 bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-sm border">
+      No quizzes found.
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {filteredQuizzes.map((quiz) => (
+        <div
+          key={quiz.id}
+          className="bg-white/70 backdrop-blur-md border rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+        >
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
+                <FileText className="w-5 h-5" />
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
-                {filteredQuizzes.map((quiz) => (
-                  <div
-                    key={quiz.id}
-                    className="bg-slate-800/60 border border-purple-700/40 rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 shadow-md hover:shadow-lg hover:border-purple-600/60 transition-all flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-700 flex items-center justify-center text-white flex-shrink-0">
-                          <FileText className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                        </div>
-                        <div className="min-w-0">
-                          <h2 className="text-sm sm:text-base md:text-lg font-semibold text-purple-100 truncate">
-                            {quiz.title}
-                          </h2>
-                          <p className="text-xs text-purple-400">{quiz.category}</p>
-                        </div>
-                      </div>
-                      <p className="text-xs sm:text-sm text-purple-300">{quiz.questions.length} Questions</p>
-                    </div>
+              <div>
+                <h2 className="text-base font-semibold text-gray-800">{quiz.title}</h2>
+                <p className="text-xs text-gray-500">{quiz.category}</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-600">{quiz.questions.length} Questions</p>
+          </div>
 
-                    <button
-                      onClick={() => startQuiz(quiz)}
-                      className="w-full mt-3 sm:mt-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-lg md:rounded-xl text-xs sm:text-sm md:text-base font-medium text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 transition-all active:scale-95 shadow-md"
-                    >
-                      Start Quiz
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
+          <button
+            onClick={() => startQuiz(quiz)}
+            className="w-full mt-4 py-2 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all"
+          >
+            Start Quiz
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
         ) : finished ? (
-          <section className="p-3 sm:p-4 md:p-8 bg-gradient-to-br from-slate-800 to-slate-900">
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-100 mb-4 sm:mb-5 md:mb-6 text-center">
+          <section className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-green-50 to-emerald-100">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
               Quiz Completed 🎉
             </h2>
 
             {/* Performance Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-5 md:mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
               {/* Correct Answers Card */}
-              <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 text-white rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 shadow-lg border border-emerald-500/30">
+              <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-                  <span className="text-xl sm:text-2xl md:text-3xl font-bold">{score}</span>
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
+                  <span className="text-2xl sm:text-3xl font-bold">{score}</span>
                 </div>
-                <p className="text-xs sm:text-sm md:text-base font-medium opacity-90">Correct</p>
-                <div className="mt-2 bg-white/20 rounded-full h-1.5 sm:h-2">
+                <p className="text-sm sm:text-base font-medium opacity-90">Correct</p>
+                <div className="mt-2 bg-white/20 rounded-full h-2">
                   <div
-                    className="bg-white rounded-full h-1.5 sm:h-2 transition-all duration-500"
+                    className="bg-white rounded-full h-2 transition-all duration-500"
                     style={{ width: `${answeredCount > 0 ? (score / answeredCount) * 100 : 0}%` }}
                   />
                 </div>
               </div>
 
               {/* Incorrect Answers Card */}
-              <div className="bg-gradient-to-br from-red-600 to-red-700 text-white rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 shadow-lg border border-red-500/30">
+              <div className="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <XCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-                  <span className="text-xl sm:text-2xl md:text-3xl font-bold">{answeredCount - score}</span>
+                  <XCircle className="w-6 h-6 sm:w-8 sm:h-8" />
+                  <span className="text-2xl sm:text-3xl font-bold">{answeredCount - score}</span>
                 </div>
-                <p className="text-xs sm:text-sm md:text-base font-medium opacity-90">Incorrect</p>
-                <div className="mt-2 bg-white/20 rounded-full h-1.5 sm:h-2">
+                <p className="text-sm sm:text-base font-medium opacity-90">Incorrect</p>
+                <div className="mt-2 bg-white/20 rounded-full h-2">
                   <div
-                    className="bg-white rounded-full h-1.5 sm:h-2 transition-all duration-500"
+                    className="bg-white rounded-full h-2 transition-all duration-500"
                     style={{ width: `${answeredCount > 0 ? ((answeredCount - score) / answeredCount) * 100 : 0}%` }}
                   />
                 </div>
               </div>
 
               {/* Skipped Questions Card */}
-              <div className="bg-gradient-to-br from-slate-600 to-slate-700 text-white rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 shadow-lg border border-slate-500/30">
+              <div className="bg-gradient-to-br from-gray-500 to-gray-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
                 <div className="flex items-center justify-between mb-2">
-                  <StopCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-                  <span className="text-xl sm:text-2xl md:text-3xl font-bold">
-                    {shuffledQuestions.length - answeredCount}
-                  </span>
+                  <StopCircle className="w-6 h-6 sm:w-8 sm:h-8" />
+                  <span className="text-2xl sm:text-3xl font-bold">{shuffledQuestions.length - answeredCount}</span>
                 </div>
-                <p className="text-xs sm:text-sm md:text-base font-medium opacity-90">Skipped</p>
-                <div className="mt-2 bg-white/20 rounded-full h-1.5 sm:h-2">
+                <p className="text-sm sm:text-base font-medium opacity-90">Skipped</p>
+                <div className="mt-2 bg-white/20 rounded-full h-2">
                   <div
-                    className="bg-white rounded-full h-1.5 sm:h-2 transition-all duration-500"
+                    className="bg-white rounded-full h-2 transition-all duration-500"
                     style={{
                       width: `${((shuffledQuestions.length - answeredCount) / shuffledQuestions.length) * 100}%`,
                     }}
@@ -358,24 +344,24 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Overall Score Card */}
-            <div className="bg-slate-800 rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 mb-4 sm:mb-5 md:mb-6 shadow-lg border border-purple-700/40">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-                  <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-full p-2 sm:p-3 md:p-4">
-                    <Award className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
+            <div className="bg-white rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg border-2 border-green-200">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-full p-3 sm:p-4">
+                    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm md:text-base text-purple-300 font-medium">Your Score</p>
-                    <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-100">
+                    <p className="text-sm sm:text-base text-gray-600 font-medium">Your Score</p>
+                    <p className="text-3xl sm:text-4xl font-bold text-gray-800">
                       {answeredCount > 0 ? ((score / answeredCount) * 100).toFixed(0) : 0}%
                     </p>
                   </div>
                 </div>
                 <div className="text-center sm:text-right">
-                  <p className="text-base sm:text-lg md:text-xl font-bold text-purple-100">
+                  <p className="text-lg sm:text-xl font-bold text-gray-800">
                     {score} / {answeredCount}
                   </p>
-                  <p className="text-xs sm:text-sm text-purple-400">
+                  <p className="text-xs sm:text-sm text-gray-500">
                     {answeredCount < shuffledQuestions.length &&
                       `(${answeredCount} of ${shuffledQuestions.length} answered)`}
                   </p>
@@ -384,14 +370,12 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Smart Performance Insight */}
-            <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-purple-600/40 rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-5 mb-4 sm:mb-5 md:mb-6 shadow-md">
-              <div className="flex items-start gap-2 sm:gap-3">
-                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-300 flex-shrink-0 mt-0.5" />
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-4 sm:p-5 mb-6 shadow-md">
+              <div className="flex items-start gap-3">
+                <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-bold text-purple-100 text-xs sm:text-sm md:text-base mb-1">
-                    Performance Insight
-                  </h4>
-                  <p className="text-xs sm:text-sm text-purple-200 leading-relaxed">
+                  <h4 className="font-bold text-gray-800 text-sm sm:text-base mb-1">Performance Insight</h4>
+                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                     {answeredCount === 0
                       ? "You didn't answer any questions. Try again to test your knowledge!"
                       : score === answeredCount
@@ -409,9 +393,9 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-2 mb-4 sm:mb-5">
+            <div className="flex flex-wrap gap-2 mb-4">
               {[
-                { id: "all", label: "All", count: shuffledQuestions.length },
+                { id: "all", label: "All Questions", count: shuffledQuestions.length },
                 { id: "correct", label: "Correct", count: score },
                 { id: "incorrect", label: "Incorrect", count: answeredCount - score },
                 { id: "skipped", label: "Skipped", count: shuffledQuestions.length - answeredCount },
@@ -419,16 +403,16 @@ export default function ModelQuizzes() {
                 <button
                   key={filter.id}
                   onClick={() => setReviewFilter(filter.id as typeof reviewFilter)}
-                  className={`px-2.5 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all touch-manipulation flex items-center gap-1.5 sm:gap-2 ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all touch-manipulation flex items-center gap-2 ${
                     reviewFilter === filter.id
-                      ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-md"
-                      : "bg-slate-700 border border-purple-700/40 text-purple-200 hover:border-purple-600/60"
+                      ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-md"
+                      : "bg-white border-2 border-gray-200 text-gray-700 hover:border-green-300 hover:bg-green-50"
                   }`}
                 >
                   {filter.label}
                   <span
-                    className={`px-1.5 sm:px-2 py-0.5 rounded-full text-xs font-bold ${
-                      reviewFilter === filter.id ? "bg-white/20" : "bg-slate-600"
+                    className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                      reviewFilter === filter.id ? "bg-white/20" : "bg-gray-100"
                     }`}
                   >
                     {filter.count}
@@ -438,10 +422,10 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Review Questions */}
-            <div className="bg-slate-800/60 border border-purple-700/40 rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-lg mb-4 sm:mb-5 md:mb-6">
-              <div className="flex items-center gap-2 mb-3 sm:mb-4 pb-2 sm:pb-3 border-b border-purple-700/30">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-purple-400" />
-                <h3 className="text-sm sm:text-base md:text-lg font-bold text-purple-200">
+            <div className="bg-white border-2 border-green-200 rounded-xl p-4 sm:p-6 shadow-lg mb-6">
+              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-green-100">
+                <Target className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                <h3 className="text-base sm:text-lg md:text-xl font-bold text-green-700">
                   {reviewFilter === "all"
                     ? "All Questions"
                     : reviewFilter === "correct"
@@ -452,7 +436,7 @@ export default function ModelQuizzes() {
                 </h3>
               </div>
 
-              <div className="space-y-2 sm:space-y-3 max-h-[40vh] sm:max-h-[50vh] overflow-y-auto pr-2">
+              <div className="space-y-4 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto pr-2">
                 {shuffledQuestions
                   .map((q: Question, idx: number) => {
                     const userAnswer = userAnswers[idx]
@@ -470,63 +454,61 @@ export default function ModelQuizzes() {
                   .map(({ q, idx, userAnswer, isAnswered, isCorrect }) => (
                     <div
                       key={idx}
-                      className={`rounded-lg sm:rounded-lg md:rounded-xl p-2.5 sm:p-3 md:p-4 border transition-all ${
+                      className={`rounded-xl p-4 sm:p-5 border-2 transition-all ${
                         !isAnswered
-                          ? "bg-slate-700/50 border-slate-600/50"
+                          ? "bg-gray-50 border-gray-200"
                           : isCorrect
-                            ? "bg-emerald-900/30 border-emerald-600/40"
-                            : "bg-red-900/30 border-red-600/40"
+                            ? "bg-green-50 border-green-300"
+                            : "bg-red-50 border-red-300"
                       }`}
                     >
                       {/* Question Header */}
-                      <div className="flex items-start gap-2 sm:gap-3 mb-2 sm:mb-3">
+                      <div className="flex items-start gap-3 mb-3">
                         <div
-                          className={`flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm ${
+                          className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base ${
                             !isAnswered
-                              ? "bg-slate-600 text-slate-300"
+                              ? "bg-gray-200 text-gray-600"
                               : isCorrect
-                                ? "bg-emerald-600 text-white"
-                                : "bg-red-600 text-white"
+                                ? "bg-green-500 text-white"
+                                : "bg-red-500 text-white"
                           }`}
                         >
                           {!isAnswered ? "?" : isCorrect ? "✓" : "✗"}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
-                            <span className="text-xs font-bold text-purple-400">Q{idx + 1}</span>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs sm:text-sm font-bold text-gray-500">Q{idx + 1}</span>
                             {!isAnswered && (
-                              <span className="text-xs bg-slate-600 text-slate-200 px-1.5 py-0.5 rounded-full font-medium">
+                              <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-medium">
                                 Skipped
                               </span>
                             )}
                           </div>
-                          <p className="font-semibold text-purple-100 text-xs sm:text-sm md:text-base leading-snug">
-                            {q.question}
-                          </p>
+                          <p className="font-semibold text-gray-800 text-sm sm:text-base leading-snug">{q.question}</p>
                         </div>
                       </div>
 
                       {/* Answer Details */}
-                      <div className="ml-8 sm:ml-10 md:ml-12 space-y-1.5 sm:space-y-2">
+                      <div className="ml-11 sm:ml-13 space-y-2">
                         {!isAnswered ? (
-                          <p className="text-xs sm:text-sm text-purple-300 italic bg-slate-700/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-600/50">
+                          <p className="text-xs sm:text-sm text-gray-600 italic bg-white px-3 py-2 rounded-lg border border-gray-200">
                             {"You didn't answer this question"}
                           </p>
                         ) : (
                           <>
                             {!isCorrect && (
-                              <div className="bg-slate-700/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-red-600/40">
-                                <p className="text-xs text-red-400 font-medium mb-0.5">Your Answer:</p>
-                                <p className="text-xs sm:text-sm text-red-300 font-medium flex items-center gap-1.5">
-                                  <XCircle className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                              <div className="bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border-2 border-red-200">
+                                <p className="text-xs text-red-600 font-medium mb-1">Your Answer:</p>
+                                <p className="text-sm sm:text-base text-red-800 font-medium flex items-center gap-2">
+                                  <XCircle className="w-4 h-4 flex-shrink-0" />
                                   {userAnswer !== null ? q.options[userAnswer] : ""}
                                 </p>
                               </div>
                             )}
-                            <div className="bg-slate-700/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-emerald-600/40">
-                              <p className="text-xs text-emerald-400 font-medium mb-0.5">Correct Answer:</p>
-                              <p className="text-xs sm:text-sm text-emerald-300 font-bold flex items-center gap-1.5">
-                                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                            <div className="bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border-2 border-green-300">
+                              <p className="text-xs text-green-600 font-medium mb-1">Correct Answer:</p>
+                              <p className="text-sm sm:text-base text-green-800 font-bold flex items-center gap-2">
+                                <CheckCircle className="w-4 h-4 flex-shrink-0" />
                                 {q.options[q.correctIndex]}
                               </p>
                             </div>
@@ -547,103 +529,89 @@ export default function ModelQuizzes() {
                   if (reviewFilter === "skipped") return !isAnswered
                   return true
                 }).length === 0 && (
-                  <div className="text-center py-6 sm:py-8 text-purple-400">
-                    <p className="text-xs sm:text-sm md:text-base">No questions in this category</p>
+                  <div className="text-center py-8 text-gray-500">
+                    <p className="text-sm sm:text-base">No questions in this category</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 md:gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
               <button
                 onClick={() => startQuiz(activeQuiz)}
-                className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-lg md:rounded-xl font-medium text-xs sm:text-sm md:text-base hover:from-purple-700 hover:to-purple-800 transition-all active:scale-95 touch-manipulation shadow-md flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium text-sm sm:text-base hover:from-green-700 hover:to-emerald-700 transition-all active:scale-95 touch-manipulation shadow-md flex items-center justify-center gap-2"
               >
                 <Play className="w-4 h-4" />
                 Retry Quiz
               </button>
               <button
                 onClick={backToQuizzes}
-                className="bg-slate-700 text-purple-100 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-lg md:rounded-xl font-medium text-xs sm:text-sm md:text-base hover:bg-slate-600 transition-all active:scale-95 touch-manipulation shadow-md border border-purple-700/40"
+                className="bg-gray-200 text-gray-800 px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium text-sm sm:text-base hover:bg-gray-300 transition-all active:scale-95 touch-manipulation shadow-md"
               >
                 Back to Quizzes
               </button>
             </div>
           </section>
         ) : (
-          <section className="p-3 sm:p-4 md:p-8 bg-gradient-to-br from-slate-800 to-slate-900">
-            <div className="mb-3 sm:mb-4 md:mb-6">
-              <button
-                onClick={backToQuizzes}
-                className="flex items-center gap-1.5 sm:gap-2 text-purple-300 hover:text-purple-200 transition-colors mb-3 sm:mb-4 text-xs sm:text-sm md:text-base font-medium active:scale-95"
-              >
-                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-                Back to Quizzes
-              </button>
-
-              <div className="flex items-center justify-between mb-2 sm:mb-3">
-                <h2 className="text-sm sm:text-base md:text-lg font-bold text-purple-100 truncate pr-2">
-                  {activeQuiz.title}
-                </h2>
-                <span className="text-xs sm:text-sm font-semibold text-purple-300 bg-purple-900/50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full flex-shrink-0 border border-purple-700/50">
+          <section className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-green-50 to-emerald-100">
+            <div className="mb-4 sm:mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-800">{activeQuiz.title}</h2>
+                <span className="text-xs sm:text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
                   {currentQuestion + 1} / {shuffledQuestions.length}
                 </span>
               </div>
-              <div className="w-full bg-slate-700 rounded-full h-1.5 sm:h-2 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5 overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-purple-600 to-purple-500 h-full rounded-full transition-all duration-300 ease-out"
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 h-full rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
-              <p className="text-xs sm:text-sm text-purple-300 mt-1.5 sm:mt-2">
+              <p className="text-xs sm:text-sm text-gray-600 mt-2">
                 {answeredCount} of {shuffledQuestions.length} questions answered
               </p>
             </div>
 
-            <div className="bg-slate-800/60 border border-purple-700/40 rounded-lg sm:rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-md">
-              <p className="text-sm sm:text-base md:text-lg font-semibold text-purple-100 mb-3 sm:mb-4 md:mb-6 leading-relaxed">
+            <div className="bg-white border border-green-200 rounded-xl p-4 sm:p-6 shadow-md">
+              <p className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 leading-relaxed">
                 {shuffledQuestions[currentQuestion].question}
               </p>
 
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-3">
                 {shuffledQuestions[currentQuestion].options.map((option: string, idx: number) => {
                   const isSelected = selectedAnswer === idx
                   const isCorrect = idx === shuffledQuestions[currentQuestion].correctIndex
                   const isAnswered = answeredQuestions.has(currentQuestion)
 
                   let btnStyle =
-                    "w-full text-left px-3 sm:px-4 md:px-5 py-2.5 sm:py-3 md:py-4 rounded-lg sm:rounded-lg md:rounded-xl border font-medium transition-all text-xs sm:text-sm md:text-base leading-snug touch-manipulation flex items-center gap-2 sm:gap-3 "
+                    "w-full text-left px-4 sm:px-5 py-3.5 sm:py-4 rounded-lg border-2 font-medium transition-all text-sm sm:text-base leading-snug touch-manipulation flex items-center gap-3 "
 
                   if (isAnswered && showFeedback) {
                     if (isCorrect) {
-                      btnStyle += "bg-emerald-900/40 border-emerald-600/60 text-emerald-200 shadow-md"
+                      btnStyle += "bg-green-100 border-green-500 text-green-900 shadow-md"
                     } else if (isSelected) {
-                      btnStyle += "bg-red-900/40 border-red-600/60 text-red-200 shadow-md"
+                      btnStyle += "bg-red-100 border-red-500 text-red-900 shadow-md"
                     } else {
-                      btnStyle += "bg-slate-700/50 border-slate-600/50 text-slate-400"
+                      btnStyle += "bg-gray-50 border-gray-200 text-gray-500"
                     }
                   } else if (isAnswered) {
-                    btnStyle += "bg-slate-700/50 border-slate-600/50 text-slate-400 cursor-not-allowed"
+                    btnStyle += "bg-gray-50 border-gray-200 text-gray-500 cursor-not-allowed"
                   } else {
                     btnStyle +=
-                      "bg-slate-700/50 border-purple-700/40 hover:bg-slate-700 hover:border-purple-600/60 text-purple-100 hover:shadow-sm active:scale-[0.98]"
+                      "bg-white border-gray-200 hover:bg-green-50 hover:border-green-300 text-gray-700 hover:shadow-sm active:scale-[0.98]"
                   }
 
                   return (
                     <button key={idx} onClick={() => handleAnswer(idx)} className={btnStyle} disabled={isAnswered}>
-                      <span className="inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-slate-600 text-purple-200 text-xs sm:text-sm font-bold flex-shrink-0">
+                      <span className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-100 text-gray-700 text-xs sm:text-sm font-bold flex-shrink-0">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span className="flex-1">{option}</span>
                       {isAnswered && showFeedback && (
                         <>
-                          {isCorrect && (
-                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
-                          )}
-                          {!isCorrect && isSelected && (
-                            <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 flex-shrink-0" />
-                          )}
+                          {isCorrect && <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />}
+                          {!isCorrect && isSelected && <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />}
                         </>
                       )}
                     </button>
@@ -651,21 +619,21 @@ export default function ModelQuizzes() {
                 })}
               </div>
 
-              <div className="mt-4 sm:mt-5 md:mt-6 flex flex-col sm:flex-row justify-between gap-2 sm:gap-3">
+              <div className="mt-6 flex flex-col sm:flex-row justify-between gap-3">
                 <button
                   onClick={nextQuestion}
                   disabled={currentQuestion >= shuffledQuestions.length - 1}
-                  className="flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-lg md:rounded-xl font-medium text-xs sm:text-sm md:text-base hover:from-purple-700 hover:to-purple-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-5 sm:px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
                 >
-                  Next
+                  Next Question
                 </button>
                 <button
                   onClick={finishQuiz}
                   disabled={answeredCount === 0}
-                  className="flex items-center justify-center gap-1.5 sm:gap-2 bg-amber-600 text-white px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-lg md:rounded-xl font-medium text-xs sm:text-sm md:text-base hover:bg-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
+                  className="flex items-center justify-center gap-2 bg-amber-600 text-white px-5 sm:px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
                 >
                   <StopCircle className="w-4 h-4" />
-                  Finish
+                  Finish Quiz
                 </button>
               </div>
             </div>
@@ -673,10 +641,10 @@ export default function ModelQuizzes() {
         )}
 
         {/* Footer */}
-        <footer className="bg-gradient-to-r from-purple-900 via-purple-800 to-slate-900 text-purple-100 text-center px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 border-t border-purple-700/50">
-          <p className="text-xs sm:text-sm md:text-base font-semibold">Model Quizzes – Learn Smarter 💡</p>
-          <p className="text-xs font-medium mt-1 text-purple-300">Created by Hasitha Sandakelum</p>
-          <p className="text-purple-400 text-xs mt-0.5">Ultra responsive for all devices</p>
+        <footer className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-center px-4 py-5 sm:py-6">
+          <p className="text-sm sm:text-base md:text-lg font-semibold">Model Quizzes – Learn Smarter 💡</p>
+          <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-90">Created by Hasitha Sandakelum</p>
+          <p className="text-green-100 text-xs sm:text-sm mt-1">Fully responsive for all devices</p>
         </footer>
       </div>
     </div>
