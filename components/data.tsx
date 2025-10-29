@@ -45,10 +45,10 @@ export const mainTopics = [
           },
           {
             id: "a2",
-            title: "Memory Hierarchy",
+            title: "Internal & External Memory",
             readTime: "7 min",
             tags: ["architecture"],
-            link: "/private/memory-tech-notes.html",
+            link: "/notes/architecture/memory",
           },
         ],
       },
