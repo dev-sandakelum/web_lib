@@ -340,7 +340,7 @@ const MemoryTechNotes = () => {
               <strong className="block text-gray-800 mb-1 text-xs">RAID 5 - Distributed Parity</strong>
               • Parity across all disks<br/>
               • ✓ Most popular (servers)<br/>
-              • ✗ Can't recover 2-disk failure<br/>
+              • ✗ Cannot recover 2-disk failure<br/>
               • Capacity: (N-1) × disk size
             </div>
 
