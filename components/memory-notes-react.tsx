@@ -8,7 +8,7 @@ const MemoryTechNotes = () => {
         <header className="text-center py-3 border-b-4 border-gray-800 mb-4">
           <h1 className="text-xl font-bold text-gray-800 mb-1">📚 Computer Architecture</h1>
           <h2 className="text-base font-semibold text-gray-700 mb-1">Memory Technologies</h2>
-          <p className="text-xs text-gray-500">ICT1152 | Comprehensive Study Notes</p>
+          <p className="text-xs text-gray-500">Comprehensive Study Notes</p>
         </header>
 
         {/* Internal Memory Section */}
@@ -429,7 +429,7 @@ const MemoryTechNotes = () => {
 
         {/* Footer */}
         <footer className="text-center mt-6 pt-3 border-t-2 border-gray-200 text-gray-500 text-[11px]">
-          <p className="font-semibold">ICT1152 - Computer Architecture</p>
+          <p className="font-semibold">Computer Architecture</p>
           <p>Memory Technologies Notes</p>
           <p className="mt-1">Press Ctrl+P / Cmd+P to save as PDF</p>
         </footer>
