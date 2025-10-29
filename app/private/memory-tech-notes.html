@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Technologies - Short Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #fff;
+            padding: 8px;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 12px 0;
+            border-bottom: 3px solid #2c3e50;
+            margin-bottom: 16px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        
+        .header h2 {
+            color: #34495e;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 10px;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subsection {
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+        
+        .subsection-title {
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            padding: 6px 8px;
+            background: #f8f9fa;
+            border-left: 3px solid #3498db;
+            border-radius: 3px;
+        }
+        
+        .content {
+            font-size: 13px;
+            margin-bottom: 8px;
+            padding: 0 4px;
+            line-height: 1.6;
+        }
+        
+        .bullet-list {
+            margin: 6px 0 8px 16px;
+            padding: 0;
+        }
+        
+        .bullet-list li {
+            margin-bottom: 4px;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 11px;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .comparison-table thead {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        
+        .comparison-table tbody {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        
+        .comparison-table th {
+            background: #34495e;
+            color: white;
+            padding: 6px 4px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+        }
+        
+        .comparison-table td {
+            padding: 5px 4px;
+            border: 1px solid #ddd;
+            font-size: 11px;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .highlight-box {
+            background: #fff9e6;
+            border-left: 3px solid #ffc107;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 12px;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+        
+        .highlight-box strong {
+            display: block;
+            color: #d68910;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        
+        .formula {
+            background: #e3f2fd;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+        }
+        
+        .key-point {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .raid-level {
+            background: #f0f4f8;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .raid-level strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        
+        sup {
+            font-size: 10px;
+        }
+        
+        @media print {
+            body {
+                padding: 10mm;
+                font-size: 12px;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .section-title {
+                background: #34495e !important;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+                font-size: 15px;
+            }
+            
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .header h1 {
+                font-size: 26px;
+            }
+            
+            .header h2 {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+                padding: 12px 15px;
+            }
+            
+            .subsection-title {
+                font-size: 16px;
+            }
+            
+            .content, .bullet-list li {
+                font-size: 14px;
+            }
+            
+            .comparison-table {
+                font-size: 13px;
+                display: table;
+            }
+            
+            .comparison-table th, .comparison-table td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Computer Architecture</h1>
+            <h2>Memory Technologies</h2>
+            <p>ICT1152 | Comprehensive Study Notes</p>
+        </div>
+
+        <!-- INTERNAL MEMORY -->
+        <div class="section">
+            <div class="section-title">🔷 INTERNAL MEMORY</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Memory Evolution</div>
+                <div class="content">
+                    <strong>Earlier:</strong> Ferromagnetic cores<br>
+                    <strong>Today:</strong> Semiconductor chips
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">DRAM (Dynamic RAM)</div>
+                <ul class="bullet-list">
+                    <li><span class="key-point">Storage:</span> Charge on capacitors</li>
+                    <li><span class="key-point">Type:</span> Analog, volatile</li>
+                    <li><span class="key-point">Feature:</span> Requires refresh (charge leaks)</li>
+                    <li><span class="key-point">Pros:</span> High density, cheaper</li>
+                    <li><span class="key-point">Use:</span> Main memory</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">SRAM (Static RAM)</div>
+                <ul class="bullet-list">
+                    <li><span class="key-point">Storage:</span> Flip-flop logic gates</li>
+                    <li><span class="key-point">Type:</span> Digital, volatile</li>
+                    <li><span class="key-point">Feature:</span> No refresh needed</li>
+                    <li><span class="key-point">Pros:</span> Faster</li>
+                    <li><span class="key-point">Cons:</span> Expensive, lower density</li>
+                    <li><span class="key-point">Use:</span> Cache memory</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">DRAM vs SRAM</div>
+                <table class="comparison-table">
+                    <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>DRAM</th>
+                        <th>SRAM</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Speed</td>
+                        <td>Slower</td>
+                        <td>Faster</td>
+                    </tr>
+                    <tr>
+                        <td>Density</td>
+                        <td>Higher</td>
+                        <td>Lower</td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
+                        <td>Cheaper</td>
+                        <td>Expensive</td>
+                    </tr>
+                    <tr>
+                        <td>Refresh</td>
+                        <td>Required</td>
+                        <td>Not needed</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">ROM (Read Only Memory)</div>
+                <ul class="bullet-list">
+                    <li>Permanent data, non-volatile</li>
+                    <li>Written during manufacturing</li>
+                    <li>Use: System programs, microprogramming</li>
+                    <li>Drawback: High cost, no error tolerance</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">ROM Types</div>
+                
+                <div class="highlight-box">
+                    <strong>PROM</strong>
+                    Written once electrically • Non-volatile • Less expensive
+                </div>
+
+                <div class="highlight-box">
+                    <strong>EPROM</strong>
+                    UV erasure • Erase all before write • Multiple updates
+                </div>
+
+                <div class="highlight-box">
+                    <strong>EEPROM</strong>
+                    Electrical erase • Write anytime • No prior erasure needed
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Flash Memory</strong>
+                    Fast electrical erase (seconds) • Block-level • High density
+                </div>
+            </div>
+        </div>
+
+        <!-- ERROR CORRECTION -->
+        <div class="section">
+            <div class="section-title">🔷 ERROR CORRECTION</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Error Types</div>
+                <ul class="bullet-list">
+                    <li><strong>Hard:</strong> Permanent physical defects</li>
+                    <li><strong>Soft:</strong> Random, nondestructive (power/particles)</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Hamming Code</div>
+                <div class="content">
+                    Detects & corrects 1-bit errors
+                </div>
+                
+                <div class="formula">
+                    2<sup>K</sup> - 1 ≥ M + K
+                </div>
+                
+                <div class="content">
+                    M = data bits | K = check bits
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                    <tr>
+                        <th>M</th>
+                        <th>K</th>
+                        <th>Overhead</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>4</td><td>3</td><td>75%</td></tr>
+                    <tr><td>8</td><td>4</td><td>50%</td></tr>
+                    <tr><td>16</td><td>5</td><td>31.25%</td></tr>
+                    <tr><td>32</td><td>6</td><td>18.75%</td></tr>
+                    <tr><td>64</td><td>7</td><td>10.94%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Syndrome Word</div>
+                <ul class="bullet-list">
+                    <li>XOR of stored vs calculated ECC</li>
+                    <li><strong>All 0s:</strong> No error</li>
+                    <li><strong>Non-zero:</strong> Shows error position</li>
+                    <li>Check bits at powers of 2 (1,2,4,8...)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DRAM IMPROVEMENTS -->
+        <div class="section">
+            <div class="section-title">🔷 DRAM IMPROVEMENTS</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">SDRAM</div>
+                <ul class="bullet-list">
+                    <li>Synchronized with clock</li>
+                    <li>CPU knows when data ready</li>
+                    <li>1 transfer per cycle</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">DDR SDRAM</div>
+                <ul class="bullet-list">
+                    <li>Double-Data-Rate</li>
+                    <li>2 transfers per cycle</li>
+                    <li>Doubles speed</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">RDRAM</div>
+                <ul class="bullet-list">
+                    <li>Rambus DRAM</li>
+                    <li>28 wires, max 12cm bus</li>
+                    <li>Intel Pentium/Itanium</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- EXTERNAL MEMORY -->
+        <div class="section">
+            <div class="section-title">🔷 EXTERNAL MEMORY</div>
+            
+            <div class="subsection">
+                <div class="subsection-title">Magnetic Disk</div>
+                <ul class="bullet-list">
+                    <li><strong>Substrate:</strong> Nonmagnetic (Al/glass)</li>
+                    <li><strong>Coating:</strong> Magnetizable layer</li>
+                    <li><strong>Glass benefit:</strong> Better uniformity, fewer errors</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Data Organization</div>
+                <ul class="bullet-list">
+                    <li><strong>Tracks:</strong> Concentric rings (1000s)</li>
+                    <li><strong>Sectors:</strong> Data transfer units</li>
+                    <li><strong>Intertrack gaps:</strong> Prevent errors</li>
+                    <li><strong>Cylinder:</strong> Same track position on all platters</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Recording Methods</div>
+                
+                <div class="highlight-box">
+                    <strong>CAV (Constant Angular Velocity)</strong>
+                    Fixed speed • Direct addressing • Low outer track density
+                </div>
+
+                <div class="highlight-box">
+                    <strong>MZR (Multiple Zone Recording)</strong>
+                    16 zones typical • Outer zones = more sectors • Max capacity
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Physical Types</div>
+                <table class="comparison-table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Fixed-head</td><td>1 head/track (rare)</td></tr>
+                    <tr><td>Movable</td><td>1 head, extends/retracts</td></tr>
+                    <tr><td>Nonremovable</td><td>Permanent (PC HDD)</td></tr>
+                    <tr><td>Removable</td><td>Can swap</td></tr>
+                    <tr><td>Double-sided</td><td>Both sides coated</td></tr>
+                    <tr><td>Multi-platter</td><td>1 head/surface</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RAID -->
+        <div class="section">
+            <div class="section-title">🔷 RAID LEVELS</div>
+            
+            <div class="subsection">
+                <div class="content">
+                    <strong>Purpose:</strong> Data redundancy + Performance<br>
+                    Multiple physical = Single logical drive
+                </div>
+            </div>
+
+            <div class="subsection">
+                
+                <div class="raid-level">
+                    <strong>RAID 0 - Striping</strong>
+                    • No redundancy<br>
+                    • ✓ Performance boost<br>
+                    • ✗ Any disk fails = data loss
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 1 - Mirroring</strong>
+                    • Data duplicated<br>
+                    • ✓ High reliability, no downtime<br>
+                    • ✗ Double disks (expensive)
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 2 - Hamming</strong>
+                    • Multiple parity disks<br>
+                    • Status: Obsolete (disks have ECC)
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 3 - Bit Parity</strong>
+                    • 1 parity disk, bit-wise data<br>
+                    • ✓ High transfer rate<br>
+                    • ✗ Poor I/O performance
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 4 - Block Parity</strong>
+                    • Large strips (16k-32k)<br>
+                    • ✗ Parity disk bottleneck
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 5 - Distributed Parity</strong>
+                    • Parity across all disks<br>
+                    • ✓ Most popular (servers)<br>
+                    • ✗ Can't recover 2-disk failure<br>
+                    • Capacity: (N-1) × disk size
+                </div>
+
+                <div class="raid-level">
+                    <strong>RAID 6 - Double Parity</strong>
+                    • 2 parity calculations<br>
+                    • ✓ Survives 3-disk failure<br>
+                    • ✗ Write penalty<br>
+                    • Capacity: (N-2) × disk size
+                </div>
+            </div>
+        </div>
+
+        <!-- MAGNETIC TAPE -->
+        <div class="section">
+            <div class="section-title">🔷 MAGNETIC TAPE</div>
+            
+            <div class="subsection">
+                <ul class="bullet-list">
+                    <li><strong>Medium:</strong> Polyester + magnetic coating</li>
+                    <li><strong>Width:</strong> 0.38-1.27cm</li>
+                    <li><strong>Access:</strong> Sequential only</li>
+                    <li><strong>Speed:</strong> Slowest</li>
+                    <li><strong>Cost:</strong> Very cheap</li>
+                    <li><strong>Use:</strong> Backup/Archive</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- KEY FORMULAS -->
+        <div class="section">
+            <div class="section-title">🔷 KEY FORMULAS</div>
+            
+            <div class="subsection">
+                <div class="formula">
+                    2<sup>K</sup> - 1 ≥ M + K
+                </div>
+                
+                <div class="formula">
+                    Overhead = (K/M) × 100%
+                </div>
+                
+                <div class="formula">
+                    Syndrome: Z = X ⊕ Y
+                </div>
+                
+                <div class="formula">
+                    RAID 5: (N-1) × Size
+                </div>
+                
+                <div class="formula">
+                    RAID 6: (N-2) × Size
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK REFERENCE -->
+        <div class="section">
+            <div class="section-title">🔷 QUICK REFERENCE</div>
+            
+            <table class="comparison-table">
+                <thead>
+                <tr>
+                    <th>Tech</th>
+                    <th>Volatile</th>
+                    <th>Speed</th>
+                    <th>Use</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>SRAM</td><td>Yes</td><td>Fast</td><td>Cache</td></tr>
+                <tr><td>DRAM</td><td>Yes</td><td>Med</td><td>Main Mem</td></tr>
+                <tr><td>ROM</td><td>No</td><td>Fast</td><td>System</td></tr>
+                <tr><td>Flash</td><td>No</td><td>Med</td><td>Storage</td></tr>
+                <tr><td>HDD</td><td>No</td><td>Med</td><td>Secondary</td></tr>
+                <tr><td>Tape</td><td>No</td><td>Slow</td><td>Backup</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="text-align: center; margin-top: 24px; padding-top: 12px; border-top: 2px solid #ecf0f1; color: #7f8c8d; font-size: 11px;">
+            <p><strong>ICT1152 - Computer Architecture</strong></p>
+            <p>Memory Technologies Notes</p>
+            <p style="margin-top: 4px;">Press Ctrl+P / Cmd+P to save as PDF</p>
+        </div>
+    </div>
+</body>
+</html>

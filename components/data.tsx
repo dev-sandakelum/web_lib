@@ -43,13 +43,13 @@ export const mainTopics = [
             tags: ["architecture"],
             link: "/notes/architecture/a1-4",
           },
-          // {
-          //   id: "a2",
-          //   title: "Memory Hierarchy",
-          //   readTime: "7 min",
-          //   tags: ["architecture"],
-          //   link: "/notes/architecture/memory-hierarchy",
-          // },
+          {
+            id: "a2",
+            title: "Memory Hierarchy",
+            readTime: "7 min",
+            tags: ["architecture"],
+            link: "/private/memory-tech-notes.html",
+          },
         ],
       },
       {
