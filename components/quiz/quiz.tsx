@@ -1,10 +1,10 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+
 import {
   BookOpen,
   FolderOpen,
-  FileText,
   Play,
   Search,
   CheckCircle,
@@ -12,14 +12,9 @@ import {
   StopCircle,
   TrendingUp,
   Award,
-  Target,
+  ChevronRight,
+  Sparkles,
 } from "lucide-react"
-import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2"
-import { MultimediaQuiz } from "@/resourses/json/Q3"
-import { CProgrammingQuiz } from "@/resourses/json/Q4"
-import { ComputerArchitectureQuiz , ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
-import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resourses/json/Q6"
-import { AdvancedMemoryQuiz, ExternalMemoryQuiz, InternalMemoryQuiz } from "@/resourses/json/Q7"
 
 // Define types for quiz structure
 interface Question {
@@ -35,37 +30,22 @@ interface Quiz {
   questions: Question[]
 }
 
-// Separate quiz variables for better structure and scalability
-const networkingQuiz: Quiz = {
-  id: "networking-basics",
-  title: "Networking Basics",
-  category: "Networking",
-  questions: [
-    {
-      question: "What does IP stand for?",
-      options: ["Internet Protocol", "Internal Program", "Internet Process", "Interface Package"],
-      correctIndex: 0,
-    },
-    {
-      question: "Which device connects multiple networks together?",
-      options: ["Hub", "Switch", "Router", "Bridge"],
-      correctIndex: 2,
-    },
-    {
-      question: "Which layer of the OSI model is responsible for routing?",
-      options: ["Physical", "Data Link", "Network", "Session"],
-      correctIndex: 2,
-    },
-  ],
-}
+// Built-in quizzes data
+import { builtInQuizzes } from "./quiz-data"
+import { Comic_Neue } from "next/font/google"
 
-const builtInQuizzes: Quiz[] = [InternalMemoryQuiz , ExternalMemoryQuiz , AdvancedMemoryQuiz, networkingQuiz, Ict1161Quiz, MultimediaQuiz, CProgrammingQuiz ,
-          ComputerArchitectureQuiz , ComputerArchitectureQuiz2 ,MCommerceEnterpriseQuiz,
-          DigitalImagesQuiz, AnimationBasicsQuiz, AdvancedTopicsQuiz];
+ const comicNeue = Comic_Neue({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
 
 export default function ModelQuizzes() {
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  const initRef = useRef(false)
 
   const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null)
   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([])
@@ -89,12 +69,14 @@ export default function ModelQuizzes() {
     return shuffled
   }
 
-  // Load quiz from URL on component mount
-  useEffect(() => {
+  const initializeQuizFromUrl = useCallback(() => {
+    if (initRef.current) return
+
     const quizId = searchParams.get("quiz")
     if (quizId) {
       const quiz = builtInQuizzes.find((q) => q.id === quizId)
       if (quiz) {
+        initRef.current = true
         const shuffled = shuffleArray(quiz.questions)
         setActiveQuiz(quiz)
         setShuffledQuestions(shuffled)
@@ -109,6 +91,10 @@ export default function ModelQuizzes() {
     }
   }, [searchParams])
 
+  useEffect(() => {
+    initializeQuizFromUrl()
+  }, [])
+
   const startQuiz = (quiz: Quiz) => {
     const shuffled = shuffleArray(quiz.questions)
     setActiveQuiz(quiz)
@@ -120,28 +106,24 @@ export default function ModelQuizzes() {
     setFinished(false)
     setAnsweredQuestions(new Set())
     setShowFeedback(false)
-
-    // Update URL with quiz ID
+    initRef.current = false
     router.push(`?quiz=${quiz.id}`, { scroll: false })
   }
 
   const handleAnswer = (index: number) => {
-    if (!activeQuiz || answeredQuestions.has(currentQuestion)) return // Prevent changing answer
+    if (!activeQuiz || answeredQuestions.has(currentQuestion)) return
 
     setSelectedAnswer(index)
     const newAnswers = [...userAnswers]
     newAnswers[currentQuestion] = index
     setUserAnswers(newAnswers)
 
-    // Mark question as answered
     const newAnswered = new Set(answeredQuestions)
     newAnswered.add(currentQuestion)
     setAnsweredQuestions(newAnswered)
 
-    // Show feedback immediately
     setShowFeedback(true)
 
-    // Auto-advance to next question after 2 seconds
     setTimeout(() => {
       if (currentQuestion < shuffledQuestions.length - 1) {
         setCurrentQuestion(currentQuestion + 1)
@@ -173,8 +155,8 @@ export default function ModelQuizzes() {
 
   const backToQuizzes = () => {
     setActiveQuiz(null)
-    // Clear URL parameters
-    router.push(window.location.pathname, { scroll: false })
+    initRef.current = false
+    router.push("/quiz", { scroll: false })
   }
 
   const categories = [
@@ -191,211 +173,225 @@ export default function ModelQuizzes() {
   const progressPercentage = activeQuiz ? ((currentQuestion + 1) / shuffledQuestions.length) * 100 : 0
   const answeredCount = userAnswers.filter((a) => a !== null).length
 
+  const cardGradients = [
+    {
+      bg: "from-amber-50 to-orange-100",
+      label: "bg-amber-200/50",
+      labelText: "text-amber-900",
+      shape: "ellipse-gradient-amber",
+    },
+    {
+      bg: "from-purple-50 to-pink-100",
+      label: "bg-purple-200/50",
+      labelText: "text-purple-900",
+      shape: "ellipse-gradient-purple",
+    },
+    {
+      bg: "from-green-50 to-emerald-100",
+      label: "bg-green-200/50",
+      labelText: "text-green-900",
+      shape: "ellipse-gradient-green",
+    },
+    {
+      bg: "from-pink-50 to-rose-100",
+      label: "bg-pink-200/50",
+      labelText: "text-pink-900",
+      shape: "ellipse-gradient-pink",
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 px-3 sm:px-6 md:px-10 py-4 sm:py-10">
-      <div className="max-w-6xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
+    <div className={`min-h-screen bg-gradient-to-b from-slate-50 via-slate-50 to-gray-100 ${comicNeue.variable} font-sans antialiased`}>
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <header className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 md:px-10 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12" />
-              <div className="text-center sm:text-left">
-                <h1 className="text-xl sm:text-2xl md:text-4xl font-bold leading-tight">Model Quizzes</h1>
-                <p className="text-sm sm:text-base md:text-lg text-green-100 mt-1">
-                  Learn and test your knowledge interactively
-                </p>
-              </div>
+        <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200 px-3 py-2 sm:px-6 sm:py-6 shadow-sm">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl">
+              <BookOpen className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-3xl font-bold text-slate-900">Quiz Master</h1>
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0">Learn & Test Your Knowledge</p>
             </div>
           </div>
         </header>
 
         {/* Search & Category Filter */}
         {!activeQuiz && (
-          <section className="p-4 sm:p-6 md:p-8 bg-green-50 border-b border-green-200">
-            <div className="flex flex-col gap-4 mb-4">
-              <div className="relative w-full">
-                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+          <section className="px-3 py-3 sm:px-6 sm:py-7 bg-white/50 border-b border-slate-200">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Search quizzes..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-3.5 rounded-lg sm:rounded-xl border-2 border-green-200 focus:border-green-500 focus:outline-none text-gray-700 bg-white shadow-sm text-sm sm:text-base"
+                  className="w-full pl-10 pr-4 py-2.5 sm:py-3.5 bg-slate-50 border border-slate-300 rounded-xl text-sm sm:text-base text-slate-900 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 transition-all font-medium"
                 />
               </div>
-            </div>
 
-            <div className="flex overflow-x-auto gap-2 pb-2 -mx-1 px-1">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex-shrink-0 px-4 sm:px-5 py-2.5 sm:py-2 rounded-lg font-medium text-xs sm:text-sm md:text-base transition-all whitespace-nowrap touch-manipulation ${
-                    selectedCategory === cat.id
-                      ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-md"
-                      : "bg-white border border-green-200 text-gray-700 hover:bg-green-100 hover:shadow-sm active:scale-95"
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`flex-shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap transition-all duration-200 ${
+                      selectedCategory === cat.id
+                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-300/50"
+                        : "bg-white text-slate-700 border border-slate-300 hover:border-emerald-400"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </section>
         )}
 
-        {/* Quiz Cards */}
+        {/* Quiz Cards Grid */}
         {!activeQuiz ? (
-          <section className="p-4 md:p-8 bg-gray-50">
-  <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-    <FolderOpen className="w-6 h-6 text-green-600" />
-    Available Quizzes
-  </h3>
-
-  {filteredQuizzes.length === 0 ? (
-    <div className="text-center text-gray-600 bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-sm border">
-      No quizzes found.
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {filteredQuizzes.map((quiz) => (
-        <div
-          key={quiz.id}
-          className="bg-white/70 backdrop-blur-md border rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
-                <FileText className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-base font-semibold text-gray-800">{quiz.title}</h2>
-                <p className="text-xs text-gray-500">{quiz.category}</p>
-              </div>
-            </div>
-            <p className="text-xs text-gray-600">{quiz.questions.length} Questions</p>
-          </div>
-
-          <button
-            onClick={() => startQuiz(quiz)}
-            className="w-full mt-4 py-2 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all"
-          >
-            Start Quiz
-          </button>
-        </div>
-      ))}
-    </div>
-  )}
-</section>
-
-        ) : finished ? (
-          <section className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-green-50 to-emerald-100">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
-              Quiz Completed 🎉
+          <section className="p-3 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+            <h2 className="flex items-center gap-2 text-xl sm:text-3xl font-bold text-slate-900">
+              <FolderOpen className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-600" />
+              Available Quizzes
             </h2>
 
-            {/* Performance Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
-              {/* Correct Answers Card */}
-              <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-                  <span className="text-2xl sm:text-3xl font-bold">{score}</span>
-                </div>
-                <p className="text-sm sm:text-base font-medium opacity-90">Correct</p>
-                <div className="mt-2 bg-white/20 rounded-full h-2">
-                  <div
-                    className="bg-white rounded-full h-2 transition-all duration-500"
-                    style={{ width: `${answeredCount > 0 ? (score / answeredCount) * 100 : 0}%` }}
-                  />
+            {filteredQuizzes.length === 0 ? (
+              <div className="text-center py-12 sm:py-16 px-4 bg-white rounded-3xl border-2 border-dashed border-slate-300">
+                <p className="text-slate-500 text-lg font-semibold">No quizzes found</p>
+              </div>
+            ) : (
+              <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {filteredQuizzes.map((quiz, idx) => {
+                  const gradient = cardGradients[idx % cardGradients.length]
+                  return (
+                    <div
+                      key={quiz.id}
+                      className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${gradient.bg} border border-white/60 shadow-lg hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 flex flex-col min-h-44 sm:min-h-48 hover:-translate-y-2`}
+                    >
+                      <div
+                        className={`absolute -bottom-16 -right-16 w-40 h-40 rounded-full opacity-40 blur-3xl ${gradient.shape} pointer-events-none`}
+                      />
+
+                      {/* Card Content */}
+                      <div className="relative z-10 flex flex-col h-full">
+                        {/* Label */}
+                        <div
+                          className={`inline-flex w-fit px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-bold mb-2 sm:mb-3 ${gradient.label} ${gradient.labelText}`}
+                        >
+                          QUIZ
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-base sm:text-xl font-bold text-slate-900 leading-snug mb-1 sm:mb-2 group-hover:text-emerald-700 transition-colors">
+                          {quiz.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-xs sm:text-sm text-slate-700 mb-3 sm:mb-4 flex-1">{quiz.category}</p>
+
+                        {/* Question Count */}
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-800 mb-3 sm:mb-4">
+                          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
+                          {quiz.questions.length} Questions
+                        </div>
+
+                        {/* Learn More Button */}
+                        <button
+                          onClick={() => startQuiz(quiz)}
+                          className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-white hover:bg-slate-50 text-emerald-700 font-bold rounded-xl border border-emerald-200 hover:border-emerald-400 transition-all active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
+                        >
+                          Start Quiz
+                          <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </section>
+        ) : finished ? (
+          // Results Screen
+          <section className="px-3 py-4 sm:px-6 sm:py-8 space-y-4 sm:space-y-6">
+            {/* Success Header */}
+            <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+              <div className="flex justify-center">
+                <div className="p-3 sm:p-4 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-2xl border border-emerald-500/30">
+                  <Award className="w-7 h-7 sm:w-10 sm:h-10 text-emerald-400" />
                 </div>
               </div>
+              <h2 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                Quiz Complete!
+              </h2>
+            </div>
 
-              {/* Incorrect Answers Card */}
-              <div className="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <XCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-                  <span className="text-2xl sm:text-3xl font-bold">{answeredCount - score}</span>
-                </div>
-                <p className="text-sm sm:text-base font-medium opacity-90">Incorrect</p>
-                <div className="mt-2 bg-white/20 rounded-full h-2">
-                  <div
-                    className="bg-white rounded-full h-2 transition-all duration-500"
-                    style={{ width: `${answeredCount > 0 ? ((answeredCount - score) / answeredCount) * 100 : 0}%` }}
-                  />
-                </div>
+            {/* Score Cards */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              {/* Correct */}
+              <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border border-emerald-500/30 rounded-xl p-3 sm:p-4 text-center">
+                <CheckCircle className="w-4 h-4 sm:w-6 sm:h-6 text-emerald-400 mx-auto mb-1.5 sm:mb-2" />
+                <p className="text-xl sm:text-3xl font-bold text-emerald-400">{score}</p>
+                <p className="text-xs text-slate-400 mt-0.5 sm:mt-1 font-medium">Correct</p>
               </div>
 
-              {/* Skipped Questions Card */}
-              <div className="bg-gradient-to-br from-gray-500 to-gray-600 text-white rounded-xl p-4 sm:p-5 shadow-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <StopCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-                  <span className="text-2xl sm:text-3xl font-bold">{shuffledQuestions.length - answeredCount}</span>
-                </div>
-                <p className="text-sm sm:text-base font-medium opacity-90">Skipped</p>
-                <div className="mt-2 bg-white/20 rounded-full h-2">
-                  <div
-                    className="bg-white rounded-full h-2 transition-all duration-500"
-                    style={{
-                      width: `${((shuffledQuestions.length - answeredCount) / shuffledQuestions.length) * 100}%`,
-                    }}
-                  />
-                </div>
+              {/* Incorrect */}
+              <div className="bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 rounded-xl p-3 sm:p-4 text-center">
+                <XCircle className="w-4 h-4 sm:w-6 sm:h-6 text-red-400 mx-auto mb-1.5 sm:mb-2" />
+                <p className="text-xl sm:text-3xl font-bold text-red-400">{answeredCount - score}</p>
+                <p className="text-xs text-slate-400 mt-0.5 sm:mt-1 font-medium">Incorrect</p>
+              </div>
+
+              {/* Skipped */}
+              <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/20 border border-amber-500/30 rounded-xl p-3 sm:p-4 text-center">
+                <StopCircle className="w-4 h-4 sm:w-6 sm:h-6 text-amber-400 mx-auto mb-1.5 sm:mb-2" />
+                <p className="text-xl sm:text-3xl font-bold text-amber-400">
+                  {shuffledQuestions.length - answeredCount}
+                </p>
+                <p className="text-xs text-slate-400 mt-0.5 sm:mt-1 font-medium">Skipped</p>
               </div>
             </div>
 
-            {/* Overall Score Card */}
-            <div className="bg-white rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 shadow-lg border-2 border-green-200">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-full p-3 sm:p-4">
-                    <Award className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm sm:text-base text-gray-600 font-medium">Your Score</p>
-                    <p className="text-3xl sm:text-4xl font-bold text-gray-800">
-                      {answeredCount > 0 ? ((score / answeredCount) * 100).toFixed(0) : 0}%
-                    </p>
-                  </div>
-                </div>
-                <div className="text-center sm:text-right">
-                  <p className="text-lg sm:text-xl font-bold text-gray-800">
-                    {score} / {answeredCount}
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {answeredCount < shuffledQuestions.length &&
-                      `(${answeredCount} of ${shuffledQuestions.length} answered)`}
-                  </p>
-                </div>
-              </div>
+            {/* Overall Score */}
+            <div className="bg-gradient-to-r from-slate-800 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-6 text-center">
+              <p className="text-slate-400 font-medium text-xs sm:text-sm mb-1 sm:mb-2">Your Final Score</p>
+              <p className="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                {answeredCount > 0 ? ((score / answeredCount) * 100).toFixed(0) : 0}%
+              </p>
+              <p className="text-slate-500 text-xs sm:text-sm mt-2 sm:mt-3">
+                {score} out of {answeredCount} correct
+              </p>
             </div>
 
-            {/* Smart Performance Insight */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-4 sm:p-5 mb-6 shadow-md">
-              <div className="flex items-start gap-3">
-                <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 flex-shrink-0 mt-0.5" />
+            {/* Performance Insight */}
+            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-4 sm:p-5">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0 mt-0.5 sm:mt-1" />
                 <div>
-                  <h4 className="font-bold text-gray-800 text-sm sm:text-base mb-1">Performance Insight</h4>
-                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                  <h4 className="font-bold text-slate-100 text-xs sm:text-sm mb-1 sm:mb-2">Performance Insight</h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {answeredCount === 0
                       ? "You didn't answer any questions. Try again to test your knowledge!"
                       : score === answeredCount
-                        ? "Perfect score! You've mastered this topic. Consider trying a more advanced quiz."
+                        ? "Perfect score! 🎉 You've mastered this topic. Consider trying more advanced quizzes."
                         : score / answeredCount >= 0.8
-                          ? "Excellent work! You have a strong understanding. Review the incorrect answers to achieve perfection."
+                          ? "Excellent work! You have strong understanding. Review incorrect answers to achieve perfection."
                           : score / answeredCount >= 0.6
-                            ? "Good effort! You're on the right track. Focus on the topics you missed to improve further."
+                            ? "Good effort! You're on the right track. Focus on the topics you missed."
                             : score / answeredCount >= 0.4
-                              ? "Keep practicing! Review the material and try again. Focus on understanding the concepts."
-                              : "Don't give up! This topic needs more study. Review the correct answers and try the quiz again."}
+                              ? "Keep practicing! Review the material and try again to improve."
+                              : "Don't give up! Review the correct answers and practice more."}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            {/* Review Filter */}
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
               {[
-                { id: "all", label: "All Questions", count: shuffledQuestions.length },
+                { id: "all", label: "All", count: shuffledQuestions.length },
                 { id: "correct", label: "Correct", count: score },
                 { id: "incorrect", label: "Incorrect", count: answeredCount - score },
                 { id: "skipped", label: "Skipped", count: shuffledQuestions.length - answeredCount },
@@ -403,215 +399,163 @@ export default function ModelQuizzes() {
                 <button
                   key={filter.id}
                   onClick={() => setReviewFilter(filter.id as typeof reviewFilter)}
-                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all touch-manipulation flex items-center gap-2 ${
+                  className={`flex-shrink-0 px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap transition-all ${
                     reviewFilter === filter.id
-                      ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-md"
-                      : "bg-white border-2 border-gray-200 text-gray-700 hover:border-green-300 hover:bg-green-50"
+                      ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
+                      : "bg-slate-700/50 text-slate-300 border border-slate-600"
                   }`}
                 >
-                  {filter.label}
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                      reviewFilter === filter.id ? "bg-white/20" : "bg-gray-100"
-                    }`}
-                  >
-                    {filter.count}
-                  </span>
+                  {filter.label} <span className="ml-1 text-xs opacity-75">({filter.count})</span>
                 </button>
               ))}
             </div>
 
-            {/* Review Questions */}
-            <div className="bg-white border-2 border-green-200 rounded-xl p-4 sm:p-6 shadow-lg mb-6">
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-green-100">
-                <Target className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                <h3 className="text-base sm:text-lg md:text-xl font-bold text-green-700">
-                  {reviewFilter === "all"
-                    ? "All Questions"
-                    : reviewFilter === "correct"
-                      ? "Correct Answers"
-                      : reviewFilter === "incorrect"
-                        ? "Incorrect Answers"
-                        : "Skipped Questions"}
-                </h3>
-              </div>
-
-              <div className="space-y-4 max-h-[50vh] sm:max-h-[60vh] overflow-y-auto pr-2">
-                {shuffledQuestions
-                  .map((q: Question, idx: number) => {
-                    const userAnswer = userAnswers[idx]
-                    const isAnswered = userAnswer !== null
-                    const isCorrect = userAnswer === q.correctIndex
-                    return { q, idx, userAnswer, isAnswered, isCorrect }
-                  })
-                  .filter(({ isAnswered, isCorrect }) => {
-                    if (reviewFilter === "all") return true
-                    if (reviewFilter === "correct") return isAnswered && isCorrect
-                    if (reviewFilter === "incorrect") return isAnswered && !isCorrect
-                    if (reviewFilter === "skipped") return !isAnswered
-                    return true
-                  })
-                  .map(({ q, idx, userAnswer, isAnswered, isCorrect }) => (
-                    <div
-                      key={idx}
-                      className={`rounded-xl p-4 sm:p-5 border-2 transition-all ${
-                        !isAnswered
-                          ? "bg-gray-50 border-gray-200"
-                          : isCorrect
-                            ? "bg-green-50 border-green-300"
-                            : "bg-red-50 border-red-300"
-                      }`}
-                    >
-                      {/* Question Header */}
-                      <div className="flex items-start gap-3 mb-3">
-                        <div
-                          className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base ${
-                            !isAnswered
-                              ? "bg-gray-200 text-gray-600"
-                              : isCorrect
-                                ? "bg-green-500 text-white"
-                                : "bg-red-500 text-white"
-                          }`}
-                        >
-                          {!isAnswered ? "?" : isCorrect ? "✓" : "✗"}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-xs sm:text-sm font-bold text-gray-500">Q{idx + 1}</span>
-                            {!isAnswered && (
-                              <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-medium">
-                                Skipped
-                              </span>
-                            )}
-                          </div>
-                          <p className="font-semibold text-gray-800 text-sm sm:text-base leading-snug">{q.question}</p>
-                        </div>
-                      </div>
-
-                      {/* Answer Details */}
-                      <div className="ml-11 sm:ml-13 space-y-2">
-                        {!isAnswered ? (
-                          <p className="text-xs sm:text-sm text-gray-600 italic bg-white px-3 py-2 rounded-lg border border-gray-200">
-                            {"You didn't answer this question"}
-                          </p>
-                        ) : (
-                          <>
-                            {!isCorrect && (
-                              <div className="bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border-2 border-red-200">
-                                <p className="text-xs text-red-600 font-medium mb-1">Your Answer:</p>
-                                <p className="text-sm sm:text-base text-red-800 font-medium flex items-center gap-2">
-                                  <XCircle className="w-4 h-4 flex-shrink-0" />
-                                  {userAnswer !== null ? q.options[userAnswer] : ""}
-                                </p>
-                              </div>
-                            )}
-                            <div className="bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg border-2 border-green-300">
-                              <p className="text-xs text-green-600 font-medium mb-1">Correct Answer:</p>
-                              <p className="text-sm sm:text-base text-green-800 font-bold flex items-center gap-2">
-                                <CheckCircle className="w-4 h-4 flex-shrink-0" />
-                                {q.options[q.correctIndex]}
-                              </p>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-
-                {/* Empty State */}
-                {shuffledQuestions.filter((q: Question, idx: number) => {
+            {/* Questions Review */}
+            <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-5 space-y-3 max-h-96 overflow-y-auto">
+              {shuffledQuestions
+                .map((q: Question, idx: number) => {
                   const userAnswer = userAnswers[idx]
                   const isAnswered = userAnswer !== null
                   const isCorrect = userAnswer === q.correctIndex
+                  return { q, idx, userAnswer, isAnswered, isCorrect }
+                })
+                .filter(({ isAnswered, isCorrect }) => {
                   if (reviewFilter === "all") return true
                   if (reviewFilter === "correct") return isAnswered && isCorrect
                   if (reviewFilter === "incorrect") return isAnswered && !isCorrect
                   if (reviewFilter === "skipped") return !isAnswered
                   return true
-                }).length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
-                    <p className="text-sm sm:text-base">No questions in this category</p>
+                })
+                .map(({ q, idx, userAnswer, isAnswered, isCorrect }) => (
+                  <div
+                    key={idx}
+                    className={`rounded-xl p-4 border transition-all ${
+                      !isAnswered
+                        ? "bg-slate-700/30 border-slate-600"
+                        : isCorrect
+                          ? "bg-emerald-500/10 border-emerald-500/30"
+                          : "bg-red-500/10 border-red-500/30"
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                          !isAnswered
+                            ? "bg-slate-600 text-slate-300"
+                            : isCorrect
+                              ? "bg-emerald-500 text-white"
+                              : "bg-red-500 text-white"
+                        }`}
+                      >
+                        {!isAnswered ? "?" : isCorrect ? "✓" : "✕"}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-slate-100">{q.question}</p>
+                        <div className="mt-2 space-y-1.5 text-xs">
+                          {!isAnswered ? (
+                            <p className="text-slate-400 italic">You didn't answer this question</p>
+                          ) : (
+                            <>
+                              {!isCorrect && userAnswer !== null && (
+                                <p className="text-red-300">
+                                  Your answer: <span className="font-semibold">{q.options[userAnswer]}</span>
+                                </p>
+                              )}
+                              <p className="text-emerald-300">
+                                Correct: <span className="font-semibold">{q.options[q.correctIndex]}</span>
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
+                ))}
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+            <div className="flex flex-col gap-2 sm:gap-3 pt-3 sm:pt-4">
               <button
                 onClick={() => startQuiz(activeQuiz)}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium text-sm sm:text-base hover:from-green-700 hover:to-emerald-700 transition-all active:scale-95 touch-manipulation shadow-md flex items-center justify-center gap-2"
+                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
-                <Play className="w-4 h-4" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                 Retry Quiz
               </button>
               <button
                 onClick={backToQuizzes}
-                className="bg-gray-200 text-gray-800 px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-medium text-sm sm:text-base hover:bg-gray-300 transition-all active:scale-95 touch-manipulation shadow-md"
+                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
               >
                 Back to Quizzes
               </button>
             </div>
           </section>
         ) : (
-          <section className="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-green-50 to-emerald-100">
-            <div className="mb-4 sm:mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-800">{activeQuiz.title}</h2>
-                <span className="text-xs sm:text-sm font-semibold text-green-700 bg-green-100 px-3 py-1 rounded-full">
+          // Quiz Screen
+          <section className="px-3 py-4 sm:px-6 sm:py-8 space-y-3 sm:space-y-5">
+            {/* Progress Bar */}
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-base sm:text-xl font-bold text-slate-900 truncate">{activeQuiz.title}</h2>
+                <span className="text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 bg-emerald-100 text-emerald-700 rounded-full border border-emerald-300 whitespace-nowrap flex-shrink-0">
                   {currentQuestion + 1} / {shuffledQuestions.length}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5 overflow-hidden">
+              <div className="w-full h-2.5 sm:h-3 bg-slate-200 rounded-full overflow-hidden shadow-inner">
                 <div
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 h-full rounded-full transition-all duration-300 ease-out"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 shadow-lg"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
-              <p className="text-xs sm:text-sm text-gray-600 mt-2">
+              <p className="text-xs text-slate-600 font-semibold">
                 {answeredCount} of {shuffledQuestions.length} questions answered
               </p>
             </div>
 
-            <div className="bg-white border border-green-200 rounded-xl p-4 sm:p-6 shadow-md">
-              <p className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 leading-relaxed">
+            {/* Question Card */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-8 shadow-lg">
+              <p className="text-base sm:text-2xl font-bold text-slate-900 leading-snug sm:leading-relaxed mb-6 sm:mb-8">
                 {shuffledQuestions[currentQuestion].question}
               </p>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
                 {shuffledQuestions[currentQuestion].options.map((option: string, idx: number) => {
                   const isSelected = selectedAnswer === idx
                   const isCorrect = idx === shuffledQuestions[currentQuestion].correctIndex
                   const isAnswered = answeredQuestions.has(currentQuestion)
 
-                  let btnStyle =
-                    "w-full text-left px-4 sm:px-5 py-3.5 sm:py-4 rounded-lg border-2 font-medium transition-all text-sm sm:text-base leading-snug touch-manipulation flex items-center gap-3 "
+                  let style =
+                    "w-full text-left px-3 sm:px-4 py-2.5 sm:py-4 rounded-xl border-2 font-semibold transition-all text-sm sm:text-base leading-snug flex items-center gap-2 sm:gap-3 "
 
                   if (isAnswered && showFeedback) {
                     if (isCorrect) {
-                      btnStyle += "bg-green-100 border-green-500 text-green-900 shadow-md"
+                      style += "bg-emerald-50 border-emerald-400 text-emerald-900 shadow-md"
                     } else if (isSelected) {
-                      btnStyle += "bg-red-100 border-red-500 text-red-900 shadow-md"
+                      style += "bg-red-50 border-red-400 text-red-900 shadow-md"
                     } else {
-                      btnStyle += "bg-gray-50 border-gray-200 text-gray-500"
+                      style += "bg-slate-50 border-slate-300 text-slate-500 opacity-60"
                     }
                   } else if (isAnswered) {
-                    btnStyle += "bg-gray-50 border-gray-200 text-gray-500 cursor-not-allowed"
+                    style += "bg-slate-50 border-slate-300 text-slate-500 cursor-not-allowed opacity-50"
                   } else {
-                    btnStyle +=
-                      "bg-white border-gray-200 hover:bg-green-50 hover:border-green-300 text-gray-700 hover:shadow-sm active:scale-[0.98]"
+                    style +=
+                      "bg-slate-50 border-slate-300 hover:bg-white hover:border-emerald-400 text-slate-900 cursor-pointer active:scale-95 hover:shadow-md"
                   }
 
                   return (
-                    <button key={idx} onClick={() => handleAnswer(idx)} className={btnStyle} disabled={isAnswered}>
-                      <span className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-100 text-gray-700 text-xs sm:text-sm font-bold flex-shrink-0">
+                    <button key={idx} onClick={() => handleAnswer(idx)} disabled={isAnswered} className={style}>
+                      <span className="flex-shrink-0 w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span className="flex-1">{option}</span>
                       {isAnswered && showFeedback && (
                         <>
-                          {isCorrect && <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />}
-                          {!isCorrect && isSelected && <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />}
+                          {isCorrect && (
+                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 flex-shrink-0" />
+                          )}
+                          {!isCorrect && isSelected && (
+                            <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0" />
+                          )}
                         </>
                       )}
                     </button>
@@ -619,32 +563,40 @@ export default function ModelQuizzes() {
                 })}
               </div>
 
-              <div className="mt-6 flex flex-col sm:flex-row justify-between gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-slate-200">
                 <button
                   onClick={nextQuestion}
                   disabled={currentQuestion >= shuffledQuestions.length - 1}
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-5 sm:px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
+                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm sm:text-base"
                 >
-                  Next Question
+                  Next
+                  <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
                 <button
                   onClick={finishQuiz}
                   disabled={answeredCount === 0}
-                  className="flex items-center justify-center gap-2 bg-amber-600 text-white px-5 sm:px-6 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation active:scale-95 shadow-md"
+                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm sm:text-base"
                 >
-                  <StopCircle className="w-4 h-4" />
-                  Finish Quiz
+                  <StopCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  Finish
                 </button>
               </div>
+
+              <button
+                onClick={backToQuizzes}
+                className="w-full mt-2 sm:mt-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
+              >
+                ← Back to Quiz Menu
+              </button>
             </div>
           </section>
         )}
 
         {/* Footer */}
-        <footer className="bg-gradient-to-r from-green-600 to-emerald-600 text-white text-center px-4 py-5 sm:py-6">
-          <p className="text-sm sm:text-base md:text-lg font-semibold">Model Quizzes – Learn Smarter 💡</p>
-          <p className="text-xs sm:text-sm font-medium mt-2 text-white opacity-90">Created by Hasitha Sandakelum</p>
-          <p className="text-green-100 text-xs sm:text-sm mt-1">Fully responsive for all devices</p>
+        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0">
+          <p className="text-base font-bold text-slate-900">Quiz Master – Learn Smarter</p>
+          <p className="text-xs font-medium mt-1 text-blue-300">Created by Hasitha Sandakelum</p>
+          <p className="text-xs text-slate-500 mt-1 sm:mt-2 font-medium">Fully responsive for all devices</p>
         </footer>
       </div>
     </div>
