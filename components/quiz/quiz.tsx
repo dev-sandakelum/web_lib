@@ -178,24 +178,28 @@ export default function ModelQuizzes() {
       bg: "from-amber-50 to-orange-100",
       label: "bg-amber-200/50",
       labelText: "text-amber-900",
+      border: "border-amber-300/50",
       shape: "ellipse-gradient-amber",
     },
     {
       bg: "from-purple-50 to-pink-100",
       label: "bg-purple-200/50",
       labelText: "text-purple-900",
+      border: "border-purple-300/50",
       shape: "ellipse-gradient-purple",
     },
     {
       bg: "from-green-50 to-emerald-100",
       label: "bg-green-200/50",
       labelText: "text-green-900",
+      border: "border-green-300/50",
       shape: "ellipse-gradient-green",
     },
     {
       bg: "from-pink-50 to-rose-100",
       label: "bg-pink-200/50",
       labelText: "text-pink-900",
+      border: "border-pink-300/50",
       shape: "ellipse-gradient-pink",
     },
   ]
@@ -269,7 +273,7 @@ export default function ModelQuizzes() {
                   return (
                     <div
                       key={quiz.id}
-                      className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${gradient.bg} border border-white/60 shadow-lg hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 flex flex-col min-h-44 sm:min-h-48 hover:-translate-y-2`}
+                      className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${gradient.bg} border ${gradient.border} shadow-lg hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 flex flex-col min-h-44 sm:min-h-48 hover:-translate-y-2`}
                     >
                       <div
                         className={`absolute -bottom-16 -right-16 w-40 h-40 rounded-full opacity-40 blur-3xl ${gradient.shape} pointer-events-none`}
@@ -591,12 +595,11 @@ export default function ModelQuizzes() {
             </div>
           </section>
         )}
-
+          <div className="h-20 w-full"></div>
         {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0">
-          <p className="text-base font-bold text-slate-900">Quiz Master – Learn Smarter</p>
-          <p className="text-xs font-medium mt-1 text-blue-300">Created by Hasitha Sandakelum</p>
-          <p className="text-xs text-slate-500 mt-1 sm:mt-2 font-medium">Fully responsive for all devices</p>
+       <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
+          <p className="text-base font-bold text-slate-900">Quiz Master 3.0 – Learn Smarter</p>
+          <p className="text-xs font-medium mt-1 text-blue-500">Created by Hasitha Sandakelum</p>
         </footer>
       </div>
     </div>
