@@ -1,5 +1,5 @@
 export const ApplicationLayersQuiz1 = {
-  id: "6",
+  id: "n6",
   title: "Application, Session & Presentation Layers - Part 1",
   category: "Computer Networks",
   questions: [
@@ -507,7 +507,7 @@ export const ApplicationLayersQuiz1 = {
 };
 
 export const ApplicationLayersQuiz2 = {
-  id: "7",
+  id: "n7",
   title: "Application, Session & Presentation Layers - Part 2",
   category: "Computer Networks",
   questions: [

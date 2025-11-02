@@ -14,6 +14,7 @@ import {
   Award,
   ChevronRight,
   Sparkles,
+  Loader,
 } from "lucide-react"
 
 // Define types for quiz structure
@@ -39,13 +40,15 @@ import { Comic_Neue } from "next/font/google"
   subsets: ["latin"],
   variable: "--font-sans",
 })
-
+const ITEMS_PER_PAGE = 8 // Load 8 quizzes at a time for better performance
 
 export default function ModelQuizzes() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
   const initRef = useRef(false)
+  const observerTarget = useRef<HTMLDivElement>(null)
+  const loadingRef = useRef(false)
 
   const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null)
   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([])
@@ -59,6 +62,9 @@ export default function ModelQuizzes() {
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set())
   const [showFeedback, setShowFeedback] = useState(false)
   const [reviewFilter, setReviewFilter] = useState<"all" | "correct" | "incorrect" | "skipped">("all")
+  const [displayedQuizzes, setDisplayedQuizzes] = useState<Quiz[]>([]) // Store only displayed quizzes
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [hasMoreQuizzes, setHasMoreQuizzes] = useState(true) // Track if more quizzes exist
 
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array]
@@ -94,6 +100,85 @@ export default function ModelQuizzes() {
   useEffect(() => {
     initializeQuizFromUrl()
   }, [])
+
+
+  useEffect(() => {
+    if (!activeQuiz && displayedQuizzes.length === 0) {
+      loadMoreQuizzes()
+    }
+  }, [selectedCategory, searchTerm])
+
+   const loadMoreQuizzes = useCallback(() => {
+    if (loadingRef.current || activeQuiz || isLoadingMore || !hasMoreQuizzes) return
+
+    loadingRef.current = true
+    setIsLoadingMore(true)
+
+    setTimeout(() => {
+      const filtered = builtInQuizzes.filter((quiz) => {
+        const matchesCategory = selectedCategory === "all" || quiz.category === selectedCategory
+        const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase())
+        return matchesCategory && matchesSearch
+      })
+
+      const nextBatch = filtered.slice(displayedQuizzes.length, displayedQuizzes.length + ITEMS_PER_PAGE)
+
+      if (nextBatch.length > 0) {
+        setDisplayedQuizzes((prev) => {
+          const existingIds = new Set(prev.map((q) => q.id))
+          const newQuizzes = nextBatch.filter((q) => !existingIds.has(q.id))
+          return [...prev, ...newQuizzes]
+        })
+        setHasMoreQuizzes(displayedQuizzes.length + nextBatch.length < filtered.length)
+      } else {
+        setHasMoreQuizzes(false)
+      }
+
+      loadingRef.current = false
+      setIsLoadingMore(false)
+    }, 300)
+  }, [displayedQuizzes.length, selectedCategory, searchTerm, activeQuiz, isLoadingMore, hasMoreQuizzes])
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loadingRef.current && !activeQuiz && !isLoadingMore && hasMoreQuizzes) {
+          clearTimeout(timeoutId)
+          timeoutId = setTimeout(() => {
+            loadMoreQuizzes()
+          }, 100)
+        }
+      },
+      { threshold: 0.1, rootMargin: "50px" },
+    )
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current)
+    }
+
+    return () => {
+      clearTimeout(timeoutId)
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current)
+      }
+    }
+  }, [loadMoreQuizzes, activeQuiz, isLoadingMore, hasMoreQuizzes])
+
+  useEffect(() => {
+    setDisplayedQuizzes([])
+    setHasMoreQuizzes(true)
+    loadingRef.current = false
+    setTimeout(() => {
+      loadMoreQuizzes()
+    }, 0)
+  }, [selectedCategory, searchTerm])
+
+  useEffect(() => {
+    setDisplayedQuizzes([])
+    loadingRef.current = false
+  }, [selectedCategory, searchTerm])
+
 
   const startQuiz = (quiz: Quiz) => {
     const shuffled = shuffleArray(quiz.questions)
@@ -164,11 +249,6 @@ export default function ModelQuizzes() {
     ...Array.from(new Set(builtInQuizzes.map((q) => q.category))).map((cat) => ({ id: cat, name: cat })),
   ]
 
-  const filteredQuizzes = builtInQuizzes.filter((quiz) => {
-    const matchesCategory = selectedCategory === "all" || quiz.category === selectedCategory
-    const matchesSearch = quiz.title.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
 
   const progressPercentage = activeQuiz ? ((currentQuestion + 1) / shuffledQuestions.length) * 100 : 0
   const answeredCount = userAnswers.filter((a) => a !== null).length
@@ -262,7 +342,7 @@ export default function ModelQuizzes() {
               Available Quizzes
             </h2>
 
-            {filteredQuizzes.length === 0 ? (
+            {displayedQuizzes.length === 0 && !isLoadingMore ? (
               <div className="text-center py-12 sm:py-16 px-4 bg-white rounded-3xl border-2 border-dashed border-slate-300">
                 <p className="text-slate-500 text-lg font-semibold">No quizzes found</p>
               </div>
@@ -279,42 +359,64 @@ export default function ModelQuizzes() {
                         className={`absolute -bottom-16 -right-16 w-40 h-40 rounded-full opacity-40 blur-3xl ${gradient.shape} pointer-events-none`}
                       />
 
-                      {/* Card Content */}
-                      <div className="relative z-10 flex flex-col h-full">
-                        {/* Label */}
-                        <div
-                          className={`inline-flex w-fit px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-bold mb-2 sm:mb-3 ${gradient.label} ${gradient.labelText}`}
-                        >
-                          QUIZ
+                        {/* Card Content */}
+                        <div className="relative z-10 flex flex-col h-full">
+                          {/* Label */}
+                          <div
+                            className={`inline-flex w-fit px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-bold mb-2 sm:mb-3 ${gradient.label} ${gradient.labelText}`}
+                          >
+                            QUIZ
+                          </div>
+
+                          {/* Title */}
+                          <h3 className="text-base sm:text-xl font-bold text-slate-900 leading-snug mb-1 sm:mb-2 group-hover:text-emerald-700 transition-colors">
+                            {quiz.title}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="text-xs sm:text-sm text-slate-700 mb-3 sm:mb-4 flex-1">{quiz.category}</p>
+
+                          {/* Question Count */}
+                          <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-800 mb-3 sm:mb-4">
+                            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
+                            {quiz.questions.length} Questions
+                          </div>
+
+                          {/* Learn More Button */}
+                          <button
+                            onClick={() => startQuiz(quiz)}
+                            className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-white hover:bg-slate-50 text-emerald-700 font-bold rounded-xl border border-emerald-200 hover:border-emerald-400 transition-all active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
+                          >
+                            Start Quiz
+                            <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          </button>
                         </div>
-
-                        {/* Title */}
-                        <h3 className="text-base sm:text-xl font-bold text-slate-900 leading-snug mb-1 sm:mb-2 group-hover:text-emerald-700 transition-colors">
-                          {quiz.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="text-xs sm:text-sm text-slate-700 mb-3 sm:mb-4 flex-1">{quiz.category}</p>
-
-                        {/* Question Count */}
-                        <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-800 mb-3 sm:mb-4">
-                          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
-                          {quiz.questions.length} Questions
-                        </div>
-
-                        {/* Learn More Button */}
-                        <button
-                          onClick={() => startQuiz(quiz)}
-                          className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-white hover:bg-slate-50 text-emerald-700 font-bold rounded-xl border border-emerald-200 hover:border-emerald-400 transition-all active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
-                        >
-                          Start Quiz
-                          <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        </button>
                       </div>
+                    )
+                  })}
+                </div>
+
+                {isLoadingMore && (
+                  <div className="flex justify-center py-6 sm:py-8">
+                    <div className="flex items-center gap-2">
+                      <Loader className="w-5 h-5 text-emerald-500 animate-spin" />
+                      <p className="text-sm font-semibold text-slate-600">Loading more quizzes...</p>
                     </div>
-                  )
-                })}
-              </div>
+                  </div>
+                )}
+
+                {isLoadingMore && (
+                  <div className="flex justify-center py-6 sm:py-8">
+                    <div className="flex items-center gap-2">
+                      <Loader className="w-5 h-5 text-emerald-500 animate-spin" />
+                      <p className="text-sm font-semibold text-slate-600">Loading more quizzes...</p>
+                    </div>
+                  </div>
+                )}
+
+                <div ref={observerTarget} className="h-4" />
+              </>
+              
             )}
           </section>
         ) : finished ? (
