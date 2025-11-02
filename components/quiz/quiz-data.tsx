@@ -1,3 +1,4 @@
+import { ApplicationLayersQuiz1, ApplicationLayersQuiz2 } from "@/resourses/json/Q10";
 import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2";
 import { MultimediaQuiz } from "@/resourses/json/Q3";
 import { CProgrammingQuiz } from "@/resourses/json/Q4";
@@ -43,6 +44,8 @@ export const builtInQuizzes: Quiz[] = [
   NetworkDevicesQuiz,
   NetworkTransportQuiz,
   TransportProtocolsQuiz,
+  ApplicationLayersQuiz1,
+    ApplicationLayersQuiz2,
   InternalMemoryQuiz,
   ExternalMemoryQuiz,
   AdvancedMemoryQuiz,
