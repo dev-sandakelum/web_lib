@@ -154,3 +154,61 @@
     scrollbar-width: none;
   }
 }
+
+/* Add custom scrollbar styling */
+/* Scrollbar for webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgb(241, 245, 249) 0%, rgb(226, 232, 240) 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgb(16, 185, 129) 0%, rgb(13, 148, 136) 100%);
+  border-radius: 10px;
+  border: 2px solid rgb(248, 250, 252);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgb(5, 150, 105) 0%, rgb(15, 118, 110) 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  border: 2px solid rgb(243, 244, 246);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgb(4, 120, 87) 0%, rgb(5, 100, 90) 100%);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+/* Scrollbar for Firefox */
+* {
+  scrollbar-color: rgb(16, 185, 129) rgb(241, 245, 249);
+  scrollbar-width: thin;
+}
+
+/* Dark mode scrollbar adjustments */
+.dark {
+  scrollbar-color: rgb(16, 185, 129) rgb(30, 41, 59);
+}
+
+.dark::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgb(30, 41, 59) 0%, rgb(20, 29, 45) 100%);
+  border-radius: 10px;
+}
+
+.dark::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgb(16, 185, 129) 0%, rgb(13, 148, 136) 100%);
+  border-color: rgb(30, 41, 59);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.dark::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgb(5, 150, 105) 0%, rgb(15, 118, 110) 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
