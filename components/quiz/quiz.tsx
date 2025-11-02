@@ -593,10 +593,9 @@ export default function ModelQuizzes() {
         )}
 
         {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0">
-          <p className="text-base font-bold text-slate-900">Quiz Master – Learn Smarter</p>
-          <p className="text-xs font-medium mt-1 text-blue-300">Created by Hasitha Sandakelum</p>
-          <p className="text-xs text-slate-500 mt-1 sm:mt-2 font-medium">Fully responsive for all devices</p>
+        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
+          <p className="text-base font-bold text-slate-900">Quiz Master 3.0 – Learn Smarter</p>
+          <p className="text-xs font-medium mt-1 text-blue-500">Created by Hasitha Sandakelum</p>
         </footer>
       </div>
     </div>
