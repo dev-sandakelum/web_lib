@@ -591,7 +591,7 @@ export default function ModelQuizzes() {
             </div>
           </section>
         )}
-
+          <div className="h-20 w-full"></div>
         {/* Footer */}
         <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
           <p className="text-base font-bold text-slate-900">Quiz Master 3.0 – Learn Smarter</p>
