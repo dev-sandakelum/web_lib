@@ -41,6 +41,13 @@ export default function PDFLibrary() {
       category: "IS",
       url: `${pdf_path}Information System Questions.pdf`,
       size: "134 KB",
+    },{
+      id: "1",
+      title: "Computer Networks_ Application, Presentation, and Session Layers",
+      description: "",
+      category: "",
+      url: `${pdf_path}dasindu01/Computer Networks_ Application, Presentation, and Session Layers.pdf`,
+      size: "- KB",
     },
     
   ];

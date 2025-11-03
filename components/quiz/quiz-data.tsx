@@ -1,3 +1,4 @@
+import { CacheMemoryQuiz, ComputerArithmeticQuiz } from "@/resourses/json/computer_arch_quiz";
 import { ApplicationLayersQuiz1, ApplicationLayersQuiz2 } from "@/resourses/json/Q10";
 import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2";
 import { MultimediaQuiz } from "@/resourses/json/Q3";
@@ -38,6 +39,8 @@ interface Quiz {
 }
 
 export const builtInQuizzes: Quiz[] = [
+  CacheMemoryQuiz,
+  ComputerArithmeticQuiz,
   PhysicalLayerQuiz,
   ComputerNetworksQuiz,
   DataLinkMACQuiz,
