@@ -39,8 +39,8 @@ interface Quiz {
 }
 
 export const builtInQuizzes: Quiz[] = [
-  CacheMemoryQuiz,
-  ComputerArithmeticQuiz,
+  // CacheMemoryQuiz,
+  // ComputerArithmeticQuiz,
   PhysicalLayerQuiz,
   ComputerNetworksQuiz,
   DataLinkMACQuiz,
