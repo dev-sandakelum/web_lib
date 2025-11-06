@@ -54,7 +54,7 @@ export default function QuizPage() {
             <div className="text-4xl">🔍</div>
             <h2 className="text-lg sm:text-xl font-semibold text-card-foreground">Category Not Found</h2>
             <p className="text-sm text-muted-foreground">The category you're looking for doesn't exist.</p>
-            <Link href="/">
+            <Link href="/question-gen/">
               <button className="h-10 px-5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
                 ← Back to Categories
               </button>
