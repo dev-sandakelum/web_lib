@@ -1,4 +1,4 @@
-import { DonutIcon, File } from "lucide-react"
+import { Clock11, DonutIcon, File } from "lucide-react"
 
 export const mainTopics = [
   {
@@ -127,6 +127,14 @@ export const mainTopics = [
     color: "from-red-500 to-red-600",
     description: "Comprehensive documents",
     link : "/pdf_links",
+    subTopics: [],
+  },{
+    id:"Question-gen",
+    title: "Question Generator",
+    icon: <Clock11 className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-purple-500 to-purple-600",
+    description: "AI-Powered Quiz Creation",
+    link : "/question-gen",
     subTopics: [],
   },
 ]

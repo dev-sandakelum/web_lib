@@ -44,7 +44,7 @@ export default function FloatingHomeButton() {
   return (
     <>
       {/* Container to keep both buttons together */}
-      <div className="fixed bottom-6 right-2 flex flex-col gap-3 z-50">
+      <div className="fixed bottom-6 right-2 flex flex-col gap-3 z-150">
         <button
           onClick={goHome}
           className="flex items-center justify-center w-10 h-10 rounded-md shadow-lg bg-blue-600 text-white opacity-20 hover:opacity-80 hover:bg-blue-700 transition duration-200"
