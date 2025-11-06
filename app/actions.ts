@@ -1,6 +1,6 @@
 "use server"
 
-import { datasets } from "@/lib/question-gen/datasets"
+import { datasets } from "@/lib/question-gen/openai-client"
 import { callOpenAI, type EvaluationResult } from "@/lib/question-gen/openai-client"
 
 export async function generateQuestion(categoryId: string): Promise<string> {
