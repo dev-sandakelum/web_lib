@@ -13,7 +13,7 @@ export function Q_gen_question({ value, font }: Value_PASS) {
       </h3>
 
       <h2
-        className={`text-[12px] sm:text-m text-card-foreground leading-snug ${font} font-sans antialiased`}
+        className={`text-[12px] sm:text-sm text-card-foreground leading-snug ${font} font-sans antialiased`}
         dangerouslySetInnerHTML={{ __html: value }}
       ></h2>
     </div>
