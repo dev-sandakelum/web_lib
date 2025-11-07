@@ -9,7 +9,50 @@ Use basic HTML tags (<b>, <i>, <u>, <ul>, <li>, <br>) for formatting and emphasi
 Do NOT include <html>, <body>, or other structural tags. 
 Keep the text clean, readable, and semantically correct.
 `
+const questionPattern = `Look for these patterns:
 
+Question Distribution
+
+Count how many marks for each topic
+Which topics appear most frequently?
+Which topics are combined together?
+
+
+Question Styles
+
+Define/Explain questions (testing knowledge)
+Compare/Contrast (testing understanding)
+Apply to scenario (testing application)
+Diagram/Draw (testing practical skills)
+
+
+Repeated Topics
+
+What appears in all 3 years?
+What's asked differently each time?
+New topics vs consistent topics
+
+
+Mark Allocation
+
+High marks = detailed answers needed
+Low marks = brief, specific answers
+
+
+
+Can You Help Me By:
+
+Typing out 2-3 sample questions from any paper?
+Telling me the main topics you see covered?
+Sharing the section structure (Part A, B, C format)?
+Taking a photo/screenshot if the scan quality is poor?
+
+Once I can see the actual questions, I can give you much more specific guidance on:
+
+How questions are constructed
+What examiners are looking for
+How to prepare effectively
+Common question patterns`
 export async function generateQuestion(categoryId: string): Promise<string> {
   const dataset = getDatasetById(categoryId)
   
@@ -32,6 +75,8 @@ Guidelines:
 - Keep it clear and grammatically correct.
 - Avoid adding extra explanations or metadata.
 - ${commonInstruction}
+- Use the following patterns as inspiration (but do not copy directly):
+${questionPattern}
 
 Return ONLY the question text.
 `

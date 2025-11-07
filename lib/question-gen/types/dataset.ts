@@ -1,18 +1,27 @@
-import { expressionsAndOperatorsDataset } from "../datasets/expressionsAndOperators"
-import { internalMemoryDataset } from "../datasets/internalMemory"
+import { topicGroups } from "../datasets/registry"
 
 
 export interface Dataset {
   id: string
   category: string
+  subcategory: string
   description: string
   content: string
 }
 
-export const datasets: Dataset[] = [
-  expressionsAndOperatorsDataset,
-  internalMemoryDataset
-]
+export interface TopicGroup {
+  id: string
+  name: string
+  icon?: string
+  description: string
+  subtopics: Dataset[]
+}
+const datasets : Dataset[] = []; // TEMPORARY
+topicGroups.forEach(group => {
+  group.subtopics.forEach(dataset => {
+    datasets.push(dataset);
+  });
+});
 
 export function getDatasetById(id: string): Dataset | undefined {
   return datasets.find(dataset => dataset.id === id)

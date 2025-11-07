@@ -1,15 +1,13 @@
 // expressionsAndOperators.ts
 // Single dataset entry combining all lecture content from Lecture 03 – Expressions and Operators.pdf
-import { Dataset } from "../types/dataset";
+import { Dataset } from "../../types/dataset";
 export const expressionsAndOperatorsDataset: Dataset = {
     id: "Expressions-and-Operators",
-    category: "Expressions and Operators",
-    description: "Comprehensive notes covering expressions, operators, precedence, scope, and library functions in C programming.",
+    category: "Programming",
+    subcategory: "Expressions and Operators",
+    description: "Comprehensive overview of expressions, operators, and related concepts in programming.",
     content: `
 Expressions and Operators
-Lecture 03 – ICT1132
-Department of ICT
-Faculty of Technology
 
 Expressions:
 An expression is a combination of variables, constants, operators, and function invocations, constructed according to the syntax of the language.

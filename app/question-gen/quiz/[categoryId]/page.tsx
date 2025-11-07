@@ -1,36 +1,41 @@
+// ============================================
+// UPDATED: app/question-gen/[categoryId]/page.tsx
+// ============================================
 "use client";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { generateQuestion } from "@/app/actions";
-import { datasets } from "@/lib/question-gen/types/dataset";
 import { QuizQuestion } from "@/components/question-gen/quiz-question";
 import { QuizResults } from "@/components/question-gen/quiz-results";
 import { Spinner } from "@/components/question-gen/spinner";
-import { comicNeue } from "@/components/quiz/quiz";
+import { datasets, getDatasetById } from "@/lib/question-gen/datasets/registry"; // CHANGED
+import { Dataset } from "@/lib/question-gen/types/dataset";
 
 interface ResultState {
   stars: number;
   feedback: string;
   improvements: string[];
-
-  userAnswer: string; // ADDED
-  question: string;   // ADDED
-
-  modelAnswer: string; // ADDED
+  userAnswer: string;
+  question: string;
+  modelAnswer: string;
 }
+
+
 
 export default function QuizPage() {
   const params = useParams();
   const categoryId = params.categoryId as string;
-
+  
   const [question, setQuestion] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ResultState | null>(null);
+  
 
-  const dataset = datasets.find((d) => d.id === categoryId);
+  // CHANGED: Use the helper function instead of find
+  const dataset = getDatasetById(categoryId);
 
   const loadNewQuestion = async () => {
     setLoading(true);
@@ -95,8 +100,14 @@ export default function QuizPage() {
         </div>
 
         <div className="mb-5 sm:mb-6">
+          {/* UPDATED: Show both category and subcategory */}
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-1">
+            <span>{dataset.category}</span>
+            <span>›</span>
+            <span className="text-primary font-medium">{dataset.subcategory}</span>
+          </div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight">
-            {dataset.category}
+            {dataset.subcategory}
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             {dataset.description}
@@ -151,21 +162,21 @@ export default function QuizPage() {
               categoryId={categoryId}
               onTryAnother={loadNewQuestion}
               loading={loading}
-              userAnswer={result.userAnswer}  // ADDED
-              question={result.question}      // ADDED
+              userAnswer={result.userAnswer}
+              question={result.question}
               modelAnswer={result.modelAnswer}
             />
           ) : (
             <QuizQuestion
               question={question}
               categoryId={categoryId}
-              onAnswerEvaluated={(stars, feedback, improvements, userAnswer ,modelAnswer) => {  // MODIFIED
+              onAnswerEvaluated={(stars, feedback, improvements, userAnswer, modelAnswer) => {
                 setResult({ 
                   stars, 
                   feedback, 
                   improvements,
-                  userAnswer,      // ADDED
-                  question ,        // ADDED
+                  userAnswer,
+                  question,
                   modelAnswer
                 })
               }}
@@ -176,7 +187,6 @@ export default function QuizPage() {
         ) : null}
       </div>
       <div className="h-20 w-full"></div>
-      
     </main>
   );
 }
