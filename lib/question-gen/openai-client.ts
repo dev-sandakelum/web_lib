@@ -24,7 +24,8 @@ export function getNextApiKey(): string {
 
 export async function callOpenAI(
   messages: Array<{ role: string; content: string }>,
-  retries = 3
+  retries = 3,
+  temperature = 0.7  // Add temperature parameter
 ): Promise<string> {
   if (!HAS_API_KEYS) {
     throw new Error(
@@ -48,8 +49,8 @@ export async function callOpenAI(
           role: msg.role as "user" | "assistant" | "system",
           content: msg.content,
         })),
-        temperature: 0.7,
-        max_tokens: 1024,
+        temperature: temperature,  // Use parameter
+        max_tokens: 2048,  // Increased from 1024
       })
 
       const content = response.choices[0]?.message?.content
@@ -66,6 +67,7 @@ export async function callOpenAI(
           (typeof err.message === "string" && err.message.includes("429"))) &&
         i < retries - 1
       ) {
+        await new Promise(resolve => setTimeout(resolve, 1000)) // Add delay
         continue
       }
       throw error
