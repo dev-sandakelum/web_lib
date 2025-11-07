@@ -1,6 +1,6 @@
-import { CategoryCard } from "@/components/question-gen/category-card"
-import { datasets } from "@/lib/question-gen/openai-client"
 
+import { CategoryCard } from "@/components/question-gen/category-card"
+import { datasets } from "@/lib/question-gen/types/dataset"
 
 export default function Home() {
   return (
@@ -22,15 +22,14 @@ export default function Home() {
         </div>
       </div>
       <div className="h-20 w-full"></div>
-        {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
-          <p className="text-base font-bold text-slate-900">
-            © 2025 AI Quiz Generator
-          </p>
-          <p className="text-xs font-medium mt-1 text-blue-500">
-            Created by Hasitha Sandakelum
-          </p>
-        </footer>
+      <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
+        <p className="text-base font-bold text-slate-900">
+          © 2025 AI Quiz Generator
+        </p>
+        <p className="text-xs font-medium mt-1 text-blue-500">
+          Created by Hasitha Sandakelum
+        </p>
+      </footer>
     </main>
   )
 }

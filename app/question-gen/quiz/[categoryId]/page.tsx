@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import { generateQuestion } from "@/app/actions"
-import { datasets } from "@/lib/question-gen/openai-client"
+import { datasets } from "@/lib/question-gen/types/dataset"
 import { QuizQuestion } from "@/components/question-gen/quiz-question"
 import { QuizResults } from "@/components/question-gen/quiz-results"
 import { Spinner } from "@/components/question-gen/spinner"
@@ -68,7 +68,6 @@ export default function QuizPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-6 sm:py-8 md:py-10">
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
-        {/* Header with back button */}
         <div className="flex items-center justify-between mb-5 sm:mb-6">
           <Link 
             href="/question-gen/" 
@@ -79,7 +78,6 @@ export default function QuizPage() {
           </Link>
         </div>
 
-        {/* Category Title */}
         <div className="mb-5 sm:mb-6">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight">
             {dataset.category}
@@ -89,7 +87,6 @@ export default function QuizPage() {
           </p>
         </div>
 
-        {/* Error State */}
         {error && (
           <div className="bg-destructive/10 border border-destructive/50 text-destructive rounded-xl p-4 mb-5 space-y-3">
             <div className="flex items-start gap-2.5">
@@ -108,7 +105,6 @@ export default function QuizPage() {
           </div>
         )}
 
-        {/* Loading State */}
         {loading && !question ? (
           <div className="bg-card rounded-xl border border-border/50 shadow-sm p-8 sm:p-12">
             <div className="flex flex-col items-center justify-center gap-4">
@@ -152,15 +148,14 @@ export default function QuizPage() {
         ) : null}
       </div>
       <div className="h-20 w-full"></div>
-        {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
-          <p className="text-base font-bold text-slate-900">
-            © 2025 AI Quiz Generator
-          </p>
-          <p className="text-xs font-medium mt-1 text-blue-500">
-            Created by Hasitha Sandakelum
-          </p>
-        </footer>
+      <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
+        <p className="text-base font-bold text-slate-900">
+          © 2025 AI Quiz Generator
+        </p>
+        <p className="text-xs font-medium mt-1 text-blue-500">
+          Created by Hasitha Sandakelum
+        </p>
+      </footer>
     </main>
   )
 }

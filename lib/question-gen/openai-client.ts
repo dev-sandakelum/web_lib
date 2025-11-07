@@ -1,6 +1,4 @@
 import OpenAI from "openai"
-import { expressionsAndOperatorsDataset } from "./datasets/expressionsAndOperators"
-import { internalMemoryDataset } from "./datasets/internalMemory"
 
 let currentKeyIndex = 0
 
@@ -10,38 +8,12 @@ const API_KEYS = [
   process.env.OPENROUTER_API_KEY_3,
 ].filter((key): key is string => key !== undefined && key !== "")
 
-// Don't throw during module initialization — that breaks Next.js static build.
-// Defer throwing to runtime when a request actually needs an API key.
 const HAS_API_KEYS = API_KEYS.length > 0
-
-// Dataset interface with full PDF content as text
-export interface Dataset {
-  id: string
-  category: string
-  description: string
-  content: string // Full text content extracted from PDF
-}
-
-// Import datasets from separate files
-
-export const datasets: Dataset[] = [
-  expressionsAndOperatorsDataset,
-  internalMemoryDataset
-]
-
-// Helper functions
-export function getDatasetById(id: string): Dataset | undefined {
-  return datasets.find(dataset => dataset.id === id)
-}
-
-export function getAllCategories(): string[] {
-  return datasets.map(dataset => dataset.category)
-}
 
 export function getNextApiKey(): string {
   if (!HAS_API_KEYS) {
     throw new Error(
-      "No OpenRouter API keys configured. Please add NEXT_PUBLIC_OPENROUTER_API_KEY_1 (or _2/_3) to your environment."
+      "No OpenRouter API keys configured. Please add OPENROUTER_API_KEY_1 (or _2/_3) to your environment."
     )
   }
 
@@ -56,9 +28,10 @@ export async function callOpenAI(
 ): Promise<string> {
   if (!HAS_API_KEYS) {
     throw new Error(
-      "OpenRouter API keys are not configured. Set NEXT_PUBLIC_OPENROUTER_API_KEY_1 (or _2/_3) to enable AI features."
+      "OpenRouter API keys are not configured. Set OPENROUTER_API_KEY_1 (or _2/_3) to enable AI features."
     )
   }
+
   for (let i = 0; i < retries; i++) {
     try {
       const apiKey = getNextApiKey()
