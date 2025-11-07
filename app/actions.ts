@@ -19,7 +19,7 @@ export async function generateQuestion(categoryId: string): Promise<string> {
 
 ${contentPreview}
 
-Generate ONLY the question text, nothing else.`
+Generate ONLY the question text, nothing else. and use html tages <ul><b><br><i><u> for style if wanted`
 
   const messages = [
     {
@@ -109,7 +109,8 @@ Evaluate how well the student's answer matches the model answer. Respond with ON
 Rules:
 - stars: integer from 1-5 (5 = matches model answer closely, 1 = very poor)
 - feedback: 2-3 sentences comparing to model answer
-- improvements: array of 2-3 specific strings (only if stars < 4, otherwise empty array)
+- improvements: array of 2-3 specific strings (only if stars < 4, otherwise empty array
+- use html tages <ul><b><br><i><u> for style
 
 Respond with ONLY the JSON object, no other text.`
 
