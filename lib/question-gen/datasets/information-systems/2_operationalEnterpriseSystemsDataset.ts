@@ -4,7 +4,7 @@ import { Dataset } from "@/lib/question-gen/types/dataset";
 
 export const operationalEnterpriseSystemsDataset: Dataset = {
   id: "ict-operational-enterprise-systems",
-  category: "Information and Communication Technology (ICT)",
+  category: "Information Systems",
   subcategory: "Operational & Enterprise Systems and Processes",
   description: "Detailed overview of Transaction Processing Systems (TPS), Enterprise Resource Planning (ERP), and Customer Relationship Management (CRM).",
   content: `

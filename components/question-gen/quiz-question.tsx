@@ -5,6 +5,7 @@ import { evaluateAnswer } from "@/app/actions"
 import { Spinner } from "./spinner"
 import { comicNeue } from "../quiz/quiz"
 import { Q_gen_question } from "./results-items/question"
+import { Q_gen_note } from "./results-items/window"
 
 interface QuizQuestionProps {
   question: string
@@ -41,7 +42,6 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
     <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 sm:p-5 space-y-3.5">
       <div>
         <Q_gen_question value={question} font={comicNeue.variable}/>
-
         <textarea
           value={answer}
           onChange={(e) => {
@@ -57,6 +57,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
           <p className="text-xs sm:text-sm text-destructive mt-2 flex items-center gap-1.5">
             <span>⚠</span>
             {error}
+            
           </p>
         )}
       </div>

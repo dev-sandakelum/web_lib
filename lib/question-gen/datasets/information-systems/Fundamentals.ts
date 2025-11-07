@@ -4,7 +4,7 @@ import { Dataset } from "@/lib/question-gen/types/dataset";
 
 export const isFundamentalsDataset: Dataset = {
   id: "ict-is-fundamentals",
-  category: "Information and Communication Technology (ICT)",
+  category: "Information Systems",
   subcategory: "Information System Components & Concepts",
   description: "Fundamentals of Information Systems, including data/information/knowledge, system components, characteristics of valuable information, and IS categories.",
   content: `

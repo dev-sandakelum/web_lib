@@ -11,7 +11,8 @@ import { QuizQuestion } from "@/components/question-gen/quiz-question";
 import { QuizResults } from "@/components/question-gen/quiz-results";
 import { Spinner } from "@/components/question-gen/spinner";
 import { datasets, getDatasetById } from "@/lib/question-gen/datasets/registry"; // CHANGED
-import { Dataset } from "@/lib/question-gen/types/dataset";
+import { Q_gen_note } from "@/components/question-gen/results-items/window";
+import { stringify } from "querystring";
 
 interface ResultState {
   stars: number;
@@ -86,6 +87,7 @@ export default function QuizPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-6 sm:py-8 md:py-10">
+      <Q_gen_note subject={dataset.category}/>
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
         <div className="flex items-center justify-between mb-5 sm:mb-6">
           <Link
