@@ -47,7 +47,7 @@ export default function FloatingHomeButton() {
       <div className="fixed bottom-6 right-2 flex flex-col gap-3 z-150">
         <button
           onClick={goHome}
-          className="flex items-center justify-center w-10 h-10 rounded-md shadow-lg bg-blue-600 text-white opacity-20 hover:opacity-80 hover:bg-blue-700 transition duration-200"
+          className="flex items-center justify-center w-10 h-10 rounded-md shadow-lg bg-blue-600 text-white opacity-45 sm:opacity-20 hover:opacity-80 hover:bg-blue-700 transition duration-200"
           aria-label="Go to Home"
           title="Home (clears query and reloads)"
         >
@@ -56,7 +56,7 @@ export default function FloatingHomeButton() {
 
         <button
           onClick={goBack}
-          className="flex items-center justify-center w-10 h-10 rounded-md shadow-lg bg-gray-800 opacity-20 hover:opacity-80 text-white hover:bg-gray-900 transition duration-200"
+          className="flex items-center justify-center w-10 h-10 rounded-md shadow-lg bg-gray-800 opacity-45 sm:opacity-20 hover:opacity-80 text-white hover:bg-gray-900 transition duration-200"
           aria-label="Go Back"
           title="Back"
         >
