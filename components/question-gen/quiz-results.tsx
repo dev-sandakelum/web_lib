@@ -60,7 +60,7 @@ export function QuizResults({
                 <span className="font-bold text-primary flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] sm:text-xs">
                   {idx + 1}
                 </span>
-                <span className="leading-relaxed">{improvement}</span>
+                <span className="leading-relaxed" dangerouslySetInnerHTML={{__html:improvement}}></span>
               </li>
             ))}
           </ol>
