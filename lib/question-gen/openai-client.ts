@@ -5,9 +5,9 @@ import { internalMemoryDataset } from "./datasets/internalMemory"
 let currentKeyIndex = 0
 
 const API_KEYS = [
-  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1,
-  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_2,
-  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_3,
+  process.env.OPENROUTER_API_KEY_1,
+  process.env.OPENROUTER_API_KEY_2,
+  process.env.OPENROUTER_API_KEY_3,
 ].filter((key): key is string => key !== undefined && key !== "")
 
 // Don't throw during module initialization — that breaks Next.js static build.
