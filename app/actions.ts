@@ -1,8 +1,14 @@
-
 "use server"
 
 import { callOpenAI } from "@/lib/question-gen/openai-client"
 import { getDatasetById } from "@/lib/question-gen/types/dataset"
+
+// Common reusable instruction
+const commonInstruction = `
+Use basic HTML tags (<b>, <i>, <u>, <ul>, <li>, <br>) for formatting and emphasis in your response.
+Do NOT include <html>, <body>, or other structural tags. 
+Keep the text clean, readable, and semantically correct.
+`
 
 export async function generateQuestion(categoryId: string): Promise<string> {
   const dataset = getDatasetById(categoryId)
@@ -15,16 +21,25 @@ export async function generateQuestion(categoryId: string): Promise<string> {
     ? dataset.content.substring(0, 3000) + "..." 
     : dataset.content
 
-  const prompt = `Based on the following content about ${dataset.category}, generate ONE thoughtful question that tests understanding:
+  const prompt = `
+Based on the following educational content about <b>${dataset.category}</b>, generate <b>ONE thoughtful and concept-testing question</b>.
 
+CONTENT PREVIEW:
 ${contentPreview}
 
-Generate ONLY the question text, nothing else. and use html tages <ul><b><br><i><u> for style if wanted`
+Guidelines:
+- The question should assess understanding or reasoning, not simple recall.
+- Keep it clear and grammatically correct.
+- Avoid adding extra explanations or metadata.
+- ${commonInstruction}
+
+Return ONLY the question text.
+`
 
   const messages = [
     {
       role: "system",
-      content: "You are a helpful educational assistant. Generate clear, focused quiz questions.",
+      content: "You are a helpful educational assistant. Generate clear, engaging, and well-formatted quiz questions.",
     },
     {
       role: "user",
@@ -43,7 +58,7 @@ export async function evaluateAnswer(
   stars: number
   feedback: string
   improvements: string[]
-  modelAnswer: string  // ADDED
+  modelAnswer: string
 }> {
   const dataset = getDatasetById(categoryId)
   
@@ -55,8 +70,9 @@ export async function evaluateAnswer(
     ? dataset.content.substring(0, 3000) + "..." 
     : dataset.content
 
-  // STEP 1: Generate the model answer first
-  const modelAnswerPrompt = `Based on the following reference content, provide a comprehensive correct answer to this question.
+  // STEP 1: Generate model answer
+  const modelAnswerPrompt = `
+Using the following reference content, generate a <b>comprehensive correct answer</b> to the question below.
 
 TOPIC: ${dataset.category}
 
@@ -65,12 +81,16 @@ ${contentPreview}
 
 QUESTION: ${question}
 
-Provide a detailed, accurate answer based ONLY on the reference content. Keep it concise but complete (3-5 sentences).`
+Instructions:
+- Base the answer strictly on the reference content.
+- Keep it concise but complete (3–5 sentences).
+- ${commonInstruction}
+`
 
   const modelAnswerMessages = [
     {
       role: "system",
-      content: "You are an educational expert. Provide accurate, comprehensive answers based on the given content.",
+      content: "You are an educational expert. Provide accurate, concise, and well-formatted answers using HTML for readability.",
     },
     {
       role: "user",
@@ -86,8 +106,9 @@ Provide a detailed, accurate answer based ONLY on the reference content. Keep it
     modelAnswer = "Model answer generation failed. Please refer to your study materials."
   }
 
-  // STEP 2: Evaluate the student's answer
-  const evaluationPrompt = `You are an educational evaluator. Compare the student's answer with the model answer and evaluate.
+  // STEP 2: Evaluate student's answer
+  const evaluationPrompt = `
+You are an educational evaluator. Compare the student's answer with the model answer and provide feedback in JSON format.
 
 TOPIC: ${dataset.category}
 
@@ -99,7 +120,7 @@ ${modelAnswer}
 STUDENT'S ANSWER: 
 ${answer}
 
-Evaluate how well the student's answer matches the model answer. Respond with ONLY valid JSON in this exact format:
+Respond ONLY in this JSON structure:
 {
   "stars": 3,
   "feedback": "Your answer shows basic understanding but misses key points about X and Y.",
@@ -107,17 +128,18 @@ Evaluate how well the student's answer matches the model answer. Respond with ON
 }
 
 Rules:
-- stars: integer from 1-5 (5 = matches model answer closely, 1 = very poor)
-- feedback: 2-3 sentences comparing to model answer
-- improvements: array of 2-3 specific strings (only if stars < 4, otherwise empty array
-- use html tages <ul><b><br><i><u> for style
+- stars: integer (1–5)
+- feedback: 2–3 sentences comparing to model answer
+- improvements: array of 2–3 specific suggestions (empty if stars ≥ 4)
+- ${commonInstruction}
 
-Respond with ONLY the JSON object, no other text.`
+Return ONLY valid JSON, no extra text.
+`
 
   const evaluationMessages = [
     {
       role: "system",
-      content: "You are an educational evaluator. You MUST respond with valid JSON only, no other text.",
+      content: "You are an educational evaluator. You MUST respond with valid JSON only — no markdown or explanations.",
     },
     {
       role: "user",
@@ -128,27 +150,18 @@ Respond with ONLY the JSON object, no other text.`
   try {
     const response = await callOpenAI(evaluationMessages, 3, 0.3)
     
-    // Clean the response
+    // --- JSON cleanup ---
     let cleanedResponse = response.trim()
-    
-    if (cleanedResponse.startsWith("```json")) {
-      cleanedResponse = cleanedResponse.replace(/^```json\s*/, "").replace(/\s*```$/, "")
-    } else if (cleanedResponse.startsWith("```")) {
-      cleanedResponse = cleanedResponse.replace(/^```\s*/, "").replace(/\s*```$/, "")
-    }
-    
-    cleanedResponse = cleanedResponse.trim()
-    
+    cleanedResponse = cleanedResponse.replace(/^```(json)?\s*|\s*```$/g, "").trim()
+
     const parsed = JSON.parse(cleanedResponse)
     
     if (typeof parsed.stars !== "number" || parsed.stars < 1 || parsed.stars > 5) {
       throw new Error("Invalid stars value")
     }
-    
     if (typeof parsed.feedback !== "string" || !parsed.feedback) {
       throw new Error("Invalid feedback")
     }
-    
     if (!Array.isArray(parsed.improvements)) {
       throw new Error("Invalid improvements array")
     }
@@ -157,7 +170,7 @@ Respond with ONLY the JSON object, no other text.`
       stars: Math.round(parsed.stars),
       feedback: parsed.feedback,
       improvements: parsed.improvements.filter((item: unknown) => typeof item === "string"),
-      modelAnswer: modelAnswer,  // ADDED
+      modelAnswer,
     }
   } catch (error) {
     console.error("Evaluation error:", error)
@@ -170,7 +183,7 @@ Respond with ONLY the JSON object, no other text.`
         "Include more specific details from the course material",
         "Organize your answer more clearly"
       ],
-      modelAnswer: modelAnswer,  // ADDED
+      modelAnswer,
     }
   }
 }

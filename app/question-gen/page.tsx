@@ -1,6 +1,6 @@
-
-import { CategoryCard } from "@/components/question-gen/category-card"
-import { datasets } from "@/lib/question-gen/types/dataset"
+import { CategoryCard } from "@/components/question-gen/category-card";
+import { datasets } from "@/lib/question-gen/types/dataset";
+import { FileWarning } from "lucide-react";
 
 export default function Home() {
   return (
@@ -8,13 +8,18 @@ export default function Home() {
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
         <div className="space-y-1.5 sm:space-y-2 mb-6 sm:mb-8 md:mb-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-            AI Quiz Generator
+            AI Question Generator
           </h1>
           <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
             Select a category to start learning
           </p>
         </div>
-
+        <div className=" border p-1 text-[10px] flex mb-2">
+          <p className="text-yellow-600 font-medium">
+            ⚠️ Note: This is a prototype version and may contain bugs or
+            unexpected issues.
+          </p>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {datasets.map((dataset) => (
             <CategoryCard key={dataset.id} dataset={dataset} />
@@ -22,14 +27,6 @@ export default function Home() {
         </div>
       </div>
       <div className="h-20 w-full"></div>
-      <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
-        <p className="text-base font-bold text-slate-900">
-          © 2025 AI Quiz Generator
-        </p>
-        <p className="text-xs font-medium mt-1 text-blue-500">
-          Created by Hasitha Sandakelum
-        </p>
-      </footer>
     </main>
-  )
+  );
 }

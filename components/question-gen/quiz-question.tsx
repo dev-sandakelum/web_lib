@@ -4,6 +4,7 @@ import { useState } from "react"
 import { evaluateAnswer } from "@/app/actions"
 import { Spinner } from "./spinner"
 import { comicNeue } from "../quiz/quiz"
+import { Q_gen_question } from "./results-items/question"
 
 interface QuizQuestionProps {
   question: string
@@ -39,9 +40,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
   return (
     <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 sm:p-5 space-y-3.5">
       <div>
-        <h2 className={`text-[12px] sm:text-m text-card-foreground mb-3 border rounded-2xl p-4 leading-snug ${comicNeue.variable} font-sans antialiased`}>
-          {question}
-        </h2>
+        <Q_gen_question value={question} font={comicNeue.variable}/>
 
         <textarea
           value={answer}

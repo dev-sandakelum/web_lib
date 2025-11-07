@@ -19,7 +19,7 @@ export function CategoryCard({ dataset }: CategoryCardProps) {
         </p>
         <div className="pt-1.5">
           <button className="w-full h-9 sm:h-10 px-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
-            Start Quiz →
+            Make a question →
           </button>
         </div>
       </div>

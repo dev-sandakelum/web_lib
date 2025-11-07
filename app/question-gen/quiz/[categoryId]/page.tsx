@@ -176,14 +176,7 @@ export default function QuizPage() {
         ) : null}
       </div>
       <div className="h-20 w-full"></div>
-      <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
-        <p className="text-base font-bold text-slate-900">
-          © 2025 AI Quiz Generator
-        </p>
-        <p className="text-xs font-medium mt-1 text-blue-500">
-          Created by Hasitha Sandakelum
-        </p>
-      </footer>
+      
     </main>
   );
 }
