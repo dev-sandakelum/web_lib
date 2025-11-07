@@ -8,7 +8,7 @@ import { comicNeue } from "../quiz/quiz"
 interface QuizQuestionProps {
   question: string
   categoryId: string
-  onAnswerEvaluated: (stars: number, feedback: string, improvements: string[]) => void
+  onAnswerEvaluated: (stars: number, feedback: string, improvements: string[], userAnswer: string ,modelAnswer :string) => void
   onNewQuestion: () => void
   loading: boolean
 }
@@ -28,7 +28,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
     setEvaluating(true)
     try {
       const result = await evaluateAnswer(question, answer, categoryId)
-      onAnswerEvaluated(result.stars, result.feedback, result.improvements)
+      onAnswerEvaluated(result.stars, result.feedback, result.improvements, answer , result.modelAnswer)  // MODIFIED - pass answer
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to evaluate answer. Please try again.")
     } finally {

@@ -1,50 +1,60 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import Link from "next/link"
-import { generateQuestion } from "@/app/actions"
-import { datasets } from "@/lib/question-gen/types/dataset"
-import { QuizQuestion } from "@/components/question-gen/quiz-question"
-import { QuizResults } from "@/components/question-gen/quiz-results"
-import { Spinner } from "@/components/question-gen/spinner"
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import { generateQuestion } from "@/app/actions";
+import { datasets } from "@/lib/question-gen/types/dataset";
+import { QuizQuestion } from "@/components/question-gen/quiz-question";
+import { QuizResults } from "@/components/question-gen/quiz-results";
+import { Spinner } from "@/components/question-gen/spinner";
+import { comicNeue } from "@/components/quiz/quiz";
 
 interface ResultState {
-  stars: number
-  feedback: string
-  improvements: string[]
+  stars: number;
+  feedback: string;
+  improvements: string[];
+
+  userAnswer: string; // ADDED
+  question: string;   // ADDED
+
+  modelAnswer: string; // ADDED
 }
 
 export default function QuizPage() {
-  const params = useParams()
-  const categoryId = params.categoryId as string
+  const params = useParams();
+  const categoryId = params.categoryId as string;
 
-  const [question, setQuestion] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [result, setResult] = useState<ResultState | null>(null)
+  const [question, setQuestion] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<ResultState | null>(null);
 
-  const dataset = datasets.find((d) => d.id === categoryId)
+  const dataset = datasets.find((d) => d.id === categoryId);
 
   const loadNewQuestion = async () => {
-    setLoading(true)
-    setError(null)
-    setResult(null)
+    setLoading(true);
+    setError(null);
+    setResult(null);
 
     try {
-      const newQuestion = await generateQuestion(categoryId)
-      setQuestion(newQuestion)
+      const newQuestion = await generateQuestion(categoryId);
+      setQuestion(newQuestion);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate question. Please try again.")
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to generate question. Please try again."
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    if (!dataset) return
-    loadNewQuestion()
-  }, [categoryId, dataset])
+    if (!dataset) return;
+    loadNewQuestion();
+  }, [categoryId, dataset]);
 
   if (!dataset) {
     return (
@@ -52,8 +62,12 @@ export default function QuizPage() {
         <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
           <div className="bg-card rounded-xl border border-border/50 p-6 text-center space-y-4">
             <div className="text-4xl">🔍</div>
-            <h2 className="text-lg sm:text-xl font-semibold text-card-foreground">Category Not Found</h2>
-            <p className="text-sm text-muted-foreground">The category you're looking for doesn't exist.</p>
+            <h2 className="text-lg sm:text-xl font-semibold text-card-foreground">
+              Category Not Found
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              The category you're looking for doesn't exist.
+            </p>
             <Link href="/question-gen/">
               <button className="h-10 px-5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-medium text-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
                 ← Back to Categories
@@ -62,18 +76,20 @@ export default function QuizPage() {
           </div>
         </div>
       </main>
-    )
+    );
   }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-6 sm:py-8 md:py-10">
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
         <div className="flex items-center justify-between mb-5 sm:mb-6">
-          <Link 
-            href="/question-gen/" 
+          <Link
+            href="/question-gen/"
             className="group flex items-center gap-1.5 text-primary hover:text-primary/80 transition-colors text-sm sm:text-base font-medium"
           >
-            <span className="transition-transform group-hover:-translate-x-0.5">←</span>
+            <span className="transition-transform group-hover:-translate-x-0.5">
+              ←
+            </span>
             <span>Categories</span>
           </Link>
         </div>
@@ -92,7 +108,9 @@ export default function QuizPage() {
             <div className="flex items-start gap-2.5">
               <span className="text-lg flex-shrink-0">⚠️</span>
               <div className="space-y-2 flex-1">
-                <p className="text-sm sm:text-base font-medium">Something went wrong</p>
+                <p className="text-sm sm:text-base font-medium">
+                  Something went wrong
+                </p>
                 <p className="text-xs sm:text-sm opacity-90">{error}</p>
               </div>
             </div>
@@ -133,13 +151,23 @@ export default function QuizPage() {
               categoryId={categoryId}
               onTryAnother={loadNewQuestion}
               loading={loading}
+              userAnswer={result.userAnswer}  // ADDED
+              question={result.question}      // ADDED
+              modelAnswer={result.modelAnswer}
             />
           ) : (
             <QuizQuestion
               question={question}
               categoryId={categoryId}
-              onAnswerEvaluated={(stars, feedback, improvements) => {
-                setResult({ stars, feedback, improvements })
+              onAnswerEvaluated={(stars, feedback, improvements, userAnswer ,modelAnswer) => {  // MODIFIED
+                setResult({ 
+                  stars, 
+                  feedback, 
+                  improvements,
+                  userAnswer,      // ADDED
+                  question ,        // ADDED
+                  modelAnswer
+                })
               }}
               onNewQuestion={loadNewQuestion}
               loading={loading}
@@ -157,5 +185,5 @@ export default function QuizPage() {
         </p>
       </footer>
     </main>
-  )
+  );
 }
