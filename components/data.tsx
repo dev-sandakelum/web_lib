@@ -78,6 +78,13 @@ export const mainTopics = [
             tags: ["information systems", "is" ,"notes"],
             link: "/notes/information-systems/is3-4",
           },
+          {
+            id: "new",
+            title: "Fundamentals of Information Systems",
+            readTime: "comprehensive",
+            tags: ["information systems" ,"fundamentals" ,"notes"],
+            link: "/notes/information-systems/new",
+          }
         ],
       },
       {

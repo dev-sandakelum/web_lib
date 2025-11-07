@@ -4,6 +4,6 @@ import React from 'react'
 
 export default function page() {
   return (
-    <StudyNotes />
+    <ICT1161Notes />
   )
 }
