@@ -35,7 +35,7 @@ interface Quiz {
 import { builtInQuizzes } from "./quiz-data";
 import { Comic_Neue } from "next/font/google";
 
-const comicNeue = Comic_Neue({
+export const comicNeue = Comic_Neue({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-sans",

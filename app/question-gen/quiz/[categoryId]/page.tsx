@@ -71,7 +71,7 @@ export default function QuizPage() {
         {/* Header with back button */}
         <div className="flex items-center justify-between mb-5 sm:mb-6">
           <Link 
-            href="/" 
+            href="/question-gen/" 
             className="group flex items-center gap-1.5 text-primary hover:text-primary/80 transition-colors text-sm sm:text-base font-medium"
           >
             <span className="transition-transform group-hover:-translate-x-0.5">←</span>

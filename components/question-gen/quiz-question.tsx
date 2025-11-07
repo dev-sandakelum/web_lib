@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { evaluateAnswer } from "@/app/actions"
 import { Spinner } from "./spinner"
+import { comicNeue } from "../quiz/quiz"
 
 interface QuizQuestionProps {
   question: string
@@ -38,7 +39,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
   return (
     <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 sm:p-5 space-y-3.5">
       <div>
-        <h2 className="text-sm sm:text-lg text-card-foreground mb-3 leading-snug">
+        <h2 className={`text-[12px] sm:text-m text-card-foreground mb-3 border rounded-2xl p-4 leading-snug ${comicNeue.variable} font-sans antialiased`}>
           {question}
         </h2>
 
@@ -50,7 +51,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
           }}
           placeholder="Type your answer here..."
           disabled={evaluating}
-          className="w-full min-h-48 sm:min-h-32 p-3 sm:p-3.5 border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm sm:text-base resize-none disabled:opacity-50 bg-background text-foreground transition-all placeholder:text-muted-foreground/60"
+          className={`w-full min-h-48 sm:min-h-32 p-3 sm:p-3.5 border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm sm:text-base resize-none disabled:opacity-50 bg-background text-foreground transition-all placeholder:text-muted-foreground/60 ${comicNeue.variable} font-sans antialiased`}
         />
 
         {error && (
