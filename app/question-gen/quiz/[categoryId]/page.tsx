@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { generateQuestion } from "@/app/actions";
+import { generateQuestion } from "@/app/question-gen/actions/actions";
 import { QuizQuestion } from "@/components/question-gen/quiz-question";
 import { QuizResults } from "@/components/question-gen/quiz-results";
 import { Spinner } from "@/components/question-gen/spinner";

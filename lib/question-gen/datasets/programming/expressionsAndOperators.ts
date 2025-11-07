@@ -2,11 +2,12 @@
 // Single dataset entry combining all lecture content from Lecture 03 – Expressions and Operators.pdf
 import { Dataset } from "../../types/dataset";
 export const expressionsAndOperatorsDataset: Dataset = {
-    id: "Expressions-and-Operators",
-    category: "Programming",
-    subcategory: "Expressions and Operators",
-    description: "Comprehensive overview of expressions, operators, and related concepts in programming.",
-    content: `
+  id: "Expressions-and-Operators",
+  category: "Programming",
+  subcategory: "Expressions and Operators",
+  description:
+    "Comprehensive overview of expressions, operators, and related concepts in programming.",
+  content: `
 Expressions and Operators
 
 Expressions:
@@ -133,6 +134,5 @@ Example syntax: pow(double base, double exponent);
 Include header: #include <math.h>
 
 End of Lecture – Thank You!
-`
-  }
-;
+`,
+};

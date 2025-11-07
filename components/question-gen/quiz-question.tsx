@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { evaluateAnswer } from "@/app/actions"
+import { evaluateAnswer } from "@/app/question-gen/actions/actions"
 import { Spinner } from "./spinner"
 import { comicNeue } from "../quiz/quiz"
 import { Q_gen_question } from "./results-items/question"
