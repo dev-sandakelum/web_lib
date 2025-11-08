@@ -1,5 +1,8 @@
 import { TopicGroup } from "../../types/dataset"
-import { operationalEnterpriseSystemsDataset } from "./2_operationalEnterpriseSystemsDataset"
+import { IsLesson02Dataset } from "./02"
+import { IsLesson04Dataset } from "./04"
+import { IsLesson05Dataset } from "./05"
+import { IsLesson07Dataset } from "./07"
 import { isFundamentalsDataset } from "./Fundamentals"
 import { mCommerceWeb2Dataset } from "./m-commerce-web2"
 
@@ -9,7 +12,11 @@ export const InformationSystems: TopicGroup = {
   description: "Information systems concepts and technologies",
   subtopics: [
     isFundamentalsDataset,
-    operationalEnterpriseSystemsDataset,
+    IsLesson02Dataset,
     mCommerceWeb2Dataset,
+    IsLesson04Dataset,
+    IsLesson05Dataset,
+    IsLesson07Dataset,
+
   ]
 }
