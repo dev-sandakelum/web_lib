@@ -3,8 +3,8 @@ import { IsLesson02Dataset } from "./02"
 import { IsLesson04Dataset } from "./04"
 import { IsLesson05Dataset } from "./05"
 import { IsLesson07Dataset } from "./07"
-import { isFundamentalsDataset } from "./Fundamentals"
-import { mCommerceWeb2Dataset } from "./m-commerce-web2"
+import { isFundamentalsDataset } from "./01"
+import { mCommerceWeb2Dataset } from "./03"
 
 export const InformationSystems: TopicGroup = {
   id: "information-systems",
