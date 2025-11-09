@@ -86,13 +86,13 @@ export default function FloatingToolButtons() {
               <StickyNote className="w-5 h-5" />
             </button>
 
-            <button
+            {/* <button
               onClick={() => alert("Settings opened!")}
               className="flex items-center justify-center w-10 h-10 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition duration-200"
               title="Settings"
             >
               <Settings className="w-5 h-5" />
-            </button>
+            </button> */}
           </motion.div>
         )}
       </AnimatePresence>
