@@ -1,5 +1,5 @@
 import { TopicGroup } from "../../types/dataset"
-import { ProgrammingDataset } from "./all"
+import { programmingDataset } from "./all"
 import { expressionsAndOperatorsDataset } from "./expressionsAndOperators"
 
 export const programmingGroup: TopicGroup = {
@@ -7,7 +7,7 @@ export const programmingGroup: TopicGroup = {
   name: "Programming",
   description: "Programming concepts and data structures",
   subtopics: [
-    ProgrammingDataset,
+    programmingDataset,
     expressionsAndOperatorsDataset,
   ]
 }
