@@ -8,6 +8,7 @@ import { CommonInstruction } from "./prompts/common";
 import { ModelAnswerPrompt } from "./prompts/modelAnswer";
 import { EvaluationPrompt } from "./prompts/evaluation";
 import { generatePromptfor_programming } from "./prompts/gen/c";
+import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 
 // Common reusable instruction
 
@@ -49,7 +50,7 @@ export async function generateQuestion(categoryId: string): Promise<string> {
   }
   else if (dataset.category === "Computer Networks") {
     // You can add more conditions for other categories if needed
-    thePrompt = generatePromptfor_InformationSystems(
+    thePrompt = generatePromptfor_ComputerNetworks(
       dataset,
       contentPreview,
       QuestionPattern,
