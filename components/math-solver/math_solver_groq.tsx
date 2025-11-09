@@ -18,6 +18,7 @@ import {
   Variable,
   Upload,
   X,
+  Camera,
 } from "lucide-react"
 import { SolutionDisplay } from "./solution-display"
 
@@ -108,6 +109,7 @@ export default function MathSolver() {
   const [imageLoading, setImageLoading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const cameraInputRef = useRef<HTMLInputElement>(null)
 
   const insertSymbol = (symbol: string) => {
     const textarea = textareaRef.current
@@ -166,6 +168,9 @@ export default function MathSolver() {
     setUploadedImage(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
+    }
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = ""
     }
   }
 
@@ -268,6 +273,23 @@ export default function MathSolver() {
 
             {/* Action Buttons */}
             <div className="flex gap-2 mb-3">
+              <button
+                onClick={() => cameraInputRef.current?.click()}
+                disabled={extracting}
+                className="flex items-center gap-1.5 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-xs sm:text-sm font-medium"
+              >
+                <Camera className="w-3.5 h-3.5" />
+                <span>Camera</span>
+              </button>
+              <input
+                ref={cameraInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleImageUpload}
+                disabled={extracting}
+                className="hidden"
+              />
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={extracting}
