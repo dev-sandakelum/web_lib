@@ -9,6 +9,8 @@ import {
   Settings,
   StickyNote,
   Wrench,
+  ShieldQuestion,
+  LucideFileQuestion,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -86,6 +88,16 @@ export default function FloatingToolButtons() {
               <StickyNote className="w-5 h-5" />
             </button>
 
+            <button
+              onClick={() => {
+                router.push("/question-gen");
+                setMenuOpen(false);
+              }}
+              className="flex items-center justify-center w-10 h-10 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition duration-200"
+              title="Question Generator"
+            >
+              <LucideFileQuestion className="w-5 h-5" />
+            </button>
             {/* <button
               onClick={() => alert("Settings opened!")}
               className="flex items-center justify-center w-10 h-10 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition duration-200"

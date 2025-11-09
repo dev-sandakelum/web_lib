@@ -16,10 +16,10 @@ import { networksLesson07Dataset } from "./07"
 //   ]
 // }
 export const Networking: TopicGroup = {
-    id : "Network",
-    name : "Networking",
-    description : "",
-    subtopics : [
+    id: "Network",
+    name: "Networking",
+    description: "Fundamentals of computer networking: OSI & TCP/IP models, IP/MAC addressing, switching, routing, common protocols (TCP, UDP, HTTP), network topologies, and basic troubleshooting.",
+    subtopics: [
         networksLesson01Dataset,
         networksLesson02Dataset,
         networksLesson03Dataset,
@@ -27,5 +27,5 @@ export const Networking: TopicGroup = {
         networksLesson05Dataset,
         networksLesson06Dataset,
         networksLesson07Dataset,
-    ]
+    ],
 }
