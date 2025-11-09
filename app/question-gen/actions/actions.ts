@@ -47,6 +47,15 @@ export async function generateQuestion(categoryId: string): Promise<string> {
       CommonInstruction
     );
   }
+  else if (dataset.category === "Computer Networks") {
+    // You can add more conditions for other categories if needed
+    thePrompt = generatePromptfor_InformationSystems(
+      dataset,
+      contentPreview,
+      QuestionPattern,
+      CommonInstruction
+    ); 
+  }
   const messages = [
     {
       role: "system",
