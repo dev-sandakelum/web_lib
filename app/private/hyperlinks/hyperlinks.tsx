@@ -1,6 +1,20 @@
-import React from 'react';
-import { ExternalLink, Code, Newspaper, GraduationCap, Music, Gamepad2, ShoppingCart, Heart, Presentation, Icon, ShieldQuestion, RectangleVertical } from 'lucide-react';
-import { title } from 'process';
+import React from "react";
+import {
+  ExternalLink,
+  Code,
+  Newspaper,
+  GraduationCap,
+  Music,
+  Gamepad2,
+  ShoppingCart,
+  Heart,
+  Presentation,
+  Icon,
+  ShieldQuestion,
+  RectangleVertical,
+} from "lucide-react";
+import { title } from "process";
+import Link from "next/link";
 
 const WebsiteLinks = () => {
   const linkGroups = [
@@ -9,41 +23,70 @@ const WebsiteLinks = () => {
       icon: <Presentation className="w-6 h-6" />,
       color: "bg-blue-500",
       links: [
-        { name: "GitHub", url: "https://github.com", description: "Code hosting platform" },
-        { name: "Stack Overflow", url: "https://stackoverflow.com", description: "Developer Q&A community" },
-        { name: "MDN Web Docs", url: "https://developer.mozilla.org", description: "Web development documentation" },
-        { name: "CodePen", url: "https://codepen.io", description: "Front-end code playground" }
-      ]
-    },{
-      title : "App building",
-      Icon : <Code className="w-6 h-6" />,
+        {
+          name: "GitHub",
+          url: "https://github.com",
+          description: "Code hosting platform",
+        },
+        {
+          name: "Stack Overflow",
+          url: "https://stackoverflow.com",
+          description: "Developer Q&A community",
+        },
+        {
+          name: "MDN Web Docs",
+          url: "https://developer.mozilla.org",
+          description: "Web development documentation",
+        },
+        {
+          name: "CodePen",
+          url: "https://codepen.io",
+          description: "Front-end code playground",
+        },
+      ],
+    },
+    {
+      title: "App building",
+      Icon: <Code className="w-6 h-6" />,
       color: "bg-green-500",
       links: [
-        { name: "Natively", url: "https://natively.dev", description: "Build native mobile apps with React Native" },
-      ]
-    },{
-      title : "Security",
+        {
+          name: "Natively",
+          url: "https://natively.dev",
+          description: "Build native mobile apps with React Native",
+        },
+      ],
+    },
+    {
+      title: "Security",
       Icon: <ShieldQuestion className="w-6 h-6" />,
       color: "bg-red-500",
-      links: [
-        { name: "HackerAi" , url:"" ,description:""}
-      ]
-    },{
-      title : "React",
-      Icon : <RectangleVertical className='w-6 h-6'/>,
+      links: [{ name: "HackerAi", url: "https://hackerai.com", description: "AI-powered security tools" }],
+    },
+    {
+      title: "React",
+      Icon: <RectangleVertical className="w-6 h-6" />,
       color: "bg-purple-500",
-      links:[{
-        name: "React bits" ,url: "reactbits.dev" ,description:""
-      }]
-    }
+      links: [
+        {
+          name: "React bits",
+          url: "https://reactbits.dev",
+          description: "",
+        },
+      ],
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-8">
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-800 mb-3">Organized Website Directory</h1>
-          <p className="text-slate-600 text-lg">Curated links organized by topic</p>
+          <h1 className="text-4xl font-bold text-slate-800 mb-3">
+            Organized Website Directory
+          </h1>
+          <p className="text-slate-600 text-lg">
+            Curated links organized by topic
+          </p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -56,14 +99,14 @@ const WebsiteLinks = () => {
                 <div className="text-white">{group.icon}</div>
                 <h2 className="text-xl font-bold text-white">{group.title}</h2>
               </div>
-              
+
               <div className="p-6">
                 <ul className="space-y-4">
                   {group.links.map((link, linkIdx) => (
                     <li key={linkIdx}>
-                      <a
+                      <Link
                         href={link.url}
-                        target="_blank"
+                        target="_self"
                         rel="noopener noreferrer"
                         className="group flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors duration-200"
                       >
@@ -76,7 +119,7 @@ const WebsiteLinks = () => {
                             {link.description}
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
