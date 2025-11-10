@@ -10,15 +10,8 @@ import {
   Info,
   Layers,
 } from "lucide-react";
+import { PdfDocuments } from "./dataset";
 
-interface PDFItem {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  url: string;
-  size: string; // e.g. "134 KB", "1.2 MB", "0.4 GB"
-}
 
 export default function PDFLibrary() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -29,27 +22,6 @@ export default function PDFLibrary() {
     { id: "networking", name: "Networking", icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> },
     { id: "programming", name: "Programming", icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> },
     { id: "IS", name: "Information Systems", icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> },
-  ];
-
-  const pdf_path = "https://github.com/dev-sandakelum/web_lib/raw/main/resourses/pdf/";
-
-  const pdfDocuments: PDFItem[] = [
-    {
-      id: "1",
-      title: "Information Systems Questions",
-      description: "A collection of questions for Information Systems.",
-      category: "IS",
-      url: `${pdf_path}Information System Questions.pdf`,
-      size: "134 KB",
-    },{
-      id: "1",
-      title: "Computer Networks_ Application, Presentation, and Session Layers",
-      description: "",
-      category: "",
-      url: `${pdf_path}dasindu01/Computer Networks_ Application, Presentation, and Session Layers.pdf`,
-      size: "- KB",
-    },
-    
   ];
 
   // Convert KB/MB/GB → MB
@@ -68,7 +40,7 @@ export default function PDFLibrary() {
     }
   };
 
-  const filteredDocuments = pdfDocuments.filter((doc) => {
+  const filteredDocuments = PdfDocuments.filter((doc) => {
     const matchesCategory = selectedCategory === "all" || doc.category === selectedCategory;
     const matchesSearch =
       doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -209,7 +181,7 @@ export default function PDFLibrary() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
             <div className="bg-white p-5 sm:p-6 rounded-lg shadow-md text-center border-t-4 border-red-500">
-              <h3 className="text-2xl sm:text-3xl font-bold text-red-600 mb-1">{pdfDocuments.length}</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-red-600 mb-1">{PdfDocuments.length}</h3>
               <p className="text-gray-600 text-xs sm:text-sm font-medium">Total Documents</p>
             </div>
             <div className="bg-white p-5 sm:p-6 rounded-lg shadow-md text-center border-t-4 border-rose-500">
@@ -218,7 +190,7 @@ export default function PDFLibrary() {
             </div>
             <div className="bg-white p-5 sm:p-6 rounded-lg shadow-md text-center border-t-4 border-red-400">
               <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-1">
-                {pdfDocuments.reduce((acc, doc) => acc + convertToMB(doc.size), 0).toFixed(2)} MB
+                {PdfDocuments.reduce((acc, doc) => acc + convertToMB(doc.size), 0).toFixed(2)} MB
               </h3>
               <p className="text-gray-600 text-xs sm:text-sm font-medium">Total Size</p>
             </div>

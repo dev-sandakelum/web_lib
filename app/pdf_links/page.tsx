@@ -1,4 +1,4 @@
-import PDFLibrary from '@/components/pdf'
+import PDFLibrary from '@/components/pdf/pdf'
 import React from 'react'
 
 export default function page() {
