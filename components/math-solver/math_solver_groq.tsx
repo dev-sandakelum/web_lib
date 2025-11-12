@@ -13,7 +13,7 @@ import {
   ArrowRight,
   PieChart,
   Zap,
-  LogInIcon as LogsIcon,
+  Activity,
   Grid3x3,
   Variable,
   Upload,
@@ -88,7 +88,7 @@ const questionTypes = [
   {
     id: "logarithms",
     label: "Logarithms",
-    icon: <LogsIcon className="w-4 h-4" />,
+    icon: <Activity className="w-4 h-4" />,
   },
   { id: "matrices", label: "Matrices", icon: <Grid3x3 className="w-4 h-4" /> },
   { id: "algebra", label: "Algebra", icon: <Variable className="w-4 h-4" /> },
@@ -129,10 +129,7 @@ export default function MathSolver() {
     }, 0)
   }
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
+  const processImageFile = async (file: File) => {
     // Validate file type
     if (!file.type.startsWith('image/')) {
       setError("Please select a valid image file")
@@ -189,6 +186,18 @@ export default function MathSolver() {
     }
 
     reader.readAsDataURL(file)
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    await processImageFile(file)
+  }
+
+  const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    await processImageFile(file)
   }
 
   const removeImage = () => {
@@ -317,7 +326,7 @@ export default function MathSolver() {
                 type="file"
                 accept="image/*"
                 capture="environment"
-                onChange={handleImageUpload}
+                onChange={handleCameraCapture}
                 disabled={extracting}
                 className="hidden"
               />
