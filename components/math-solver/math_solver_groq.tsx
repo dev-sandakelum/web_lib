@@ -13,7 +13,7 @@ import {
   ArrowRight,
   PieChart,
   Zap,
-  Activity,
+  LogInIcon as LogsIcon,
   Grid3x3,
   Variable,
   Upload,
@@ -88,7 +88,7 @@ const questionTypes = [
   {
     id: "logarithms",
     label: "Logarithms",
-    icon: <Activity className="w-4 h-4" />,
+    icon: <LogsIcon className="w-4 h-4" />,
   },
   { id: "matrices", label: "Matrices", icon: <Grid3x3 className="w-4 h-4" /> },
   { id: "algebra", label: "Algebra", icon: <Variable className="w-4 h-4" /> },
@@ -107,7 +107,6 @@ export default function MathSolver() {
   const [extractionError, setExtractionError] = useState<string>("")
   const [previewOpen, setPreviewOpen] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
-  const [cachedImageFile, setCachedImageFile] = useState<File | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
@@ -130,107 +129,43 @@ export default function MathSolver() {
     }, 0)
   }
 
-  const processImageFile = async (file: File) => {
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setError("Please select a valid image file")
-      return
-    }
-
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      setError("Image size should be less than 10MB")
-      return
-    }
-
-    // Cache the file
-    setCachedImageFile(file)
-
-    const reader = new FileReader()
-    
-    reader.onerror = () => {
-      setError("Failed to read image file")
-      setImageLoading(false)
-      setCachedImageFile(null)
-    }
-
-    reader.onload = async (event) => {
-      const imageData = event.target?.result as string
-      if (!imageData) {
-        setError("Failed to load image")
-        setCachedImageFile(null)
-        return
-      }
-
-      setImageLoading(true)
-      setUploadedImage(imageData)
-      setError("")
-      setExtractionError("")
-
-      // Short delay for smooth UI transition
-      await new Promise(resolve => setTimeout(resolve, 300))
-      setImageLoading(false)
-
-      // Start text extraction
-      setExtracting(true)
-      try {
-        const extractedText = await extractTextFromImage(imageData)
-        if (extractedText.trim()) {
-          setQuestion(extractedText)
-        } else {
-          const errorMsg = "No text found in image. Please try another image."
-          setError(errorMsg)
-          setExtractionError(errorMsg)
-        }
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to extract text from image"
-        setError(message)
-        setExtractionError(message)
-      } finally {
-        setExtracting(false)
-        // Clear cached file after processing
-        clearCachedImage()
-      }
-    }
-
-    reader.readAsDataURL(file)
-  }
-
-  const clearCachedImage = () => {
-    setCachedImageFile(null)
-  }
-
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file) return
-    await processImageFile(file)
-  }
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = async (event) => {
+        const imageData = event.target?.result as string
+        setImageLoading(true)
+        setUploadedImage(imageData)
 
-  const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    
-    // For camera capture, we need to create a new File object
-    // and pass it to the file input for consistent handling
-    const dataTransfer = new DataTransfer()
-    dataTransfer.items.add(file)
-    
-    if (fileInputRef.current) {
-      fileInputRef.current.files = dataTransfer.files
+        setTimeout(() => setImageLoading(false), 300)
+
+        setExtracting(true)
+        setError("")
+        setExtractionError("")
+        try {
+          const extractedText = await extractTextFromImage(imageData)
+          if (extractedText.trim()) {
+            setQuestion(extractedText)
+          } else {
+            const errorMsg = "No text found in image. Please try another image."
+            setError(errorMsg)
+            setExtractionError(errorMsg)
+          }
+        } catch (err) {
+          const message = err instanceof Error ? err.message : "Failed to extract text"
+          setError(message)
+          setExtractionError(message)
+        } finally {
+          setExtracting(false)
+        }
+      }
+      reader.readAsDataURL(file)
     }
-    
-    await processImageFile(file)
   }
 
   const removeImage = () => {
     setUploadedImage(null)
-    setError("")
-    setExtractionError("")
-    
-    // Clear cached file
-    clearCachedImage()
-    
-    // Reset both file inputs
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
@@ -351,7 +286,7 @@ export default function MathSolver() {
                 type="file"
                 accept="image/*"
                 capture="environment"
-                onChange={handleCameraCapture}
+                onChange={handleImageUpload}
                 disabled={extracting}
                 className="hidden"
               />
