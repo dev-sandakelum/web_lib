@@ -131,41 +131,72 @@ export default function MathSolver() {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = async (event) => {
-        const imageData = event.target?.result as string
-        setImageLoading(true)
-        setUploadedImage(imageData)
+    if (!file) return
 
-        setTimeout(() => setImageLoading(false), 300)
-
-        setExtracting(true)
-        setError("")
-        setExtractionError("")
-        try {
-          const extractedText = await extractTextFromImage(imageData)
-          if (extractedText.trim()) {
-            setQuestion(extractedText)
-          } else {
-            const errorMsg = "No text found in image. Please try another image."
-            setError(errorMsg)
-            setExtractionError(errorMsg)
-          }
-        } catch (err) {
-          const message = err instanceof Error ? err.message : "Failed to extract text"
-          setError(message)
-          setExtractionError(message)
-        } finally {
-          setExtracting(false)
-        }
-      }
-      reader.readAsDataURL(file)
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError("Please select a valid image file")
+      return
     }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Image size should be less than 10MB")
+      return
+    }
+
+    const reader = new FileReader()
+    
+    reader.onerror = () => {
+      setError("Failed to read image file")
+      setImageLoading(false)
+    }
+
+    reader.onload = async (event) => {
+      const imageData = event.target?.result as string
+      if (!imageData) {
+        setError("Failed to load image")
+        return
+      }
+
+      setImageLoading(true)
+      setUploadedImage(imageData)
+      setError("")
+      setExtractionError("")
+
+      // Short delay for smooth UI transition
+      await new Promise(resolve => setTimeout(resolve, 300))
+      setImageLoading(false)
+
+      // Start text extraction
+      setExtracting(true)
+      try {
+        const extractedText = await extractTextFromImage(imageData)
+        if (extractedText.trim()) {
+          setQuestion(extractedText)
+        } else {
+          const errorMsg = "No text found in image. Please try another image."
+          setError(errorMsg)
+          setExtractionError(errorMsg)
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to extract text from image"
+        setError(message)
+        setExtractionError(message)
+      } finally {
+        setExtracting(false)
+      }
+    }
+
+    reader.readAsDataURL(file)
   }
 
   const removeImage = () => {
     setUploadedImage(null)
+    setError("")
+    setExtractionError("")
+    
+    // Reset both file inputs
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
