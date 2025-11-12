@@ -194,11 +194,11 @@ export default function MathSolver() {
     await processImageFile(file)
   }
 
-  const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    await processImageFile(file)
-  }
+  // const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0]
+  //   if (!file) return
+  //   await processImageFile(file)
+  // }
 
   const removeImage = () => {
     setUploadedImage(null)
@@ -326,7 +326,7 @@ export default function MathSolver() {
                 type="file"
                 accept="image/*"
                 capture="environment"
-                onChange={handleCameraCapture}
+                onChange={handleImageUpload}
                 disabled={extracting}
                 className="hidden"
               />
