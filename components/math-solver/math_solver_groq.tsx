@@ -107,6 +107,7 @@ export default function MathSolver() {
   const [extractionError, setExtractionError] = useState<string>("")
   const [previewOpen, setPreviewOpen] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
+  const [cachedImageFile, setCachedImageFile] = useState<File | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const cameraInputRef = useRef<HTMLInputElement>(null)
@@ -142,17 +143,22 @@ export default function MathSolver() {
       return
     }
 
+    // Cache the file
+    setCachedImageFile(file)
+
     const reader = new FileReader()
     
     reader.onerror = () => {
       setError("Failed to read image file")
       setImageLoading(false)
+      setCachedImageFile(null)
     }
 
     reader.onload = async (event) => {
       const imageData = event.target?.result as string
       if (!imageData) {
         setError("Failed to load image")
+        setCachedImageFile(null)
         return
       }
 
@@ -182,10 +188,16 @@ export default function MathSolver() {
         setExtractionError(message)
       } finally {
         setExtracting(false)
+        // Clear cached file after processing
+        clearCachedImage()
       }
     }
 
     reader.readAsDataURL(file)
+  }
+
+  const clearCachedImage = () => {
+    setCachedImageFile(null)
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,16 +206,29 @@ export default function MathSolver() {
     await processImageFile(file)
   }
 
-  // const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0]
-  //   if (!file) return
-  //   await processImageFile(file)
-  // }
+  const handleCameraCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    // For camera capture, we need to create a new File object
+    // and pass it to the file input for consistent handling
+    const dataTransfer = new DataTransfer()
+    dataTransfer.items.add(file)
+    
+    if (fileInputRef.current) {
+      fileInputRef.current.files = dataTransfer.files
+    }
+    
+    await processImageFile(file)
+  }
 
   const removeImage = () => {
     setUploadedImage(null)
     setError("")
     setExtractionError("")
+    
+    // Clear cached file
+    clearCachedImage()
     
     // Reset both file inputs
     if (fileInputRef.current) {
@@ -326,7 +351,7 @@ export default function MathSolver() {
                 type="file"
                 accept="image/*"
                 capture="environment"
-                onChange={handleImageUpload}
+                onChange={handleCameraCapture}
                 disabled={extracting}
                 className="hidden"
               />
