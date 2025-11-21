@@ -1,89 +1,91 @@
-import OpenAI from "openai"
-
-let currentKeyIndex = 0
-
-const API_KEYS = [
-  process.env.OPENROUTER_API_KEY_1,
-].filter((key): key is string => key !== undefined && key !== "")
-
-const HAS_API_KEYS = API_KEYS.length > 0
-
-export function getNextApiKey(): string {
-  if (!HAS_API_KEYS) {
-    throw new Error(
-      "No OpenRouter API keys configured. Please add OPENROUTER_API_KEY_1 (or _2/_3) to your environment."
-    )
-  }
-
-  const key = API_KEYS[currentKeyIndex]
-  currentKeyIndex = (currentKeyIndex + 1) % API_KEYS.length
-  return key
+export type ChatMessage = {
+  role: "system" | "user" | "assistant"
+  content: string
 }
 
 /**
- * RANDOM MODEL LIST
- * (Free or cheap models on OpenRouter that work well)
+ * Randomly pick a model (update with models you have access to)
  */
-const MODEL_LIST = [
-  "openai/gpt-oss-20b:free",
-  "meta-llama/llama-3.2-3b-instruct:free",
+const MODELS = [
+  "llama-3.3-70b-versatile",
+  "moonshotai/kimi-k2-instruct-0905",
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
 ]
 
 function getRandomModel(): string {
-  return MODEL_LIST[Math.floor(Math.random() * MODEL_LIST.length)]
+  return MODELS[Math.floor(Math.random() * MODELS.length)]
 }
 
-export async function callOpenAI(
-  messages: Array<{ role: string; content: string }>,
+/**
+ * Delay helper
+ */
+function delay(ms: number) {
+  return new Promise(res => setTimeout(res, ms))
+}
+
+/**
+ * callGroq
+ * Generic server-side wrapper to call Groq chat completions
+ */
+export async function callGroq(
+  messages: ChatMessage[],
   retries = 3,
   temperature = 0.7
 ): Promise<{ content: string; model: string }> {
-  if (!HAS_API_KEYS) {
-    throw new Error(
-      "OpenRouter API keys are not configured. Set OPENROUTER_API_KEY_1 (or _2/_3) to enable AI features."
-    )
-  }
+  const GROQ_KEY = process.env.GROQ_API_KEY
+  if (!GROQ_KEY) throw new Error("Missing GROQ_API_KEY in environment")
 
-  for (let i = 0; i < retries; i++) {
+  for (let attempt = 0; attempt < retries; attempt++) {
+    const model = getRandomModel()
+    const body = {
+      model,
+      messages,
+      temperature,
+      max_tokens: 4000,
+      top_p: 0.9,
+    }
+
     try {
-      const apiKey = getNextApiKey()
-      const model = getRandomModel()   // RANDOM MODEL PICK
-
-      const openai = new OpenAI({
-        baseURL: "https://openrouter.ai/api/v1",
-        apiKey: apiKey,
-        dangerouslyAllowBrowser: true,
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${GROQ_KEY}`,
+        },
+        body: JSON.stringify(body),
       })
 
-      const response = await openai.chat.completions.create({
-        model: model,
-        messages: messages.map(msg => ({
-          role: msg.role as "user" | "assistant" | "system",
-          content: msg.content,
-        })),
-        temperature,
-        max_tokens: 2048,
-      })
+      const data = await res.json().catch(() => ({}))
 
-      const content = response?.choices?.[0]?.message?.content
-      if (!content) throw new Error("Empty response from model")
-        
+      if (!res.ok) {
+        const message = (data && (data?.error?.message || data?.message)) || `Groq API returned ${res.status}`
+        // Retry on 429
+        if (res.status === 429 && attempt < retries - 1) {
+          await delay(1000 * (attempt + 1))
+          continue
+        }
+        throw new Error(message)
+      }
+
+      const content = data?.choices?.[0]?.message?.content ?? ""
+      if (!content) throw new Error("Empty response from Groq")
+
       return { content, model }
-    } catch (error: unknown) {
-      const err = error as any
-
+    } catch (err: any) {
       const isRateLimited =
-        (typeof err.status === "number" && err.status === 429) ||
-        (typeof err.message === "string" && err.message.includes("429"))
+        err?.status === 429 ||
+        (typeof err?.message === "string" && err.message.includes("429")) ||
+        (typeof err?.message === "string" && err.message.toLowerCase().includes("rate limit"))
 
-      if (isRateLimited && i < retries - 1) {
-        await new Promise(res => setTimeout(res, 1000))
+      if (isRateLimited && attempt < retries - 1) {
+        await delay(1000 * (attempt + 1))
         continue
       }
 
-      throw error
+      throw err
     }
   }
 
-  throw new Error("Failed to call OpenRouter API after retries")
+  throw new Error("Failed to call Groq after retries")
 }

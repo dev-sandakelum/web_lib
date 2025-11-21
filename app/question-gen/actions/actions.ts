@@ -1,6 +1,6 @@
 "use server";
 
-import { callOpenAI } from "@/lib/question-gen/openai-client";
+import { callGroq, ChatMessage } from "@/lib/question-gen/openai-client";
 import { getDatasetById } from "@/lib/question-gen/types/dataset";
 import { QuestionPattern } from "./pattens/main";
 import { generatePromptfor_InformationSystems } from "./prompts/gen/is";
@@ -10,58 +10,39 @@ import { EvaluationPrompt } from "./prompts/evaluation";
 import { generatePromptfor_programming } from "./prompts/gen/c";
 import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 
-// Common reusable instruction
-
+/**
+ * Generate a quiz question based on dataset category
+ */
 export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string }> {
   const dataset = getDatasetById(categoryId);
+  if (!dataset) throw new Error("Dataset not found");
 
-  if (!dataset) {
-    throw new Error("Dataset not found");
-  }
+  const contentPreview = dataset.content.length > 3000
+    ? dataset.content.substring(0, 3000) + "..."
+    : dataset.content;
 
-  const contentPreview =
-    dataset.content.length > 3000
-      ? dataset.content.substring(0, 3000) + "..."
-      : dataset.content;
-
+  // Build category-specific prompt
   let thePrompt = "";
-  if (dataset.category === "Information Systems") {
-    thePrompt = generatePromptfor_InformationSystems(
-      dataset,
-      contentPreview,
-      QuestionPattern,
-      CommonInstruction
-    );
-  }else if (dataset.category === "Programming") {
-    thePrompt = generatePromptfor_programming(
-      dataset,
-      contentPreview,
-      QuestionPattern,
-      CommonInstruction
-    );
-  }else if (dataset.category === "Computer Architecture") {
-    // You can add more conditions for other categories if needed
-    thePrompt = generatePromptfor_InformationSystems(
-      dataset,
-      contentPreview,
-      QuestionPattern,
-      CommonInstruction
-    );
+  switch (dataset.category) {
+    case "Information Systems":
+      thePrompt = generatePromptfor_InformationSystems(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      break;
+    case "Programming":
+      thePrompt = generatePromptfor_programming(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      break;
+    case "Computer Networks":
+      thePrompt = generatePromptfor_ComputerNetworks(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      break;
+    default:
+      // fallback generic prompt
+      thePrompt = `${CommonInstruction}\n\n${contentPreview}`;
+      break;
   }
-  else if (dataset.category === "Computer Networks") {
-    // You can add more conditions for other categories if needed
-    thePrompt = generatePromptfor_ComputerNetworks(
-      dataset,
-      contentPreview,
-      QuestionPattern,
-      CommonInstruction
-    ); 
-  }
-  const messages = [
+
+  const messages: ChatMessage[] = [
     {
       role: "system",
-      content:
-        "You are a helpful educational assistant. Generate clear, engaging, and well-formatted quiz questions.",
+      content: "You are a helpful educational assistant. Generate clear, engaging, and well-formatted quiz questions.",
     },
     {
       role: "user",
@@ -69,10 +50,12 @@ export async function generateQuestion(categoryId: string): Promise<{ content: s
     },
   ];
 
-  const { content , model } = await callOpenAI(messages);
-  return {content , model};
+  return await callGroq(messages);
 }
 
+/**
+ * Evaluate student's answer against the model answer
+ */
 export async function evaluateAnswer(
   question: string,
   answer: string,
@@ -84,111 +67,75 @@ export async function evaluateAnswer(
   modelAnswer: string;
 }> {
   const dataset = getDatasetById(categoryId);
+  if (!dataset) throw new Error("Dataset not found");
 
-  if (!dataset) {
-    throw new Error("Dataset not found");
-  }
+  const contentPreview = dataset.content.length > 3000
+    ? dataset.content.substring(0, 3000) + "..."
+    : dataset.content;
 
-  const contentPreview =
-    dataset.content.length > 3000
-      ? dataset.content.substring(0, 3000) + "..."
-      : dataset.content;
-
-  // STEP 1: Generate model answer
-  const ModelAnswerthePrompt = ModelAnswerPrompt(
-    dataset,
-    contentPreview,
-    question,
-    CommonInstruction
-  );
-
-  const modelAnswerMessages = [
+  // 1️⃣ Generate model answer
+  const modelPrompt = ModelAnswerPrompt(dataset, contentPreview, question, CommonInstruction);
+  const modelAnswerMessages: ChatMessage[] = [
     {
       role: "system",
-      content:
-        "You are an educational expert. Provide accurate, concise, and well-formatted answers using HTML for readability.",
+      content: "You are an educational expert. Provide accurate, concise, and well-formatted answers using HTML for readability.",
     },
     {
       role: "user",
-      content: ModelAnswerthePrompt,
+      content: modelPrompt,
     },
   ];
 
   let modelAnswer = "";
   try {
-     const { content } = await callOpenAI(modelAnswerMessages, 3, 0.5);
+    const { content } = await callGroq(modelAnswerMessages, 3, 0.5);
     modelAnswer = content;
-  } catch (error) {
-    console.error("Failed to generate model answer:", error);
-    modelAnswer =
-      "Model answer generation failed. Please refer to your study materials.";
+  } catch (err) {
+    console.error("Failed to generate model answer:", err);
+    modelAnswer = "Model answer generation failed. Please refer to your study materials.";
   }
 
-  // STEP 2: Evaluate student's answer
-  const EvaluationthePrompt = EvaluationPrompt(
-    dataset,
-    question,
-    modelAnswer,
-    answer,
-    CommonInstruction
-  );
-
-  const evaluationMessages = [
+  // 2️⃣ Evaluate student's answer
+  const evalPrompt = EvaluationPrompt(dataset, question, modelAnswer, answer, CommonInstruction);
+  const evaluationMessages: ChatMessage[] = [
     {
       role: "system",
-      content:
-        "You are an educational evaluator. You MUST respond with valid JSON only — no markdown or explanations.",
+      content: "You are an educational evaluator. You MUST respond with valid JSON only — no markdown or explanations.",
     },
     {
       role: "user",
-      content: EvaluationthePrompt,
+      content: evalPrompt,
     },
   ];
 
   try {
-    const {content: response , model} = await callOpenAI(evaluationMessages, 3, 0.3);
+    const { content: response } = await callGroq(evaluationMessages, 3, 0.3);
 
-    // --- JSON cleanup ---
-    let cleanedResponse = response.trim();
-    cleanedResponse = cleanedResponse
+    // Clean JSON in case of extra formatting
+    const cleanedResponse = response
+      .trim()
       .replace(/^```(json)?\s*|\s*```$/g, "")
       .trim();
 
     const parsed = JSON.parse(cleanedResponse);
 
-    if (
-      typeof parsed.stars !== "number" ||
-      parsed.stars < 1 ||
-      parsed.stars > 5
-    ) {
-      throw new Error("Invalid stars value");
-    }
-    if (typeof parsed.feedback !== "string" || !parsed.feedback) {
-      throw new Error("Invalid feedback");
-    }
-    if (!Array.isArray(parsed.improvements)) {
-      throw new Error("Invalid improvements array");
-    }
+    // Validate parsed object
+    const stars = typeof parsed.stars === "number" ? Math.round(parsed.stars) : 3;
+    const feedback = typeof parsed.feedback === "string" ? parsed.feedback : "Feedback unavailable";
+    const improvements = Array.isArray(parsed.improvements)
+      ? parsed.improvements.filter((item: unknown) => typeof item === "string")
+      : [];
 
-    return {
-      stars: Math.round(parsed.stars),
-      feedback: parsed.feedback,
-      improvements: parsed.improvements.filter(
-        (item: unknown) => typeof item === "string"
-      ),
-      modelAnswer,
-      // aimodel: model,
-    };
-  } catch (error) {
-    console.error("Evaluation error:", error);
+    return { stars, feedback, improvements, modelAnswer };
+  } catch (err) {
+    console.error("Evaluation error:", err);
 
     return {
       stars: 3,
-      feedback:
-        "Your answer has been reviewed. Compare it with the model answer below to see how you can improve.",
+      feedback: "Your answer has been reviewed. Compare it with the model answer to improve.",
       improvements: [
-        "Review the key concepts in the model answer",
-        "Include more specific details from the course material",
+        "Review key concepts in the model answer",
+        "Include specific details from course material",
         "Organize your answer more clearly",
       ],
       modelAnswer,
