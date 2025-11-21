@@ -4,8 +4,6 @@ let currentKeyIndex = 0
 
 const API_KEYS = [
   process.env.OPENROUTER_API_KEY_1,
-  process.env.OPENROUTER_API_KEY_2,
-  process.env.OPENROUTER_API_KEY_3,
 ].filter((key): key is string => key !== undefined && key !== "")
 
 const HAS_API_KEYS = API_KEYS.length > 0
