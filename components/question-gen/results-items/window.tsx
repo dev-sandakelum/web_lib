@@ -1,27 +1,40 @@
 "use client";
 
 import ICT1161Notes from "@/components/notes/new/1";
+import { StickyNote } from "lucide-react";
 import { useState } from "react";
 interface sub {
   subject: string;
 }
-export function Q_gen_note({subject}:sub) {
+export function Q_gen_note({ subject }: sub) {
   const [window, setWindow] = useState(false);
   return (
     <>
-      <button className=" absolute right-0 top-0 w-16 h-16 border z-111" onClick={() => setWindow(!window)}>note</button>
+      <button
+        onClick={() => setWindow(!window)}
+        className={`
+            absolute right-4 top-4 z-[111]
+            px-4 py-2
+            border rounded-lg text-sm font-medium
+            cursor-pointer
+            transition-all duration-300 ease-out
+            active:scale-95
+            ${window ? "bg-gray-200 border-gray-400" : "bg-white border-gray-300"}
+            ${window ? "hover:bg-gray-300" : "hover:bg-gray-100"}
+          `}
+        >
+        {window ? "Close Note" : "Access Note"}
+      </button>
+
       {window && (
         <>
-        <div className=" absolute w-full h-full left-0 top-0 z-99 p-2 bg-blue-50  backdrop-blur-2xl">
-          
-        </div>
-        <div className=" absolute w-full h-full left-0 top-0 z-99 flex justify-center items-center">
+          <div className=" absolute w-full h-full left-0 top-0 z-99 p-2 bg-blue-50  backdrop-blur-2xl"></div>
+          <div className=" absolute w-full h-full left-0 top-0 z-99 flex justify-center items-center">
             <div className="border scale-95 h-[500px] overflow-scroll">
-                {/* {subject} */}
-                {subject == "Information Systems" ? <ICT1161Notes/> : ""}
+              {/* {subject} */}
+              {subject == "Information Systems" ? <ICT1161Notes /> : ""}
             </div>
-          
-        </div>
+          </div>
         </>
       )}
     </>
