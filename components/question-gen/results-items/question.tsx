@@ -9,79 +9,100 @@ interface Value_PASS {
 }
 
 export function Q_gen_question({ value, font }: Value_PASS) {
-  // Local font sizes
-  const titleFontSize = "text-xs"
-  const contentFontSize = "text-sm sm:text-sm"
-
   return (
-    <div className="bg-muted/30 rounded-lg p-3 sm:p-4 border border-border/30">
-      <h3 className={`${titleFontSize} font-semibold text-muted-foreground mb-2`}>
-        Question:
-      </h3>
+    <div className="bg-muted/20 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/30">
+      <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+        <div className="w-1 h-4 sm:h-5 bg-blue-500 rounded-full"></div>
+        <h3 className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          Question
+        </h3>
+      </div>
 
-      <h2
-        className={`${contentFontSize} text-card-foreground leading-snug ${font} font-sans antialiased`}
+      <div
+        className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
+        [&_b]:font-semibold [&_i]:italic [&_u]:underline
+        [&_ol]:list-decimal [&_ol]:ml-3 sm:[&_ol]:ml-4 [&_ol]:my-1 sm:[&_ol]:my-1.5 [&_ol]:space-y-0.5
+        [&_ul]:list-disc [&_ul]:ml-3 sm:[&_ul]:ml-4 [&_ul]:my-1 sm:[&_ul]:my-1.5 [&_ul]:space-y-0.5
+        [&_li]:my-0.5 [&_li]:leading-relaxed [&_li]:text-[11px] sm:[&_li]:text-sm
+        [&_p]:my-1 sm:[&_p]:my-1.5 [&_p]:text-[11px] sm:[&_p]:text-sm
+        [&_br]:block [&_br]:my-0.5`}
         dangerouslySetInnerHTML={{ __html: value }}
-      ></h2>
+      ></div>
     </div>
   )
 }
 
 export function Q_gen_userAnswer({ value, font }: Value_PASS) {
-  // Local font sizes
-  const titleFontSize = "text-xs"
-  const contentFontSize = "text-sm sm:text-sm"
-
   return (
-    <div className="bg-primary/5 rounded-lg p-3 sm:p-4 border border-primary/20">
-      <h3 className={`${titleFontSize} font-semibold text-primary mb-2`}>
-        Your Answer:
-      </h3>
+    <div className="bg-primary/5 rounded-md sm:rounded-lg p-2 sm:p-3 border border-primary/20">
+      <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+        <div className="w-1 h-4 sm:h-5 bg-primary rounded-full"></div>
+        <h3 className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide">
+          Your Answer
+        </h3>
+      </div>
 
-      <h2
-        className={`${contentFontSize} text-card-foreground leading-snug ${font} font-sans antialiased`}
+      <div
+        className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
+        [&_b]:font-semibold [&_i]:italic [&_u]:underline
+        [&_ol]:list-decimal [&_ol]:ml-3 sm:[&_ol]:ml-4 [&_ol]:my-1 sm:[&_ol]:my-1.5 [&_ol]:space-y-0.5
+        [&_ul]:list-disc [&_ul]:ml-3 sm:[&_ul]:ml-4 [&_ul]:my-1 sm:[&_ul]:my-1.5 [&_ul]:space-y-0.5
+        [&_li]:my-0.5 [&_li]:leading-relaxed [&_li]:text-[11px] sm:[&_li]:text-sm
+        [&_p]:my-1 sm:[&_p]:my-1.5 [&_p]:text-[11px] sm:[&_p]:text-sm
+        [&_br]:block [&_br]:my-0.5`}
         dangerouslySetInnerHTML={{ __html: value }}
-      ></h2>
+      ></div>
     </div>
   )
 }
 
 export function Q_gen_modelAnswer({ value, font }: Value_PASS) {
-  // Local font sizes
-  const titleFontSize = "text-xs"
-  const contentFontSize = "text-sm sm:text-sm"
-
   return (
-    <div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-3 sm:p-4 border border-green-200 dark:border-green-800">
-      <h3
-        className={`${titleFontSize} font-semibold text-green-700 dark:text-green-400 mb-2 flex items-center gap-1.5`}
-      >
-        <span>✅</span> Model Answer
-      </h3>
+    <div className="bg-green-50 dark:bg-green-950/20 rounded-md sm:rounded-lg p-2 sm:p-3 border border-green-200 dark:border-green-800">
+      <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+        <div className="w-1 h-4 sm:h-5 bg-green-500 rounded-full"></div>
+        <h3 className="text-[10px] sm:text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wide flex items-center gap-1">
+          <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
+          Model Answer
+        </h3>
+      </div>
 
-      <h2
-        className={`${contentFontSize} text-card-foreground leading-snug ${font} font-sans antialiased`}
+      <div
+        className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
+        [&_b]:font-semibold [&_i]:italic [&_u]:underline
+        [&_ol]:list-decimal [&_ol]:ml-3 sm:[&_ol]:ml-4 [&_ol]:my-1 sm:[&_ol]:my-1.5 [&_ol]:space-y-0.5
+        [&_ul]:list-disc [&_ul]:ml-3 sm:[&_ul]:ml-4 [&_ul]:my-1 sm:[&_ul]:my-1.5 [&_ul]:space-y-0.5
+        [&_li]:my-0.5 [&_li]:leading-relaxed [&_li]:text-[11px] sm:[&_li]:text-sm
+        [&_p]:my-1 sm:[&_p]:my-1.5 [&_p]:text-[11px] sm:[&_p]:text-sm
+        [&_br]:block [&_br]:my-0.5`}
         dangerouslySetInnerHTML={{ __html: value }}
-      ></h2>
+      ></div>
     </div>
   )
 }
 
 export function Q_gen_feedback({ value, font }: Value_PASS) {
-  // Local font sizes
-  const titleFontSize = "text-xs"
-  const contentFontSize = "text-sm sm:text-sm"
-
   return (
-    <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
-      <h3 className={`${titleFontSize} font-semibold text-muted-foreground mb-2`}>
-        Feedback:
-      </h3>
+    <div className="bg-muted/30 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/40">
+      <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+        <div className="w-1 h-4 sm:h-5 bg-purple-500 rounded-full"></div>
+        <h3 className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          Feedback
+        </h3>
+      </div>
 
-      <h2
-        className={`${contentFontSize} text-card-foreground leading-snug ${font} font-sans antialiased`}
+      <div
+        className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
+        [&_b]:font-semibold [&_i]:italic [&_u]:underline
+        [&_ol]:list-decimal [&_ol]:ml-3 sm:[&_ol]:ml-4 [&_ol]:my-1 sm:[&_ol]:my-1.5 [&_ol]:space-y-0.5
+        [&_ul]:list-disc [&_ul]:ml-3 sm:[&_ul]:ml-4 [&_ul]:my-1 sm:[&_ul]:my-1.5 [&_ul]:space-y-0.5
+        [&_li]:my-0.5 [&_li]:leading-relaxed [&_li]:text-[11px] sm:[&_li]:text-sm
+        [&_p]:my-1 sm:[&_p]:my-1.5 [&_p]:text-[11px] sm:[&_p]:text-sm
+        [&_br]:block [&_br]:my-0.5`}
         dangerouslySetInnerHTML={{ __html: value }}
-      ></h2>
+      ></div>
     </div>
   )
 }
@@ -126,7 +147,8 @@ export default function Q_gen_window({
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
-  return (
+  
+    return (
     <div>
       <button
         onClick={() =>
@@ -148,5 +170,6 @@ export default function Q_gen_window({
 
       {isOpen && <div></div>}
     </div>
+  
   )
 }
