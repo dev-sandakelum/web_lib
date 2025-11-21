@@ -27,9 +27,7 @@ export function getNextApiKey(): string {
  * (Free or cheap models on OpenRouter that work well)
  */
 const MODEL_LIST = [
-  "deepseek/deepseek-r1-0528:free",
   "openai/gpt-oss-20b:free",
-  "qwen/qwen3-4b:free",
   "meta-llama/llama-3.2-3b-instruct:free",
 ]
 
@@ -41,7 +39,7 @@ export async function callOpenAI(
   messages: Array<{ role: string; content: string }>,
   retries = 3,
   temperature = 0.7
-): Promise<string> {
+): Promise<{ content: string; model: string }> {
   if (!HAS_API_KEYS) {
     throw new Error(
       "OpenRouter API keys are not configured. Set OPENROUTER_API_KEY_1 (or _2/_3) to enable AI features."
@@ -71,8 +69,8 @@ export async function callOpenAI(
 
       const content = response?.choices?.[0]?.message?.content
       if (!content) throw new Error("Empty response from model")
-
-      return content
+        
+      return { content, model }
     } catch (error: unknown) {
       const err = error as any
 

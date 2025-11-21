@@ -34,6 +34,7 @@ export default function QuizPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ResultState | null>(null);
+  const [model, setModel] = useState<string>(""); // NEW
 
   // CHANGED: Use the helper function instead of find
   const dataset = getDatasetById(categoryId);
@@ -44,7 +45,8 @@ export default function QuizPage() {
     setResult(null);
 
     try {
-      const newQuestion = await generateQuestion(categoryId);
+      const {content: newQuestion , model} = await generateQuestion(categoryId);
+      setModel(model); // NEW
       setQuestion(newQuestion);
     } catch (err) {
       setError(
@@ -168,6 +170,7 @@ export default function QuizPage() {
             <QuizQuestion
               question={question}
               categoryId={categoryId}
+              model={model} 
               onAnswerEvaluated={(
                 stars,
                 feedback,

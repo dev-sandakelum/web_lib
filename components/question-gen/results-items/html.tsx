@@ -364,7 +364,7 @@ export default function HTML_Content(data: {
           <div class="footer">
             <div class="footer-left">
               <div class="footer-item">
-                <span class="footer-label">Student:</span>
+                <span class="footer-label">User:</span>
                 <span>${data.studentName || "N/A"}</span>
               </div>
               <div class="footer-item">
@@ -393,50 +393,88 @@ export default function HTML_Content(data: {
 
       <script>
         async function saveAsJPG() {
-          const btn = document.getElementById('saveBtn');
-          const btnText = document.getElementById('btnText');
-          const content = document.getElementById('content');
-          
-          // Disable button and show loading
-          btn.disabled = true;
-          btnText.textContent = 'Generating...';
-          
-          try {
-            // Wait a bit for fonts to load
-            await new Promise(resolve => setTimeout(resolve, 500));
-            
-            // Capture the content as canvas with high quality
-            const canvas = await html2canvas(content, {
-              scale: 2, // Higher quality
-              backgroundColor: '#ffffff',
-              logging: false,
-              useCORS: true,
-              allowTaint: true
-            });
-            
-            // Convert to JPG
-            canvas.toBlob(function(blob) {
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'question-review-' + new Date().getTime() + '.jpg';
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(url);
-              
-              // Reset button
-              btn.disabled = false;
-              btnText.textContent = 'Save as JPG';
-            }, 'image/jpeg', 0.95);
-            
-          } catch (error) {
-            console.error('Error generating image:', error);
-            alert('Error generating image. Please try again.');
-            btn.disabled = false;
-            btnText.textContent = 'Save as JPG';
-          }
-        }
+  const btn = document.getElementById('saveBtn');
+  const btnText = document.getElementById('btnText');
+  const content = document.getElementById('content');
+  
+  // Disable button and show loading
+  btn.disabled = true;
+  btnText.textContent = 'Generating...';
+  
+  try {
+    // Convert QR code image to data URL if it exists
+    const qrImage = content.querySelector('.qr-code');
+    let originalSrc = null;
+    
+    if (qrImage && qrImage.src) {
+      originalSrc = qrImage.src;
+      try {
+        // Fetch and convert to blob URL for better compatibility
+        const response = await fetch(originalSrc, { mode: 'cors' });
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        
+        // Load as data URL
+        const img = new Image();
+        await new Promise((resolve, reject) => {
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            qrImage.src = canvas.toDataURL('image/png');
+            URL.revokeObjectURL(blobUrl);
+            resolve();
+          };
+          img.onerror = reject;
+          img.src = blobUrl;
+        });
+      } catch (e) {
+        console.warn('Could not convert QR code:', e);
+      }
+    }
+    
+    // Wait a bit for rendering
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Capture the content as canvas with high quality
+    const canvas = await html2canvas(content, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      logging: false,
+      useCORS: false,
+      allowTaint: true
+    });
+    
+    // Restore original QR code src if it was changed
+    if (qrImage && originalSrc) {
+      qrImage.src = originalSrc;
+    }
+    
+    // Convert to JPG
+    canvas.toBlob(function(blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'question-review-' + new Date().getTime() + '.jpg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      // Reset button
+      btn.disabled = false;
+      btnText.textContent = 'Save as JPG';
+    }, 'image/jpeg', 0.95);
+    
+  } catch (error) {
+    console.error('Error generating image:', error);
+    alert('Error generating image. Please try again.');
+    btn.disabled = false;
+    btnText.textContent = 'Save as JPG';
+  }
+}
       </script>
     </body>
     </html>

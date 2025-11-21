@@ -12,7 +12,7 @@ import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 
 // Common reusable instruction
 
-export async function generateQuestion(categoryId: string): Promise<string> {
+export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string }> {
   const dataset = getDatasetById(categoryId);
 
   if (!dataset) {
@@ -69,7 +69,8 @@ export async function generateQuestion(categoryId: string): Promise<string> {
     },
   ];
 
-  return await callOpenAI(messages);
+  const { content , model } = await callOpenAI(messages);
+  return {content , model};
 }
 
 export async function evaluateAnswer(
@@ -115,7 +116,8 @@ export async function evaluateAnswer(
 
   let modelAnswer = "";
   try {
-    modelAnswer = await callOpenAI(modelAnswerMessages, 3, 0.5);
+     const { content } = await callOpenAI(modelAnswerMessages, 3, 0.5);
+    modelAnswer = content;
   } catch (error) {
     console.error("Failed to generate model answer:", error);
     modelAnswer =
@@ -144,7 +146,7 @@ export async function evaluateAnswer(
   ];
 
   try {
-    const response = await callOpenAI(evaluationMessages, 3, 0.3);
+    const {content: response , model} = await callOpenAI(evaluationMessages, 3, 0.3);
 
     // --- JSON cleanup ---
     let cleanedResponse = response.trim();
@@ -175,6 +177,7 @@ export async function evaluateAnswer(
         (item: unknown) => typeof item === "string"
       ),
       modelAnswer,
+      // aimodel: model,
     };
   } catch (error) {
     console.error("Evaluation error:", error);
