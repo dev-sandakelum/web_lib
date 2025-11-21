@@ -49,7 +49,8 @@ export function QuizResults({
         feedback={feedback}
         topic={categoryId}
         studentName={"N/A"}
-        qrCodeUrl={"https://fastly.picsum.photos/id/1/200/200.jpg"}
+        qrCodeUrl={"resourses/qr_quiz.png"}
+        improvements={improvements}
       />
 
       <div className="space-y-2">

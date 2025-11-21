@@ -65,6 +65,8 @@ export function openSaveAsJPG(data: {
   feedback: string
   topic?: string
   studentName?: string
+  qrCodeUrl?: string
+  improvements?: string[]
 }): string {
   const printWindow = window.open("", "_blank")
 
@@ -85,6 +87,7 @@ export default function Q_gen_window({
   topic,
   studentName,
   qrCodeUrl,
+  improvements,
 }: {
   question: string
   userAnswer: string
@@ -93,15 +96,15 @@ export default function Q_gen_window({
   topic?: string
   studentName?: string
   qrCodeUrl?: string
+  improvements?: string[]
 }) {
   const [isOpen, setIsOpen] = useState(false)
-  const x = openSaveAsJPG({ question, userAnswer, modelAnswer, feedback, topic, studentName })
 
   return (
     <div className="">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg font-medium text-xs sm:text-sm transition-all duration-200"
+        onClick={() => openSaveAsJPG({ question, userAnswer, modelAnswer, feedback, topic, studentName ,qrCodeUrl , improvements })}
+        className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 cursor-alias"
       >
         🖨️ Print
       </button>

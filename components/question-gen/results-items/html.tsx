@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-export default function HTML_Content( data: {
+export default function HTML_Content(data: {
   question: string;
   userAnswer: string;
   modelAnswer: string;
@@ -8,18 +8,19 @@ export default function HTML_Content( data: {
   studentName?: string;
   topic?: string;
   qrCodeUrl?: string;
+  improvements?: string[];
 }) {
   const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-  const formattedTime = currentDate.toLocaleTimeString('en-US', { 
-    hour: '2-digit', 
-    minute: '2-digit'
+  const formattedTime = currentDate.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
   });
-  
+
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -168,7 +169,7 @@ export default function HTML_Content( data: {
 
         .footer-right {
           display: flex;
-          flex-direction: column;
+          flex-direction: row-reverse;
           align-items: flex-end;
           gap: 10px;
         }
@@ -252,6 +253,15 @@ export default function HTML_Content( data: {
           font-size: 12px;
           color: #64748b;
         }
+          .improvements-section {
+  background: #f0f9ff;
+  border-color: #bae6fd;
+}
+
+.improvements-section .section-title {
+  color: #0284c7;
+}
+
       </style>
     </head>
     <body>
@@ -273,7 +283,9 @@ export default function HTML_Content( data: {
           <div class="top-bar">
             <div class="top-bar-left">
               <div class="top-bar-title">Question Review Sheet</div>
-              <div class="top-bar-subtitle">${data.topic || 'General Assessment'}</div>
+              <div class="top-bar-subtitle">${
+                data.topic || "General Assessment"
+              }</div>
             </div>
             <div class="top-bar-right">
               <div class="top-bar-date">${formattedDate}</div>
@@ -302,6 +314,50 @@ export default function HTML_Content( data: {
               <div class="section-title">Feedback:</div>
               <div class="section-content">${data.feedback}</div>
             </div>
+              ${
+                data.improvements && data.improvements.length > 0
+                  ? `
+            <div class="section improvements-section">
+              <div class="section-title">Improvements:</div>
+              <ul style="list-style:none; padding-left:0; margin:0;">
+                ${data.improvements
+                  .map(
+                    (improvement, idx) => `
+                    <li style="
+                      display:flex; 
+                      gap:10px; 
+                      font-size:12px; 
+                      margin-bottom:10px; 
+                      color:#475569;
+                    ">
+                      <span style="
+                        font-weight:700; 
+                        color:#0ea5e9; 
+                        width:22px; 
+                        height:22px; 
+                        min-width:22px;
+                        min-height:22px;
+                        background:#e0f2fe; 
+                        border-radius:50%; 
+                        display:flex; 
+                        align-items:center; 
+                        justify-content:center; 
+                        font-size:11px;
+                      ">
+                        ${idx + 1}
+                      </span>
+                      <span style="line-height:1.6;">${improvement}</span>
+                    </li>
+                  `
+                  )
+                  .join("")}
+              </ul>
+            </div>
+`
+                  : ""
+              }
+
+            
           </div>
 
           <!-- Footer -->
@@ -309,11 +365,11 @@ export default function HTML_Content( data: {
             <div class="footer-left">
               <div class="footer-item">
                 <span class="footer-label">Student:</span>
-                <span>${data.studentName || 'N/A'}</span>
+                <span>${data.studentName || "N/A"}</span>
               </div>
               <div class="footer-item">
                 <span class="footer-label">Topic:</span>
-                <span>${data.topic || 'General Assessment'}</span>
+                <span>${data.topic || "General Assessment"}</span>
               </div>
               <div class="footer-item">
                 <span class="footer-label">Generated:</span>
@@ -321,7 +377,11 @@ export default function HTML_Content( data: {
               </div>
             </div>
             <div class="footer-right">
-              ${data.qrCodeUrl ? `<img src="${data.qrCodeUrl}" alt="QR Code" class="qr-code" />` : ''}
+              ${
+                data.qrCodeUrl
+                  ? `<img src="${data.qrCodeUrl}" alt="QR Code" class="qr-code" />`
+                  : ""
+              }
               <div class="footer-text">
                 Question Review System<br>
                 © ${currentDate.getFullYear()}
