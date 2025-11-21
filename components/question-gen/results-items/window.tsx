@@ -5,6 +5,7 @@ import { useState } from "react";
 interface sub {
   subject: string;
 }
+
 export function Q_gen_note({subject}:sub) {
   const [window, setWindow] = useState(false);
   return (
