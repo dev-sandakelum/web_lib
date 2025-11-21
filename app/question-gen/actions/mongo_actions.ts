@@ -10,7 +10,7 @@ import { CommonInstruction } from "./prompts/common";
 import { generatePromptfor_programming } from "./prompts/gen/c";
 import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 
-// Your existing generateQuestion function...
+// Generate question function
 export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string }> {
   const dataset = getDatasetById(categoryId);
   if (!dataset) throw new Error("Dataset not found");
@@ -19,7 +19,6 @@ export async function generateQuestion(categoryId: string): Promise<{ content: s
     ? dataset.content.substring(0, 3000) + "..."
     : dataset.content;
 
-  // Build category-specific prompt
   let thePrompt = "";
   switch (dataset.category) {
     case "Information Systems":
@@ -32,7 +31,6 @@ export async function generateQuestion(categoryId: string): Promise<{ content: s
       thePrompt = generatePromptfor_ComputerNetworks(dataset, contentPreview, QuestionPattern, CommonInstruction);
       break;
     default:
-      // fallback generic prompt
       thePrompt = `${CommonInstruction}\n\n${contentPreview}`;
       break;
   }
@@ -51,7 +49,7 @@ export async function generateQuestion(categoryId: string): Promise<{ content: s
   return await callGroq(messages);
 }
 
-// NEW: Save quiz to MongoDB
+// Save quiz to MongoDB - IMPROVED ERROR HANDLING
 export async function saveQuizToDatabase(data: {
   categoryId: string;
   question: string;
@@ -59,8 +57,10 @@ export async function saveQuizToDatabase(data: {
   model: string;
 }) {
   try {
+    // Connect to database
     await connectToDatabase();
 
+    // Create quiz document
     const quiz = await Quiz.create({
       categoryId: data.categoryId,
       question: data.question,
@@ -69,12 +69,22 @@ export async function saveQuizToDatabase(data: {
       createdAt: new Date(),
     });
 
+    console.log('Quiz saved successfully:', quiz._id.toString());
+
     return {
       success: true,
       quizId: quiz._id.toString(),
     };
   } catch (error) {
-    console.error("Error saving quiz:", error);
+    console.error("Error saving quiz to MongoDB:", error);
+    
+    // More detailed error logging
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to save quiz",
@@ -82,14 +92,19 @@ export async function saveQuizToDatabase(data: {
   }
 }
 
-// NEW: Get all quizzes for a category
+// Get all quizzes for a category - IMPROVED ERROR HANDLING
 export async function getQuizzesByCategory(categoryId: string) {
   try {
+    // Connect to database
     await connectToDatabase();
 
+    // Query quizzes
     const quizzes = await Quiz.find({ categoryId })
       .sort({ createdAt: -1 })
-      .lean();
+      .lean()
+      .exec(); // Add exec() for better error handling
+
+    console.log(`Found ${quizzes.length} quizzes for category ${categoryId}`);
 
     return {
       success: true,
@@ -102,7 +117,15 @@ export async function getQuizzesByCategory(categoryId: string) {
       })),
     };
   } catch (error) {
-    console.error("Error fetching quizzes:", error);
+    console.error("Error fetching quizzes from MongoDB:", error);
+    
+    // More detailed error logging
+    if (error instanceof Error) {
+      console.error("Error name:", error.name);
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
+
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to fetch quizzes",

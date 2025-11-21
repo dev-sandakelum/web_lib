@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { generateQuestion, saveQuizToDatabase } from "@/app/question-gen/actions/mongo_actions";
+import {
+  generateQuestion,
+  saveQuizToDatabase,
+} from "@/app/question-gen/actions/mongo_actions";
 import { QuizQuestion } from "@/components/question-gen/quiz-question";
 import { QuizResults } from "@/components/question-gen/quiz-results";
 import { getDatasetById } from "@/lib/question-gen/datasets/registry";
 import { Q_gen_note } from "@/components/question-gen/results-items/window";
-import {NotFound} from "./notFound";
+import { NotFound } from "./notFound";
 import { Error_display, BackBtn, Navigation, While_load } from "./fun";
 import Link from "next/link";
 
@@ -41,16 +44,22 @@ export default function QuizPage() {
 
     try {
       // Check if there's a question in search params and we're not forcing a new generation
-      const questionFromParams = searchParams.get('question');
-      
-      if (!forceGenerate && questionFromParams && questionFromParams.trim().length > 0) {
+      const questionFromParams = searchParams.get("question");
+
+      if (
+        !forceGenerate &&
+        questionFromParams &&
+        questionFromParams.trim().length > 0
+      ) {
         // Use the question from URL params
         setQuestion(questionFromParams);
         setModel("provided");
-        setIsNewlyGenerated(false);
+        setIsNewlyGenerated(true);
       } else {
         // Generate a new question
-        const {content: newQuestion , model} = await generateQuestion(categoryId);
+        const { content: newQuestion, model } = await generateQuestion(
+          categoryId
+        );
         setModel(model);
         setQuestion(newQuestion);
         setIsNewlyGenerated(true); // Mark as newly generated
@@ -86,6 +95,7 @@ export default function QuizPage() {
 
     // Save to MongoDB only if it's a newly generated question
     if (isNewlyGenerated && question) {
+      console.log("Attempting to save quiz to MongoDB...");
       try {
         const saveResult = await saveQuizToDatabase({
           categoryId,
@@ -103,6 +113,8 @@ export default function QuizPage() {
       } catch (err) {
         console.error("Error saving quiz:", err);
       }
+    } else {
+      console.log("Quiz not saved - either not newly generated or no question");
     }
   };
 
@@ -112,7 +124,7 @@ export default function QuizPage() {
   }, [categoryId, dataset, searchParams]);
 
   if (!dataset) {
-    return <NotFound />
+    return <NotFound />;
   }
 
   return (
@@ -128,12 +140,12 @@ export default function QuizPage() {
             transition-all duration-300 ease-out
             active:scale-95
           `}
-        >
+      >
         generated
       </Link>
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
-       <BackBtn />
-        <Navigation dataset={dataset}/>
+        <BackBtn />
+        <Navigation dataset={dataset} />
 
         {error && (
           <Error_display error={error} loadNewQuestion={loadNewQuestion} />
@@ -158,7 +170,7 @@ export default function QuizPage() {
             <QuizQuestion
               question={question}
               categoryId={categoryId}
-              model={model} 
+              model={model}
               onAnswerEvaluated={handleAnswerEvaluated}
               onNewQuestion={loadNewQuestion}
               loading={loading}
