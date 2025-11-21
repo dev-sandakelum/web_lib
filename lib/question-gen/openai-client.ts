@@ -22,10 +22,25 @@ export function getNextApiKey(): string {
   return key
 }
 
+/**
+ * RANDOM MODEL LIST
+ * (Free or cheap models on OpenRouter that work well)
+ */
+const MODEL_LIST = [
+  "deepseek/deepseek-r1-0528:free",
+  "openai/gpt-oss-20b:free",
+  "qwen/qwen3-4b:free",
+  "meta-llama/llama-3.2-3b-instruct:free",
+]
+
+function getRandomModel(): string {
+  return MODEL_LIST[Math.floor(Math.random() * MODEL_LIST.length)]
+}
+
 export async function callOpenAI(
   messages: Array<{ role: string; content: string }>,
   retries = 3,
-  temperature = 0.7  // Add temperature parameter
+  temperature = 0.7
 ): Promise<string> {
   if (!HAS_API_KEYS) {
     throw new Error(
@@ -36,7 +51,8 @@ export async function callOpenAI(
   for (let i = 0; i < retries; i++) {
     try {
       const apiKey = getNextApiKey()
-      
+      const model = getRandomModel()   // RANDOM MODEL PICK
+
       const openai = new OpenAI({
         baseURL: "https://openrouter.ai/api/v1",
         apiKey: apiKey,
@@ -44,41 +60,34 @@ export async function callOpenAI(
       })
 
       const response = await openai.chat.completions.create({
-        model: "deepseek/deepseek-chat",
+        model: model,
         messages: messages.map(msg => ({
           role: msg.role as "user" | "assistant" | "system",
           content: msg.content,
         })),
-        temperature: temperature,  // Use parameter
-        max_tokens: 2048,  // Increased from 1024
+        temperature,
+        max_tokens: 2048,
       })
 
-      const content = response.choices[0]?.message?.content
-
-      if (!content) {
-        throw new Error("No content in response")
-      }
+      const content = response?.choices?.[0]?.message?.content
+      if (!content) throw new Error("Empty response from model")
 
       return content
     } catch (error: unknown) {
-      const err = error as Record<string, unknown>
-      if (
-        ((typeof err.status === "number" && err.status === 429) ||
-          (typeof err.message === "string" && err.message.includes("429"))) &&
-        i < retries - 1
-      ) {
-        await new Promise(resolve => setTimeout(resolve, 1000)) // Add delay
+      const err = error as any
+
+      const isRateLimited =
+        (typeof err.status === "number" && err.status === 429) ||
+        (typeof err.message === "string" && err.message.includes("429"))
+
+      if (isRateLimited && i < retries - 1) {
+        await new Promise(res => setTimeout(res, 1000))
         continue
       }
+
       throw error
     }
   }
 
   throw new Error("Failed to call OpenRouter API after retries")
-}
-
-export interface EvaluationResult {
-  stars: number
-  feedback: string
-  improvements: string[]
 }
