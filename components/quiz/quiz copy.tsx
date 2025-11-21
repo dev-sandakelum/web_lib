@@ -15,12 +15,12 @@ import {
   Target,
   ArrowLeft,
 } from "lucide-react"
-import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2"
-import { MultimediaQuiz } from "@/resourses/json/Q3"
-import { CProgrammingQuiz } from "@/resourses/json/Q4"
-import { ComputerArchitectureQuiz, ComputerArchitectureQuiz2 } from "@/resourses/json/Q5"
-import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resourses/json/Q6"
-import { AdvancedMemoryQuiz, ExternalMemoryQuiz, InternalMemoryQuiz } from "@/resourses/json/Q7"
+import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resources/json/Q2"
+import { MultimediaQuiz } from "@/resources/json/Q3"
+import { CProgrammingQuiz } from "@/resources/json/Q4"
+import { ComputerArchitectureQuiz, ComputerArchitectureQuiz2 } from "@/resources/json/Q5"
+import { AdvancedTopicsQuiz, AnimationBasicsQuiz, DigitalImagesQuiz } from "@/resources/json/Q6"
+import { AdvancedMemoryQuiz, ExternalMemoryQuiz, InternalMemoryQuiz } from "@/resources/json/Q7"
 
 // Define types for quiz structure
 interface Question {

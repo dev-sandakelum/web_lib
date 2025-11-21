@@ -1,29 +1,29 @@
-import { CacheMemoryQuiz, ComputerArithmeticQuiz } from "@/resourses/json/computer_arch_quiz";
-import { ApplicationLayersQuiz1, ApplicationLayersQuiz2 } from "@/resourses/json/Q10";
-import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resourses/json/Q2";
-import { MultimediaQuiz } from "@/resourses/json/Q3";
-import { CProgrammingQuiz } from "@/resourses/json/Q4";
+import { CacheMemoryQuiz, ComputerArithmeticQuiz } from "@/resources/json/computer_arch_quiz";
+import { ApplicationLayersQuiz1, ApplicationLayersQuiz2 } from "@/resources/json/Q10";
+import { Ict1161Quiz, MCommerceEnterpriseQuiz } from "@/resources/json/Q2";
+import { MultimediaQuiz } from "@/resources/json/Q3";
+import { CProgrammingQuiz } from "@/resources/json/Q4";
 import {
   ComputerArchitectureQuiz,
   ComputerArchitectureQuiz2,
-} from "@/resourses/json/Q5";
+} from "@/resources/json/Q5";
 import {
   AdvancedTopicsQuiz,
   AnimationBasicsQuiz,
   DigitalImagesQuiz,
-} from "@/resourses/json/Q6";
+} from "@/resources/json/Q6";
 import {
   AdvancedMemoryQuiz,
   ExternalMemoryQuiz,
   InternalMemoryQuiz,
-} from "@/resourses/json/Q7";
+} from "@/resources/json/Q7";
 import {
   ComputerNetworksQuiz,
   DataLinkMACQuiz,
   NetworkDevicesQuiz,
   PhysicalLayerQuiz,
-} from "@/resourses/json/Q8";
-import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resourses/json/Q9";
+} from "@/resources/json/Q8";
+import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resources/json/Q9";
 
 interface Question {
   question: string;

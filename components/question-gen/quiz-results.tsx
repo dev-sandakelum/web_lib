@@ -49,7 +49,7 @@ export function QuizResults({
         feedback={feedback}
         topic={categoryId}
         studentName={"N/A"}
-        qrCodeUrl={"resourses/qr_quiz.png"}
+        qrCodeUrl={"https://github.com/dev-sandakelum/web_lib/raw/main/resources/qr_quiz.png"}
         improvements={improvements}
       />
 

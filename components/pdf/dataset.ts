@@ -8,7 +8,7 @@ interface PDFItem {
 }
 
 const pdf_path =
-  "https://github.com/dev-sandakelum/web_lib/raw/main/resourses/pdf/";
+  "https://github.com/dev-sandakelum/web_lib/raw/main/resources/pdf/";
 
 export const PdfDocuments: PDFItem[] = [
   {
