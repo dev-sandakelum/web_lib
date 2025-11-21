@@ -11,8 +11,8 @@ export function Q_gen_note({ subject }: sub) {
   return (
     <>
       <button
-        onClick={() => setWindow(!window)}
-        className={`
+          onClick={() => setWindow(!window)}
+          className={`
             absolute right-4 top-4 z-[111]
             px-4 py-2
             border rounded-lg text-sm font-medium
@@ -23,8 +23,13 @@ export function Q_gen_note({ subject }: sub) {
             ${window ? "hover:bg-gray-300" : "hover:bg-gray-100"}
           `}
         >
-        {window ? "Close Note" : "Access Note"}
-      </button>
+          <span className="hidden sm:inline">
+            {window ? "Close Note" : "Access Note"}
+          </span>
+          <span className="sm:hidden text-base">
+            {window ? "✕" : "📝"}
+          </span>
+        </button>
 
       {window && (
         <>

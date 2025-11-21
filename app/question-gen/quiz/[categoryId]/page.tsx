@@ -132,16 +132,19 @@ export default function QuizPage() {
       <Q_gen_note subject={dataset.category} />
       <Link
         href={`${categoryId}/generated`}
-        className={`
-            absolute right-4 top-14 z-[111]
+          className={`
+            absolute right-20 sm:right-34 top-4 z-[111]
             px-4 py-2
             border rounded-lg text-sm font-medium
             cursor-pointer
             transition-all duration-300 ease-out
             active:scale-95
+            bg-white border-gray-300
+            hover:bg-gray-100
           `}
       >
-        generated
+        <span className="hidden sm:inline">Already Generated Questions</span>
+          <span className="sm:hidden text-base">⚡</span>
       </Link>
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
         <BackBtn />

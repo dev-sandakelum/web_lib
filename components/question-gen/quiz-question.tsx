@@ -125,7 +125,7 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight + "px"
             setTimeout(() => {
-              e.target.scrollIntoView({ behavior: "smooth", block: "center" })
+              e.target.scrollIntoView({ behavior: "smooth", block: "end" })
             }, 300)
           }}
           placeholder="Start typing your answer here..."
