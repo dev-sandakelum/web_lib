@@ -481,12 +481,14 @@ export default function HTML_Content(data: {
             await new Promise(resolve => setTimeout(resolve, 300));
             
             const canvas = await html2canvas(content, {
-              scale: 2,
+              scale: 3,
               backgroundColor: '#ffffff',
               logging: false,
               useCORS: false,
               allowTaint: true,
-              width: 794
+              width: 794,
+              windowWidth: 794,
+              windowHeight: content.scrollHeight
             });
             
             if (qrImage && originalSrc) {
@@ -505,7 +507,7 @@ export default function HTML_Content(data: {
               
               btn.disabled = false;
               btnText.textContent = 'Save as JPG';
-            }, 'image/jpeg', 0.95);
+            }, 'image/jpeg', 1.0);
             
           } catch (error) {
             console.error('Error generating image:', error);
