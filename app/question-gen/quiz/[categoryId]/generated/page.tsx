@@ -295,6 +295,7 @@ export default function GeneratedQuestionsPage() {
                 )}
               </div>
             ))}
+            <div className=" h-[100px]"></div>
           </div>
         )}
       </div>

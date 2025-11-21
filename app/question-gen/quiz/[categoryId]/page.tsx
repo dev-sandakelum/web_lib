@@ -54,7 +54,7 @@ export default function QuizPage() {
         // Use the question from URL params
         setQuestion(questionFromParams);
         setModel("provided");
-        setIsNewlyGenerated(true);
+        setIsNewlyGenerated(false);
       } else {
         // Generate a new question
         const { content: newQuestion, model } = await generateQuestion(

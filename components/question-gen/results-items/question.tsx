@@ -141,7 +141,7 @@ export default function Q_gen_window({
             improvements,
           })
         }
-        className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 cursor-alias"
+        className="px-4 py-2 border bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg font-medium text-xs sm:text-sm transition-all duration-200 cursor-alias"
       >
         🖨️ Print
       </button>
