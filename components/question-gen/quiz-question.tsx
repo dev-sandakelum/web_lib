@@ -45,7 +45,7 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
   }
   const setPageBottom = () => {
     if (!isScrollLocked) return
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    window.scrollTo({ top: document.body.scrollHeight-10, behavior: 'instant' })
   }
 
   const handleSubmit = async () => {
