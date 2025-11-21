@@ -13,9 +13,13 @@ export default function Home() {
   const handleSelectSubtopic = (subtopicId: string) => {
     router.push(`/question-gen/quiz/${subtopicId}`);
   };
-const handleToggle = (index: number) => {
+ 
+
+  const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 py-6 sm:py-8 md:py-10">
