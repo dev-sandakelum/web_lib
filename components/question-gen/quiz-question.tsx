@@ -59,10 +59,20 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
             setError(null)
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight + "px"
+            
+            // Keep cursor position visible on mobile
+            setTimeout(() => {
+              e.target.scrollIntoView({ behavior: "smooth", block: "nearest" })
+            }, 100)
           }}
           onFocus={(e) => {
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight + "px"
+            
+            // Scroll textarea into view on focus
+            setTimeout(() => {
+              e.target.scrollIntoView({ behavior: "smooth", block: "center" })
+            }, 300)
           }}
           placeholder="Type your answer here..."
           disabled={evaluating}
