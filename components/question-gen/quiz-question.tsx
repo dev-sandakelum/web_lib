@@ -27,6 +27,22 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
   const [evaluating, setEvaluating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [charCount, setCharCount] = useState(0)
+  const [isScrollLocked, setIsScrollLocked] = useState(false)
+
+  const handleScrollAndDisable = () => {
+    if (!isScrollLocked) {
+      // Scroll down the page
+      window.scrollBy({ top: 500, behavior: 'smooth' })
+      
+      // Disable scrolling on the entire page
+      document.body.style.overflow = 'hidden'
+      setIsScrollLocked(true)
+    } else {
+      // Re-enable scrolling
+      document.body.style.overflow = 'auto'
+      setIsScrollLocked(false)
+    }
+  }
 
   const handleSubmit = async () => {
     setError(null)
@@ -203,6 +219,30 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             <span>New Question</span>
+          </button>
+
+          <button
+            onClick={handleScrollAndDisable}
+            className={`group lg:hidden min-h-7 px-2 fixed z-101 bottom-3 w-12 h-12
+              ${isScrollLocked 
+                ? 'bg-green-500 hover:bg-green-600 border-green-600' 
+                : 'bg-orange-500 hover:bg-orange-600 border-orange-600'
+              }
+              text-white 
+              rounded-full font-semibold text-[10px]
+              transition-all duration-200 
+              flex items-center justify-center gap-1.5
+              hover:scale-[1.02] active:scale-[0.98]`}
+          >
+            {isScrollLocked ? (
+              <>
+                <span>Unlock</span>
+              </>
+            ) : (
+              <>
+                <span>Lock</span>
+              </>
+            )}
           </button>
         </div>
       </div>
