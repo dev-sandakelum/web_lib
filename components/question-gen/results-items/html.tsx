@@ -42,10 +42,15 @@ export default function HTML_Content(data: {
           color: #1e293b;
           background: #f8fafc;
           padding: 20px;
+          overflow-x: auto;
+          min-width: 850px;
         }
 
         .container {
-          max-width: 800px;
+          width: 794px;
+          min-width: 794px;
+          max-width: 794px;
+          min-height: 1123px;
           margin: 0 auto;
           background: white;
           padding: 0;
@@ -60,12 +65,14 @@ export default function HTML_Content(data: {
           margin-bottom: 30px;
           padding: 20px 30px;
           border-bottom: 2px solid #e2e8f0;
+          min-height: 80px;
         }
 
         h1 {
           font-size: 24px;
           color: #0f172a;
           font-weight: 700;
+          white-space: nowrap;
         }
 
         .save-btn {
@@ -81,6 +88,7 @@ export default function HTML_Content(data: {
           font-size: 14px;
           font-weight: 600;
           transition: background 0.2s;
+          white-space: nowrap;
         }
 
         .save-btn:hover {
@@ -101,38 +109,47 @@ export default function HTML_Content(data: {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          flex-wrap: wrap;
-          gap: 15px;
+          min-height: 80px;
         }
 
         .top-bar-left {
           flex: 1;
+          min-width: 0;
         }
 
         .top-bar-title {
           font-size: 18px;
           font-weight: 700;
           margin-bottom: 4px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .top-bar-subtitle {
           font-size: 12px;
           opacity: 0.9;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .top-bar-right {
           text-align: right;
+          min-width: 150px;
         }
 
         .top-bar-date {
           font-size: 13px;
           font-weight: 600;
           margin-bottom: 2px;
+          white-space: nowrap;
         }
 
         .top-bar-time {
           font-size: 11px;
           opacity: 0.9;
+          white-space: nowrap;
         }
 
         /* Footer Styles */
@@ -144,8 +161,7 @@ export default function HTML_Content(data: {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          flex-wrap: wrap;
-          gap: 15px;
+          min-height: 120px;
           font-size: 11px;
           color: #64748b;
         }
@@ -154,12 +170,17 @@ export default function HTML_Content(data: {
           display: flex;
           flex-direction: column;
           gap: 4px;
+          flex: 1;
+          min-width: 0;
         }
 
         .footer-item {
           display: flex;
           align-items: center;
           gap: 6px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .footer-label {
@@ -172,17 +193,21 @@ export default function HTML_Content(data: {
           flex-direction: row-reverse;
           align-items: flex-end;
           gap: 10px;
+          min-width: 200px;
         }
 
         .footer-text {
           text-align: right;
           font-size: 10px;
           color: #94a3b8;
+          white-space: nowrap;
         }
 
         .qr-code {
           width: 80px;
           height: 80px;
+          min-width: 80px;
+          min-height: 80px;
           border: 2px solid #e2e8f0;
           border-radius: 4px;
           padding: 4px;
@@ -192,6 +217,10 @@ export default function HTML_Content(data: {
         #content {
           background: white;
           padding: 30px;
+          width: 794px;
+          min-width: 794px;
+          max-width: 794px;
+          min-height: 1123px;
         }
 
         .section {
@@ -214,6 +243,8 @@ export default function HTML_Content(data: {
           font-size: 12px;
           line-height: 1.8;
           color: #1e293b;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         .question-section {
@@ -248,20 +279,38 @@ export default function HTML_Content(data: {
           color: #ca8a04;
         }
 
+        .improvements-section {
+          background: #f0f9ff;
+          border-color: #bae6fd;
+        }
+
+        .improvements-section .section-title {
+          color: #0284c7;
+        }
+
         .loading-text {
           margin-left: 8px;
           font-size: 12px;
           color: #64748b;
         }
-          .improvements-section {
-  background: #f0f9ff;
-  border-color: #bae6fd;
-}
 
-.improvements-section .section-title {
-  color: #0284c7;
-}
-
+        /* Mobile scroll hint */
+        @media (max-width: 850px) {
+          body::before {
+            content: '← Scroll horizontally to view full A4 document →';
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 12px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            margin: -20px -20px 20px -20px;
+          }
+        }
       </style>
     </head>
     <body>
@@ -356,8 +405,6 @@ export default function HTML_Content(data: {
 `
                   : ""
               }
-
-            
           </div>
 
           <!-- Footer -->
@@ -393,88 +440,80 @@ export default function HTML_Content(data: {
 
       <script>
         async function saveAsJPG() {
-  const btn = document.getElementById('saveBtn');
-  const btnText = document.getElementById('btnText');
-  const content = document.getElementById('content');
-  
-  // Disable button and show loading
-  btn.disabled = true;
-  btnText.textContent = 'Generating...';
-  
-  try {
-    // Convert QR code image to data URL if it exists
-    const qrImage = content.querySelector('.qr-code');
-    let originalSrc = null;
-    
-    if (qrImage && qrImage.src) {
-      originalSrc = qrImage.src;
-      try {
-        // Fetch and convert to blob URL for better compatibility
-        const response = await fetch(originalSrc, { mode: 'cors' });
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-        
-        // Load as data URL
-        const img = new Image();
-        await new Promise((resolve, reject) => {
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            qrImage.src = canvas.toDataURL('image/png');
-            URL.revokeObjectURL(blobUrl);
-            resolve();
-          };
-          img.onerror = reject;
-          img.src = blobUrl;
-        });
-      } catch (e) {
-        console.warn('Could not convert QR code:', e);
-      }
-    }
-    
-    // Wait a bit for rendering
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    // Capture the content as canvas with high quality
-    const canvas = await html2canvas(content, {
-      scale: 2,
-      backgroundColor: '#ffffff',
-      logging: false,
-      useCORS: false,
-      allowTaint: true
-    });
-    
-    // Restore original QR code src if it was changed
-    if (qrImage && originalSrc) {
-      qrImage.src = originalSrc;
-    }
-    
-    // Convert to JPG
-    canvas.toBlob(function(blob) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'question-review-' + new Date().getTime() + '.jpg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      // Reset button
-      btn.disabled = false;
-      btnText.textContent = 'Save as JPG';
-    }, 'image/jpeg', 0.95);
-    
-  } catch (error) {
-    console.error('Error generating image:', error);
-    alert('Error generating image. Please try again.');
-    btn.disabled = false;
-    btnText.textContent = 'Save as JPG';
-  }
-}
+          const btn = document.getElementById('saveBtn');
+          const btnText = document.getElementById('btnText');
+          const content = document.getElementById('content');
+          
+          btn.disabled = true;
+          btnText.textContent = 'Generating...';
+          
+          try {
+            const qrImage = content.querySelector('.qr-code');
+            let originalSrc = null;
+            
+            if (qrImage && qrImage.src) {
+              originalSrc = qrImage.src;
+              try {
+                const response = await fetch(originalSrc, { mode: 'cors' });
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                
+                const img = new Image();
+                await new Promise((resolve, reject) => {
+                  img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    qrImage.src = canvas.toDataURL('image/png');
+                    URL.revokeObjectURL(blobUrl);
+                    resolve();
+                  };
+                  img.onerror = reject;
+                  img.src = blobUrl;
+                });
+              } catch (e) {
+                console.warn('Could not convert QR code:', e);
+              }
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            const canvas = await html2canvas(content, {
+              scale: 2,
+              backgroundColor: '#ffffff',
+              logging: false,
+              useCORS: false,
+              allowTaint: true,
+              width: 794
+            });
+            
+            if (qrImage && originalSrc) {
+              qrImage.src = originalSrc;
+            }
+            
+            canvas.toBlob(function(blob) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'question-review-' + new Date().getTime() + '.jpg';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              
+              btn.disabled = false;
+              btnText.textContent = 'Save as JPG';
+            }, 'image/jpeg', 0.95);
+            
+          } catch (error) {
+            console.error('Error generating image:', error);
+            alert('Error generating image. Please try again.');
+            btn.disabled = false;
+            btnText.textContent = 'Save as JPG';
+          }
+        }
       </script>
     </body>
     </html>
