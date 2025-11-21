@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import { StarRating } from "./star-rating";
-import { comicNeue } from "../quiz/quiz";
-import {Q_gen_feedback, Q_gen_modelAnswer, Q_gen_question, Q_gen_userAnswer} from "./results-items/question";
+import { quiz_font } from "../fonts";
+import Q_gen_window, {
+  openSaveAsJPG,
+  Q_gen_feedback,
+  Q_gen_modelAnswer,
+  Q_gen_question,
+  Q_gen_userAnswer,
+} from "./results-items/question";
 
 interface QuizResultsProps {
   stars: number;
@@ -32,9 +38,19 @@ export function QuizResults({
 }: QuizResultsProps) {
   return (
     <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 sm:p-5 space-y-4">
-      <Q_gen_question value={question} font={comicNeue.variable}/>
-      <Q_gen_userAnswer value={userAnswer} font={comicNeue.variable}/>
-      <Q_gen_modelAnswer value={modelAnswer} font={comicNeue.variable}/>
+      <Q_gen_question value={question} font={quiz_font.variable} />
+      <Q_gen_userAnswer value={userAnswer} font={quiz_font.variable} />
+      <Q_gen_modelAnswer value={modelAnswer} font={quiz_font.variable} />
+
+      <Q_gen_window
+        question={question}
+        userAnswer={userAnswer}
+        modelAnswer={modelAnswer}
+        feedback={feedback}
+        topic={categoryId}
+        studentName={"N/A"}
+        qrCodeUrl={"https://fastly.picsum.photos/id/1/200/200.jpg"}
+      />
 
       <div className="space-y-2">
         <h2 className="text-base sm:text-lg font-semibold text-card-foreground">
@@ -43,15 +59,16 @@ export function QuizResults({
         <StarRating stars={stars} />
       </div>
 
-      <Q_gen_feedback value={feedback} font={comicNeue.variable}/>
-      
+      <Q_gen_feedback value={feedback} font={quiz_font.variable} />
 
       {stars < 4 && improvements.length > 0 && (
         <div className="space-y-2.5">
           <h3 className="font-semibold text-card-foreground text-s sm:text-base">
             💡 How to Improve:
           </h3>
-          <ol className={`text-[12px] sm:text-m text-card-foreground leading-snug ${comicNeue.variable} font-sans antialiased`}>
+          <ol
+            className={`text-[12px] sm:text-m text-card-foreground leading-snug ${quiz_font.variable} font-sans antialiased`}
+          >
             {improvements.map((improvement, idx) => (
               <li
                 key={idx}
@@ -60,7 +77,10 @@ export function QuizResults({
                 <span className="font-bold text-primary flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] sm:text-xs">
                   {idx + 1}
                 </span>
-                <span className="leading-relaxed" dangerouslySetInnerHTML={{__html:improvement}}></span>
+                <span
+                  className="leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: improvement }}
+                ></span>
               </li>
             ))}
           </ol>

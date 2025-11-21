@@ -2,15 +2,21 @@
 
 import { useState } from "react"
 import { evaluateAnswer } from "@/app/question-gen/actions/actions"
-import { Spinner } from "./spinner"
-import { comicNeue } from "../quiz/quiz"
+
 import { Q_gen_question } from "./results-items/question"
-import { Q_gen_note } from "./results-items/window"
+import { quiz_font } from "../fonts"
+import { Spinner } from "./spinner"
 
 interface QuizQuestionProps {
   question: string
   categoryId: string
-  onAnswerEvaluated: (stars: number, feedback: string, improvements: string[], userAnswer: string ,modelAnswer :string) => void
+  onAnswerEvaluated: (
+    stars: number,
+    feedback: string,
+    improvements: string[],
+    userAnswer: string,
+    modelAnswer: string,
+  ) => void
   onNewQuestion: () => void
   loading: boolean
 }
@@ -30,7 +36,7 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
     setEvaluating(true)
     try {
       const result = await evaluateAnswer(question, answer, categoryId)
-      onAnswerEvaluated(result.stars, result.feedback, result.improvements, answer , result.modelAnswer)  // MODIFIED - pass answer
+      onAnswerEvaluated(result.stars, result.feedback, result.improvements, answer, result.modelAnswer)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to evaluate answer. Please try again.")
     } finally {
@@ -41,30 +47,27 @@ export function QuizQuestion({ question, categoryId, onAnswerEvaluated, onNewQue
   return (
     <div className="bg-card rounded-xl border border-border/50 shadow-sm p-4 sm:p-5 space-y-3.5">
       <div>
-        <Q_gen_question value={question} font={comicNeue.variable}/>
+        <Q_gen_question value={question} font={quiz_font.variable} />
         <textarea
           value={answer}
           onChange={(e) => {
             setAnswer(e.target.value)
             setError(null)
-            // Auto-resize textarea
-            e.target.style.height = 'auto'
-            e.target.style.height = e.target.scrollHeight + 'px'
+            e.target.style.height = "auto"
+            e.target.style.height = e.target.scrollHeight + "px"
           }}
           onFocus={(e) => {
-            // Set initial height on focus
-            e.target.style.height = 'auto'
-            e.target.style.height = e.target.scrollHeight + 'px'
+            e.target.style.height = "auto"
+            e.target.style.height = e.target.scrollHeight + "px"
           }}
           placeholder="Type your answer here..."
           disabled={evaluating}
-          className={`w-full min-h-20 sm:min-h-32 p-3 mt-2 sm:p-3.5 border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary text-[12px] sm:text-base resize-none disabled:opacity-50 bg-background text-foreground transition-all placeholder:text-muted-foreground/60 ${comicNeue.variable} font-sans antialiased overflow-hidden`}
+          className={`w-full min-h-20 sm:min-h-32 p-3 mt-2 sm:p-3.5 border border-border rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary text-[12px] sm:text-base resize-none disabled:opacity-50 bg-background text-foreground transition-all placeholder:text-muted-foreground/60 ${quiz_font.variable} font-sans antialiased overflow-hidden`}
         />
         {error && (
           <p className="text-xs sm:text-sm text-destructive mt-2 flex items-center gap-1.5">
             <span>⚠</span>
             {error}
-            
           </p>
         )}
       </div>

@@ -33,13 +33,8 @@ interface Quiz {
 
 // Built-in quizzes data
 import { builtInQuizzes } from "./quiz-data";
-import { Comic_Neue } from "next/font/google";
+import { quiz_font } from "../fonts";
 
-export const comicNeue = Comic_Neue({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export default function ModelQuizzes() {
   const router = useRouter();
@@ -222,7 +217,7 @@ export default function ModelQuizzes() {
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-b from-slate-50 via-slate-50 to-gray-100 ${comicNeue.variable} font-sans antialiased`}
+      className={`min-h-screen bg-gradient-to-b from-slate-50 via-slate-50 to-gray-100 ${quiz_font.variable} font-sans antialiased`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
