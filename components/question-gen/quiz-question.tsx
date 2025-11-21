@@ -43,6 +43,10 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
       setIsScrollLocked(false)
     }
   }
+  const setPageBottom = () => {
+    if (!isScrollLocked) return
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+  }
 
   const handleSubmit = async () => {
     setError(null)
@@ -136,7 +140,7 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
 
         <textarea
           value={answer}
-          onChange={handleTextChange}
+          onChange={(e) => { handleTextChange(e); setPageBottom(); }}
           onFocus={(e) => {
             e.target.style.height = "auto"
             e.target.style.height = e.target.scrollHeight + "px"
