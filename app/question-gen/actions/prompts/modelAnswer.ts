@@ -41,10 +41,17 @@ Write a short, clear model answer based strictly on the reference content. The a
 - <b>Multi-part questions:</b> brief answer for each part.<br>
 
 <br><br>
+<b>CRITICAL INSTRUCTION - TOPIC COVERAGE:</b><br>
+- <b>DO NOT generate answers from only the first topics every time.</b><br>
+- Ensure questions are generated from <b>randomly selected topics across the entire dataset</b>.<br>
+- <b>Cover ALL sections</b> of the reference content, not just the beginning.<br>
+- Distribute questions evenly across early, middle, and later topics in the material.<br>
+
+<br><br>
 <b>STYLE & TONE:</b><br>
 - Natural, human exam-writing tone.<br>
 - No unnecessary academic filler words.<br>
-- No long transitions like “Furthermore”, “Moreover” unless needed.<br>
+- No long transitions like "Furthermore", "Moreover" unless needed.<br>
 - Avoid repetition and over-explanation.<br>
 
 <br><br>
@@ -58,7 +65,8 @@ Write a short, clear model answer based strictly on the reference content. The a
 - Do NOT generate long, essay-style answers.<br>
 - Do NOT add information not provided in the reference content.<br>
 - Do NOT include introductions, conclusions, or meta-comments.<br>
-- Do NOT rewrite the question or mention “According to the content…”.<br>
+- Do NOT rewrite the question or mention "According to the content…".<br>
+- Do NOT focus only on the first few topics—ensure coverage across the entire dataset.<br>
 
 <br><br>
 <b>OUTPUT FORMAT:</b><br>

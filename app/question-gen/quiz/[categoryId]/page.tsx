@@ -54,7 +54,7 @@ export default function QuizPage() {
       ) {
         // Use the question from URL params
         setQuestion(questionFromParams);
-        setModel("provided");
+        setModel("from Database");
         setIsNewlyGenerated(false);
       } else {
         // Generate a new question
@@ -137,7 +137,7 @@ export default function QuizPage() {
           dataset.category
         )}&subcategory=${encodeURIComponent(dataset.subcategory)}`}
         className={`
-            absolute right-16 sm:right-40 top-4 z-[111]
+            absolute right-16 sm:right-34 top-4 z-[111]
             px-2 py-2
             
             w-30 h-10 sm:w-auto sm:h-auto
