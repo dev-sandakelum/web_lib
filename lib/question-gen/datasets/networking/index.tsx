@@ -6,6 +6,9 @@ import { networksLesson04Dataset } from "./04"
 import { networksLesson05Dataset } from "./05"
 import { networksLesson06Dataset } from "./06"
 import { networksLesson07Dataset } from "./07"
+import { networksLesson08Dataset } from "./08"
+import { networksLesson09Dataset } from "./09"
+import { networksLesson10Dataset } from "./10"
 
 // export const InformationSystems: TopicGroup = {
 //   id: "information-systems",
@@ -27,5 +30,8 @@ export const Networking: TopicGroup = {
         networksLesson05Dataset,
         networksLesson06Dataset,
         networksLesson07Dataset,
+        networksLesson08Dataset,
+        networksLesson09Dataset,
+        networksLesson10Dataset,
     ],
 }

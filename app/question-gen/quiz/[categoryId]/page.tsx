@@ -37,6 +37,8 @@ export default function QuizPage() {
   const [isNewlyGenerated, setIsNewlyGenerated] = useState(false); // Track if question is newly generated
   const [createdAt, setCreatedAt] = useState<string>("");
   const dataset = getDatasetById(categoryId);
+  const [randomNum, setRandomNum] = useState<number>(0);
+  const [Num, setNum] = useState<{rNum: number, topic_count: number}>({rNum: 0, topic_count: 0});
 
   const loadNewQuestion = async (forceGenerate: boolean = false) => {
     setLoading(true);
@@ -65,6 +67,7 @@ export default function QuizPage() {
         // Generate a new question
         const topic_count = dataset?.topicCount || 10;
         const rNum = Math.floor(Math.random() * topic_count) + 1; // Random number between 1 and 10
+        setNum({rNum, topic_count});
         const { content: newQuestion, model , keyIndex } = await generateQuestion(
           categoryId , rNum
         );
@@ -197,6 +200,7 @@ export default function QuizPage() {
               categoryId={categoryId}
               model={model}
               keyIndex={keyIndex}
+              Num={Num}
               onAnswerEvaluated={handleAnswerEvaluated}
               onNewQuestion={loadNewQuestion}
               loading={loading}
