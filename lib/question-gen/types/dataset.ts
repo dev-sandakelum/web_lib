@@ -3,6 +3,7 @@ import { topicGroups } from "../datasets/registry"
 
 export interface Dataset {
   id: string
+  topicCount?: number
   category: string
   subcategory: string
   description: string

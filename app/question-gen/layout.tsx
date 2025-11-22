@@ -1,3 +1,5 @@
+import { AI_QUESTION_GENERATER_NAME, AI_QUESTION_GENERATER_VERSION } from "../info";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -11,7 +13,7 @@ export default function RootLayout({
           {/* Version Info */}
           <div className="flex items-center justify-center gap-1.5 sm:gap-2">
             <p className="text-[10px] sm:text-sm md:text-base font-bold text-slate-900 dark:text-slate-100">
-              AI Questions Generator v{process.env.NEXT_PUBLIC_QUESTION_APP_VERSION}
+              {AI_QUESTION_GENERATER_NAME} v{AI_QUESTION_GENERATER_VERSION}
             </p>
           </div>
           

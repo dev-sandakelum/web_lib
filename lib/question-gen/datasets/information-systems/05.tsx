@@ -4,6 +4,7 @@ import { Dataset } from "@/lib/question-gen/types/dataset";
 
 export const IsLesson05Dataset: Dataset = {
   id: "ict-is-05",
+  topicCount: 8,
   category: "Information Systems",
   subcategory: "MIS, DSS, ESS, KMS & Artificial Intelligence",
   description: "Management Information Systems, Decision Support Systems, Executive Support Systems, Knowledge Management Systems, Expert Systems and Artificial Intelligence concepts.",

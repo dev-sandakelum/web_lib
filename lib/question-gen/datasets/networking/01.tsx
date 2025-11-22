@@ -4,96 +4,97 @@ import { Dataset } from "@/lib/question-gen/types/dataset";
 
 export const networksLesson01Dataset: Dataset = {
   id: "networks-01",
+  topicCount: 19,
   category: "Computer Networks",
   subcategory: "Introduction, Network Hardware & Network Software",
   description: "Introduction to Computer Networks, Uses of Networks, Network Hardware (LAN, MAN, WAN, Wireless, Home, Internetworks), Network Software (Protocol Hierarchies, Services, and Protocols).",
   content: `
-[cite_start]Topic: Introduction to Computer Networks, Network Hardware, and Network Software [cite: 1, 2]
+Topic: Introduction to Computer Networks, Network Hardware, and Network Software
 
 Objectives:
-[cite_start]• Understand what computer networks are and their definitions [cite: 4, 5]
-[cite_start]• Learn the uses and benefits of computer networks [cite: 7, 8, 9, 10, 11, 12]
-[cite_start]• Understand network hardware components and transmission technologies [cite: 13, 14]
-[cite_start]• Learn about different types of networks (LAN, MAN, WAN, Wireless, Home, Internetworks) [cite: 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-[cite_start]• Understand network software concepts including protocol hierarchies [cite: 26, 27, 28, 29, 30]
-[cite_start]• Learn about design issues for network layers [cite: 31, 32]
-[cite_start]• Understand connection-oriented versus connectionless services [cite: 33]
-[cite_start]• Learn about service primitives and their relationship to protocols [cite: 34, 35, 36]
+• Understand what computer networks are and their definitions
+• Learn the uses and benefits of computer networks
+• Understand network hardware components and transmission technologies
+• Learn about different types of networks (LAN, MAN, WAN, Wireless, Home, Internetworks)
+• Understand network software concepts including protocol hierarchies
+• Learn about design issues for network layers
+• Understand connection-oriented versus connectionless services
+• Learn about service primitives and their relationship to protocols
 
 ---
-## What is a Computer Network?
+1.0 What is a Computer Network?
 
-### Definition 1
-[cite_start]• A computer network is a set of communication elements connected by communication links [cite: 4].
-[cite_start]• A network can be defined as two or more computers/nodes connected together in such a way that they can share resources [cite: 4].
+1.1 Definition 1
+• A computer network is a set of communication elements connected by communication links.
+• A network can be defined as two or more computers/nodes connected together in such a way that they can share resources.
 
-### Definition 2
-[cite_start]• A computer network is a set of systems/nodes interconnected by communication links that is primarily used for information transfer (information = messages/data from applications) [cite: 5].
+1.2 Definition 2
+• A computer network is a set of systems/nodes interconnected by communication links that is primarily used for information transfer (information = messages/data from applications).
 
-### Network Components
-[cite_start]Computer networks consist of two main components [cite: 5]:
+1.3 Network Components
+Computer networks consist of two main components:
 
 | Component | Description |
 | :--- | :--- |
-| **Systems** | [cite_start]Computers and other end systems (tablets, smartphones, sensors), switches, routers [cite: 5]. |
-| **Links** | [cite_start]Wired connections including twisted pair, Twinax, coaxial cable, optical fiber [cite: 5]. |
+| **Systems** | Computers and other end systems (tablets, smartphones, sensors), switches, routers. |
+| **Links** | Wired connections including twisted pair, Twinax, coaxial cable, optical fiber. |
 
-### Network Example
-[cite_start]Networks can be visualized with various interconnected devices and communication paths [cite: 6].
+1.4 Network Example
+Networks can be visualized with various interconnected devices and communication paths.
 
 ---
-## Why We Use Computer Networks
+2.0 Why We Use Computer Networks
 
-[cite_start]Computer networks provide several important benefits [cite: 7]:
+Computer networks provide several important benefits:
 
 | Benefit | Description |
 | :--- | :--- |
-| **Faster Communication** | [cite_start]Before computer networks, people sent and received information by hand, using the postal service which is slow and unreliable. Computer networks enable faster, more efficient modes of communication such as email and video conferencing [cite: 7]. |
-| **Standardization** | [cite_start]Computer networks and the sharing of electronic data encourages the use of standard policies and procedures [cite: 7]. |
-| **Data Protection** | [cite_start]Computer networks provide backup and recovery support for our data redundancy [cite: 7]. |
-| **Cost Savings** | [cite_start]Computer networks lead to cost savings [cite: 7]. |
+| **Faster Communication** | Before computer networks, people sent and received information by hand, using the postal service which is slow and unreliable. Computer networks enable faster, more efficient modes of communication such as email and video conferencing. |
+| **Standardization** | Computer networks and the sharing of electronic data encourages the use of standard policies and procedures. |
+| **Data Protection** | Computer networks provide backup and recovery support for our data redundancy. |
+| **Cost Savings** | Computer networks lead to cost savings. |
 
 ---
-## Uses of Computer Networks
+3.0 Uses of Computer Networks
 
-[cite_start]Computer networks are used in four main areas [cite: 8]:
+Computer networks are used in four main areas:
 * Business Applications
 * Home Applications
 * Mobile Users
 * Social Issues
 
-### 1. Business Applications
-[cite_start]Business applications of computer networks include [cite: 9]:
+3.1 Business Applications
+Business applications of computer networks include:
 * **Resources sharing** - Sharing hardware, software, and data resources
 * **Communication** - Facilitating business communication
 * **Business with other companies** - Enabling inter-company transactions
 
-[cite_start]• A client is a program requesting services [cite: 9].
-[cite_start]• A service is a program providing services [cite: 9].
+• A client is a program requesting services.
+• A service is a program providing services.
 
-### 2. Home Applications
-[cite_start]Home applications of computer networks include [cite: 10]:
+3.2 Home Applications
+Home applications of computer networks include:
 * **Access to remote information** - Accessing information from anywhere
 * **Person-to-person communication** - Enabling communication between individuals
 * **Interactive Entertainment** - Providing entertainment options
 * **Electronic Commerce** - Enabling online shopping and transactions
 
-### 3. Mobile Users
-[cite_start]• Mobile users benefit from combinations of wireless networks and mobile computing [cite: 11].
+3.3 Mobile Users
+• Mobile users benefit from combinations of wireless networks and mobile computing.
 
-### 4. Social Issues
-[cite_start]Computer networks also raise social issues [cite: 12]:
+3.4 Social Issues
+Computer networks also raise social issues:
 * Government versus citizen
 * Spam mail
 * Identity theft
 
-[cite_start]• Many problems could be solved if computer security is taken seriously [cite: 12].
+• Many problems could be solved if computer security is taken seriously.
 
 ---
-## Network Hardware
+4.0 Network Hardware
 
-### Network Hardware Categories
-[cite_start]Network hardware components can be categorized into [cite: 13]:
+4.1 Network Hardware Categories
+Network hardware components can be categorized into:
 * Local Area Networks (LAN)
 * Metropolitan Area Networks (MAN)
 * Wide Area Networks (WAN)
@@ -101,55 +102,55 @@ Objectives:
 * Home Networks
 * Internetworks
 
-### Transmission Technologies
-[cite_start]To develop network hardware components, we need transmission technologies [cite: 13]:
+4.2 Transmission Technologies
+To develop network hardware components, we need transmission technologies:
 * Broadcast links
 * Point-to-point links
 
 ---
-## Transmission Technologies
+5.0 Transmission Technologies
 
-### Broadcast Links
-[cite_start]Broadcast links have the following characteristics [cite: 14]:
+5.1 Broadcast Links
+Broadcast links have the following characteristics:
 * Single communication channel that is shared by all the machines on the network
 * Single communication channels can be done in broadcasting and multicasting via packets
 * Messages on the network are called packets
 
-[cite_start]• Broadcasting: A packet transmitted is received by every machine [cite: 14].
-[cite_start]• Multicasting: Transmission to a subset of the machines [cite: 14].
-[cite_start]• Each machine can subscribe to any or all of the groups [cite: 14].
-[cite_start]• When a packet is sent to a certain group, it is delivered to all machines subscribing to that group [cite: 14].
+• Broadcasting: A packet transmitted is received by every machine.
+• Multicasting: Transmission to a subset of the machines.
+• Each machine can subscribe to any or all of the groups.
+• When a packet is sent to a certain group, it is delivered to all machines subscribing to that group.
 
-### Point-to-Point Links
-[cite_start]Point-to-point links have the following characteristics [cite: 14]:
+5.2 Point-to-Point Links
+Point-to-point links have the following characteristics:
 * Point-to-point networks consist of many connections between individual pairs of machines
 * Point-to-point transmission with one sender and receiver is sometimes called unicasting
 * The personal area networks are meant for one person
 
 ---
-## Local Area Networks (LAN)
+6.0 Local Area Networks (LAN)
 
-### What is a LAN?
-[cite_start]• A LAN is a network which is designed to operate over a small physical area such as an office, factory or a group of buildings [cite: 16].
-[cite_start]• LANs are easy to design and troubleshoot [cite: 16].
-[cite_start]• Exchange of information and sharing of resources become easy because of LAN [cite: 16].
-[cite_start]• In LAN all machines are connected to a single cable [cite: 16].
-[cite_start]• It is usually a privately owned network [cite: 16].
+6.1 What is a LAN?
+• A LAN is a network which is designed to operate over a small physical area such as an office, factory or a group of buildings.
+• LANs are easy to design and troubleshoot.
+• Exchange of information and sharing of resources become easy because of LAN.
+• In LAN all machines are connected to a single cable.
+• It is usually a privately owned network.
 
-### LAN Characteristics
-[cite_start]LANs are distinguished by three characteristics [cite: 16]:
+6.2 LAN Characteristics
+LANs are distinguished by three characteristics:
 
 | Characteristic | Description |
 | :--- | :--- |
-| **Size** | [cite_start]Restricted to particular geographic region such as an office building or single department [cite: 16]. |
-| **Transmission Technology** | [cite_start]10 Mbps to 10 Gbps [cite: 16]. |
-| **Topology** | [cite_start]Bus, star, and ring topologies [cite: 16]. |
+| **Size** | Restricted to particular geographic region such as an office building or single department. |
+| **Transmission Technology** | 10 Mbps to 10 Gbps. |
+| **Topology** | Bus, star, and ring topologies. |
 
 ---
-## LAN Topologies
+7.0 LAN Topologies
 
-### Ring Topology
-[cite_start]Ring topology characteristics [cite: 17]:
+7.1 Ring Topology
+Ring topology characteristics:
 * Each computer connects to two other computers, joining them in a circle creating a unidirectional path where messages move workstation to workstation
 * There is no need of server to control the connectivity among the nodes in the topology
 * Each entity participating in the ring reads a message, then regenerates it and hands it to its neighbor on a different network cable
@@ -158,13 +159,13 @@ Objectives:
 * Physical ring topology systems don't exist much anymore, mainly because the hardware involved was fairly expensive and the fault tolerance was very low
 * Minimum collision (in single ring)
 
-#### Types of Ring Topology
-[cite_start]Ring topology has two types [cite: 18]:
+7.1.1 Types of Ring Topology
+Ring topology has two types:
 * **Single ring** - All the devices on the network share a single cable
 * **Dual ring** - The dual ring topology allows data to be sent in both directions
 
-### Bus Topology
-[cite_start]Bus topology characteristics [cite: 19]:
+7.2 Bus Topology
+Bus topology characteristics:
 * A bus is the simplest physical topology consisting of a single cable that runs to every workstation
 * This topology uses the least amount of cabling, but also covers the shortest amount of distance
 * Each computer shares the same data and address path
@@ -174,8 +175,8 @@ Objectives:
 * If main cable breaks, the entire network is disrupted
 * Therefore, it is very expensive to maintain
 
-### Star Topology
-[cite_start]Star topology characteristics [cite: 20]:
+7.3 Star Topology
+Star topology characteristics:
 * A physical star topology branches each network device off a central device called a hub, making it very easy to add a new workstation
 * If any workstation goes down it does not affect the entire network (But if the central device goes down, the entire network goes down)
 * When installed, the star topology resembles spokes in a bicycle wheel
@@ -184,9 +185,9 @@ Objectives:
 * Star topologies are more expensive to install than bus networks, because there are several more cables that need to be installed, plus the cost of the hubs that are needed
 
 ---
-## Metropolitan Area Network (MAN)
+8.0 Metropolitan Area Network (MAN)
 
-[cite_start]MAN characteristics [cite: 21]:
+MAN characteristics:
 * Computer network larger than a LAN and connects clients and servers from multiple buildings over a larger area
 * A MAN may use different transmission technology and different media, such as fiber and wireless because of the greater distance it covers
 * A Metropolitan Area Network is a network that is utilized across multiple buildings
@@ -196,45 +197,45 @@ Objectives:
 * This sort of network is also referred to as a campus network
 
 ---
-## Wide Area Network (WAN)
+9.0 Wide Area Network (WAN)
 
-[cite_start]WAN characteristics [cite: 22]:
+WAN characteristics:
 * A Wide Area Network is a computer network that covers a broad area (any network whose communications links cross metropolitan, regional, or national boundaries)
 * Less formally, a network that uses routers and public communications links
 * The largest and most well-known example of a WAN is the Internet
 * WANs are used to connect LANs and other types of networks together, so that users and computers in one location can communicate with users and computers in other locations
 
 ---
-## Wireless WAN
+10.0 Wireless WAN
 
-[cite_start]Wireless WAN characteristics [cite: 23]:
+Wireless WAN characteristics:
 * Wireless WAN is a wide area network in which separate area of coverage or cells are connected wirelessly to provide service to a large geographic area
 * WWANs make use of technologies that focus on modulation of voice and data
 * Wireless WANs exclusively use Radio Frequency signals designed to accommodate many users
 
 ---
-## Home Network
+11.0 Home Network
 
-[cite_start]Home network characteristics [cite: 24]:
+Home network characteristics:
 * Every device in the home will be capable of communicating with every other device, and all of them will be accessible over the Internet
 * Many devices are capable of being networked
 
-[cite_start]Devices that can be networked in homes [cite: 24]:
+Devices that can be networked in homes:
 * **Computers** - desktop PC, notebook PC, PDA, shared peripherals
 * **Telecommunications** - telephone, mobile telephone, intercom, fax
 * **Appliances** - microwave, refrigerator, clock, furnace, air conditioning, lights, AC
 * **Telemetry** - utility meter, smoke/burglar alarm, thermostat, baby camera
 
 ---
-## Internetworks
+12.0 Internetworks
 
-### What is an Internetwork?
-[cite_start]• A collection of interconnected networks is called an internetwork or internet [cite: 25].
-[cite_start]• Internetworking devices are products used to connect networks [cite: 25].
-[cite_start]• As computer networks grow in size and complexity, so do the internetworking devices used to connect them [cite: 25].
+12.1 What is an Internetwork?
+• A collection of interconnected networks is called an internetwork or internet.
+• Internetworking devices are products used to connect networks.
+• As computer networks grow in size and complexity, so do the internetworking devices used to connect them.
 
-### Internetworking Devices
-[cite_start]Broadly following are the internetworking devices [cite: 25]:
+12.2 Internetworking Devices
+Broadly following are the internetworking devices:
 * **Repeaters** - Amplify signals
 * **Hubs** - Connect multiple devices in a star topology
 * **Bridges** - Connect two LANs
@@ -243,9 +244,9 @@ Objectives:
 * **Gateways** - Connect networks using different protocols
 
 ---
-## Network Software
+13.0 Network Software
 
-[cite_start]Network software covers several key concepts [cite: 26]:
+Network software covers several key concepts:
 * Protocol hierarchies
 * Design issues for the layers
 * Connection-oriented versus connectionless service
@@ -253,9 +254,9 @@ Objectives:
 * Relationship of services to protocols
 
 ---
-## Functions of Network Software
+14.0 Functions of Network Software
 
-[cite_start]Network software performs the following functions [cite: 27]:
+Network software performs the following functions:
 * Helps to set up and install computer networks
 * Enables users to have access to network resources in a seamless manner
 * Allows administrations to add or remove users from the network
@@ -264,74 +265,74 @@ Objectives:
 * Enables network virtualizations
 
 ---
-## Protocol Hierarchies
+15.0 Protocol Hierarchies
 
-### What are Protocol Hierarchies?
-[cite_start]• Networks are organized as a series of layers [cite: 28].
-[cite_start]• Layer n on a host communicates with layer n on another host [cite: 28].
-[cite_start]• Layer n protocol: Rules and conventions for this communication [cite: 28].
-[cite_start]• The entities on each host implementing the layer n protocol are peers [cite: 28].
+15.1 What are Protocol Hierarchies?
+• Networks are organized as a series of layers.
+• Layer n on a host communicates with layer n on another host.
+• Layer n protocol: Rules and conventions for this communication.
+• The entities on each host implementing the layer n protocol are peers.
 
-### Layered Communication
-[cite_start]Protocol hierarchies enable layered communication between hosts [cite: 29, 30].
+15.2 Layered Communication
+Protocol hierarchies enable layered communication between hosts.
 
 ---
-## Design Issues for the Layers
+16.0 Design Issues for the Layers
 
-[cite_start]Key design issues for network layers include [cite: 31, 32]:
+Key design issues for network layers include:
 
 | Design Issue | Description |
 | :--- | :--- |
-| **Addressing** | [cite_start]Some form of addressing is needed in order to specify a specific destination [cite: 31]. |
-| **Data Transfer Rules** | [cite_start]Rules for data transfer including Simplex, Half-duplex and full duplex transmission [cite: 31]. |
-| **Error Control** | [cite_start]Both ends of the connection must agree on error detecting and error correcting codes [cite: 31]. |
-| **Sequencing and Reassembly** | [cite_start]Messages may arrive out of order and hence need for provision for proper reassembly [cite: 31]. |
-| **Flow Control** | [cite_start]Need to regulate flow of data to avoid swamping receiver. Could require receiver feedback or limit transmission rate [cite: 32]. |
-| **Message Size** | [cite_start]Inability of all processes to accept arbitrarily long messages. This property leads to mechanisms for disassembling, transmitting and then reassembling messages [cite: 32]. |
-| **Routing** | [cite_start]Choosing a path when there are multiple paths between source and destination [cite: 32]. |
+| **Addressing** | Some form of addressing is needed in order to specify a specific destination. |
+| **Data Transfer Rules** | Rules for data transfer including Simplex, Half-duplex and full duplex transmission. |
+| **Error Control** | Both ends of the connection must agree on error detecting and error correcting codes. |
+| **Sequencing and Reassembly** | Messages may arrive out of order and hence need for provision for proper reassembly. |
+| **Flow Control** | Need to regulate flow of data to avoid swamping receiver. Could require receiver feedback or limit transmission rate. |
+| **Message Size** | Inability of all processes to accept arbitrarily long messages. This property leads to mechanisms for disassembling, transmitting and then reassembling messages. |
+| **Routing** | Choosing a path when there are multiple paths between source and destination. |
 
 ---
-## Connection-Oriented Versus Connectionless Service
+17.0 Connection-Oriented Versus Connectionless Service
 
-### Connection-Oriented Service
-[cite_start]Connection-oriented service characteristics [cite: 33]:
+17.1 Connection-Oriented Service
+Connection-oriented service characteristics:
 * Connection established and terminated
 * Modeled after the telephone system
 * Messages arrive in the order they are sent
 * Example: TCP
 
-### Connectionless Service (Datagram Service)
-[cite_start]Connectionless service characteristics [cite: 33]:
+17.2 Connectionless Service (Datagram Service)
+Connectionless service characteristics:
 * Modeled after the postal system
 * No guarantees on message ordering
 * Unreliable: Messages may be lost
 * Example: UDP
 
 ---
-## Service Primitives
+18.0 Service Primitives
 
-### What are Service Primitives?
-[cite_start]• A service is formally specified by a set of primitives (operations) available to a user process to access the service [cite: 34].
-[cite_start]• These primitives tell the service to perform some action or report on an action taken by a peer entity [cite: 34].
-[cite_start]• The set of primitives available depends on the nature of the service being provided [cite: 34].
-[cite_start]• The primitives for connection-oriented service are different from those of connectionless service [cite: 34].
+18.1 What are Service Primitives?
+• A service is formally specified by a set of primitives (operations) available to a user process to access the service.
+• These primitives tell the service to perform some action or report on an action taken by a peer entity.
+• The set of primitives available depends on the nature of the service being provided.
+• The primitives for connection-oriented service are different from those of connectionless service.
 
-### Service Primitives for Reliable Byte Stream
-[cite_start]Primitives for implementing a reliable byte stream in a client-server environment [cite: 35]:
+18.2 Service Primitives for Reliable Byte Stream
+Primitives for implementing a reliable byte stream in a client-server environment:
 
 | Primitive | Meaning |
 | :--- | :--- |
-| **LISTEN** | [cite_start]Block waiting for an incoming connection [cite: 35]. |
-| **CONNECT** | [cite_start]Establish a connection with a waiting peer [cite: 35]. |
-| **ACCEPT** | [cite_start]Accept an incoming connection from a peer [cite: 35]. |
-| **RECEIVE** | [cite_start]Block waiting for an incoming message [cite: 35]. |
-| **SEND** | [cite_start]Send a message to the peer [cite: 35]. |
-| **DISCONNECT** | [cite_start]Terminate a connection [cite: 35]. |
+| **LISTEN** | Block waiting for an incoming connection. |
+| **CONNECT** | Establish a connection with a waiting peer. |
+| **ACCEPT** | Accept an incoming connection from a peer. |
+| **RECEIVE** | Block waiting for an incoming message. |
+| **SEND** | Send a message to the peer. |
+| **DISCONNECT** | Terminate a connection. |
 
 ---
-## Relationship of Services to Protocols
+19.0 Relationship of Services to Protocols
 
-[cite_start]• A service is a set of primitives (operations) that a layer provides to the layer above it [cite: 36].
-[cite_start]• A protocol is a set of rules governing the format and meaning of the frames, packets, or messages that are exchanged by the peer entities within a layer [cite: 36].
+• A service is a set of primitives (operations) that a layer provides to the layer above it.
+• A protocol is a set of rules governing the format and meaning of the frames, packets, or messages that are exchanged by the peer entities within a layer.
 `
 };
