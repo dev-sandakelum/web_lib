@@ -33,19 +33,19 @@ export function TopicDropdown({ group, onSelectSubtopic }: TopicDropdownProps) {
       >
         <div className="flex items-center gap-3 flex-1 text-left">
           <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center transition-all duration-300">
-            <span className="text-xl">{group.icon || "📚"}</span>
+            <span className="text-[12px]">{group.icon || "📚"}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-base sm:text-lg text-foreground">
+            <h3 className="font-semibold text-[12px] sm:text-lg text-foreground">
               {group.name}
             </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
+            <p className="text-[10px] sm:text-sm text-muted-foreground line-clamp-1">
               {group.description}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
+          <span className="text-[10px] font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-full">
             {group.subtopics.length}
           </span>
           {isOpen ? (
@@ -68,13 +68,13 @@ export function TopicDropdown({ group, onSelectSubtopic }: TopicDropdownProps) {
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-md bg-blue-500/10 border border-blue-500/20 group-hover:bg-blue-500/20 flex items-center justify-center transition-all duration-300">
-                    <span className="text-sm">📖</span>
+                    <span className="text-[12px]">📖</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors duration-300">
+                    <h4 className="font-medium text-[12px] text-foreground group-hover:text-primary transition-colors duration-300">
                       {subtopic.subcategory}
                     </h4>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
+                    <p className="text-[10px] text-muted-foreground line-clamp-2 mt-0.5">
                       {subtopic.description}
                     </p>
                   </div>
@@ -108,17 +108,17 @@ export function AccordionTopicDropdown({
       {/* Main Topic Header */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 sm:p-5 hover:bg-muted/30 transition-all duration-300 ease-out active:scale-[0.99]"
+        className="w-full flex items-center justify-between p-2 sm:p-5 hover:bg-muted/30 transition-all duration-300 ease-out active:scale-[0.99]"
       >
         <div className="flex items-center gap-3 flex-1 text-left">
-          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center transition-all duration-300">
-            <span className="text-xl">{group.icon || "📚"}</span>
+          <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center transition-all duration-300">
+            <span className="text-md">{group.icon || "📚"}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-base sm:text-lg text-foreground">
+            <h3 className="font-semibold text-[14px] sm:text-lg text-foreground">
               {group.name}
             </h3>
-            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1">
+            <p className="text-[12px] sm:text-sm text-muted-foreground line-clamp-1">
               {group.description}
             </p>
           </div>
@@ -147,13 +147,13 @@ export function AccordionTopicDropdown({
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-md bg-blue-500/10 border border-blue-500/20 group-hover:bg-blue-500/20 flex items-center justify-center transition-all duration-300">
-                    <span className="text-sm">📖</span>
+                    <span className="text-[12px]">📖</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors duration-300">
+                    <h4 className="font-medium text-[12px] text-foreground group-hover:text-primary transition-colors duration-300">
                       {subtopic.subcategory}
                     </h4>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
+                    <p className="text-[10px] text-muted-foreground line-clamp-2 mt-0.5">
                       {subtopic.description}
                     </p>
                   </div>
