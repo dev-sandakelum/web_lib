@@ -29,7 +29,7 @@ export function Navigation({ dataset }: { dataset: any }) {
           <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-1.5 transition-all duration-300">
             <span className="transition-colors duration-300">{dataset.category}</span>
             <span className="transition-all duration-300">›</span>
-            <span className="text-primary font-medium transition-all duration-300 hover:text-primary/80">{dataset.subcategory}</span>
+            <span className="text-primary font-medium transition-all duration-300 hover:text-primary/80 line-clamp-1">{dataset.subcategory}</span>
           </div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight transition-all duration-300">
             {dataset.subcategory}
