@@ -4,6 +4,17 @@ export type ChatMessage = {
 }
 
 /**
+ * API Keys - add your keys here
+ */
+const API_KEYS = [
+  
+  process.env.GROQ_API_KEY ,
+  process.env.GROQ_API_KEY_1 ,
+  process.env.GROQ_API_KEY_2 ,
+  process.env.GROQ_API_KEY_3 ,
+].filter((key): key is string => key !== undefined)
+
+/**
  * Randomly pick a model (update with models you have access to)
  */
 const MODELS = [
@@ -15,6 +26,15 @@ const MODELS = [
 
 function getRandomModel(): string {
   return MODELS[Math.floor(Math.random() * MODELS.length)]
+}
+
+/**
+ * Get a random API key from the list
+ */
+function getRandomApiKey(): { key: string; index: number } {
+  if (API_KEYS.length === 0) throw new Error("No API keys configured")
+  const index = Math.floor(Math.random() * API_KEYS.length)
+  return { key: API_KEYS[index], index }
 }
 
 /**
@@ -32,12 +52,11 @@ export async function callGroq(
   messages: ChatMessage[],
   retries = 3,
   temperature = 0.7
-): Promise<{ content: string; model: string }> {
-  const GROQ_KEY = process.env.GROQ_API_KEY
-  if (!GROQ_KEY) throw new Error("Missing GROQ_API_KEY in environment")
-
+): Promise<{ content: string; model: string; keyIndex: number }> {
   for (let attempt = 0; attempt < retries; attempt++) {
     const model = getRandomModel()
+    const { key: apiKey, index: keyIndex } = getRandomApiKey()
+    
     const body = {
       model,
       messages,
@@ -51,7 +70,7 @@ export async function callGroq(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${GROQ_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify(body),
       })
@@ -71,7 +90,7 @@ export async function callGroq(
       const content = data?.choices?.[0]?.message?.content ?? ""
       if (!content) throw new Error("Empty response from Groq")
 
-      return { content, model }
+      return { content, model, keyIndex }
     } catch (err: any) {
       const isRateLimited =
         err?.status === 429 ||

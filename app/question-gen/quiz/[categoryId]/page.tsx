@@ -33,6 +33,7 @@ export default function QuizPage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ResultState | null>(null);
   const [model, setModel] = useState<string>("");
+  const [keyIndex, setKeyIndex] = useState<number>(-1);
   const [isNewlyGenerated, setIsNewlyGenerated] = useState(false); // Track if question is newly generated
 
   const dataset = getDatasetById(categoryId);
@@ -57,11 +58,12 @@ export default function QuizPage() {
         setIsNewlyGenerated(false);
       } else {
         // Generate a new question
-        const { content: newQuestion, model } = await generateQuestion(
+        const { content: newQuestion, model , keyIndex } = await generateQuestion(
           categoryId
         );
         setModel(model);
         setQuestion(newQuestion);
+        setKeyIndex(keyIndex);
         setIsNewlyGenerated(true); // Mark as newly generated
       }
     } catch (err) {
@@ -187,6 +189,7 @@ export default function QuizPage() {
               question={question}
               categoryId={categoryId}
               model={model}
+              keyIndex={keyIndex}
               onAnswerEvaluated={handleAnswerEvaluated}
               onNewQuestion={loadNewQuestion}
               loading={loading}

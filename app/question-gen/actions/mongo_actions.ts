@@ -11,7 +11,7 @@ import { generatePromptfor_programming } from "./prompts/gen/c";
 import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 
 // Generate question function
-export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string }> {
+export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string ; keyIndex: number }> {
   const dataset = getDatasetById(categoryId);
   if (!dataset) throw new Error("Dataset not found");
 

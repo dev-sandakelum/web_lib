@@ -1,89 +1,116 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { evaluateAnswer } from "@/app/question-gen/actions/actions"
+import { useState } from "react";
+import { evaluateAnswer } from "@/app/question-gen/actions/actions";
 
-import { Q_gen_question } from "./results-items/question"
-import { quiz_font } from "../fonts"
-import { Spinner } from "./spinner"
+import { Q_gen_question } from "./results-items/question";
+import { quiz_font } from "../fonts";
+import { Spinner } from "./spinner";
+import { Key, KeyIcon } from "lucide-react";
 
 interface QuizQuestionProps {
-  question: string
-  categoryId: string
-  model: string
+  question: string;
+  categoryId: string;
+  model: string;
   onAnswerEvaluated: (
     stars: number,
     feedback: string,
     improvements: string[],
     userAnswer: string,
-    modelAnswer: string,
-  ) => void
-  onNewQuestion: () => void
-  loading: boolean
+    modelAnswer: string
+  ) => void;
+  onNewQuestion: () => void;
+  loading: boolean;
+  keyIndex: number;
 }
 
-export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, onNewQuestion, loading  }: QuizQuestionProps) {
-  const [answer, setAnswer] = useState("")
-  const [evaluating, setEvaluating] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [charCount, setCharCount] = useState(0)
-  const [isScrollLocked, setIsScrollLocked] = useState(false)
+export function QuizQuestion({
+  question,
+  categoryId,
+  model,
+  onAnswerEvaluated,
+  onNewQuestion,
+  loading,
+  keyIndex,
+}: QuizQuestionProps) {
+  const [answer, setAnswer] = useState("");
+  const [evaluating, setEvaluating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [charCount, setCharCount] = useState(0);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
 
   const handleScrollAndDisable = () => {
     if (!isScrollLocked) {
       // Scroll down the page
-      window.scrollBy({ top: 500, behavior: 'smooth' })
-      
+      window.scrollBy({ top: 500, behavior: "smooth" });
+
       // Disable scrolling on the entire page
-      document.body.style.overflow = 'hidden'
-      setIsScrollLocked(true)
+      document.body.style.overflow = "hidden";
+      setIsScrollLocked(true);
     } else {
       // Re-enable scrolling
-      document.body.style.overflow = 'auto'
-      setIsScrollLocked(false)
+      document.body.style.overflow = "auto";
+      setIsScrollLocked(false);
     }
-  }
+  };
   const setPageBottom = () => {
-    if (!isScrollLocked) return
-    window.scrollTo({ top: document.body.scrollHeight-10, behavior: 'instant' })
-  }
+    if (!isScrollLocked) return;
+    window.scrollTo({
+      top: document.body.scrollHeight - 10,
+      behavior: "instant",
+    });
+  };
 
   const handleSubmit = async () => {
-    setError(null)
+    setError(null);
     if (!answer.trim()) {
-      setError("Please write an answer before submitting.")
-      return
+      setError("Please write an answer before submitting.");
+      return;
     }
 
-    setEvaluating(true)
+    setEvaluating(true);
     try {
       // Convert line breaks to <br> tags before sending
-      const formattedAnswer = answer.replace(/\n/g, '<br>')
-      
-      const result = await evaluateAnswer(question, formattedAnswer, categoryId)
-      onAnswerEvaluated(result.stars, result.feedback, result.improvements, formattedAnswer, result.modelAnswer)
+      const formattedAnswer = answer.replace(/\n/g, "<br>");
+
+      const result = await evaluateAnswer(
+        question,
+        formattedAnswer,
+        categoryId
+      );
+      onAnswerEvaluated(
+        result.stars,
+        result.feedback,
+        result.improvements,
+        formattedAnswer,
+        result.modelAnswer
+      );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to evaluate answer. Please try again.")
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to evaluate answer. Please try again."
+      );
     } finally {
-      setEvaluating(false)
+      setEvaluating(false);
     }
-  }
+  };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value
-    setAnswer(value)
-    setCharCount(value.length)
-    setError(null)
-    
+    const value = e.target.value;
+    setAnswer(value);
+    setCharCount(value.length);
+    setError(null);
+
     // Auto-resize textarea
-    e.target.style.height = "auto"
-    e.target.style.height = e.target.scrollHeight + "px"
-    
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+
     // Keep cursor position visible on mobile
     setTimeout(() => {
-      e.target.scrollIntoView({ behavior: "smooth", block: "nearest" })
-    }, 100)
-  }
+      e.target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 100);
+  };
 
   return (
     <div className="bg-card rounded-lg sm:rounded-xl border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
@@ -92,13 +119,29 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">Generated by AI</span>
+            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">
+              Generated by AI
+            </span>
           </div>
-          <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
-            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-            </svg>
-            <span className="text-[10px] sm:text-xs font-semibold text-primary">{model}</span>
+          <div className="flex items-end gap-2">
+            <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <svg
+                className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+              </svg>
+              <span className="text-[10px] sm:text-xs font-semibold text-primary">
+                {model}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <KeyIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" />
+              <span className="text-[10px] sm:text-xs font-semibold text-primary">
+                {keyIndex + 1}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -107,13 +150,25 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
       <div className="p-2 sm:p-3 md:p-4">
         <div className="flex items-center gap-1.5 mb-2 sm:mb-3">
           <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 border border-blue-500/20">
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
-          <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">Question</h3>
+          <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">
+            Question
+          </h3>
         </div>
-        
+
         <Q_gen_question value={question} font={quiz_font.variable} />
       </div>
 
@@ -122,17 +177,39 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1.5">
             <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-green-500/10 border border-green-500/20">
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              <svg
+                className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
               </svg>
             </div>
-            <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">Your Answer</h3>
+            <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">
+              Your Answer
+            </h3>
           </div>
-          
+
           {/* Character Counter */}
           <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground">
-            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              className="w-2.5 h-2.5 sm:w-3 sm:h-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
             <span className="font-medium">{charCount}</span>
           </div>
@@ -140,13 +217,16 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
 
         <textarea
           value={answer}
-          onChange={(e) => { handleTextChange(e); setPageBottom(); }}
+          onChange={(e) => {
+            handleTextChange(e);
+            setPageBottom();
+          }}
           onFocus={(e) => {
-            e.target.style.height = "auto"
-            e.target.style.height = e.target.scrollHeight + "px"
+            e.target.style.height = "auto";
+            e.target.style.height = e.target.scrollHeight + "px";
             setTimeout(() => {
-              e.target.scrollIntoView({ behavior: "smooth", block: "end" })
-            }, 300)
+              e.target.scrollIntoView({ behavior: "smooth", block: "end" });
+            }, 300);
           }}
           placeholder="Start typing your answer here..."
           disabled={evaluating}
@@ -166,20 +246,35 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
         {error && (
           <div className="flex items-start gap-2 p-2 sm:p-3 mt-2 bg-destructive/10 border border-destructive/30 rounded-md sm:rounded-lg animate-in slide-in-from-top-2 duration-200">
             <div className="flex-shrink-0 w-4 h-4 rounded-full bg-destructive/20 flex items-center justify-center mt-0.5">
-              <svg className="w-2.5 h-2.5 text-destructive" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              <svg
+                className="w-2.5 h-2.5 text-destructive"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
-            <p className="text-[10px] sm:text-sm text-destructive font-medium">{error}</p>
+            <p className="text-[10px] sm:text-sm text-destructive font-medium">
+              {error}
+            </p>
           </div>
         )}
       </div>
-        
+
       {/* Action Buttons */}
       <div className="p-2 sm:p-3 md:p-4 bg-muted/20 border-t border-border/30">
         <div className="flex flex-col sm:flex-row gap-2">
           <button
-            onClick={() => {  if (isScrollLocked) {handleScrollAndDisable();}  handleSubmit();}}
+            onClick={() => {
+              if (isScrollLocked) {
+                handleScrollAndDisable();
+              }
+              handleSubmit();
+            }}
             disabled={evaluating || loading || !answer.trim()}
             className="group flex-1 relative overflow-hidden min-h-8 sm:min-h-10 px-3 sm:px-4
               bg-primary hover:bg-primary/90 
@@ -198,8 +293,18 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
               </>
             ) : (
               <>
-                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 <span>Submit Answer</span>
               </>
@@ -219,8 +324,18 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
               hover:scale-[1.02] active:scale-[0.98] 
               disabled:hover:scale-100"
           >
-            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:rotate-180 duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            <svg
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:rotate-180 duration-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
             </svg>
             <span>New Question</span>
           </button>
@@ -228,9 +343,10 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
           <button
             onClick={handleScrollAndDisable}
             className={`group lg:hidden min-h-7 px-2 fixed z-101 bottom-3 w-12 h-12
-              ${isScrollLocked 
-                ? 'bg-green-500 hover:bg-green-600 border-green-600' 
-                : 'bg-orange-500 hover:bg-orange-600 border-orange-600'
+              ${
+                isScrollLocked
+                  ? "bg-green-500 hover:bg-green-600 border-green-600"
+                  : "bg-orange-500 hover:bg-orange-600 border-orange-600"
               }
               text-white 
               rounded-full font-semibold text-[10px]
@@ -249,14 +365,22 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
             )}
           </button>
           {/* {note} */}
-        <div className="sm:hidden">
-          <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">After evaluation completes, your results will be automatically saved and available in the "Already Generated Questions" tab for future reference.</p>
-        </div>
+          <div className="sm:hidden">
+            <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">
+              After evaluation completes, your results will be automatically
+              saved and available in the "Already Generated Questions" tab for
+              future reference.
+            </p>
+          </div>
         </div>
         <div className="hidden sm:block mt-2">
-          <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">After evaluation completes, your results will be automatically saved and available in the "Already Generated Questions" tab for future reference.</p>
+          <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">
+            After evaluation completes, your results will be automatically saved
+            and available in the "Already Generated Questions" tab for future
+            reference.
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
