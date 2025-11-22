@@ -21,6 +21,9 @@ export default function GeneratedQuestionsPage() {
   const params = useParams();
   const router = useRouter();
   const categoryId = params.categoryId as string;
+  const searchParams = new URLSearchParams(window.location.search);
+  const category = searchParams.get("category") || "";
+  const subcategory = searchParams.get("subcategory") || "";
 
   const [quizzes, setQuizzes] = useState<SavedQuiz[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +127,8 @@ export default function GeneratedQuestionsPage() {
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
                 Generated Questions
               </h1>
-              <p>{categoryId}</p>
+              <p className="text-[10px] sm:text-xs font-medium text-primary bg-primary/10 px-1.5 sm:px-2 py-0.5 rounded">
+                {category} / {subcategory}</p>
               <p className="text-xs sm:text-sm md:text-base text-muted-foreground mt-0.5 sm:mt-1">
                 {loading ? "Loading..." : `${quizzes.length} question${quizzes.length !== 1 ? 's' : ''} saved`}
               </p>

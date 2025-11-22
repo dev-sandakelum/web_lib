@@ -131,7 +131,9 @@ export default function QuizPage() {
     <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-6 sm:py-8 md:py-10">
       <Q_gen_note subject={dataset.category} />
       <Link
-        href={`${categoryId}/generated`}
+        href={`${categoryId}/generated?category=${encodeURIComponent(
+          dataset.category
+        )}&subcategory=${encodeURIComponent(dataset.subcategory)}`}
         className={`
             absolute right-16 sm:right-40 top-4 z-[111]
             px-2 py-2
