@@ -179,7 +179,7 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
       <div className="p-2 sm:p-3 md:p-4 bg-muted/20 border-t border-border/30">
         <div className="flex flex-col sm:flex-row gap-2">
           <button
-            onClick={handleSubmit}
+            onClick={() => {  if (isScrollLocked) {handleScrollAndDisable();}  handleSubmit();}}
             disabled={evaluating || loading || !answer.trim()}
             className="group flex-1 relative overflow-hidden min-h-8 sm:min-h-10 px-3 sm:px-4
               bg-primary hover:bg-primary/90 
