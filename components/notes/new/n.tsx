@@ -42,7 +42,7 @@ export default function NetworkingFullNotes() {
        
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <div className="max-w-5xl mx-auto px-1 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 sm:p-8 rounded-xl mb-4 sm:mb-6 shadow-lg">
           <h1 className="text-2xl sm:text-4xl font-bold mb-2">ICT </h1>
@@ -51,7 +51,7 @@ export default function NetworkingFullNotes() {
         </div>
 
         {/* Navigation */}
-        <div className="sticky top-0 bg-white rounded-lg shadow-md z-50 mb-4 sm:mb-6">
+        <div className="sticky top-0 bg-white rounded-lg shadow-md z-50 mb-4 m-0 p-0 sm:mb-6">
           <div className="flex gap-2 p-3 sm:p-4 overflow-x-auto">
             {[
               { id: 'intro', label: 'Introduction' },
@@ -2996,8 +2996,7 @@ export default function NetworkingFullNotes() {
         )}
         {/* Footer */}
         <div className="mt-8 text-center text-xs sm:text-sm text-gray-600 bg-white rounded-lg p-4 shadow-sm">
-          <p className="font-semibold mb-2">Computer Networks - ICT 1163</p>
-          <p>Fabrikam Residences</p>
+          <p className="font-semibold mb-2">Computer Networks - ICT</p>
         </div>
       </div>
     </div>

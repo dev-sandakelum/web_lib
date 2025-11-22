@@ -83,7 +83,7 @@ export function Q_gen_note({ subject }: sub) {
               <div className="h-[calc(100%-60px)] sm:h-[calc(100%-72px)] overflow-y-auto p-4 sm:p-6 bg-muted/10">
                 {subject === "Information Systems" && <ICT1161Notes />}
                 {subject === "Computer Networks" && <NetworkingFullNotes />}
-                {subject !== "Information Systems" && subject !== "Networking" && (
+                {subject !== "Information Systems" && subject !== "Computer Networks" && (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-muted/50 flex items-center justify-center mb-4">
                       <StickyNote className="w-8 h-8 sm:w-10 sm:h-10 text-muted-foreground" />
