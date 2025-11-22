@@ -13,7 +13,7 @@ import { generatePromptfor_ComputerNetworks } from "./prompts/gen/net";
 /**
  * Generate a quiz question based on dataset category
  */
-export async function generateQuestion(categoryId: string): Promise<{ content: string; model: string }> {
+export async function generateQuestion(categoryId: string , num: number): Promise<{ content: string; model: string }> {
   const dataset = getDatasetById(categoryId);
   if (!dataset) throw new Error("Dataset not found");
 
@@ -25,13 +25,13 @@ export async function generateQuestion(categoryId: string): Promise<{ content: s
   let thePrompt = "";
   switch (dataset.category) {
     case "Information Systems":
-      thePrompt = generatePromptfor_InformationSystems(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      thePrompt = generatePromptfor_InformationSystems(dataset, contentPreview, QuestionPattern, CommonInstruction , num);
       break;
     case "Programming":
-      thePrompt = generatePromptfor_programming(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      thePrompt = generatePromptfor_programming(dataset, contentPreview, QuestionPattern, CommonInstruction, num);
       break;
     case "Computer Networks":
-      thePrompt = generatePromptfor_ComputerNetworks(dataset, contentPreview, QuestionPattern, CommonInstruction);
+      thePrompt = generatePromptfor_ComputerNetworks(dataset, contentPreview, QuestionPattern, CommonInstruction, num);
       break;
     default:
       // fallback generic prompt

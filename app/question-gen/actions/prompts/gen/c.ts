@@ -2,7 +2,8 @@ export function generatePromptfor_programming(
   dataset: { category: string },
   contentPreview: string,
   QuestionPattern: string,
-  CommonInstruction: string
+  CommonInstruction: string,
+   num: number
 ): string {
   return `
 You are an expert examination question designer for university-level <b>${dataset.category}</b> courses.
@@ -11,7 +12,7 @@ CONTENT TO BASE QUESTION ON:
 ${contentPreview}
 
 YOUR TASK:
-Generate ONE well-structured examination question that thoroughly tests understanding and application of the concept.
+Generate ONE well-structured examination question based on topic number ${num} that thoroughly tests understanding and application of the concept.
 
 QUESTION DESIGN FRAMEWORK:
 

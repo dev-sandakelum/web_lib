@@ -2,7 +2,8 @@ export function generatePromptfor_InformationSystems(
   dataset: { category: string },
   contentPreview: string,
   QuestionPattern: string,
-  CommonInstruction: string
+  CommonInstruction: string,
+  num: number
 ): string {
   return `
 You are an expert university-level examination question designer specializing in <b>${dataset.category}</b>.
@@ -13,7 +14,7 @@ ${contentPreview}
 
 <br><br>
 YOUR TASK:<br>
-Generate ONE high-quality examination question based on the content above, following academic standards for Information Systems assessments.
+Generate ONE high-quality examination question based on topic number ${num} on the content above, following academic standards for Information Systems assessments.
 
 <br><br>
 QUESTION DESIGN FRAMEWORK:

@@ -2,7 +2,8 @@ export function generatePromptfor_ComputerNetworks(
   dataset: { category: string},
   contentPreview: string,
   QuestionPattern: string,
-  CommonInstruction: string
+  CommonInstruction: string,
+  num: number
 ): string {
   return `
 You are an expert university-level examination question designer specializing in <b>${dataset.category}</b>.
