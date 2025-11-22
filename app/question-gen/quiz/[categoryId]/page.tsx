@@ -133,7 +133,7 @@ export default function QuizPage() {
       <Link
         href={`${categoryId}/generated`}
           className={`
-            absolute right-20 sm:right-34 top-4 z-[111]
+            absolute right-20 sm:right-40 top-4 z-[111]
             px-4 py-2
             border rounded-lg text-sm font-medium
             cursor-pointer
