@@ -35,6 +35,7 @@ export default function QuizPage() {
   const [model, setModel] = useState<string>("");
   const [keyIndex, setKeyIndex] = useState<number>(-1);
   const [isNewlyGenerated, setIsNewlyGenerated] = useState(false); // Track if question is newly generated
+  const [createdAt, setCreatedAt] = useState<string>("");
 
   const dataset = getDatasetById(categoryId);
 
@@ -46,6 +47,11 @@ export default function QuizPage() {
     try {
       // Check if there's a question in search params and we're not forcing a new generation
       const questionFromParams = searchParams.get("question");
+      const createdAtFromParams = searchParams.get("createdAt");
+
+      if (createdAtFromParams) {
+        setCreatedAt(createdAtFromParams);
+      }
 
       if (
         !forceGenerate &&
@@ -193,6 +199,7 @@ export default function QuizPage() {
               onAnswerEvaluated={handleAnswerEvaluated}
               onNewQuestion={loadNewQuestion}
               loading={loading}
+              createdAt={createdAt || ""}
             />
           )
         ) : null}

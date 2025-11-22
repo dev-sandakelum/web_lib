@@ -74,11 +74,11 @@ export default function GeneratedQuestionsPage() {
     loadQuizzes(true);
   };
 
-  const handleUseQuestion = (question: string) => {
+  const handleUseQuestion = (question: string ,ago: string) => {
     // Strip HTML tags before encoding
     const plainQuestion = question.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     const encodedQuestion = encodeURIComponent(plainQuestion);
-    router.push(`/question-gen/quiz/${categoryId}?question=${encodedQuestion}`);
+    router.push(`/question-gen/quiz/${categoryId}?question=${encodedQuestion}&createdAt=${encodeURIComponent(ago)}`);
   };
 
   const toggleAnswer = (quizId: string) => {
@@ -258,7 +258,7 @@ export default function GeneratedQuestionsPage() {
                   {/* Actions */}
                   <div className="flex items-center gap-1.5 sm:gap-2 mt-3 sm:mt-4 flex-wrap">
                     <button
-                      onClick={() => handleUseQuestion(quiz.question)}
+                      onClick={() => handleUseQuestion(quiz.question , formatDate(quiz.createdAt))}
                       className="flex-1 sm:flex-initial px-3 sm:px-4 py-1.5 sm:py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md sm:rounded-lg text-[11px] sm:text-xs md:text-sm font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-1 sm:gap-1.5 min-w-[120px] sm:min-w-[140px]"
                     >
                       <span>✓</span>

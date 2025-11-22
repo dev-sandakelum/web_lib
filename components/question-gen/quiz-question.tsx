@@ -6,7 +6,7 @@ import { evaluateAnswer } from "@/app/question-gen/actions/actions";
 import { Q_gen_question } from "./results-items/question";
 import { quiz_font } from "../fonts";
 import { Spinner } from "./spinner";
-import { Bot, Key, KeyIcon, User, User2, Zap } from "lucide-react";
+import { Bot, Clock10, Key, KeyIcon, User, User2, Zap } from "lucide-react";
 
 interface QuizQuestionProps {
   question: string;
@@ -22,6 +22,7 @@ interface QuizQuestionProps {
   onNewQuestion: () => void;
   loading: boolean;
   keyIndex: number;
+  createdAt: string;
 }
 
 export function QuizQuestion({
@@ -32,6 +33,7 @@ export function QuizQuestion({
   onNewQuestion,
   loading,
   keyIndex,
+  createdAt,
 }: QuizQuestionProps) {
   const [answer, setAnswer] = useState("");
   const [evaluating, setEvaluating] = useState(false);
@@ -137,12 +139,20 @@ export function QuizQuestion({
                 {model}
               </span>
             </div>
+            {model !== 'from Database' ? (
             <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
               <KeyIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500" />
               <span className="text-[10px] sm:text-xs font-semibold text-amber-600 line-clamp-1 ">
                 {keyIndex + 1 }
               </span>
+            </div>):(
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <Clock10 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500" />
+              <span className="text-[10px] sm:text-xs font-semibold text-amber-600 line-clamp-1 ">
+                {createdAt }
+              </span>
             </div>
+            )}
           </div>
         </div>
       </div>
