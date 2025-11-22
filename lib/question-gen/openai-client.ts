@@ -8,10 +8,10 @@ export type ChatMessage = {
  */
 const API_KEYS = [
   
-  process.env.GROQ_API_KEY ,
   process.env.GROQ_API_KEY_1 ,
   process.env.GROQ_API_KEY_2 ,
   process.env.GROQ_API_KEY_3 ,
+  process.env.GROQ_API_KEY ,
 ].filter((key): key is string => key !== undefined)
 
 /**

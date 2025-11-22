@@ -136,10 +136,10 @@ export function QuizQuestion({
                 {model}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
-              <KeyIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" />
-              <span className="text-[10px] sm:text-xs font-semibold text-primary">
-                {keyIndex + 1}
+            <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <KeyIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500" />
+              <span className="text-[10px] sm:text-xs font-semibold text-amber-600 line-clamp-1 ">
+                {keyIndex + 1 }
               </span>
             </div>
           </div>
@@ -148,7 +148,7 @@ export function QuizQuestion({
 
       {/* Question Section */}
       <div className="p-2 sm:p-3 md:p-4">
-        <div className="flex items-center gap-1.5 mb-2 sm:mb-3">
+        {/* <div className="flex items-center gap-1.5 mb-2 sm:mb-3">
           <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 border border-blue-500/20">
             <svg
               className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500"
@@ -167,7 +167,7 @@ export function QuizQuestion({
           <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">
             Question
           </h3>
-        </div>
+        </div> */}
 
         <Q_gen_question value={question} font={quiz_font.variable} />
       </div>

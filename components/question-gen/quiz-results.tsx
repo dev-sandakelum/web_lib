@@ -65,40 +65,40 @@ export function QuizResults({
 
       {/* Question Section */}
       <div className="p-2 sm:p-3 md:p-4 border-b border-border/30">
-        <div className="flex items-center gap-1.5 mb-2">
+        {/* <div className="flex items-center gap-1.5 mb-2">
           <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-blue-500/10 border border-blue-500/20">
             <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">Question</h3>
-        </div>
+        </div> */}
         <Q_gen_question value={question} font={quiz_font.variable} />
       </div>
 
       {/* Your Answer Section */}
       <div className="p-2 sm:p-3 md:p-4 bg-green-50 border-b border-border/30">
-        <div className="flex items-center gap-1.5 mb-2">
+        {/* <div className="flex items-center gap-1.5 mb-2">
           <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-orange-500/10 border border-orange-500/20">
             <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
           </div>
           <h3 className="text-[11px] sm:text-sm font-semibold text-foreground">Your Answer</h3>
-        </div>
+        </div> */}
         <Q_gen_userAnswer value={userAnswer} font={quiz_font.variable} />
       </div>
 
       {/* Model Answer Section */}
       <div className="p-2 sm:p-3 md:p-4 bg-green-50/50 dark:bg-green-950/20 border-b border-border/30">
-        <div className="flex items-center gap-1.5 mb-2">
+        {/* <div className="flex items-center gap-1.5 mb-2">
           <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-green-500/10 border border-green-500/20">
             <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <h3 className="text-[11px] sm:text-sm font-semibold text-green-700 dark:text-green-400">Model Answer</h3>
-        </div>
+        </div> */}
         <Q_gen_modelAnswer value={modelAnswer} font={quiz_font.variable} />
       </div>
 

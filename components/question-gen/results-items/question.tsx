@@ -10,10 +10,10 @@ interface Value_PASS {
 
 export function Q_gen_question({ value, font }: Value_PASS) {
   return (
-    <div className="bg-muted/20 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/30">
+    <div className="bg-blue-50 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/30">
       <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
         <div className="w-1 h-4 sm:h-5 bg-blue-500 rounded-full"></div>
-        <h3 className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+        <h3 className="text-[10px] sm:text-xs font-semibold text-blue-600 uppercase tracking-wide">
           Question
         </h3>
       </div>
@@ -34,10 +34,10 @@ export function Q_gen_question({ value, font }: Value_PASS) {
 
 export function Q_gen_userAnswer({ value, font }: Value_PASS) {
   return (
-    <div className="bg-primary/5 rounded-md sm:rounded-lg p-2 sm:p-3 border border-primary/20">
+    <div className="bg-amber-50 rounded-md sm:rounded-lg p-2 sm:p-3 border border-primary/20">
       <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
-        <div className="w-1 h-4 sm:h-5 bg-primary rounded-full"></div>
-        <h3 className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide">
+        <div className="w-1 h-4 sm:h-5 bg-amber-500 rounded-full"></div>
+        <h3 className="text-[10px] sm:text-xs font-semibold text-amber-700 uppercase tracking-wide">
           Your Answer
         </h3>
       </div>
@@ -85,13 +85,13 @@ export function Q_gen_modelAnswer({ value, font }: Value_PASS) {
 
 export function Q_gen_feedback({ value, font }: Value_PASS) {
   return (
-    <div className="bg-muted/30 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/40">
-      <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
+    <div className="bg-purple-50 rounded-md sm:rounded-lg p-2 sm:p-3 border border-border/40">
+      {/* <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
         <div className="w-1 h-4 sm:h-5 bg-purple-500 rounded-full"></div>
         <h3 className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wide">
           Feedback
         </h3>
-      </div>
+      </div> */}
 
       <div
         className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
