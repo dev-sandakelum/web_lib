@@ -14,33 +14,30 @@ export function Q_gen_note({ subject }: sub) {
   
   return (
     <>
+   
       <button
-        onClick={() => setWindow(!window)}
-        className={`
-          absolute right-3 top-3 sm:right-4 sm:top-4 z-[111]
-          flex items-center gap-2
-          px-3 py-2 sm:px-4 sm:py-2
-          border rounded-lg sm:rounded-xl
-          text-xs sm:text-sm font-semibold
-          shadow-sm hover:shadow-md
-          transition-all duration-300 ease-out
-          active:scale-95
-          ${window 
-            ? "bg-primary text-primary-foreground border-primary/20" 
-            : "bg-card text-foreground border-border/50 hover:bg-muted/30"
-          }
-        `}
-      >
-        <span className="hidden sm:inline">
-          {window ? "Close Note" : "Access Note"}
-        </span>
-        <span className="sm:hidden">
-          {window ? <X className="w-4 h-4" /> : <StickyNote className="w-4 h-4" />}
-        </span>
-        <span className="hidden sm:inline">
-          {window ? <X className="w-4 h-4" /> : <StickyNote className="w-4 h-4" />}
-        </span>
-      </button>
+          onClick={() => setWindow(!window)}
+          className={`
+            absolute right-4 top-4 z-[111]
+            px-4 py-2
+            w-10 h-10 sm:w-auto sm:h-auto
+            flex items-center justify-center
+            border rounded-lg text-sm font-medium
+            cursor-pointer
+            transition-all duration-300 ease-out
+            active:scale-95
+            ${window ? "bg-gray-200 border-gray-400" : "bg-white border-gray-300"}
+            ${window ? "hover:bg-gray-300" : "hover:bg-gray-100"}
+            ${!window ? "display" : "hidden"}
+          `}
+        >
+          <span className="hidden sm:inline">
+            {window ? "Close Note" : "Access Note"}
+          </span>
+          <span className="sm:hidden text-base">
+            {window ? <X /> : <StickyNote />}
+          </span>
+        </button>
 
       {window && (
         <>
