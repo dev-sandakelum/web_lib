@@ -24,18 +24,18 @@ export function Navigation({ dataset }: { dataset: any }) {
   
   if (!dataset) return null;
   return (
-    <div className="mb-5 sm:mb-6 transition-all duration-300">
+    <div className="mb-5 sm:mb-6 transition-all duration-300 px-2">
           {/* UPDATED: Show both category and subcategory */}
           <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-1.5 transition-all duration-300">
-            <span className="transition-colors duration-300">{dataset.category}</span>
-            <span className="transition-all duration-300">›</span>
-            <span className="text-primary font-medium transition-all duration-300 hover:text-primary/80 line-clamp-1">{dataset.subcategory}</span>
+            <span className="text-[10px] sm:text-xs font-medium text-primary bg-primary/10 px-1.5 sm:px-2 py-0.5 mt-1 rounded">{dataset.category}</span>
+            {/* <span className="transition-all duration-300">›</span>
+            <span className="text-primary font-medium transition-all duration-300 hover:text-primary/80 line-clamp-1">{dataset.subcategory}</span> */}
           </div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight transition-all duration-300">
+          <h1 className="text-l sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight transition-all duration-300">
             {dataset.subcategory}
           </h1>
-          <div className="mt-1.5 px-2 sm:px-0">
-            <p className={`text-[12px] sm:text-sm text-muted-foreground transition-all duration-300 ${!showFullDescription ? 'line-clamp-1' : ''}`}>
+          <div className="mt-1.5 sm:px-0">
+            <p className={`text-[11px] sm:text-sm text-muted-foreground transition-all duration-300 ${!showFullDescription ? 'line-clamp-1' : ''}`}>
               {dataset.description}
             </p>
             {dataset.description && dataset.description.length > 100 && (
