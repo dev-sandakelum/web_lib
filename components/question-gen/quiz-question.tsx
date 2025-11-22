@@ -249,9 +249,12 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
             )}
           </button>
           {/* {note} */}
-        <div className="">
+        <div className="sm:hidden">
           <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">After evaluation completes, your results will be automatically saved and available in the "Already Generated Questions" tab for future reference.</p>
         </div>
+        </div>
+        <div className="hidden sm:block mt-2">
+          <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">After evaluation completes, your results will be automatically saved and available in the "Already Generated Questions" tab for future reference.</p>
         </div>
       </div>
     </div>

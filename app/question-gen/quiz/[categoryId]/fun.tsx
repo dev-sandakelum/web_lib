@@ -34,8 +34,8 @@ export function Navigation({ dataset }: { dataset: any }) {
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight transition-all duration-300">
             {dataset.subcategory}
           </h1>
-          <div className="mt-1.5">
-            <p className={`text-xs sm:text-sm text-muted-foreground transition-all duration-300 ${!showFullDescription ? 'line-clamp-1' : ''}`}>
+          <div className="mt-1.5 px-2 sm:px-0">
+            <p className={`text-[12px] sm:text-sm text-muted-foreground transition-all duration-300 ${!showFullDescription ? 'line-clamp-1' : ''}`}>
               {dataset.description}
             </p>
             {dataset.description && dataset.description.length > 100 && (
