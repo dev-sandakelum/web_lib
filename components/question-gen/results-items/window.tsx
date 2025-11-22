@@ -1,6 +1,7 @@
 "use client";
 
 import ICT1161Notes from "@/components/notes/new/1";
+import NetworkingFullNotes from "@/components/notes/new/n";
 import { StickyNote } from "lucide-react";
 import { useState } from "react";
 interface sub {
@@ -38,6 +39,7 @@ export function Q_gen_note({ subject }: sub) {
             <div className="border scale-95 h-[500px] overflow-scroll">
               {/* {subject} */}
               {subject == "Information Systems" ? <ICT1161Notes /> : ""}
+              {subject == "Networking" ? <NetworkingFullNotes /> : ""}
             </div>
           </div>
         </>

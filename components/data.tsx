@@ -14,6 +14,13 @@ export const mainTopics = [
         cardColor: "from-cyan-500 to-purple-600",
         items: [
           {
+            id: "n0",
+            title: "networking full notes",
+            readTime: "comprehensive",
+            tags: ["networking", "full", "notes", "guide"],
+            link: "/notes/networking/full",
+          },
+          {
             id: "n1",
             title: "cisco packet tracer",
             readTime: "esaily navigable",
