@@ -48,7 +48,7 @@ export function Q_gen_note({ subject }: sub) {
           />
           
           {/* Notes Container */}
-          <div className="absolute w-full h-full left-0 top-0 z-[99] flex justify-center items-center p-1 sm:p-4 md:p-6">
+          <div className="absolute w-full h-full left-0 top-0 z-[113] flex justify-center items-center p-1 sm:p-4 md:p-6">
             <div className="relative w-full max-w-4xl h-[85vh] sm:h-[90vh] bg-card border border-border/50 rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
               {/* Header */}
               <div className="sticky top-0 z-10 bg-card/95 backdrop-blur-sm border-b border-border/30 p-3 sm:p-4">
