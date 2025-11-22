@@ -174,7 +174,7 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
           </div>
         )}
       </div>
-
+        
       {/* Action Buttons */}
       <div className="p-2 sm:p-3 md:p-4 bg-muted/20 border-t border-border/30">
         <div className="flex flex-col sm:flex-row gap-2">
@@ -248,6 +248,10 @@ export function QuizQuestion({ question, categoryId, model, onAnswerEvaluated, o
               </>
             )}
           </button>
+          {/* {note} */}
+        <div className="">
+          <p className="text-[8px] sm:text-xs font-semibold text-muted-foreground italic px-4 sm:px-8 tracking-wide">After evaluation completes, your results will be automatically saved and available in the "Already Generated Questions" tab for future reference.</p>
+        </div>
         </div>
       </div>
     </div>
