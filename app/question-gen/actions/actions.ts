@@ -25,13 +25,13 @@ export async function generateQuestion(categoryId: string , num: number): Promis
   let thePrompt = "";
   switch (dataset.category) {
     case "Information Systems":
-      thePrompt = generatePromptfor_InformationSystems(dataset, contentPreview, QuestionPattern, CommonInstruction , num);
+      thePrompt = generatePromptfor_InformationSystems(dataset, {QuestionPattern:QuestionPattern,CommonInstruction: CommonInstruction} , num) || "";
       break;
     case "Programming":
       thePrompt = generatePromptfor_programming(dataset, contentPreview, QuestionPattern, CommonInstruction, num);
       break;
     case "Computer Networks":
-      thePrompt = generatePromptfor_ComputerNetworks(dataset, contentPreview, QuestionPattern, CommonInstruction, num);
+      thePrompt = generatePromptfor_ComputerNetworks(dataset, {questionPattern: QuestionPattern, commonInstruction: CommonInstruction} , num) || "";
       break;
     default:
       // fallback generic prompt
