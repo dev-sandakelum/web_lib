@@ -8,38 +8,36 @@ export const IsLesson04Dataset: Dataset = {
   category: "Information Systems",
   subcategory: "Enterprise Systems, TPS, ERP & CRM",
   description: "Operational and Enterprise Systems including Transaction Processing Systems, Enterprise Resource Planning, Supply Chain Management, and Customer Relationship Management.",
+  topics: [
+    "Enterprise Systems",
+    "Transaction Processing Systems (TPS)",
+    "Transaction Processing Cycle",
+    "Control And Management Issues",
+    "Enterprise Resource Planning (ERP)",
+    "Production and Supply Chain Management",
+    "Customer Relationship Management (CRM)",
+    "Key Challenges of Implementing Enterprise Systems",
+  ],
   content: `
-Topic: Enterprise Information Systems, Transaction Processing Systems, ERP, and CRM
-
-Objectives:
-• Understand Enterprise Systems and their role in organizations
-• Learn about Transaction Processing Systems (TPS) and their objectives
-• Understand batch processing vs. online transaction processing
-• Learn about the Transaction Processing Cycle
-• Understand Enterprise Resource Planning (ERP) systems
-• Learn about Production and Supply Chain Management
-• Understand Customer Relationship Management (CRM) systems
-• Identify key challenges in implementing enterprise systems
-
----
+<TOPIC_START index="0" title="Enterprise Systems">
 1.0 Enterprise Systems
 
 1.1 What is an Enterprise System?
-• An Enterprise System is a system central to the organization that ensures information can be shared across all business functions and all levels of management to support the running and managing of a business.
+• An **Enterprise System** is a system central to the organization that ensures information can be **shared across all business functions** and all levels of management to support the running and managing of a business.
 
-1.2 Types of Enterprise Systems
-Enterprise systems include:
+1.2 Types of Enterprise Systems Enterprise systems include:
 * **Enterprise Resource Planning Systems (ERP)** that support supply-chain processes, such as:
   * Order Processing
   * Inventory Management
   * Purchasing
 * **Customer Relationship Management (CRM)** systems which support sales, marketing, and customer service related processes
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Transaction Processing Systems (TPS)">
 2.0 Transaction Processing Systems (TPS)
 
 2.1 What is a Transaction Processing System?
-• Transaction Processing Systems (TPS) capture and process the detailed data necessary to update records about the fundamental business operations of the organization.
+• **Transaction Processing Systems (TPS)** capture and process the detailed data necessary to update records about the **fundamental business operations** of the organization.
 
 2.2 TPS Components
 
@@ -62,10 +60,10 @@ TPS handle business operations such as:
 2.3 TPS Processing Methods
 
 2.3.1 Batch Processing System
-• A batch processing system is a form of data processing where business transactions are accumulated over a period of time and prepared for processing as a single unit or batch.
+• A **batch processing system** is a form of data processing where business transactions are **accumulated over a period of time** and prepared for processing as a single unit or batch.
 
 2.3.2 Online Transaction Processing (OLTP)
-• Online Transaction Processing (OLTP) is a form of data processing where each transaction is processed immediately, without the delay of accumulating transactions into a batch.
+• **Online Transaction Processing (OLTP)** is a form of data processing where each transaction is processed **immediately**, without the delay of accumulating transactions into a batch.
 • In OLTP, a number of transactions occur concurrently.
 • Examples include Online Banking and Online Shopping.
 
@@ -92,15 +90,15 @@ Common types of TPS include:
 
 2.7 TPS for Competitive Advantage
 TPS can be used to achieve competitive advantage.
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Transaction Processing Cycle">
 3.0 Transaction Processing Cycle
 
 3.1 What is the Transaction Processing Cycle?
-• The Transaction Processing Cycle is the process of data collection, data editing, data correction, data manipulation, data storage, and document production.
+• The **Transaction Processing Cycle** is the process of data collection, data editing, data correction, data manipulation, data storage, and document production.
 
-3.2 Stages of the Transaction Processing Cycle
-
+3.2 Stages of the Transaction Processing Cycle 
 The transaction processing cycle consists of six stages:
 
 | Stage | Description |
@@ -114,8 +112,9 @@ The transaction processing cycle consists of six stages:
 
 3.3 Data Processing Cycle
 The data processing cycle illustrates the flow of transaction processing.
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Control And Management Issues">
 4.0 Control And Management Issues
 
 Important control and management issues in TPS include:
@@ -124,13 +123,14 @@ Important control and management issues in TPS include:
 | :--- | :--- |
 | **Disaster recovery plan** | A formal plan describing the actions that must be taken to restore computer operations and services in the event of a disaster. |
 | **Transaction processing system audit** | A check of a firm's TPS systems to prevent accounting irregularities and/or loss of data privacy. |
+<TOPIC_END>
 
----
+<TOPIC_START index="4" title="Enterprise Resource Planning (ERP)">
 5.0 Enterprise Resource Planning (ERP)
 
 5.1 What is Enterprise Resource Planning?
-• Enterprise resource planning (ERP) is a platform companies use to manage and integrate the essential parts of their businesses.
-• An ERP integrates business processes and the ERP database.
+• **Enterprise resource planning (ERP)** is a platform companies use to **manage and integrate the essential parts of their businesses**.
+• An ERP integrates **business processes** and the **ERP database**.
 
 5.2 Advantages of ERP Systems
 
@@ -144,7 +144,7 @@ ERP systems provide numerous advantages:
 | **Improvement of work processes, and technology standardization** | ERP vendors do considerable research to define the best business processes. They gather requirements of leading companies within the same industry and combine them with research findings from research institutions and consultants. The individual application modules included in the ERP system are then designed to support these best practices. |
 | **Upgrade of technology infrastructure** | When implementing an ERP system, an organization has an opportunity to upgrade the information technology (hardware, operating systems, databases, etc.) that it uses. |
 
-5.3 Disadvantages of ERP Systems
+5.3 Disadvantages of ERP Systems [Image illustrating the complexity and expense of ERP implementation]
 
 ERP systems also have several disadvantages:
 
@@ -155,14 +155,15 @@ ERP systems also have several disadvantages:
 | **Difficulty integrating with other systems** | Most companies have other systems that must be integrated with the ERP system, such as financial analysis programs, e-commerce operations, and other applications. Many companies have experienced difficulties making these other systems operate with their ERP system. Other companies need additional software to create these links. |
 | **Risks in using one vendor** | The high cost to switch to another vendor's ERP system makes it extremely unlikely that a firm will do so. After a company has adopted an ERP system, the vendor has less incentive to listen and respond to customer concerns. The high cost to switch also increases risk—in the event the ERP vendor allows its product to become outdated or goes out of business. Selecting an ERP system involves not only choosing the best software product but also the right long-term business partner. |
 | **Risk of implementation failure** | Implementing an ERP system for a large organization is extremely challenging and requires tremendous amounts of resources, the best IS and business people, and plenty of management support. Unfortunately, large ERP installations occasionally fail, and problems with an ERP implementation can require expensive solutions. |
+<TOPIC_END>
 
----
+<TOPIC_START index="5" title="Production and Supply Chain Management">
 6.0 Production and Supply Chain Management
 
 6.1 ERP and Production Planning
 • ERP systems follow a systematic process for developing a production plan that draws on the information available in the ERP system database.
 
-6.2 The Process of Production & Supply Chain Management
+6.2 The Process of Production & Supply Chain Management [Image illustrating the Production and Supply Chain Management process from sales forecasting to production]
 
 The production and supply chain management process consists of seven steps:
 
@@ -175,13 +176,14 @@ The production and supply chain management process consists of seven steps:
 | **5. Materials requirement planning** | Determines the amount and timing for placing raw material orders with suppliers. |
 | **6. Purchasing** | Uses the information from materials requirement planning to place purchase orders for raw materials and transmit them to qualified suppliers. |
 | **7. Production** | Uses the detailed schedule to plan the details of running and staffing the production operation. |
+<TOPIC_END>
 
----
+<TOPIC_START index="6" title="Customer Relationship Management (CRM)">
 7.0 Customer Relationship Management (CRM)
 
 7.1 What is Customer Relationship Management?
-• A Customer Relationship Management (CRM) system is a system that helps a company manage all aspects of customer encounters, including marketing and advertising, sales, customer service after the sale, and programs to retain loyal customers.
-• The goal of CRM is to understand and anticipate the needs of current and potential customers to increase customer retention and loyalty while optimizing the way that products and services are sold.
+• A **Customer Relationship Management (CRM) system** is a system that helps a company **manage all aspects of customer encounters**, including marketing and advertising, sales, customer service after the sale, and programs to retain loyal customers.
+• The goal of CRM is to **understand and anticipate the needs** of current and potential customers to increase customer retention and loyalty while optimizing the way that products and services are sold.
 
 7.2 The Key Features of a CRM System
 
@@ -194,8 +196,9 @@ A CRM system includes five key features:
 | **Customer support** | The ability to support customer service reps so that they can quickly, thoroughly, and appropriately address customer requests and resolve customers' issues while at the same time collecting and storing data about those interactions. |
 | **Marketing automation** | The ability to capture and analyze all customer interactions, generate appropriate responses, and gather data to create and build effective and efficient marketing campaigns. |
 | **Analysis** | The ability to analyze customer data to identify ways to increase revenue and decrease costs, identify the source of the firm's "best customers," and determine how to retain them and find even more of them. |
+<TOPIC_END>
 
----
+<TOPIC_START index="7" title="Key Challenges of Implementing Enterprise Systems">
 8.0 Key Challenges of Implementing Enterprise Systems
 
 Key challenges in implementing enterprise systems include:
@@ -225,6 +228,6 @@ Key challenges in implementing enterprise systems include:
 8.6 Inadequate Testing
 • It's possible to get the business requirements and expectations spot on, but lack of testing often leads to a downfall. Let teams test the functionality they will be using daily, and let them feedback, it will help reduce the amount of resistance and assist them in adjusting to the change.
 • Adjust the process if it is not suitable, do not make changes to imitate the old processes, but consider how processes can be improved using your new system.
-
+<TOPIC_END>
 `
 };

@@ -7,19 +7,32 @@ export const mCommerceWeb2Dataset: Dataset = {
   category: "Information Systems",
   subcategory: "M-Commerce & Web 2.0",
   description: "Mobile commerce technologies, social media, and Web 2.0 applications",
+  topics: [
+    "M-Commerce (Mobile Commerce)",
+    "Common Benefits of Mobile Commerce",
+    "Disadvantages of Mobile Commerce",
+    "Global Challenges for Mobile Commerce",
+    "Threats of Mobile Commerce",
+    "For Successful E-Commerce & M-Commerce",
+    "Technology Infrastructure for E-Commerce",
+    "Technology Infrastructure for M-Commerce",
+    "The World Wide Web (WWW)",
+    "Web 2.0",
+    "Rich Internet Application (RIA)",
+    "Social Media Types",
+    "Internet and Web Applications",
+    "Key Takeaways",
+  ],
   content: `
-Topic: M-Commerce, Web 2.0 & Social Media
-
----
+<TOPIC_START index="0" title="M-Commerce (Mobile Commerce)">
 1.0 M-Commerce (Mobile Commerce)
 
 1.1 Definition
-• Relies on the use of mobile, wireless devices to place orders and conduct business
-• Devices include: Personal Digital Assistants (PDAs), cell phones, smartphones
-• Example: Daraz mobile application
+• Relies on the use of **mobile, wireless devices** to place orders and conduct business
+• Devices include: **Personal Digital Assistants (PDAs), cell phones, smartphones**
+• Example: **Daraz mobile application**
 
-1.2 Types of M-Commerce
-
+1.2 Types of M-Commerce 
 1.2.1 Mobile Banking
 • Using mobile website or application to perform all banking functions
 • Complete banking services on mobile devices
@@ -50,10 +63,11 @@ Topic: M-Commerce, Web 2.0 & Social Media
 
 1.3 M-Commerce Web Sites
 • Retailers have established special Web sites specifically designed for users of mobile devices
-• Optimized for smaller screens and touch interfaces
+• Optimized for **smaller screens and touch interfaces**
 • Streamlined navigation for mobile experience
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Common Benefits of Mobile Commerce">
 2.0 Common Benefits of Mobile Commerce
 
 2.1 Better Overall Customer Experience
@@ -64,13 +78,13 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Makes online shopping far more convenient
 
 2.1.2 Reachability
-• Ability to send customers SMS push notifications
+• Ability to send customers **SMS push notifications**
 • Online retailers can reach wider range of customers
 • Reach customers even when they're on the go
 
 2.1.3 Location-Tracking
-• M-commerce apps can pinpoint user locations using GPS technology and Wi-Fi
-• Helps provide personalized and location-specific content
+• M-commerce apps can pinpoint user locations using **GPS technology and Wi-Fi**
+• Helps provide **personalized and location-specific content**
 • Targeted offers based on user location
 
 2.2 Phenomenal Growth Potential
@@ -103,8 +117,9 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Automated systems reduce human error
 • Digital records are more accurate
 • Real-time data synchronization
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Disadvantages of Mobile Commerce">
 3.0 Disadvantages of Mobile Commerce
 
 3.1 Constant Need for Optimization
@@ -126,8 +141,9 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Security concerns with mobile transactions
 • Risk of data breaches
 • Privacy issues with mobile apps
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Global Challenges for Mobile Commerce">
 4.0 Global Challenges for Mobile Commerce
 
 4.1 Cultural Challenges
@@ -164,8 +180,9 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Different regulations across jurisdictions
 • Compliance requirements
 • Legal variations by country/region
+<TOPIC_END>
 
----
+<TOPIC_START index="4" title="Threats of Mobile Commerce">
 5.0 Threats of Mobile Commerce
 
 5.1 Security
@@ -174,7 +191,7 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Unsecured networks
 
 5.2 Theft of Intellectual Property (IP)
-• IP includes works of the mind: books, films, music, processes, software
+• **IP** includes works of the mind: books, films, music, processes, software
 • Works that are distinct and owned/created by single entity
 • Digital piracy risks
 • Unauthorized copying and distribution
@@ -198,8 +215,9 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Unclear legal boundaries
 • Cross-border transaction issues
 • Dispute resolution challenges
+<TOPIC_END>
 
----
+<TOPIC_START index="5" title="For Successful E-Commerce & M-Commerce">
 6.0 For Successful E-Commerce & M-Commerce
 
 6.1 Four Key Steps
@@ -223,8 +241,9 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Regular updates
 • Performance monitoring
 • User feedback integration
+<TOPIC_END>
 
----
+<TOPIC_START index="6" title="Technology Infrastructure for E-Commerce">
 7.0 Technology Infrastructure for E-Commerce
 
 7.1 Essential Components
@@ -234,12 +253,12 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Security systems (SSL/TLS)
 • Content management systems
 • Customer relationship management (CRM)
+<TOPIC_END>
 
----
+<TOPIC_START index="7" title="Technology Infrastructure for M-Commerce">
 8.0 Technology Infrastructure for M-Commerce
 
-8.1 Four Essential Components
-
+8.1 Four Essential Components 
 8.1.1 Mobile Device
 • Smartphones and tablets
 • Operating systems (iOS, Android)
@@ -259,42 +278,45 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Mobile wallets
 • Payment gateways
 • Secure transaction processing
+<TOPIC_END>
 
----
+<TOPIC_START index="8" title="The World Wide Web (WWW)">
 9.0 The World Wide Web (WWW)
 
 9.1 Definition
-• Collection of tens of millions of server computers working together as one
-• Internet service using hyperlink technology
+• Collection of **tens of millions of server computers** working together as one
+• Internet service using **hyperlink technology**
 • Provides information to billions of users
 
 9.2 Hyperlink
 • Highlighted text or graphics in Web document
 • When clicked, opens new Web page or section of same page
 • Contains related content
+<TOPIC_END>
 
----
+<TOPIC_START index="9" title="Web 2.0">
 10.0 Web 2.0
 
 10.1 Definition
-• The Web as computing platform that supports software applications
-• Supports sharing of information between users
-• Evolution from one-directional to two-directional websites
+• The Web as computing platform that **supports software applications**
+• Supports **sharing of information between users**
+• Evolution from one-directional to **two-directional websites**
 • Both display and collect information
 
 10.2 Evolution from Web 1.0
-• Original Web (Web 1.0) provided platform for businesses to publish information
+• Original Web (Web 1.0) provided platform for businesses to **publish information**
 • General public could only view information
-• Web 2.0 enables user interaction and contribution
-• Users become content creators, not just consumers
+• **Web 2.0 enables user interaction and contribution**
+• Users become **content creators**, not just consumers
+<TOPIC_END>
 
----
+<TOPIC_START index="10" title="Rich Internet Application (RIA)">
 11.0 Rich Internet Application (RIA)
 
 11.1 Definition
 • Software with functionality and complexity of traditional application software
 • Does not require local installation
-• Runs in Web browser
+• Runs in **Web browser**
 • Examples: Zoom, Online C compilers
 
 11.2 Characteristics
@@ -302,32 +324,34 @@ Topic: M-Commerce, Web 2.0 & Social Media
 • Complex functionality
 • No installation required
 • Platform-independent
+<TOPIC_END>
 
----
+<TOPIC_START index="11" title="Social Media Types">
 12.0 Social Media Types
 
 12.1 Social Media (General)
 • Users can post information about their interests
 • Find like-minded people
-• Example: Facebook (FB)
+• Example: **Facebook (FB)**
 
 12.2 Microblogging Sites
 • People can post thoughts and ideas throughout the day
 • Friends can read updates
-• Example: Twitter
+• Example: **Twitter**
 
 12.3 Social Bookmarking
 • Allow users to pool their votes
 • Determine most interesting online news stories and Web pages
 • Moment-to-moment interest ranking
-• Examples: Digg and del.icio.us
+• Examples: **Digg and del.icio.us**
 
 12.4 Opinion Sites
 • Allow consumers to voice opinions about products
 • Product reviews and ratings
-• Example: Epinions
+• Example: **Epinions**
+<TOPIC_END>
 
----
+<TOPIC_START index="12" title="Internet and Web Applications">
 13.0 Internet and Web Applications
 
 13.1 Search Engines and Web Research
@@ -343,41 +367,40 @@ Topic: M-Commerce, Web 2.0 & Social Media
 13.3 Telnet, SSH, and FTP
 
 13.3.1 Telnet
-• Command-line interface
-• Allows user to work on remote server directly
+• **Command-line interface**
+• Allows user to work on **remote server directly**
 • Basic remote access
 
 13.3.2 SSH (Secure Shell)
-• Telnet functionality through more secure connection
-• Encrypted communication
+• Telnet functionality through **more secure connection**
+• **Encrypted communication**
 • Secure remote access
 
 13.3.3 FTP (File Transfer Protocol)
-• File transfers between host and remote computer
+• **File transfers** between host and remote computer
 • Upload and download files
 • Bulk data transfer
 
 13.4 Web Log (Blog), Video Log (Vlog), and Podcasting
-• Blog: Written content publishing
-• Vlog: Video content publishing
-• Podcasting: Audio content distribution
+• **Blog**: Written content publishing
+• **Vlog**: Video content publishing
+• **Podcasting**: Audio content distribution
 
 13.5 Entertainment
 • Streaming services
 • Online gaming
 • Multimedia content
+<TOPIC_END>
 
----
+<TOPIC_START index="13" title="Key Takeaways">
 14.0 Key Takeaways
 
-• M-Commerce extends e-commerce capabilities to mobile devices
+• **M-Commerce** extends e-commerce capabilities to **mobile devices**
 • Mobile commerce offers convenience, location-based services, and omni-channel experiences
 • Security, infrastructure, and legal challenges must be addressed
-• Web 2.0 enables user interaction and content creation
+• **Web 2.0** enables user **interaction and content creation**
 • Social media platforms facilitate community building and information sharing
 • Technology infrastructure is critical for successful mobile commerce implementation
-
----
-
+<TOPIC_END>
 `
 }

@@ -8,23 +8,23 @@ export const IsLesson05Dataset: Dataset = {
   category: "Information Systems",
   subcategory: "MIS, DSS, ESS, KMS & Artificial Intelligence",
   description: "Management Information Systems, Decision Support Systems, Executive Support Systems, Knowledge Management Systems, Expert Systems and Artificial Intelligence concepts.",
+  topics: [
+    "Management Information Systems (MIS)",
+    "Decision Making And Problem Solving",
+    "Decision Support Systems (DSS)",
+    "Executive Support Systems (ESS)",
+    "Knowledge Management Systems (KMS)",
+    "Artificial Intelligence (AI)",
+    "Expert Systems",
+    "Positive & Negative Impacts",
+  ],
   content: `
-Topic: Management Information Systems, Decision Support Systems, Knowledge Management, and Artificial Intelligence
-
-Objectives:
-• Understand Management Information Systems (MIS) and their functions
-• Learn about decision making and problem-solving processes
-• Understand Decision Support Systems (DSS) and their characteristics
-• Learn about Executive Support Systems (ESS) and their capabilities
-• Understand Knowledge Management Systems (KMS)
-• Learn about Artificial Intelligence (AI) and Expert Systems
-
----
+<TOPIC_START index="0" title="Management Information Systems (MIS)">
 1.0 Management Information Systems (MIS)
 
 1.1 What is a Management Information System?
-• A Management Information System (MIS) is an integrated collection of people, procedures, databases, and devices that provides managers and decision makers with information to help achieve organizational goals.
-• MISs can give competitive advantage by providing the right information to the right people in the right format and at the right time.
+• A **Management Information System (MIS)** is an integrated collection of people, procedures, databases, and devices that provides managers and decision makers with information to help **achieve organizational goals**.
+• MISs can give **competitive advantage** by providing the right information to the right people in the right format and at the right time.
 
 1.2 MIS Inputs & Outputs
 
@@ -37,7 +37,7 @@ MIS receives inputs from two main sources:
 | **External** | Customers, suppliers, competitors, and stakeholders, whose data is not already captured by the TPS, as well as other sources, such as the Internet. |
 
 1.2.2 Outputs
-• MIS produces a collection of reports as outputs.
+• MIS produces a collection of **reports** as outputs.
 
 1.3 MIS Functions
 Key functions of MIS include:
@@ -58,15 +58,15 @@ Common types of MIS include:
 * **Other MIS**:
   * Accounting
   * GIS (Geographic Information Systems)
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Decision Making And Problem Solving">
 2.0 Decision Making And Problem Solving
 
 2.1 Decision Making as a Component of Problem Solving
 Decision making is a key component of problem solving.
 
-2.2 The Stages of Decision Making and Problem Solving
-
+2.2 The Stages of Decision Making and Problem Solving 
 The decision making and problem-solving process consists of five stages:
 
 | Stage | Description |
@@ -77,23 +77,24 @@ The decision making and problem-solving process consists of five stages:
 | **Implementation Stage** | A stage of problem solving in which a solution is put into effect. |
 | **Monitoring Stage** | The final stage of the problem solving process, in which decision makers evaluate the implementation. |
 
-• Problem Solving is a process that goes beyond decision making to include the implementation stage.
+• **Problem Solving** is a process that goes beyond decision making to include the implementation stage.
 
 2.3 Types of Decisions
 
 2.3.1 Programmed Decisions
-• A programmed decision is a decision made using a rule, procedure, or quantitative method.
+• A **programmed decision** is a decision made using a **rule, procedure, or quantitative method**.
 • Example: Ordering more products when inventory levels drop to specified levels.
 
 2.3.2 Non-programmed Decisions
-• A non-programmed decision is a decision that deals with unusual or exceptional situations.
+• A **non-programmed decision** is a decision that deals with **unusual or exceptional situations**.
 • Example: When there is an economic crisis.
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Decision Support Systems (DSS)">
 3.0 Decision Support Systems (DSS)
 
 3.1 What is a Decision Support System?
-• A decision support system (DSS) is a computerized program used to support determinations, judgments, and courses of action in an organization or a business.
+• A **Decision Support System (DSS)** is a computerized program used to support determinations, judgments, and courses of action in an organization or a business.
 
 3.2 Characteristics of a Decision Support System
 Key characteristics of DSS include:
@@ -103,8 +104,7 @@ Key characteristics of DSS include:
 * Offer both textual and graphical orientation
 * Perform complex, sophisticated analysis and comparisons using advanced software packages
 
-3.3 Components of a Decision Support System
-
+3.3 Components of a Decision Support System 
 A DSS consists of three main components:
 
 | Component | Description |
@@ -117,12 +117,13 @@ Examples of models include Financial (Spreadsheet), Statistical (SPSS), Graphica
 
 3.4 A Comparison of DSS and MIS
 DSS and MIS differ in their focus and capabilities.
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Executive Support Systems (ESS)">
 4.0 Executive Support Systems (ESS)
 
 4.1 What is an Executive Support System?
-• An Executive Support System (ESS) is a specialized DSS that includes all hardware, software, data, procedures, and people used to assist senior-level executives within the organization.
+• An **Executive Support System (ESS)** is a specialized DSS that includes all hardware, software, data, procedures, and people used to assist **senior-level executives** within the organization.
 
 4.2 The Characteristics of an ESS
 Executive Support Systems have the following characteristics:
@@ -144,12 +145,13 @@ ESS provide several key capabilities:
 | **Support for Strategic Organizing and Staffing** | Assists in organizing resources and staffing decisions. |
 | **Support for Strategic Control** | Helps maintain strategic control over operations. |
 | **Support for Crisis Management** | Assists executives in managing crises. |
+<TOPIC_END>
 
----
+<TOPIC_START index="4" title="Knowledge Management Systems (KMS)">
 5.0 Knowledge Management Systems (KMS)
 
 5.1 What is a Knowledge Management System?
-• A Knowledge Management System (KMS) is an organized collection of people, procedures, software, databases, and devices used to create, store, share, and use the organization's knowledge and experience.
+• A **Knowledge Management System (KMS)** is an organized collection of people, procedures, software, databases, and devices used to **create, store, share, and use the organization's knowledge and experience**.
 
 5.2 Types of Knowledge in KMS
 
@@ -168,18 +170,20 @@ The personnel involved in a KMS include:
 | :--- | :--- |
 | **Data workers** | Secretaries, administrative assistants, bookkeepers, and similar data-entry personnel. |
 | **Knowledge workers** | People who create, use, and disseminate knowledge. They are usually professionals in science, engineering, or business, and work in offices and belong to professional organizations. Other examples include writers, researchers, educators, and corporate designers. |
+<TOPIC_END>
 
----
+<TOPIC_START index="5" title="Artificial Intelligence (AI)">
 6.0 Artificial Intelligence (AI)
 
 6.1 What is Artificial Intelligence?
-• Artificial Intelligence (AI) is the ability of computers to mimic or duplicate the functions of the human brain.
+• **Artificial Intelligence (AI)** is the ability of computers to **mimic or duplicate the functions of the human brain**.
+<TOPIC_END>
 
----
+<TOPIC_START index="6" title="Expert Systems">
 7.0 Expert Systems
 
 7.1 What is an Expert System?
-• An expert system consists of hardware and software that stores knowledge and makes inferences, similar to those of a human expert.
+• An **expert system** consists of hardware and software that stores knowledge and makes inferences, similar to those of a **human expert**.
 
 7.2 When to Use Expert Systems
 
@@ -193,8 +197,7 @@ Expert systems are appropriate when you need to:
 * Provide expertise that is expensive or rare
 * Develop a solution faster than human experts can
 
-7.3 Components of Expert Systems
-
+7.3 Components of Expert Systems 
 An expert system consists of four main components:
 
 | Component | Description |
@@ -213,10 +216,12 @@ Expert systems and AI are applied in various domains:
 * Employee performance evaluation
 * Repair and maintenance
 * Marketing
+<TOPIC_END>
 
----
+<TOPIC_START index="7" title="Positive & Negative Impacts">
 8.0 Positive & Negative Impacts
 
 Information systems have both positive and negative impacts on organizations and society.
+<TOPIC_END>
 `
 };

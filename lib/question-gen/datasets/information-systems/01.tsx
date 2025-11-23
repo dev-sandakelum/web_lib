@@ -2,25 +2,20 @@
 
 import { Dataset } from "@/lib/question-gen/types/dataset";
 
-export const isFundamentalsDataset: Dataset = {
+export const is: Dataset = {
   id: "ict-is-fundamentals",
   topicCount: 4,
   category: "Information Systems",
   subcategory: "Information System Components & Concepts",
   description: "Fundamentals of Information Systems, including data/information/knowledge, system components, characteristics of valuable information, and IS categories.",
+  topics: [
+    "Information Concepts",
+    "Characteristics of Valuable Information",
+    "Systems and Information Systems",
+    "Organizational Structure and Globalization",
+  ],
   content: `
-Topic: Information System Components, Information Concepts & Business Information Systems
-
-Objectives:
-• Understand the difference between Data, Information, Knowledge, and Process
-• Identify the characteristics of Valuable Information
-• Define what a system is and its components
-• Differentiate between open and closed systems
-• Define an Information System and its core components (Input, Processing, Output, Feedback)
-• Distinguish between Manual IS and Computer Based IS (CBIS) and list the components of CBIS
-• Explain global challenges in IS and types of organizational structures
-
----
+<TOPIC_START index="0" title="Information Concepts">
 1.0 Information Concepts
 
 1.1 Data
@@ -40,8 +35,9 @@ Objectives:
 
 1.4 Process
 • A set of **logically related tasks** performed to achieve a defined outcome.
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Characteristics of Valuable Information">
 2.0 Characteristics of Valuable Information
 
 Valuable Information must possess these characteristics:
@@ -55,12 +51,13 @@ Valuable Information must possess these characteristics:
 | **Flexible** | Can be used for a variety of purposes; e.g., inventory data can be used by sales, production, and finance. |
 | **Relevant** | Important to the decision maker; e.g., lumber prices might not be relevant to a computer chip manufacturer. |
 | **Reliable** | Can be trusted by users, often depending on the reliability of the data-collection method or the source. |
-| **Secure** | Should be secure from access by unauthorized users. |
+| **Secure** | Should be secure from access by unauthorized users.
 | **Simple** | Not overly complex; too much information can cause **information overload**. |
 | **Timely** | Delivered when it is needed. |
 | **Verifiable** | You can check it to make sure it is correct, perhaps by checking many sources for the same information. |
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Systems and Information Systems">
 3.0 Systems and Information Systems
 
 3.1 What is a System?
@@ -86,8 +83,7 @@ Valuable Information must possess these characteristics:
 3.4 What is an Information System (IS)?
 • A set of interrelated components that **collect, manipulate, store, and disseminate data and information** and provide a **feedback mechanism** to meet an objective.
 
-3.5 Core Components of an Information System
-• **Input**: The activity of gathering and capturing **raw data**.
+3.5 Core Components of an Information System • **Input**: The activity of gathering and capturing **raw data**.
 • **Processing**: Converting or **transforming data** into useful outputs.
 • **Output**: Involves producing useful information, usually in the form of documents and reports.
 • **Feedback**: Information from the system that is used to make changes to input or processing activities.
@@ -115,8 +111,9 @@ Valuable Information must possess these characteristics:
 | **Procedures** | Include the strategies, policies, methods, and rules for using the CBIS, including the operation, maintenance, and security of the computer (e.g., who can access what data). |
 | **Networks** | Computers and equipment that are connected in a building, around the country, or around the world to enable electronic communications. |
 | **Internet** | The world's largest computer network, consisting of thousands of interconnected networks, all freely exchanging information. |
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Organizational Structure and Globalization">
 4.0 Organizational Structure and Globalization
 
 4.1 Organizational Systems
@@ -128,7 +125,7 @@ Valuable Information must possess these characteristics:
 An organization's structure depends on its goals and approach to management, affecting how it views and uses information systems. Types include Traditional, project, team, and virtual.
 
 4.2.1 Traditional (Hierarchical) Structure
-• Called a hierarchical structure.
+• Called a **hierarchical structure**.
 • Features a managerial pyramid where the hierarchy of decision making and authority flows from **strategic management** at the top down to operational management and non-management employees.
 • The strategic level has a higher degree of **decision authority**, more impact on corporate goals, and more unique problems to solve compared to lower levels.
 
@@ -163,5 +160,6 @@ Managing IS globally presents challenges:
 • **Product and service challenges**: Physical products are difficult to deliver globally, while electronic products (e-products) and e-services (e-services) can be delivered electronically (e.g., software, music).
 • **Technology transfer issues**: Governments restrict military-related equipment sales; there are issues with the stealing of intellectual property, trade secrets, and counterfeiting.
 • **State, regional, and national laws**: Each area has laws (e.g., trade secrets, data privacy) that must be obeyed, including **transborder data-flow laws**.
+<TOPIC_END>
 `
 };

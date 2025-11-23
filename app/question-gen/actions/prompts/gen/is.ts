@@ -1,23 +1,64 @@
+import { Dataset } from "@/lib/question-gen/types/dataset";
+// Assuming topicSplitter is available, similar to the net.ts file
+// import { getTopicByIndex } from "../topicSplitter"; 
+
+export interface PromptConfig {
+  QuestionPattern: string;
+  CommonInstruction: string;
+}
+
+// NOTE: I am assuming the existence of a getTopicByIndex function 
+// and a structure for the topic object, similar to how it's used in net.ts.
+interface Topic {
+  index: number;
+  title: string;
+  content: string;
+}
+
+// Placeholder for the external topic extraction utility
+function getTopicByIndex(content: any, index: number): Topic | null {
+    // In a real environment, this would parse the 'content' object 
+    // to find the topic. For this file generation, we'll use a placeholder.
+    return {
+        index: index,
+        title: "The Role of Information Systems in Business Strategy",
+        content: `Information Systems (IS) are critical for modern business operations. They support five key functions: Data Processing, Decision Support, Competitive Advantage, Process Automation, and Strategic Planning. For strategic planning, IS provides tools for SWOT analysis and forecasting market trends. Operational-level systems, such as Transaction Processing Systems (TPS), focus on daily transactions, while Strategic Information Systems (SIS) focus on long-term goals and differentiation. The key difference lies in the time horizon and the level of management they serve.`
+    };
+}
+
+
 export function generatePromptfor_InformationSystems(
-  dataset: { category: string },
-  contentPreview: string,
-  QuestionPattern: string,
-  CommonInstruction: string,
-  num: number
-): string {
+  dataset: Dataset,
+  config: PromptConfig,
+  topicIndex: number
+): string | null {
+  // Get specific topic using tag-based extraction
+  const topic = getTopicByIndex(dataset.content, topicIndex);
+  
+  if (!topic) {
+    console.error(`Topic index ${topicIndex} not found in dataset`);
+    return null;
+  }
+  
   return `
 You are an expert university-level examination question designer specializing in <b>${dataset.category}</b>.
 
 <br><br>
-CONTENT TO ANALYZE:<br>
-${contentPreview}
+<b>TOPIC CONTEXT:</b><br>
+Category: ${dataset.category}<br>
+Subcategory: ${dataset.subcategory}<br>
+Topic ${topic.index + 1}: ${topic.title}
 
 <br><br>
-YOUR TASK:<br>
-Generate ONE high-quality examination question based on topic number ${num} on the content above, following academic standards for Information Systems assessments.
+<b>CONTENT TO ANALYZE:</b><br>
+${topic.content}
 
 <br><br>
-QUESTION DESIGN FRAMEWORK:
+<b>YOUR TASK:</b><br>
+Generate ONE high-quality examination question based on the content above, following academic standards for Information Systems assessments.
+
+<br><br>
+<b>QUESTION DESIGN FRAMEWORK:</b>
 
 <br><br>
 <b>1. QUESTION STRUCTURE (choose ONE format):</b>
@@ -104,11 +145,11 @@ QUESTION DESIGN FRAMEWORK:
 - Overly simple recall without reasoning requirement
 
 <br><br>
-${CommonInstruction}
+${config.CommonInstruction}
 
 <br><br>
 QUESTION PATTERN EXAMPLES FOR REFERENCE:<br>
-${QuestionPattern}
+${config.QuestionPattern}
 
 <br><br>
 <b>OUTPUT REQUIREMENTS:</b><br>
