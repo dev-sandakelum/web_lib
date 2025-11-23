@@ -174,9 +174,9 @@ export function QuizQuestion({
         <div className="flex items-center justify-between mb-2 sm:mb-3 gap-1 md:gap-4">
           <div className="flex items-center justify-start">
           {Num.question_topic && (
-              <div className="flex items-center gap-1 sm:gap-1.5 bg-red-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-red-500/20">
-                <PanelTopIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-500" />
-                <span className="text-[10px] sm:text-xs font-semibold text-red-600 line-clamp-1 ">
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-indigo-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-indigo-500/20">
+                <PanelTopIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-indigo-500" />
+                <span className="text-[10px] sm:text-xs font-semibold text-indigo-600 line-clamp-1 ">
                   {Num.question_topic}
                 </span> 
               </div>
