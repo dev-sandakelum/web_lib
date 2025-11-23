@@ -38,7 +38,7 @@ export default function QuizPage() {
   const [createdAt, setCreatedAt] = useState<string>("");
   const dataset = getDatasetById(categoryId);
   const [randomNum, setRandomNum] = useState<number>(0);
-  const [Num, setNum] = useState<{rNum: number, topic_count: number}>({rNum: 0, topic_count: 0});
+  const [Num, setNum] = useState<{rNum: number, topic_count: number, question_topic: string}>({rNum: 0, topic_count: 0, question_topic: ""});
 
   const loadNewQuestion = async (forceGenerate: boolean = false) => {
     setLoading(true);
@@ -67,7 +67,7 @@ export default function QuizPage() {
         // Generate a new question
         const topic_count = dataset?.topicCount || 10;
         const rNum = Math.floor(Math.random() * topic_count) + 1; // Random number between 1 and 10
-        setNum({rNum, topic_count});
+        setNum({rNum, topic_count , question_topic: dataset?.topics ? dataset.topics[rNum - 1] : ""});
         const { content: newQuestion, model , keyIndex } = await generateQuestion(
           categoryId , rNum
         );
@@ -172,9 +172,9 @@ export default function QuizPage() {
         </div>
       </Link>
       <div className="mx-auto max-w-3xl px-3 sm:px-4 md:px-6">
-        <BackBtn />
+        <BackBtn /><span>{}</span>
         <Navigation dataset={dataset} />
-
+          
         {error && (
           <Error_display error={error} loadNewQuestion={loadNewQuestion} />
         )}

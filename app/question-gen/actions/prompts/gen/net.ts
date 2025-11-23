@@ -1,23 +1,43 @@
+import { Dataset } from "@/lib/question-gen/types/dataset";
+import { getTopicByIndex } from "../topicSplitter";
+
+export interface PromptConfig {
+  questionPattern: string;
+  commonInstruction: string;
+}
+
 export function generatePromptfor_ComputerNetworks(
-  dataset: { category: string},
-  contentPreview: string,
-  QuestionPattern: string,
-  CommonInstruction: string,
-  num: number
-): string {
+  dataset: Dataset,
+  config: PromptConfig,
+  topicIndex: number
+): string | null {
+  // Get specific topic using tag-based extraction
+  const topic = getTopicByIndex(dataset.content, topicIndex);
+  
+  if (!topic) {
+    console.error(`Topic index ${topicIndex} not found in dataset`);
+    return null;
+  }
+  
   return `
 You are an expert university-level examination question designer specializing in <b>${dataset.category}</b>.
 
 <br><br>
-CONTENT TO ANALYZE:<br>
-${contentPreview}
+<b>TOPIC CONTEXT:</b><br>
+Category: ${dataset.category}<br>
+Subcategory: ${dataset.subcategory}<br>
+Topic ${topic.index + 1}: ${topic.title}
 
 <br><br>
-YOUR TASK:<br>
+<b>CONTENT TO ANALYZE:</b><br>
+${topic.content}
+
+<br><br>
+<b>YOUR TASK:</b><br>
 Generate ONE high-quality examination question based on the content above, following academic standards for Computer Networks assessments, mimicking the style of the provided past papers.
 
 <br><br>
-QUESTION DESIGN FRAMEWORK:
+<b>QUESTION DESIGN FRAMEWORK:</b>
 
 <br><br>
 <b>1. QUESTION STRUCTURE (choose ONE format, commonly used in ICT 1253):</b>
@@ -104,11 +124,11 @@ QUESTION DESIGN FRAMEWORK:
 - Questions about obscure details not covered in the common syllabus areas of the content.
 
 <br><br>
-${CommonInstruction}
+${config.commonInstruction}
 
 <br><br>
-QUESTION PATTERN EXAMPLES FOR REFERENCE (Derived from ICT 1253 Papers):<br>
-${QuestionPattern}
+<b>QUESTION PATTERN EXAMPLES FOR REFERENCE (Derived from ICT 1253 Papers):</b><br>
+${config.questionPattern}
 
 <br><br>
 <b>OUTPUT REQUIREMENTS:</b><br>

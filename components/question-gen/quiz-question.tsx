@@ -6,7 +6,7 @@ import { evaluateAnswer } from "@/app/question-gen/actions/actions";
 import { Q_gen_question } from "./results-items/question";
 import { quiz_font } from "../fonts";
 import { Spinner } from "./spinner";
-import { BookX, Bot, Clock10, Key, KeyIcon, User, User2, Zap } from "lucide-react";
+import { BookX, Bot, Clock10, Key, KeyIcon, PanelTopIcon, User, User2, Zap } from "lucide-react";
 
 interface QuizQuestionProps {
   question: string;
@@ -23,7 +23,7 @@ interface QuizQuestionProps {
   loading: boolean;
   keyIndex: number;
   createdAt: string;
-  Num: { rNum: number; topic_count: number };
+  Num: { rNum: number; topic_count: number , question_topic: string };
 }
 
 export function QuizQuestion({
@@ -36,6 +36,7 @@ export function QuizQuestion({
   keyIndex,
   createdAt,
   Num,
+  
 }: QuizQuestionProps) {
   const [answer, setAnswer] = useState("");
   const [evaluating, setEvaluating] = useState(false);
@@ -170,29 +171,38 @@ export function QuizQuestion({
           </h3>
         </div> */}
         
-        <div className="flex items-center justify-end mb-2 sm:mb-3 gap-1 md:gap-4">
+        <div className="flex items-center justify-between mb-2 sm:mb-3 gap-1 md:gap-4">
+          <div className="flex items-center justify-start">
+          {Num.question_topic && (
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-red-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-red-500/20">
+                <PanelTopIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-red-500" />
+                <span className="text-[10px] sm:text-xs font-semibold text-red-600 line-clamp-1 ">
+                  {Num.question_topic}
+                </span> 
+              </div>
+            )}</div><div className="flex items-center justify-end gap-1 md:gap-4">
           {model !== "from Database" ? (
-              <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-amber-500/20">
                 <KeyIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500" />
                 <span className="text-[10px] sm:text-xs font-semibold text-amber-600 line-clamp-1 ">
                   {keyIndex + 1}
                 </span>
               </div>
             ) : (
-              <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+              <div className="flex items-center gap-1 sm:gap-1.5 bg-amber-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-amber-500/20">
                 <Clock10 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500" />
                 <span className="text-[10px] sm:text-xs font-semibold text-amber-600 line-clamp-1 ">
                   {createdAt}
                 </span>
               </div>
             )}
-          <div className="flex items-center gap-1 sm:gap-1.5 bg-purple-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-primary/20">
+          <div className="flex items-center gap-1 sm:gap-1.5 bg-purple-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-purple-500/20">
                 <BookX className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-purple-500" />
                 <span className="text-[10px] sm:text-xs font-semibold text-purple-600 line-clamp-1 ">
                   {Num.rNum} / {Num.topic_count}
                 </span>
               </div>
-              
+             </div> 
         </div>
         <Q_gen_question value={question} font={quiz_font.variable} />
       </div>

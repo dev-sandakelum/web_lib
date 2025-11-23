@@ -1,4 +1,6 @@
-// datasets/computer-networks/lesson05.ts
+// ==========================================
+// FILE: datasets/computer-networks/lesson05.ts
+// ==========================================
 
 import { Dataset } from "@/lib/question-gen/types/dataset";
 
@@ -8,19 +10,22 @@ export const networksLesson05Dataset: Dataset = {
   category: "Computer Networks",
   subcategory: "Multiplexing and Broadband Technologies",
   description: "Multiplexing techniques (FDM, WDM, TDM), Public Switched Telephone Network (PSTN), Digital Subscriber Line (DSL/ADSL), and Cable Modem technology with their characteristics and applications.",
+  topics: [
+    "Multiplexing Overview",
+    "Types of Multiplexing",
+    "Frequency Division Multiplexing (FDM)",
+    "Wave Division Multiplexing (WDM)",
+    "Time Division Multiplexing (TDM)",
+    "Public Switched Telephone Network (PSTN)",
+    "Digital Subscriber Line (DSL)",
+    "Asymmetric Digital Subscriber Line (ADSL)",
+    "Cable Modem",
+    "Comparison of Broadband Technologies",
+    "Multiplexing Techniques Summary",
+    "Key Concepts Review"
+  ],
   content: `
-Topic: Multiplexing, PSTN, DSL, and Cable Modem
-
-Objectives:
-• Understand the concept and purpose of multiplexing
-• Learn about Frequency Division Multiplexing (FDM)
-• Understand Wave Division Multiplexing (WDM)
-• Learn about Time Division Multiplexing (TDM)
-• Understand the Public Switched Telephone Network (PSTN)
-• Explore Digital Subscriber Line (DSL) and ADSL technology
-• Learn about Cable Modem technology
-
----
+<TOPIC_START index="0" title="Multiplexing Overview">
 1.0 Multiplexing Overview
 
 1.1 What is Multiplexing?
@@ -34,16 +39,18 @@ Objectives:
 
 1.4 Key Concept
 The fundamental purpose of multiplexing is to maximize the utilization of a single communication channel by allowing multiple users or signals to share it simultaneously or in sequence.
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Types of Multiplexing">
 2.0 Types of Multiplexing
 
 There are three main types of multiplexing techniques:
 1. Frequency Division Multiplexing (FDM)
 2. Wave Division Multiplexing (WDM)
 3. Time Division Multiplexing (TDM)
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Frequency Division Multiplexing (FDM)">
 3.0 Frequency Division Multiplexing (FDM)
 
 3.1 Characteristics
@@ -71,8 +78,9 @@ Total Link Bandwidth > Sum of all Individual Channel Bandwidths
 * Radio broadcasting (AM/FM)
 * First generation cellular systems
 * Broadband cable networks
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Wave Division Multiplexing (WDM)">
 4.0 Wave Division Multiplexing (WDM)
 
 4.1 Characteristics
@@ -109,8 +117,9 @@ Total Link Bandwidth > Sum of all Individual Channel Bandwidths
 * Metropolitan area networks (MANs)
 * High-capacity backbone networks
 * Dense Wavelength Division Multiplexing (DWDM) systems
+<TOPIC_END>
 
----
+<TOPIC_START index="4" title="Time Division Multiplexing (TDM)">
 5.0 Time Division Multiplexing (TDM)
 
 5.1 Characteristics
@@ -149,8 +158,9 @@ Transmission Medium Data Rate > Sum of all Device Data Rates
 * ISDN (Integrated Services Digital Network)
 * GSM cellular systems
 * SONET/SDH networks
+<TOPIC_END>
 
----
+<TOPIC_START index="5" title="Public Switched Telephone Network (PSTN)">
 6.0 Public Switched Telephone Network (PSTN)
 
 6.1 Overview
@@ -195,8 +205,9 @@ PSTN infrastructure includes two main types of lines:
 * Subscriber lines
 * Network management systems
 * Signaling systems
+<TOPIC_END>
 
----
+<TOPIC_START index="6" title="Digital Subscriber Line (DSL)">
 7.0 Digital Subscriber Line (DSL)
 
 7.1 What is DSL?
@@ -221,8 +232,9 @@ There are different types of DSL. There is SDSL, VDSL and ADSL.
 | **Connection Type** | Superfast internet connection |
 | **Medium** | Existing copper telephone infrastructure |
 | **Advantage** | Uses existing phone lines |
+<TOPIC_END>
 
----
+<TOPIC_START index="7" title="Asymmetric Digital Subscriber Line (ADSL)">
 8.0 Asymmetric Digital Subscriber Line (ADSL)
 
 8.1 ADSL Overview
@@ -292,8 +304,9 @@ Factors affecting ADSL performance:
 3. **Interference:** Electrical noise on the line
 4. **Bandwidth Allocation:** ISP service tier
 5. **Number of Devices:** Simultaneous users on connection
+<TOPIC_END>
 
----
+<TOPIC_START index="8" title="Cable Modem">
 9.0 Cable Modem
 
 9.1 What is a Cable Modem?
@@ -350,8 +363,9 @@ Factors affecting ADSL performance:
 | **Security Concerns** | Shared network with neighbors |
 | **Availability** | Requires cable TV infrastructure |
 | **Variable Performance** | Depends on neighborhood usage patterns |
+<TOPIC_END>
 
----
+<TOPIC_START index="9" title="Comparison of Broadband Technologies">
 10.0 Comparison of Broadband Technologies
 
 10.1 ADSL vs Cable Modem Summary
@@ -364,8 +378,9 @@ Factors affecting ADSL performance:
 | **Bandwidth** | Asymmetric (download > upload) | Can be symmetric or asymmetric |
 | **Medium** | Copper telephone wire | Coaxial cable |
 | **Consistency** | More consistent | Variable with usage |
+<TOPIC_END>
 
----
+<TOPIC_START index="10" title="Multiplexing Techniques Summary">
 11.0 Multiplexing Techniques Summary
 
 11.1 Complete Comparison
@@ -383,8 +398,9 @@ Factors affecting ADSL performance:
 | **FDM** | Link bandwidth > Combined channel bandwidths |
 | **WDM** | Similar to FDM, for optical wavelengths |
 | **TDM** | Medium data rate > Sum of device data rates |
+<TOPIC_END>
 
----
+<TOPIC_START index="11" title="Key Concepts Review">
 12.0 Key Concepts Review
 
 12.1 Multiplexing Fundamentals
@@ -407,5 +423,6 @@ Factors affecting ADSL performance:
 * Hardware device for ISP communication
 * Converts analog to digital signals
 * Provides broadband Internet access
+<TOPIC_END>
 `
 };

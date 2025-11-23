@@ -1,27 +1,39 @@
-// datasets/computer-networks/lesson01.ts
+// ==========================================
+// FILE: datasets/computer-networks/lesson01.ts
+// ==========================================
 
 import { Dataset } from "@/lib/question-gen/types/dataset";
 
 export const networksLesson01Dataset: Dataset = {
   id: "networks-01",
-  topicCount: 19,
+  topicCount: 20,
   category: "Computer Networks",
   subcategory: "Introduction, Network Hardware & Network Software",
   description: "Introduction to Computer Networks, Uses of Networks, Network Hardware (LAN, MAN, WAN, Wireless, Home, Internetworks), Network Software (Protocol Hierarchies, Services, and Protocols).",
+  topics: [
+    "What is a Computer Network?",
+    "Why We Use Computer Networks",
+    "Uses of Computer Networks",
+    "Network Hardware Overview",
+    "Transmission Technologies",
+    "Local Area Networks (LAN)",
+    "LAN Topology: Ring",
+    "LAN Topology: Bus",
+    "LAN Topology: Star",
+    "Metropolitan Area Network (MAN)",
+    "Wide Area Network (WAN)",
+    "Wireless WAN",
+    "Home Network",
+    "Internetworks",
+    "Network Software Overview",
+    "Functions of Network Software",
+    "Protocol Hierarchies",
+    "Design Issues for the Layers",
+    "Connection-Oriented vs Connectionless Service",
+    "Service Primitives and Relationship to Protocols"
+  ],
   content: `
-Topic: Introduction to Computer Networks, Network Hardware, and Network Software
-
-Objectives:
-• Understand what computer networks are and their definitions
-• Learn the uses and benefits of computer networks
-• Understand network hardware components and transmission technologies
-• Learn about different types of networks (LAN, MAN, WAN, Wireless, Home, Internetworks)
-• Understand network software concepts including protocol hierarchies
-• Learn about design issues for network layers
-• Understand connection-oriented versus connectionless services
-• Learn about service primitives and their relationship to protocols
-
----
+<TOPIC_START index="0" title="What is a Computer Network?">
 1.0 What is a Computer Network?
 
 1.1 Definition 1
@@ -41,8 +53,9 @@ Computer networks consist of two main components:
 
 1.4 Network Example
 Networks can be visualized with various interconnected devices and communication paths.
+<TOPIC_END>
 
----
+<TOPIC_START index="1" title="Why We Use Computer Networks">
 2.0 Why We Use Computer Networks
 
 Computer networks provide several important benefits:
@@ -53,8 +66,9 @@ Computer networks provide several important benefits:
 | **Standardization** | Computer networks and the sharing of electronic data encourages the use of standard policies and procedures. |
 | **Data Protection** | Computer networks provide backup and recovery support for our data redundancy. |
 | **Cost Savings** | Computer networks lead to cost savings. |
+<TOPIC_END>
 
----
+<TOPIC_START index="2" title="Uses of Computer Networks">
 3.0 Uses of Computer Networks
 
 Computer networks are used in four main areas:
@@ -89,8 +103,9 @@ Computer networks also raise social issues:
 * Identity theft
 
 • Many problems could be solved if computer security is taken seriously.
+<TOPIC_END>
 
----
+<TOPIC_START index="3" title="Network Hardware Overview">
 4.0 Network Hardware
 
 4.1 Network Hardware Categories
@@ -106,8 +121,9 @@ Network hardware components can be categorized into:
 To develop network hardware components, we need transmission technologies:
 * Broadcast links
 * Point-to-point links
+<TOPIC_END>
 
----
+<TOPIC_START index="4" title="Transmission Technologies">
 5.0 Transmission Technologies
 
 5.1 Broadcast Links
@@ -126,8 +142,9 @@ Point-to-point links have the following characteristics:
 * Point-to-point networks consist of many connections between individual pairs of machines
 * Point-to-point transmission with one sender and receiver is sometimes called unicasting
 * The personal area networks are meant for one person
+<TOPIC_END>
 
----
+<TOPIC_START index="5" title="Local Area Networks (LAN)">
 6.0 Local Area Networks (LAN)
 
 6.1 What is a LAN?
@@ -145,8 +162,9 @@ LANs are distinguished by three characteristics:
 | **Size** | Restricted to particular geographic region such as an office building or single department. |
 | **Transmission Technology** | 10 Mbps to 10 Gbps. |
 | **Topology** | Bus, star, and ring topologies. |
+<TOPIC_END>
 
----
+<TOPIC_START index="6" title="LAN Topology: Ring">
 7.0 LAN Topologies
 
 7.1 Ring Topology
@@ -163,7 +181,9 @@ Ring topology characteristics:
 Ring topology has two types:
 * **Single ring** - All the devices on the network share a single cable
 * **Dual ring** - The dual ring topology allows data to be sent in both directions
+<TOPIC_END>
 
+<TOPIC_START index="7" title="LAN Topology: Bus">
 7.2 Bus Topology
 Bus topology characteristics:
 * A bus is the simplest physical topology consisting of a single cable that runs to every workstation
@@ -174,7 +194,9 @@ Bus topology characteristics:
 * It is difficult to add a workstation
 * If main cable breaks, the entire network is disrupted
 * Therefore, it is very expensive to maintain
+<TOPIC_END>
 
+<TOPIC_START index="8" title="LAN Topology: Star">
 7.3 Star Topology
 Star topology characteristics:
 * A physical star topology branches each network device off a central device called a hub, making it very easy to add a new workstation
@@ -183,8 +205,9 @@ Star topology characteristics:
 * Star topologies are easy to install with a cable run from each workstation to the hub
 * The hub is placed in a central location in the office
 * Star topologies are more expensive to install than bus networks, because there are several more cables that need to be installed, plus the cost of the hubs that are needed
+<TOPIC_END>
 
----
+<TOPIC_START index="9" title="Metropolitan Area Network (MAN)">
 8.0 Metropolitan Area Network (MAN)
 
 MAN characteristics:
@@ -195,8 +218,9 @@ MAN characteristics:
 * Is larger than a LAN, but smaller than a WAN
 * Is also used to mean the interconnection of several LANs by bridging them together
 * This sort of network is also referred to as a campus network
+<TOPIC_END>
 
----
+<TOPIC_START index="10" title="Wide Area Network (WAN)">
 9.0 Wide Area Network (WAN)
 
 WAN characteristics:
@@ -204,16 +228,18 @@ WAN characteristics:
 * Less formally, a network that uses routers and public communications links
 * The largest and most well-known example of a WAN is the Internet
 * WANs are used to connect LANs and other types of networks together, so that users and computers in one location can communicate with users and computers in other locations
+<TOPIC_END>
 
----
+<TOPIC_START index="11" title="Wireless WAN">
 10.0 Wireless WAN
 
 Wireless WAN characteristics:
 * Wireless WAN is a wide area network in which separate area of coverage or cells are connected wirelessly to provide service to a large geographic area
 * WWANs make use of technologies that focus on modulation of voice and data
 * Wireless WANs exclusively use Radio Frequency signals designed to accommodate many users
+<TOPIC_END>
 
----
+<TOPIC_START index="12" title="Home Network">
 11.0 Home Network
 
 Home network characteristics:
@@ -225,8 +251,9 @@ Devices that can be networked in homes:
 * **Telecommunications** - telephone, mobile telephone, intercom, fax
 * **Appliances** - microwave, refrigerator, clock, furnace, air conditioning, lights, AC
 * **Telemetry** - utility meter, smoke/burglar alarm, thermostat, baby camera
+<TOPIC_END>
 
----
+<TOPIC_START index="13" title="Internetworks">
 12.0 Internetworks
 
 12.1 What is an Internetwork?
@@ -242,8 +269,9 @@ Broadly following are the internetworking devices:
 * **Switches** - Intelligent hubs that forward packets to specific ports
 * **Routers** - Connect networks and route packets between them
 * **Gateways** - Connect networks using different protocols
+<TOPIC_END>
 
----
+<TOPIC_START index="14" title="Network Software Overview">
 13.0 Network Software
 
 Network software covers several key concepts:
@@ -252,8 +280,9 @@ Network software covers several key concepts:
 * Connection-oriented versus connectionless service
 * Service primitives
 * Relationship of services to protocols
+<TOPIC_END>
 
----
+<TOPIC_START index="15" title="Functions of Network Software">
 14.0 Functions of Network Software
 
 Network software performs the following functions:
@@ -263,8 +292,9 @@ Network software performs the following functions:
 * Helps to define locations of data storage and allows users to access that data
 * Helps administrators and security system to protect the network from data breaches, unauthorized access and attacks on a network
 * Enables network virtualizations
+<TOPIC_END>
 
----
+<TOPIC_START index="16" title="Protocol Hierarchies">
 15.0 Protocol Hierarchies
 
 15.1 What are Protocol Hierarchies?
@@ -275,8 +305,9 @@ Network software performs the following functions:
 
 15.2 Layered Communication
 Protocol hierarchies enable layered communication between hosts.
+<TOPIC_END>
 
----
+<TOPIC_START index="17" title="Design Issues for the Layers">
 16.0 Design Issues for the Layers
 
 Key design issues for network layers include:
@@ -290,8 +321,9 @@ Key design issues for network layers include:
 | **Flow Control** | Need to regulate flow of data to avoid swamping receiver. Could require receiver feedback or limit transmission rate. |
 | **Message Size** | Inability of all processes to accept arbitrarily long messages. This property leads to mechanisms for disassembling, transmitting and then reassembling messages. |
 | **Routing** | Choosing a path when there are multiple paths between source and destination. |
+<TOPIC_END>
 
----
+<TOPIC_START index="18" title="Connection-Oriented vs Connectionless Service">
 17.0 Connection-Oriented Versus Connectionless Service
 
 17.1 Connection-Oriented Service
@@ -307,8 +339,9 @@ Connectionless service characteristics:
 * No guarantees on message ordering
 * Unreliable: Messages may be lost
 * Example: UDP
+<TOPIC_END>
 
----
+<TOPIC_START index="19" title="Service Primitives and Relationship to Protocols">
 18.0 Service Primitives
 
 18.1 What are Service Primitives?
@@ -329,10 +362,9 @@ Primitives for implementing a reliable byte stream in a client-server environmen
 | **SEND** | Send a message to the peer. |
 | **DISCONNECT** | Terminate a connection. |
 
----
-19.0 Relationship of Services to Protocols
-
+18.3 Relationship of Services to Protocols
 • A service is a set of primitives (operations) that a layer provides to the layer above it.
 • A protocol is a set of rules governing the format and meaning of the frames, packets, or messages that are exchanged by the peer entities within a layer.
+<TOPIC_END>
 `
 };

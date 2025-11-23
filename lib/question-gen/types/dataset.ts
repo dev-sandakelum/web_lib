@@ -8,8 +8,13 @@ export interface Dataset {
   subcategory: string
   description: string
   content: string
+  topics?: string[]
 }
-
+export interface Topic {
+  index: number;
+  title: string;
+  content: string;
+}
 export interface TopicGroup {
   id: string
   name: string
