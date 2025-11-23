@@ -2,7 +2,7 @@
 
 import { Dataset } from "@/lib/question-gen/types/dataset";
 
-export const is: Dataset = {
+export const IsFundamentalsDataset: Dataset = {
   id: "ict-is-fundamentals",
   topicCount: 4,
   category: "Information Systems",
