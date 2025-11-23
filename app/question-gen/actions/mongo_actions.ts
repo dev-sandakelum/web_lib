@@ -22,16 +22,13 @@ export async function generateQuestion(categoryId: string , num: number): Promis
   let thePrompt = "";
   switch (dataset.category) {
     case "Information Systems":
-      thePrompt = generatePromptfor_InformationSystems(dataset, contentPreview, QuestionPattern, CommonInstruction , num);
+      thePrompt = generatePromptfor_InformationSystems(dataset, {QuestionPattern:QuestionPattern,CommonInstruction: CommonInstruction} , num+1) || "";
       break;
     case "Programming":
       thePrompt = generatePromptfor_programming(dataset, contentPreview, QuestionPattern, CommonInstruction , num);
       break;
     case "Computer Networks":
-      thePrompt = generatePromptfor_ComputerNetworks(dataset, {
-        questionPattern: QuestionPattern,
-        commonInstruction: CommonInstruction,
-      }, num - 1) || "" ;
+      thePrompt = generatePromptfor_ComputerNetworks(dataset, {questionPattern:QuestionPattern,commonInstruction: CommonInstruction} , num+1) || ""
       break;
     default:
       thePrompt = `${CommonInstruction}\n${QuestionPattern}\n${contentPreview}`;
