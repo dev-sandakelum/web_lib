@@ -76,7 +76,7 @@ export default function GeneratedQuestionsPage() {
 
   const handleUseQuestion = (question: string ,ago: string) => {
     // Strip HTML tags before encoding
-    const plainQuestion = question.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const plainQuestion = question;
     const encodedQuestion = encodeURIComponent(plainQuestion);
     router.push(`/question-gen/quiz/${categoryId}?question=${encodedQuestion}&createdAt=${encodeURIComponent(ago)}`);
   };

@@ -20,7 +20,7 @@ export function Q_gen_question({ value, font }: Value_PASS) {
 
       <div
         className={`text-[11px] sm:text-sm text-card-foreground leading-relaxed ${font} font-sans antialiased prose prose-sm dark:prose-invert max-w-none
-        [&_b]:font-semibold [&_i]:italic [&_u]:underline
+       [&_b]:font-semibold [&_i]:italic [&_u]:underline
         [&_ol]:list-decimal [&_ol]:ml-3 sm:[&_ol]:ml-4 [&_ol]:my-1 sm:[&_ol]:my-1.5 [&_ol]:space-y-0.5
         [&_ul]:list-disc [&_ul]:ml-3 sm:[&_ul]:ml-4 [&_ul]:my-1 sm:[&_ul]:my-1.5 [&_ul]:space-y-0.5
         [&_li]:my-0.5 [&_li]:leading-relaxed [&_li]:text-[11px] sm:[&_li]:text-sm

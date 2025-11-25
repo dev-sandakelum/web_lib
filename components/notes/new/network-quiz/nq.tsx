@@ -22,7 +22,20 @@ export default function NetworkingFullQuiz() {
     setExpandedQuizId(expandedQuizId === id ? null : id);
   };
 
-  const quizDisplay = (quiz: any, index: number, quizzesLength: number) => {
+ 
+
+  const handleUseQuestion = (question: string, ago: string) => {
+    // Strip HTML tags before encoding
+    
+    const categoryId = "predefined";
+    const encodedQuestion = encodeURIComponent(question);
+    router.push(
+      `/question-gen/quiz/${categoryId}?question=${encodedQuestion}&createdAt=${encodeURIComponent(ago)}`
+    );
+  };
+
+
+ const quizDisplay = (quiz: any, index: number, quizzesLength: number) => {
     return (
       <div
         key={quiz.id}
@@ -109,20 +122,6 @@ export default function NetworkingFullQuiz() {
       </div>
     );
   };
-
-  const handleUseQuestion = (question: string, ago: string) => {
-    // Strip HTML tags before encoding
-    const plainQuestion = question
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-    const categoryId = "predefined";
-    const encodedQuestion = encodeURIComponent(plainQuestion);
-    router.push(
-      `/question-gen/quiz/${categoryId}?question=${encodedQuestion}&createdAt=${encodeURIComponent(ago)}`
-    );
-  };
-
   const formatDate = (date: string | Date): string => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
