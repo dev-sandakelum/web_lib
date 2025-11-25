@@ -2,6 +2,7 @@ import { TopicGroup, Dataset } from "../types/dataset"
 import { computerArchitectureGroup } from "./computer-architecture"
 import { InformationSystems } from "./information-systems"
 import { Networking } from "./networking"
+import { PredefinedGroup } from "./predefined"
 import { programmingGroup } from "./programming"
 
 // All topic groups
@@ -10,6 +11,7 @@ export const topicGroups: TopicGroup[] = [
   computerArchitectureGroup,
   InformationSystems,
   Networking,
+  PredefinedGroup
 ]
 // Flatten all datasets for backward compatibility
 export const datasets: Dataset[] = topicGroups.flatMap(group => group.subtopics)

@@ -3,7 +3,6 @@
 import { AccordionTopicDropdown, TopicDropdown } from "@/components/question-gen/topic-dropdown";
 import { topicGroups } from "@/lib/question-gen/datasets/registry";
 import { useRouter } from "next/navigation";
-import { FileWarning } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
@@ -56,15 +55,18 @@ export default function Home() {
 
         {/* Topics List */}
         <div className="space-y-4">
-          {topicGroups.map((group, index) => (
-            <AccordionTopicDropdown
-              key={index}
-              group={group}
-              isOpen={openIndex === index}
-              onToggle={() => handleToggle(index)}
-              onSelectSubtopic={handleSelectSubtopic}
-            />
-          ))}
+          {topicGroups.map((group, index) => {
+            if(group.id === "predefined") return null;
+            return (
+              <AccordionTopicDropdown
+                key={index}
+                group={group}
+                isOpen={openIndex === index}
+                onToggle={() => handleToggle(index)}
+                onSelectSubtopic={handleSelectSubtopic}
+              />
+            )
+          })}
         </div>
 
         {/* Bottom Spacing */}

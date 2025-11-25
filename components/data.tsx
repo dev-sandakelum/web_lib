@@ -17,8 +17,17 @@ export const mainTopics = [
             id: "n0",
             title: "networking full notes",
             readTime: "comprehensive",
+            cardColor: "from-blue-500 to-purple-600",
             tags: ["networking", "full", "notes", "guide"],
             link: "/notes/networking/full",
+          },
+          {
+            id: "n0-quiz",
+            title: "networking full quiz",
+            readTime: "interactive",
+            cardColor: "from-green-500 to-blue-600",
+            tags: ["networking", "full", "quiz", "guide"],
+            link: "/notes/networking/full-quiz",
           },
           {
             id: "n1",
