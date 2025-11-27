@@ -30,6 +30,15 @@ export const mainTopics = [
             link: "/notes/networking/full-quiz",
           },
           {
+            id: "n0-2",
+            title: "networking full 2",
+            readTime: "interactive",
+            cardColor: "from-amber-500 to-blue-600",
+            tags: ["networking", "full", "", "guide"],
+            link: "/notes/networking/full2",
+          
+          },
+          {
             id: "n1",
             title: "cisco packet tracer",
             readTime: "esaily navigable",
@@ -44,6 +53,14 @@ export const mainTopics = [
             cardColor: "from-gray-300 to-gray-600",
             tags: ["networking", "cisco" ,"packet-tracer" ,"old"],
             link: "/notes/networking/cisco-packet-tracer-old",
+          },
+          {
+            id: "n3",
+            title: "cisco packet tracer v2",
+            readTime: "unnavigable",
+            cardColor: "from-gray-300 to-gray-600",
+            tags: ["networking", "cisco" ,"packet-tracer" ,"v2"],
+            link: "/notes/networking/cisco-packet-tracer-v2",
           },
         ],
       },
