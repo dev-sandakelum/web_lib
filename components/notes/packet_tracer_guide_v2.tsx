@@ -1304,10 +1304,10 @@ Set PCs to DHCP mode, they'll auto-receive IPs and gateways`,
 
         {/* Footer */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 text-center">
-          <p className="text-lg font-semibold">Computer Networks - ICT1163</p>
+          {/* <p className="text-lg font-semibold">Computer Networks - ICT1163</p>
           <p className="text-sm font-medium mt-2">
             University of Ruhuna - Faculty of Technology
-          </p>
+          </p> */}
           <p className="text-sm font-medium mt-1 text-blue-100">
             Created by Hasitha Sandakelum
           </p>
