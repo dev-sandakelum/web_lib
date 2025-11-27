@@ -2,7 +2,7 @@
 import { useState, useMemo, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Network, File, Search, ChevronRight, Home } from "lucide-react"
-import { mainTopics } from "./data"
+import { mainTopics } from "../data"
 
 interface SearchResult {
   type: "main" | "subtopic" | "item";

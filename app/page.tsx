@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import PersonalHero from "@/components/hiro";
+import PersonalHero from "@/components/dashboard/hiro";
 
 export default function Home() {
   return (
