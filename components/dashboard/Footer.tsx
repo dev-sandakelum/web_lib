@@ -23,13 +23,13 @@ export default function Footer() {
 
           {/* Social */}
           <div className="flex justify-center md:justify-end gap-4">
-            <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+            <a href="https://github.com/dev-sandakelum" className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
               <Github className="w-5 h-5" />
             </a>
             <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-blue-400 transition-colors">
               <Twitter className="w-5 h-5" />
             </a>
-            <a href="#" className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-blue-600 transition-colors">
+            <a href="https://www.linkedin.com/in/hasitha-sandakelum" className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-blue-600 transition-colors">
               <Linkedin className="w-5 h-5" />
             </a>
           </div>
