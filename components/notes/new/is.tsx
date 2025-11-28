@@ -1692,6 +1692,286 @@ export default function InformationSystemsNotes() {
             </SectionCard>
           </div>
         )}
+        {/* IT Management Section */}
+        {activeSection === "management" && (
+          <div>
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Identifying Potential Projects
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                The first step in project management is deciding what projects to do in the first place. Therefore, project initiation starts with identifying potential projects, using realistic methods to select which projects to work on, and then formalizing their initiation by issuing some sort of project charter.
+              </p>
+              <p className="text-xs sm:text-sm text-gray-700">
+                A project charter is a document that defines the objectives, scope, and stakeholders of a project, providing a roadmap for the team to follow.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Methods For Selecting Projects
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li>Focusing on broad organizational needs</li>
+                <li>Categorizing IT projects : whether the project addresses: a problem, an opportunity, or a directive ?</li>
+                <li>Performing net present value or other financial analyses - NPV, ROI, Payback Analysis</li>
+                <li>Using a weighted scoring model</li>
+                <li>Implementing a balanced scorecard</li>
+              </ul>
+              <p className="text-xs sm:text-sm text-gray-700 mt-3">
+                A weighted scoring model is a project management technique used for weighing certain decisions, such as prioritizing project actions, prioritizing the development of product features. A balanced scorecard (BSC) is a performance metric companies use to identify and improve internal functions and their resulting external outcomes.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Strategic Planning
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                Strategic planning involves determining long-term objectives by analyzing the strengths and weaknesses of an organization, studying opportunities and threats in the business environment, predicting future trends, and projecting the need for new products and services.
+              </p>
+              <p className="text-xs sm:text-sm text-gray-700">
+                Strategic planning provides important information to help organizations identify and then select potential projects. SWOT analysis.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-blue-600">
+                IT Strategic Planning
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                Assesses what investments and technologies will achieve business goals while also considering the impact of funding them.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Participants in Systems Development
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Stakeholders:</strong> People who, either themselves or through the organization they represent, ultimately benefit from the systems development project</li>
+                <li><strong>Users:</strong> People who will interact with the system regularly</li>
+                <li><strong>Development team:</strong> Responsible for determining the objectives of the information system and delivering a system that meets these objectives</li>
+                <li><strong>Developers:</strong> Modifying or developing programs to satisfy user requirements</li>
+                <li><strong>QA / Testers</strong></li>
+                <li><strong>Systems analyst:</strong> Analyzing and designing business systems</li>
+                <li><strong>Project Manager:</strong> Responsible for coordinating all people and resources needed to complete a project on time</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Information Systems Planning
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                Information systems planning transforms organizational goals outlined in the strategic plan into specific systems development activities.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Establishing Objectives for Systems Development
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                The overall objective of systems development is to achieve business goals, not technical goals, by delivering the right information to the right person at the right time.
+              </p>
+              <p className="text-xs sm:text-sm text-gray-700">
+                <strong>Mission-critical Systems:</strong> Systems that play a critical role in an organization's continued operations and goal attainment.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Performance Objectives
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>The quality or usefulness of the output:</strong> Is the system generating the right information for a value-added business process or by a goal-oriented decision maker?</li>
+                <li><strong>The accuracy of the output:</strong> Is the output accurate and does it reflect the true situation?</li>
+                <li><strong>The speed at which output is generated:</strong> Is the system generating output in time to meet organizational goals and operational objectives? Customer response time</li>
+                <li><strong>The scalability of the resulting system:</strong> Handle business growth and increased business volume</li>
+                <li><strong>The risk of the system:</strong> One important objective of many systems development projects is to reduce risk</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Cost Objectives
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Development costs:</strong> All costs required to get the system up and running</li>
+                <li><strong>Costs related to the uniqueness of the system application:</strong> A system's uniqueness has a profound effect on its cost. An expensive but reusable system might be preferable to a less costly system with limited use</li>
+                <li><strong>Fixed investments in hardware and related equipment</strong></li>
+                <li><strong>Ongoing operating costs of the system:</strong> Operating costs include costs for personnel, software, supplies, and resources such as the electricity required to run the system</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Systems Development Life Cycle (SDLC)
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                The systems development process. Sometimes, information learned in a particular phase requires cycling back to a previous phase.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                The Traditional Systems Development Life Cycle
+              </h2>
+              
+              <Subsection title="Systems Investigation">
+                <p>The systems development phase during which problems and opportunities are identified and considered in light of the goals of the business.</p>
+              </Subsection>
+
+              <Subsection title="Systems Analysis">
+                <p>The systems development phase that determines what the Information System must do to solve the problem by studying existing systems and work processes to identify strengths, weaknesses, and opportunities for improvement.</p>
+              </Subsection>
+
+              <Subsection title="Systems Design">
+                <p>The systems development phase that defines how the information system will do what it must do to obtain the problem solution.</p>
+              </Subsection>
+
+              <Subsection title="Systems Implementation">
+                <p>The systems development phase involving the creation or acquisition of various system components detailed in the systems design, assembling them, and placing the new or modified system into operation.</p>
+              </Subsection>
+
+              <Subsection title="Systems Maintenance And Review">
+                <p>The systems development phase that ensures the system operates and modifies the system so that it continues to meet changing business needs.</p>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Prototyping
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                Iterative approach to the systems development process. During each iteration, requirements and alternative solutions to the problem are identified and analyzed, new solutions are designed, and a portion of the system is implemented. Users are then encouraged to try the prototype and provide feedback.
+              </p>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Operational prototype:</strong> A prototype that works—accesses real data files, edits input data, makes necessary computations and comparisons, and produces real output</li>
+                <li><strong>Nonoperational prototype:</strong> A mock-up, or model, that includes output and input specifications and formats</li>
+              </ul>
+              <p className="text-xs sm:text-sm text-gray-700 mt-3">
+                Each generation of prototype is a refinement of the previous generation based on user feedback.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-blue-600">
+                Rapid Application Development (RAD)
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                A systems development approach that employs tools, techniques, and methodologies designed to speed application development.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-blue-600">
+                Joint Application Development (JAD)
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                A process for data collection and requirements analysis in which users, stakeholders, and IS professionals work together to analyze existing systems, propose possible solutions, and define the requirements of a new or modified system.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Factors Affecting Systems Development Success
+              </h2>
+              
+              <Subsection title="Degree of Change">
+                <p>A major factor that affects the quality of systems development is the degree of change associated with the project. The scope can vary from enhancing an existing system to major reengineering. The project team needs to recognize where they are on this spectrum of change.</p>
+              </Subsection>
+
+              <Subsection title="Managing Change">
+                <p className="mb-2">The ability to manage change is critical to the success of systems development. For example, the work environment and habits of users are invariably affected by the development of a new information system. Unfortunately, not everyone adapts easily.</p>
+                <p className="mb-2">Managing change requires the ability to recognize existing or potential problems (particularly the concerns of users) and deal with them before they become a serious threat to the success of the new or modified system.</p>
+                <p className="mb-2">The most common problems that often need to be addressed as a result of new or modified systems:</p>
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Fear that the employee will lose his job, power, or influence within the organization</li>
+                  <li>Belief that the proposed system will create more work than it eliminates</li>
+                  <li>Reluctance to work with "computer people"</li>
+                  <li>Anxiety that the proposed system will negatively alter the structure of the organization</li>
+                  <li>Unwillingness to learn new procedures or approaches</li>
+                </ul>
+              </Subsection>
+
+              <Subsection title="Quality and Standards">
+                <p className="mb-2">Quality and standards are other key success factors for systems development. Increasingly, corporations are expanding their standards to include many different computer platforms. While many companies try to standardize their operations on one operating system, others have multiple systems and platforms to take advantage of the strengths of each.</p>
+                <p>In addition, organizations that do business around the globe, may be required to meet certain international standards, such as ISO 9000, a set of international quality standards originally developed in Europe in 1987.</p>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Computer-related Waste and Mistakes
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                Major causes of computer problems, contributing as they do to unnecessarily high costs and lost profits.
+              </p>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Computer waste:</strong> involves the inappropriate use of computer technology and resources</li>
+                <li><strong>Computer-related mistakes:</strong> refer to errors, failures, and other computer problems that make computer output incorrect or not useful, caused mostly by human error</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Types of Computer-related Mistakes
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Data-entry or data-capture errors</li>
+                <li>Errors in computer programs</li>
+                <li>Errors in handling files, including formatting a disk by mistake, copying an old file over a newer one, and deleting a file by mistake</li>
+                <li>Mishandling of computer output</li>
+                <li>Inadequate planning for and control of equipment malfunctions</li>
+                <li>Inadequate planning for and control of environmental difficulties (such as electrical and humidity problems)</li>
+                <li>Installing computing capacity inadequate for the level of activity on corporate Web sites</li>
+                <li>Failure to provide access to the most current information by not adding new Web links and not deleting old links</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Preventing Computer-related Waste & Mistakes
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Establishing Policies and Procedures</li>
+                <li>Implementing Policies and Procedures</li>
+                <li>Monitoring Policies and Procedures</li>
+                <li>Reviewing Policies and Procedures</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                The Computer as a Tool to Commit Crime
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Social Engineering:</strong> Using social skills to get computer users to provide information to access an information system or its data</li>
+                <li><strong>Dumpster Diving:</strong> Going through the trash cans of an organization to find secret or confidential information, including information needed to access an information system or its data</li>
+                <li><strong>Cyberterrorism</strong></li>
+                <li><strong>Identify Theft:</strong> A crime in which an imposter obtains key pieces of personal identification information, such as Social Security or driver's license numbers, to impersonate someone else</li>
+                <li><strong>Internet Gambling</strong></li>
+                <li><strong>Information and Equipment Theft</strong></li>
+                <li><strong>Computer-Related Scams</strong></li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Preventing Computer-related Crime
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Crime prevention by state and federal agencies</li>
+                <li>Crime prevention by corporations</li>
+                <li>Using intrusion detection software</li>
+                <li>Security dashboard</li>
+                <li>Using managed security service providers (MSSPS)</li>
+              </ul>
+            </SectionCard>
+          </div>
+        )}
       </div>
     </div>
   );
