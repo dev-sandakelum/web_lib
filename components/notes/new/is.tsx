@@ -65,11 +65,11 @@ export default function InformationSystemsNotes() {
       <div className="max-w-5xl mx-auto px-1 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 sm:p-8 rounded-xl mb-4 sm:mb-6 shadow-lg">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-2">ICT 1161</h1>
+          {/* <h1 className="text-2xl sm:text-4xl font-bold mb-2">ICT 1161</h1> */}
           <h2 className="text-lg sm:text-2xl font-semibold mb-1">
             Fundamentals of Information Systems
           </h2>
-          <p className="text-xs sm:text-sm opacity-90">University of Ruhuna</p>
+          {/* <p className="text-xs sm:text-sm opacity-90">University of Ruhuna</p> */}
         </div>
 
         {/* Navigation */}
