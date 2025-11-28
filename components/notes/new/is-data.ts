@@ -892,5 +892,386 @@ export const notesData: Section[] = [
         ]
       }
     ]
-  }
+  },
+  {
+  id: "it_management",
+  title: "IT Management",
+  content: [
+    {
+      title: "Identifying Potential Projects",
+      items: [
+        {
+          type: 'qa',
+          question: "What is the first step in project management?",
+          answer: "Identifying potential projects."
+        },
+        {
+          type: 'qa',
+          question: "What is project initiation?",
+          answer: "Selecting realistic projects and issuing a project charter."
+        },
+        {
+          type: 'qa',
+          question: "What is a project charter?",
+          answer: "A document defining project objectives, scope, and stakeholders."
+        }
+      ]
+    },
+
+    {
+      title: "Methods for Selecting Projects",
+      items: [
+        {
+          type: 'qa',
+          question: "List methods used to select IT projects.",
+          answer: "Organizational needs, project categorization, NPV/ROI/Payback, weighted scoring model, balanced scorecard."
+        },
+        {
+          type: 'qa',
+          question: "What is a weighted scoring model?",
+          answer: "A technique to prioritize actions or features based on weighted criteria."
+        },
+        {
+          type: 'qa',
+          question: "What is a balanced scorecard?",
+          answer: "A metric that measures and improves internal and external organizational performance."
+        }
+      ]
+    },
+
+    {
+      title: "Strategic Planning",
+      items: [
+        {
+          type: 'qa',
+          question: "What is strategic planning?",
+          answer: "Determining long-term objectives by analyzing strengths, weaknesses, opportunities, and threats."
+        },
+        {
+          type: 'qa',
+          question: "What tool is commonly used in strategic planning?",
+          answer: "SWOT analysis."
+        }
+      ]
+    },
+
+    {
+      title: "IT Strategic Planning",
+      items: [
+        {
+          type: 'qa',
+          question: "What does IT strategic planning assess?",
+          answer: "The investments and technologies needed to meet business goals."
+        }
+      ]
+    },
+
+    {
+      title: "Participants in Systems Development",
+      items: [
+        {
+          type: 'qa',
+          question: "Who are stakeholders?",
+          answer: "People who benefit from the project."
+        },
+        {
+          type: 'qa',
+          question: "Who are system users?",
+          answer: "People who interact with the system."
+        },
+        {
+          type: 'qa',
+          question: "Who is the development team?",
+          answer: "The group responsible for achieving system objectives."
+        },
+        {
+          type: 'qa',
+          question: "Who are developers?",
+          answer: "People who write or modify programs."
+        },
+        {
+          type: 'qa',
+          question: "Who is a systems analyst?",
+          answer: "A person who analyzes and designs business systems."
+        },
+        {
+          type: 'qa',
+          question: "Who is the project manager?",
+          answer: "The person coordinating people and resources to complete the project."
+        }
+      ]
+    },
+
+    {
+      title: "Information Systems Planning",
+      items: [
+        {
+          type: 'qa',
+          question: "What is information systems planning?",
+          answer: "Converting organizational goals into system development activities."
+        }
+      ]
+    },
+
+    {
+      title: "Objectives of Systems Development",
+      items: [
+        {
+          type: 'qa',
+          question: "What is the main objective of systems development?",
+          answer: "Deliver the right information to the right person at the right time."
+        },
+        {
+          type: 'qa',
+          question: "What are mission-critical systems?",
+          answer: "Systems essential for organizational operations."
+        }
+      ]
+    },
+
+    {
+      title: "Performance Objectives",
+      items: [
+        {
+          type: 'list',
+          content: [
+            "Quality and usefulness",
+            "Accuracy",
+            "Speed",
+            "Scalability",
+            "Risk reduction"
+          ]
+        }
+      ]
+    },
+
+    {
+      title: "Cost Objectives",
+      items: [
+        {
+          type: 'qa',
+          question: "What are development costs?",
+          answer: "Costs required to get a system up and running."
+        },
+        {
+          type: 'qa',
+          question: "Why does uniqueness impact cost?",
+          answer: "Unique systems cost more but may be reusable."
+        },
+        {
+          type: 'qa',
+          question: "What are operating costs?",
+          answer: "Ongoing costs like personnel, software, supplies, and electricity."
+        }
+      ]
+    },
+
+    {
+      title: "Systems Development Life Cycle (SDLC)",
+      items: [
+        {
+          type: 'qa',
+          question: "What is SDLC?",
+          answer: "The overall process of developing an information system."
+        }
+      ]
+    },
+
+    {
+      title: "SDLC Phases",
+      items: [
+        {
+          type: 'qa',
+          question: "What is systems investigation?",
+          answer: "Identifying problems or opportunities."
+        },
+        {
+          type: 'qa',
+          question: "What is systems analysis?",
+          answer: "Determining what the system must do."
+        },
+        {
+          type: 'qa',
+          question: "What is systems design?",
+          answer: "Deciding how the system will work."
+        },
+        {
+          type: 'qa',
+          question: "What is systems implementation?",
+          answer: "Developing or acquiring system components and making them operational."
+        },
+        {
+          type: 'qa',
+          question: "What is systems maintenance?",
+          answer: "Ensuring the system works properly and updating it."
+        }
+      ]
+    },
+
+    {
+      title: "Prototyping",
+      items: [
+        {
+          type: 'qa',
+          question: "What is prototyping?",
+          answer: "An iterative approach where the system is designed, tested, and improved repeatedly."
+        },
+        {
+          type: 'qa',
+          question: "What is an operational prototype?",
+          answer: "A working system accessing real data."
+        },
+        {
+          type: 'qa',
+          question: "What is a non-operational prototype?",
+          answer: "A model showing inputs and outputs without real processing."
+        }
+      ]
+    },
+
+    {
+      title: "Rapid Application Development (RAD)",
+      items: [
+        {
+          type: 'qa',
+          question: "What is RAD?",
+          answer: "A fast development approach using specialized tools."
+        }
+      ]
+    },
+
+    {
+      title: "Joint Application Development (JAD)",
+      items: [
+        {
+          type: 'qa',
+          question: "What is JAD?",
+          answer: "A process where users and IS staff work together to analyze and design systems."
+        }
+      ]
+    },
+
+    {
+      title: "Factors Affecting Systems Development Success",
+      items: [
+        {
+          type: 'qa',
+          question: "How does the degree of change affect projects?",
+          answer: "Large changes increase complexity and risk."
+        },
+        {
+          type: 'qa',
+          question: "Why is managing change important?",
+          answer: "New systems change user habits and work environments."
+        },
+        {
+          type: 'list',
+          content: [
+            "Fear of job loss",
+            "Increased workload",
+            "Dislike of IT staff",
+            "Organizational changes",
+            "Fear of learning new procedures"
+          ]
+        }
+      ]
+    },
+
+    {
+      title: "Quality and Standards",
+      items: [
+        {
+          type: 'qa',
+          question: "Why are standards important?",
+          answer: "To ensure system quality across different platforms and global requirements like ISO 9000."
+        }
+      ]
+    },
+
+    {
+      title: "Computer Waste & Mistakes",
+      items: [
+        {
+          type: 'qa',
+          question: "What is computer waste?",
+          answer: "Misuse of computer resources."
+        },
+        {
+          type: 'qa',
+          question: "What are computer-related mistakes?",
+          answer: "Human errors that make system output incorrect."
+        },
+        {
+          type: 'list',
+          content: [
+            "Data entry errors",
+            "Program errors",
+            "File handling mistakes",
+            "Output mishandling",
+            "Poor planning of environment",
+            "Insufficient computing capacity"
+          ]
+        }
+      ]
+    },
+
+    {
+      title: "Preventing Waste & Mistakes",
+      items: [
+        {
+          type: 'qa',
+          question: "How can computer waste be reduced?",
+          answer: "By establishing, implementing, monitoring, and reviewing IT policies."
+        }
+      ]
+    },
+
+    {
+      title: "Computer Crime",
+      items: [
+        {
+          type: 'qa',
+          question: "What is social engineering?",
+          answer: "Tricking people into giving confidential information."
+        },
+        {
+          type: 'qa',
+          question: "What is dumpster diving?",
+          answer: "Searching trash for sensitive information."
+        },
+        {
+          type: 'qa',
+          question: "What is identity theft?",
+          answer: "Stealing personal information to impersonate someone."
+        },
+        {
+          type: 'list',
+          content: [
+            "Cyberterrorism",
+            "Online scams",
+            "Equipment theft",
+            "Internet gambling"
+          ]
+        }
+      ]
+    },
+
+    {
+      title: "Preventing Computer Crime",
+      items: [
+        {
+          type: 'list',
+          content: [
+            "Government efforts",
+            "Corporate policies",
+            "Intrusion detection software",
+            "Security dashboards",
+            "Managed security service providers (MSSPs)"
+          ]
+        }
+      ]
+    }
+  ]
+}
+  
 ];
