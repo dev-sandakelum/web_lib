@@ -81,6 +81,7 @@ export default function InformationSystemsNotes() {
               { id: "mcommerce", label: "M-Commerce" },
               { id: "enterprise", label: "Enterprise Systems" },
               { id: "mis", label: "MIS & DSS" },
+              { id: "data", label: "Data & Databases" },
               { id: "management", label: "IT Management" },
             ].map((section) => (
               <button
@@ -1692,6 +1693,271 @@ export default function InformationSystemsNotes() {
             </SectionCard>
           </div>
         )}
+
+        {/* Data Management Section */}
+        {activeSection === "data" && (
+          <div>
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                The Hierarchy of Data
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Bits/Bytes:</strong> Represents characters.</li>
+                <li><strong>Characters:</strong> A basic building block of information, consisting of uppercase letters, lowercase letters, numeric digits, or special symbols</li>
+                <li><strong>Field:</strong> Typically a name, number, or combination of characters that describes an aspect of a business object or activity</li>
+                <li><strong>Record:</strong> A collection of related data fields</li>
+                <li><strong>File:</strong> A collection of related records</li>
+                <li><strong>Database:</strong> An organized collection of data</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Data Entities, Attributes, and Keys
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Entity:</strong> A generalized class of people, places, or things for which data is collected, stored, and maintained
+                  <ul className="list-disc ml-5 mt-1">
+                    <li>Ex: employees, inventory, and customers</li>
+                  </ul>
+                </li>
+                <li><strong>Attribute:</strong> A characteristic of an entity
+                  <ul className="list-disc ml-5 mt-1">
+                    <li>Ex: employee number, last name</li>
+                  </ul>
+                </li>
+                <li><strong>Data item:</strong> The specific value of an attribute
+                  <ul className="list-disc ml-5 mt-1">
+                    <li>Ex: last name = "Rajapaksha"</li>
+                  </ul>
+                </li>
+                <li><strong>Key:</strong> A field or set of fields in a record that is used to identify the record</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                The Database Approach
+              </h2>
+              
+              <Subsection title="Traditional approach to data management">
+                <p>An approach whereby separate data files are created and stored for each application program</p>
+              </Subsection>
+
+              <Subsection title="Database approach to data management">
+                <p>An approach whereby a pool of related data is shared by multiple application programs</p>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                What is Database
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li>A database is an organized collection of data</li>
+                <li>Databases help companies generate information to reduce costs, increase profits, track past business activities, and open new market opportunities</li>
+                <li>In some cases, organizations collaborate in creating and using international databases</li>
+                <li><strong>Relational Database System:</strong> collection of data items with pre-defined relationships between them</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Advantages of DBMS
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Improved strategic use of corporate data.</li>
+                <li>Reduced data redundancy.</li>
+                <li>Improved data integrity.</li>
+                <li>Easier modification and updating.</li>
+                <li>Data and program independence.</li>
+                <li>Better access to data and information.</li>
+                <li>Standardization of data access.</li>
+                <li>A framework for program development.</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Database Characteristics
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Content:</strong> What data should be collected and at what cost?</li>
+                <li><strong>Access:</strong> What data should be provided to which users and when?</li>
+                <li><strong>Logical structure:</strong> How should data be arranged so that it makes sense to a given user?</li>
+                <li><strong>Physical organization:</strong> Where should data be physically located?</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Data Modeling
+              </h2>
+              
+              <Subsection title="The Logical Design">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>An abstract model of how the data should be structured and arranged to meet an organization's information needs</li>
+                  <li>Involves identifying relationships among the data items and grouping them</li>
+                </ul>
+              </Subsection>
+
+              <Subsection title="The Physical Design">
+                <p>Optimizes performance while ensuring data integrity by avoiding unnecessary data redundancies</p>
+              </Subsection>
+
+              <Subsection title="Data Model">
+                <p>A diagram of data entities and their relationships</p>
+              </Subsection>
+
+              <Subsection title="Enterprise Data Modeling">
+                <p className="mb-2">Data modeling done at the level of the entire enterprise. Investigating the general data and information needs of the organization at the strategic level, and then examines more specific data and information needs for the various functional areas and departments within the organization.</p>
+              </Subsection>
+
+              <Subsection title="Entity-relationship (ER) diagrams">
+                <p>Use basic graphical symbols to show the organization of and relationships between data</p>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                The Relational Database Model
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                A database model that describes data in which all data elements are placed in two-dimensional tables, called relations, which are the logical equivalent of files.
+              </p>
+
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
+                Manipulating Data:
+              </h3>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Selecting:</strong> Manipulating data to eliminate rows according to certain criteria</li>
+                <li><strong>Projecting:</strong> Manipulating data to eliminate columns in a table</li>
+                <li><strong>Joining:</strong> Manipulating data to combine two or more tables</li>
+                <li><strong>Data cleanup:</strong> The process of looking for and fixing inconsistencies to ensure that data is accurate and complete. Ex: Normalization</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                What is DBMS, DBA
+              </h2>
+              
+              <HighlightBox title="Database Management System (DBMS)" color="blue">
+                <p>A group of programs that manipulate the database and provide an interface between the database and the user of the database and other application programs</p>
+              </HighlightBox>
+
+              <HighlightBox title="Database Administrator (DBA)" color="green">
+                <p>A skilled IS professional who directs all activities related to an organization's database.</p>
+              </HighlightBox>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Overview of Database System Features
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Providing a User View</li>
+                <li>Creating and Modifying the Database : DDL (Data Definition Language)</li>
+                <li>Storing and Retrieving Data</li>
+                <li>Manipulating Data and Generating Reports: DML (Data Manipulation Language)</li>
+                <li>Database Output : Stylish formatting and organization options to produce the right information in the right format</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Popular Database Management Systems
+              </h2>
+              <ul className="list-disc ml-5 space-y-1 text-xs sm:text-sm text-gray-700">
+                <li>Microsoft Access</li>
+                <li>Microsoft SQL Server</li>
+                <li>PostgreSQL</li>
+                <li>MySQL</li>
+                <li>Oracle Database</li>
+                <li>Apache Cassandra</li>
+                <li>Firebird</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Other Database Management Systems
+              </h2>
+              
+              <Subsection title="Special-Purpose Database Systems">
+                <p className="mb-2">Some specialized database packages are used for specific purposes or in specific industries:</p>
+                <ul className="list-disc ml-5 space-y-2">
+                  <li><strong>Israeli Holocaust Database (www.yadvashem.org)</strong> is a special-purpose database available through the Internet and contains information on about three million people in 14 languages</li>
+                  <li><strong>Morphbank (www.morphbank.net)</strong> - A unique special-purpose DBMS for biologists allows researchers from around the world to continually update and expand a library of over 96,000 biological images to share with the scientific community and the public</li>
+                  <li><strong>The iTunes store</strong> music and video catalog is a special-purpose database system. When you search for your favorite artist, you are querying the database</li>
+                </ul>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Selecting a Database Management System
+              </h2>
+              <ul className="list-disc ml-5 space-y-2 text-xs sm:text-sm text-gray-700">
+                <li><strong>Database size:</strong> The number of records or files in the database</li>
+                <li><strong>Database cost:</strong> The purchase or lease costs of the database</li>
+                <li><strong>Concurrent users:</strong> The number of people who need to use the database at the same time (the number of concurrent users)</li>
+                <li><strong>Performance:</strong> How fast the database is able to update records</li>
+                <li><strong>Integration:</strong> The ability to be integrated with other applications and databases</li>
+                <li><strong>Vendor:</strong> The reputation and financial stability of the database vendor</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Database Applications
+              </h2>
+              
+              <Subsection title="Linking the Company Database to the Internet">
+                <p className="mb-2">Examples:</p>
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Amazon.com</li>
+                  <li>Apple's iTunes store</li>
+                  <li>eBay</li>
+                </ul>
+              </Subsection>
+
+              <Subsection title="Data Warehouses">
+                <p>A database that collects business information from many sources in the enterprise, covering all aspects of the company's processes, products, and customers</p>
+              </Subsection>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Database Applications : Data Mining
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3">
+                <strong>Data Mining:</strong> An information-analysis tool that involves the automated discovery of patterns and relationships in a data warehouse. Extract patterns, trends.
+              </p>
+              <p className="text-xs sm:text-sm text-gray-700">
+                <strong>Predictive Analysis:</strong> A form of data mining that combines historical data with assumptions about future conditions to predict outcomes of events, such as future product sales or the probability that a customer will default on a loan.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-blue-600">
+                Database Applications : Business Intelligence
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                The process of gathering enough of the right information in a timely manner and usable form and analyzing it to have a positive impact on business strategy, tactics, or operations.
+              </p>
+            </SectionCard>
+
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-blue-600">
+                Database Applications : Distributed Databases
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-700">
+                A database in which the data can be spread across several smaller databases connected via telecommunications devices.
+              </p>
+            </SectionCard>
+          </div>
+        )}
         {/* IT Management Section */}
         {activeSection === "management" && (
           <div>
@@ -1972,6 +2238,7 @@ export default function InformationSystemsNotes() {
             </SectionCard>
           </div>
         )}
+
       </div>
     </div>
   );
