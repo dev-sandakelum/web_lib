@@ -105,6 +105,14 @@ export const mainTopics = [
         cardColor: "from-green-500 to-teal-600",
         items: [
           {
+            id: "isfull",
+            title: "Information systems full notes",
+            readTime: "comprehensive",
+            tags: ["information systems", "full" ,"notes"],
+            link: "/notes/information-systems/full",
+          },
+          
+          {
             id: "is3-4",
             title: "Information systems notes 3rd and 4th ",
             readTime: "unlimited",
