@@ -116,6 +116,12 @@ export const mainTopics = [
             readTime: "comprehensive",
             tags: ["information systems", "full" ,"notes"],
             link: "/notes/information-systems/full",
+          },{
+            id: "isfullq",
+            title: "Information systems full quiz",
+            readTime: "comprehensive",
+            tags: ["information systems", "full" ,"quiz"],
+            link: "/notes/information-systems/fullq",
           },
           
           {
