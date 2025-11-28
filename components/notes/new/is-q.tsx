@@ -45,7 +45,9 @@ export default function InformationSystemsNotes() {
     return (
       <div className={`${colors[color]} border rounded-lg p-3 sm:p-4 my-3`}>
         {title && (
-          <h4 className="text-sm sm:text-base font-semibold mb-2 text-black">{title}</h4>
+          <h4 className="text-sm sm:text-base font-semibold mb-2 text-black">
+            {title}
+          </h4>
         )}
         <div className="text-xs sm:text-sm text-gray-700">{children}</div>
       </div>
@@ -1230,6 +1232,291 @@ export default function InformationSystemsNotes() {
                   and ensures processes are improved.
                 </p>
               </Subsection>
+            </SectionCard>
+          </div>
+        )}
+        {/* Data Management Section */}
+        {activeSection === "data" && (
+          <div>
+            <SectionCard>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-blue-600">
+                Data Management Q&A
+              </h2>
+
+              {/* Q1 */}
+              <HighlightBox
+                title="Q1: What is the hierarchy of data?"
+                color="blue"
+              >
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Bits/Bytes:</strong> Represents characters.
+                  </li>
+                  <li>
+                    <strong>Characters:</strong> Basic building block of
+                    information (letters, digits, symbols).
+                  </li>
+                  <li>
+                    <strong>Field:</strong> Name, number, or combination
+                    describing a business aspect.
+                  </li>
+                  <li>
+                    <strong>Record:</strong> Collection of related data fields.
+                  </li>
+                  <li>
+                    <strong>File:</strong> Collection of related records.
+                  </li>
+                  <li>
+                    <strong>Database:</strong> Organized collection of data.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q2 */}
+              <HighlightBox
+                title="Q2: What are entities, attributes, data items, and keys?"
+                color="green"
+              >
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Entity:</strong> General class of people, places, or
+                    things (Ex: employees, inventory, customers).
+                  </li>
+                  <li>
+                    <strong>Attribute:</strong> Characteristic of an entity (Ex:
+                    employee number, last name).
+                  </li>
+                  <li>
+                    <strong>Data item:</strong> Specific value of an attribute
+                    (Ex: last name = "Rajapaksha").
+                  </li>
+                  <li>
+                    <strong>Key:</strong> Field(s) used to identify a record.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q3 */}
+              <HighlightBox
+                title="Q3: What is the database approach vs traditional approach?"
+                color="yellow"
+              >
+                <p>
+                  <strong>Traditional:</strong> Separate data files for each
+                  application.
+                </p>
+                <p>
+                  <strong>Database approach:</strong> Pool of related data
+                  shared by multiple applications.
+                </p>
+              </HighlightBox>
+
+              {/* Q4 */}
+              <HighlightBox title="Q4: What is a database?" color="blue">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>An organized collection of data.</li>
+                  <li>
+                    Helps companies reduce costs, increase profits, track
+                    business activities, and open new market opportunities.
+                  </li>
+                  <li>
+                    Some databases are created and used internationally by
+                    multiple organizations.
+                  </li>
+                  <li>
+                    <strong>Relational Database:</strong> Collection of data
+                    items with predefined relationships.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q5 */}
+              <HighlightBox
+                title="Q5: What are the advantages of DBMS?"
+                color="green"
+              >
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Improved strategic use of corporate data.</li>
+                  <li>Reduced data redundancy.</li>
+                  <li>Improved data integrity.</li>
+                  <li>Easier modification and updating.</li>
+                  <li>Data and program independence.</li>
+                  <li>Better access to data and information.</li>
+                  <li>Standardization of data access.</li>
+                  <li>Framework for program development.</li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q6 */}
+              <HighlightBox
+                title="Q6: What are the characteristics of a database?"
+                color="yellow"
+              >
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Content:</strong> What data should be collected and
+                    at what cost?
+                  </li>
+                  <li>
+                    <strong>Access:</strong> Who can use the data and when?
+                  </li>
+                  <li>
+                    <strong>Logical structure:</strong> How data is arranged
+                    logically for users.
+                  </li>
+                  <li>
+                    <strong>Physical organization:</strong> Where data is
+                    physically stored.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q7 */}
+              <HighlightBox title="Q7: What is data modeling?" color="blue">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Logical Design:</strong> Abstract model of data
+                    structure, identifies relationships.
+                  </li>
+                  <li>
+                    <strong>Physical Design:</strong> Optimizes performance,
+                    avoids redundancies.
+                  </li>
+                  <li>
+                    <strong>Data Model:</strong> Diagram of entities and
+                    relationships.
+                  </li>
+                  <li>
+                    <strong>Enterprise Data Modeling:</strong> Data modeling at
+                    the organizational level for all departments.
+                  </li>
+                  <li>
+                    <strong>ER Diagrams:</strong> Graphical symbols showing data
+                    organization and relationships.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q8 */}
+              <HighlightBox
+                title="Q8: What is the relational database model and how to manipulate data?"
+                color="green"
+              >
+                <p>
+                  Tables (relations) store all data logically equivalent to
+                  files.
+                </p>
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Selecting:</strong> Remove rows by criteria.
+                  </li>
+                  <li>
+                    <strong>Projecting:</strong> Remove columns from a table.
+                  </li>
+                  <li>
+                    <strong>Joining:</strong> Combine two or more tables.
+                  </li>
+                  <li>
+                    <strong>Data cleanup:</strong> Fix inconsistencies, e.g.,
+                    normalization.
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q9 */}
+              <HighlightBox title="Q9: What is DBMS and DBA?" color="yellow">
+                <p>
+                  <strong>DBMS:</strong> Programs that manipulate the database
+                  and provide interface to users and applications.
+                </p>
+                <p>
+                  <strong>DBA:</strong> Skilled professional directing all
+                  activities related to an organization’s database.
+                </p>
+              </HighlightBox>
+
+              {/* Q10 */}
+              <HighlightBox title="Q10: Database system features?" color="blue">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Provide a user view</li>
+                  <li>Create/modify database (DDL)</li>
+                  <li>Store and retrieve data</li>
+                  <li>Manipulate data and generate reports (DML)</li>
+                  <li>Stylish output formatting</li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q11 */}
+              <HighlightBox title="Q11: Popular DBMS examples?" color="green">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Microsoft Access</li>
+                  <li>Microsoft SQL Server</li>
+                  <li>PostgreSQL</li>
+                  <li>MySQL</li>
+                  <li>Oracle Database</li>
+                  <li>Apache Cassandra</li>
+                  <li>Firebird</li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q12 */}
+              <HighlightBox
+                title="Q12: Special-purpose database systems?"
+                color="yellow"
+              >
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>
+                    <strong>Israeli Holocaust Database:</strong> Info on 3
+                    million people in 14 languages
+                  </li>
+                  <li>
+                    <strong>Morphbank:</strong> Biological images DB for global
+                    researchers
+                  </li>
+                  <li>
+                    <strong>iTunes Store:</strong> Music/video catalog
+                    special-purpose DB
+                  </li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q13 */}
+              <HighlightBox title="Q13: How to select a DBMS?" color="blue">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Database size</li>
+                  <li>Database cost</li>
+                  <li>Concurrent users</li>
+                  <li>Performance</li>
+                  <li>Integration</li>
+                  <li>Vendor reputation</li>
+                </ul>
+              </HighlightBox>
+
+              {/* Q14 */}
+              <HighlightBox title="Q14: Database applications?" color="green">
+                <ul className="list-disc ml-5 space-y-1">
+                  <li>Linking company DB to Internet (Amazon, iTunes, eBay)</li>
+                  <li>
+                    Data Warehouses: Collects business info from multiple
+                    sources
+                  </li>
+                  <li>
+                    Data Mining: Automated discovery of patterns and trends
+                  </li>
+                  <li>
+                    Predictive Analysis: Combines historical data and
+                    assumptions to forecast outcomes
+                  </li>
+                  <li>
+                    Business Intelligence: Timely info for strategy, tactics,
+                    operations
+                  </li>
+                  <li>
+                    Distributed Databases: Data spread across multiple connected
+                    databases
+                  </li>
+                </ul>
+              </HighlightBox>
             </SectionCard>
           </div>
         )}
