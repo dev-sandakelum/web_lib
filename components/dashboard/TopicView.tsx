@@ -142,7 +142,7 @@ export default function TopicView({ title, description, items, parentLink = "/",
                     onFocus={() => setIsSearchFocused(true)}
                     onBlur={() => setIsSearchFocused(false)}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-transparent border-none focus:ring-0 text-xs sm:text-sm px-3 py-2 placeholder:text-slate-500 text-slate-200"
+                    className="w-full bg-transparent border-none focus:ring-0 outline-none text-xs sm:text-sm px-3 py-2 placeholder:text-slate-500 text-slate-200"
                   />
                 </div>
               </div>

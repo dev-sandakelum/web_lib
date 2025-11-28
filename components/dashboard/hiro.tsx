@@ -2,16 +2,17 @@
 
 import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { Search, ArrowRight, Bell, BookOpen, FileText, Sparkles } from "lucide-react"
+import { Search, ArrowRight, Bell } from "lucide-react"
 import Sidebar from "./Sidebar"
 import TopNav from "./TopNav"
 import Footer from "./Footer"
-import { mainTopics } from "../data"
+import { mainTopics, notifications } from "../data"
 
 export default function PersonalHero() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(true)
 
   // ... (Keep existing search logic) ...
   const searchResults = useMemo(() => {
@@ -36,11 +37,7 @@ export default function PersonalHero() {
     if (link) router.push(link)
   }
 
-  const notifications = [
-    { title: "New note added: 'Physics Basics'", time: "2d ago", icon: BookOpen },
-    { title: "Quiz completed: 'Algebra'", time: "1w ago", icon: Sparkles },
-    { title: "New PDF uploaded: 'Calculus'", time: "2w ago", icon: FileText },
-  ]
+
 
   return (
     <div className="min-h-screen bg-[#0d1117] font-sans text-slate-100 flex overflow-x-hidden">
@@ -49,7 +46,7 @@ export default function PersonalHero() {
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col md:pl-20 transition-all duration-300 w-full max-w-[100vw]">
-        <TopNav />
+        <TopNav onNotificationClick={() => setIsNotificationPanelOpen(!isNotificationPanelOpen)} />
 
         <div className="flex-1 flex flex-col xl:flex-row">
           {/* Main Dashboard Area */}
@@ -74,7 +71,7 @@ export default function PersonalHero() {
                     onFocus={() => setIsSearchFocused(true)}
                     onBlur={() => setIsSearchFocused(false)}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-slate-200 placeholder:text-slate-500 px-2 sm:px-4 text-sm sm:text-base w-full min-w-0"
+                    className="flex-1 bg-transparent border-none focus:ring-0 outline-none text-slate-200 placeholder:text-slate-500 px-2 sm:px-4 text-sm sm:text-base w-full min-w-0"
                   />
                   <button className="bg-white text-slate-900 px-4 sm:px-6 py-2 rounded-full font-semibold text-xs sm:text-sm hover:bg-slate-200 transition-colors shrink-0">
                     Search
@@ -101,7 +98,7 @@ export default function PersonalHero() {
                 </div>
               ) : (
                 // Main Topics Grid with Machine UI
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6">
                   {mainTopics.map((topic) => (
                     <div
                       key={topic.id}
@@ -143,7 +140,7 @@ export default function PersonalHero() {
                 {notifications.map((notif, idx) => (
                   <div key={idx} className="flex gap-4 group cursor-pointer p-3 rounded-xl hover:bg-[#161b22] border border-transparent hover:border-[#30363d] transition-all">
                     <div className="w-10 h-10 rounded-xl bg-[#161b22] border border-[#30363d] flex items-center justify-center text-slate-400 group-hover:text-purple-400 group-hover:border-purple-500/50 transition-colors shrink-0">
-                      <notif.icon className="w-5 h-5" />
+                      {notif.icon}
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-slate-300 leading-tight group-hover:text-purple-300 transition-colors truncate">{notif.title}</p>
@@ -158,13 +155,18 @@ export default function PersonalHero() {
           </div>
 
           {/* Right Panel - Notifications (Desktop Only) */}
-          <div className="hidden xl:block w-80 bg-[#0d1117] border-l border-[#30363d] p-6 shrink-0">
+          <div 
+            id="notifications-panel" 
+            className={`hidden xl:block bg-[#0d1117] border-l border-[#30363d] shrink-0 transition-all duration-300 ease-in-out overflow-hidden ${
+              isNotificationPanelOpen ? 'w-80 p-6 opacity-100' : 'w-0 p-0 opacity-0 border-l-0'
+            }`}
+          >
             <h3 className="text-sm font-bold text-slate-400 mb-6 uppercase tracking-wider">Notifications</h3>
             <div className="space-y-6">
               {notifications.map((notif, idx) => (
                 <div key={idx} className="flex gap-4 group cursor-pointer">
                   <div className="w-10 h-10 rounded-xl bg-[#161b22] border border-[#30363d] flex items-center justify-center text-slate-400 group-hover:text-purple-400 group-hover:border-purple-500/50 transition-colors shrink-0">
-                    <notif.icon className="w-5 h-5" />
+                    {notif.icon}
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-300 leading-tight group-hover:text-purple-300 transition-colors">{notif.title}</p>

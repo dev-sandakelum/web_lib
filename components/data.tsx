@@ -1,4 +1,10 @@
-import { Clock11, DonutIcon, File } from "lucide-react"
+import { Clock11, DonutIcon, File, BookOpen, Sparkles, FileText } from "lucide-react"
+
+export const notifications = [
+  { title: "New note added: 'Physics Basics'", time: "2d ago", icon: <BookOpen className="w-5 h-5" /> },
+  { title: "Quiz completed: 'Algebra'", time: "1w ago", icon: <Sparkles className="w-5 h-5" /> },
+  { title: "New PDF uploaded: 'Calculus'", time: "2w ago", icon: <FileText className="w-5 h-5" /> },
+]
 
 export const mainTopics = [
   {
