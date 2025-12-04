@@ -9,9 +9,9 @@ export default function Sidebar() {
   const navItems = [
     { icon: BookOpen, label: "Notes", link: "/notes", active: true },
     { icon: BrainCircuit, label: "Quizzes", link: "/quiz" },
-    { icon: FileText, label: "PDFs", link: "/pdfs" },
-    { icon: Sparkles, label: "Q-Gen", link: "/q-gen" },
-    { icon: LayoutGrid, label: "More", link: "/apps" },
+    { icon: FileText, label: "PDFs", link: "/pdf_links" },
+    { icon: Sparkles, label: "Q-Gen", link: "/question-gen" },
+    { icon: LayoutGrid, label: "More", link: "#" },
   ]
 
   return (

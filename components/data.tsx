@@ -76,6 +76,13 @@ export const mainTopics = [
         cardColor: "from-purple-500 to-indigo-600",
         items: [
           {
+            id: "a0",
+            title: "full notes on computer architecture",
+            readTime: "not applicable",
+            tags: ["architecture"],
+            link: "/notes/architecture/full",
+          },
+          {
             id: "a1",
             title: "",
             readTime: "not applicable",
