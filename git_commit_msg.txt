@@ -1,1 +1,1 @@
-fix: add unique keys to message list items and adjust image crop modal styling
+feat: add access key functionality and update template to handle access control

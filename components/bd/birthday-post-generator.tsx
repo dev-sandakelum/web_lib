@@ -9,6 +9,7 @@ import { TEMPLATES } from "@/lib/templates";
 import { loadScript, loadImageFile } from "@/lib/utils";
 import type { FormData } from "@/components/birthday-post";
 import { callGroq } from "@/lib/question-gen/openai-client";
+import { set } from "mongoose";
 
 const DEFAULT_FORM_DATA: FormData = {
   name: "",
@@ -19,6 +20,7 @@ const DEFAULT_FORM_DATA: FormData = {
     "Wishing you a spectacular birthday! As you mark another milestone in your life today, take a moment to celebrate not just how far you have come, but the incredible person you are becoming. May this special day be filled with the warmth of love, the echo of laughter, and moments that turn into cherished memories.",
   profileImage: null,
   templateId: "template1",
+  access: false,
 };
 
 declare global {
@@ -49,6 +51,14 @@ export default function BirthdayPostGenerator() {
 
   const selectedTemplate =
     TEMPLATES.find((t) => t.id === formData.templateId) || TEMPLATES[0];
+  const PASS_key = process.env.NEXT_PUBLIC_PASS_key;
+  const handleAccess = (e: string) => {
+    if (e == PASS_key) {
+      setFormData((prev) => ({ ...prev, access: true }));
+    }else{
+      setFormData((prev) => ({ ...prev, access: false }) );
+    }
+  };
 
   useEffect(() => {
     const updateScale = () => {
@@ -251,7 +261,7 @@ Generate the message now.`,
                 }}
               >
                 <BirthdayPostTemplate
-                  data={{ ...formData, template: selectedTemplate }}
+                  data={{ ...formData, template: selectedTemplate }} 
                 />
               </div>
             </div>
@@ -354,7 +364,19 @@ Generate the message now.`,
                   className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border resize-y focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
                 />
               </div>
-
+              <div key="passkey">
+                <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
+                  Access Key
+                </label>
+                <input
+                  type="text"
+                  onChange={(e) =>
+                    handleAccess(e.target.value)
+                  }
+                  placeholder="Enter key to Remove bad things"
+                  className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
+                />
+              </div>
               <div>
                 <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
                   Profile Photo
@@ -432,8 +454,11 @@ Generate the message now.`,
             <p
               className={`w-full p-4 border-2 border-dashed text-sm rounded-lg cursor-pointer gap-3 transition-all`}
             >
-              {msgList?.map((msg,idx) => (
-                <span key={idx+"o"}>{msg}<br/></span>
+              {msgList?.map((msg, idx) => (
+                <span key={idx + "o"}>
+                  {msg}
+                  <br />
+                </span>
               ))}
             </p>
             <div className="flex gap-3">

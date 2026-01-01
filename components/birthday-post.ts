@@ -12,6 +12,7 @@ export interface BirthdayPostData {
   profileImage: string | null;
   message: string;
   template: BirthdayTemplate;
+  access: boolean;
 }
 
 export interface FormData {
@@ -22,6 +23,7 @@ export interface FormData {
   profileImage: string | null;
   message: string;
   templateId: string;
+  access: boolean;
 }
 
 export interface ImageTransform {

@@ -4,11 +4,11 @@ import type { BirthdayPostData } from "@/components/birthday-post";
 
 export const BirthdayPostTemplate = React.forwardRef<
   HTMLDivElement,
-  { data: BirthdayPostData , edit?:Boolean }
->(({ data, edit }, ref) => {
-  const { name, batch, faculty, university, profileImage, message, template } =
+  { data: BirthdayPostData , edit?:Boolean  }
+>(({ data, edit  }, ref) => {
+  const { name, batch, faculty, university, profileImage, message, template , access} =
     data;
-
+  const noAccess = edit && !access;
   return (
     <div
       ref={ref}
@@ -27,6 +27,27 @@ export const BirthdayPostTemplate = React.forwardRef<
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <div style={{
+        width: "1080px",
+        height: "1350px",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        overflow: "hidden",
+        display: noAccess ?   "flex":"none",
+        flexDirection: "column",
+        alignItems: "center",
+        zIndex: 30,
+        color: "#fff",
+        fontSize: "48px",
+        fontWeight: "bold",
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
+        justifyContent: "center",
+      }}>
+        <h1>YOU DON'T HAVE ACCESS</h1>
+        <p>Please enter your access key to proceed.</p>
+
+      </div>
       {/* Happy Birthday Title */}
       <div
         style={{
@@ -50,7 +71,7 @@ export const BirthdayPostTemplate = React.forwardRef<
           zIndex: 20,
           display: "flex",
           justifyContent: "center",
-          border: profileImage ? "none" : "2px solid blue",
+          // border: access ? "none" : "2px solid blue",
           alignItems: "center",
         }}
       >
@@ -83,7 +104,7 @@ export const BirthdayPostTemplate = React.forwardRef<
             backgroundImage: "url(/bd/bg/Ellipse.png)",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            border: profileImage ? "none" : "2px solid blue",
+            // border: access ? "none" : "2px solid blue",
             backgroundSize: "contain",
             zIndex: -1,
           }}
@@ -105,7 +126,7 @@ export const BirthdayPostTemplate = React.forwardRef<
 
           height: "295px",
           top: edit ? "782px" :"800px",
-          border: profileImage ? "none" : "2px solid blue",
+          // border: access ? "none" : "2px solid blue",
           zIndex: 15,
         }}
       >
@@ -126,7 +147,7 @@ export const BirthdayPostTemplate = React.forwardRef<
             textAlign: "center",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            border: profileImage ? "none" : "2px solid blue",
+            // border: access ? "none" : "2px solid blue",
             color: "#FFFFFF",
           }}
         >
@@ -166,7 +187,7 @@ export const BirthdayPostTemplate = React.forwardRef<
             width: "auto",
             height: "159px",
 
-            border: profileImage ? "none" : "2px solid blue",
+            border: access ? "none" : "2px solid blue",
             top: edit ? "1140px" :"1152px"  ,
             display: "flex",
             flexDirection: "column",
@@ -215,7 +236,7 @@ export const BirthdayPostTemplate = React.forwardRef<
               textAlign: "center",
               paddingLeft:"18px",
               letterSpacing: "18px",
-              border: profileImage ? "none" : "2px solid blue",
+              border: access ? "none" : "2px solid blue",
               color: "#FFFFFF",
               marginTop: "10px",
               textTransform: "uppercase",
