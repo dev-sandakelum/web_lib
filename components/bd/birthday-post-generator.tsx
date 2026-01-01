@@ -248,7 +248,7 @@ export default function BirthdayPostGenerator() {
                 {
                   label: "Full Name",
                   field: "name",
-                  placeholder: "e.g. Tharindu Liyanage",
+                  placeholder: "Enter full name",
                 },
                 {
                   label: "Batch",

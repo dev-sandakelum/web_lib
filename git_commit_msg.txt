@@ -1,1 +1,1 @@
-refactor: improve code formatting and consistency in BirthdayPostGenerator component
+fix: update placeholder text for name input in BirthdayPostGenerator component
