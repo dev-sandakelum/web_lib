@@ -1,0 +1,106 @@
+/* --- Modal Components (Append to bdPost.css) --- */
+
+.bdPost-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+  
+  .bdPost-modal-container {
+    background-color: var(--bdp-bg-panel);
+    border: 1px solid var(--bdp-border);
+    border-radius: 1rem; /* rounded-2xl */
+    width: 100%;
+    max-width: 32rem; /* max-w-lg */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+  }
+  
+  .bdPost-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--bdp-border);
+  }
+  
+  .bdPost-modal-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--bdp-text-main);
+    margin: 0;
+  }
+  
+  .bdPost-modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--bdp-text-dim);
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .bdPost-modal-close-btn:hover {
+    color: white;
+  }
+  
+  .bdPost-modal-body {
+    flex: 1;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .bdPost-modal-canvas {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 9999px; /* rounded-full */
+    border: 1px solid var(--bdp-border);
+    cursor: move;
+    touch-action: none; /* Prevents scrolling while dragging on mobile */
+  }
+  
+  .bdPost-modal-footer {
+    padding: 1rem;
+    background-color: var(--bdp-bg-panel);
+    border-top: 1px solid var(--bdp-border);
+  }
+  
+  .bdPost-modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+  
+  .bdPost-btn-icon {
+    padding: 0.75rem 1rem;
+    background-color: var(--bdp-border);
+    color: #d4d4d8; /* zinc-300 */
+    border-radius: 0.75rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .bdPost-btn-primary-action {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to right, #0891b2, #2563eb);
+    color: white;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+  }

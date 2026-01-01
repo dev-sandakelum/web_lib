@@ -1,0 +1,7 @@
+Add global styles and theme variables using Tailwind CSS and custom properties
+
+- Introduced a new `globals.css` file to define global styles.
+- Imported Tailwind CSS and tw-animate-css for utility-first styling.
+- Defined CSS custom properties for light and dark themes, including background, foreground, card, and sidebar colors.
+- Set up a theme for inline usage with various color and radius variables.
+- Applied base styles to body and all elements for consistent border and outline.

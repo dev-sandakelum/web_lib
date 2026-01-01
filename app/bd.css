@@ -1,0 +1,413 @@
+/* bdPost.css */
+
+:root {
+  /* Theme Variables based on Zinc & Cyan/Blue colors */
+  --bdp-bg-dark: #09090b;       /* zinc-950 */
+  --bdp-bg-panel: #18181b;      /* zinc-900 */
+  --bdp-bg-panel-blur: rgba(24, 24, 27, 0.8);
+  --bdp-border: #27272a;        /* zinc-800 */
+  --bdp-text-main: #f4f4f5;     /* zinc-100 */
+  --bdp-text-dim: #71717a;      /* zinc-500 */
+  --bdp-cyan: #06b6d4;          /* cyan-500 */
+  --bdp-blue: #2563eb;          /* blue-600 */
+  --bdp-cyan-glow: rgba(6, 182, 212, 0.2);
+}
+
+/* === Main App Wrapper === */
+.bdPost-app-container {
+  min-height: 100vh;
+  background-color: var(--bdp-bg-dark);
+  color: var(--bdp-text-main);
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  border: red solid;
+}
+
+/* === Navigation Bar === */
+.bdPost-navbar {
+  border-bottom: 1px solid var(--bdp-border);
+  background-color: var(--bdp-bg-panel-blur);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.bdPost-navbar-inner {
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 3.5rem; /* Mobile height */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bdPost-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bdPost-navbar-logo-icon {
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(to top right, var(--bdp-cyan), var(--bdp-blue));
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px var(--bdp-cyan-glow);
+}
+
+.bdPost-navbar-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.bdPost-navbar-studio-badge {
+  display: none; /* Hidden on mobile */
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: var(--bdp-text-dim);
+  background-color: var(--bdp-bg-panel);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--bdp-border);
+  align-items: center;
+}
+
+.bdPost-navbar-mobile-actions {
+  display: block;
+}
+
+.bdPost-navbar-preview-link {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #22d3ee;
+  cursor: pointer;
+}
+
+/* === Layout Body === */
+.bdPost-layout-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 112px); /* Adjustment for mobile nav bars */
+  border: blue solid 1px;
+  overflow: hidden;
+}
+
+/* === Left Panel: Editor === */
+.bdPost-editor-panel {
+  width: 100%;
+  background-color: var(--bdp-bg-panel);
+  border-right: 1px solid var(--bdp-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  height: 100%;
+}
+
+.bdPost-editor-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bdPost-editor-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bdPost-editor-header p {
+  color: var(--bdp-text-dim);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Inputs */
+.bdPost-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.bdPost-input-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--bdp-text-dim);
+  letter-spacing: 0.05em;
+}
+
+.bdPost-input-field {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--bdp-bg-dark);
+  border: 1px solid var(--bdp-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  outline: none;
+  transition: 0.2s;
+}
+
+.bdPost-input-field:focus {
+  border-color: var(--bdp-cyan);
+  box-shadow: 0 0 0 2px var(--bdp-cyan-glow);
+}
+
+/* Photo Upload Button */
+.bdPost-upload-button {
+  width: 100%;
+  border: 2px dashed;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.bdPost-upload-button.empty {
+  border-color: #3f3f46;
+}
+.bdPost-upload-button.empty:hover {
+  background-color: #27272a;
+  border-color: var(--bdp-text-dim);
+}
+
+.bdPost-upload-button.filled {
+  border-color: rgba(6, 182, 212, 0.5);
+  background-color: rgba(6, 182, 212, 0.05);
+}
+
+.bdPost-upload-preview {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--bdp-cyan);
+}
+
+.bdPost-upload-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bdPost-upload-placeholder {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Editor Footer Actions */
+.bdPost-editor-footer {
+  display: none; /* Hidden on mobile */
+  padding: 1rem;
+  border-top: 1px solid var(--bdp-border);
+  background-color: var(--bdp-bg-panel);
+  gap: 0.75rem;
+}
+
+/* === Right Panel: Preview === */
+.bdPost-preview-panel {
+  flex: 1;
+  background-color: var(--bdp-bg-dark);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bdPost-preview-bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  background-image: radial-gradient(#333 1px, transparent 1px);
+  /* border: green solid 1px; */
+  background-size: 24px 24px;
+}
+
+.bdPost-preview-canvas-wrapper {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.8);
+  background-color: var(--bdp-bg-panel);
+  border: 1px solid var(--bdp-border);
+  border: yellow solid 1px;
+  transition: all 0.2s;
+}
+
+.bdPost-preview-scaler {
+  transform-origin: top left;
+}
+
+/* Mobile Download Bar */
+.bdPost-mobile-download-bar {
+  width: 100%;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  background-color: rgba(9, 9, 11, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--bdp-border);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  box-sizing: border-box;
+}
+
+/* === Buttons === */
+.bdPost-btn {
+  width: 100%;
+  padding: 0.875rem;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.bdPost-btn:active {
+  transform: scale(0.96);
+}
+
+.bdPost-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bdPost-btn-primary {
+  background-color: white;
+  color: black;
+}
+
+.bdPost-btn-secondary {
+  background-color: #27272a;
+  color: white;
+  font-weight: 500;
+}
+
+.bdPost-btn-gradient {
+  background: linear-gradient(to right, #0891b2, #2563eb);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.2);
+}
+
+/* === Mobile Tab Bar === */
+.bdPost-mobile-tabs {
+  height: 3.5rem;
+  background-color: var(--bdp-bg-panel);
+  border-top: 1px solid var(--bdp-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bdPost-tab-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.bdPost-tab-btn.active {
+  color: #22d3ee;
+}
+.bdPost-tab-btn.inactive {
+  color: var(--bdp-text-dim);
+}
+
+.bdPost-tab-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* === Utilities === */
+.bdPost-hidden {
+  display: none !important;
+}
+
+.bdPost-hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  pointer-events: none;
+}
+
+/* === Desktop Media Queries (min-width: 1024px) === */
+@media (min-width: 1024px) {
+  .bdPost-navbar-inner {
+    height: 4rem;
+  }
+  
+  .bdPost-navbar-studio-badge {
+    display: flex;
+  }
+  
+  .bdPost-navbar-mobile-actions {
+    display: none;
+  }
+  
+  .bdPost-layout-body {
+    flex-direction: row;
+    height: calc(100vh - 64px);
+  }
+  
+  .bdPost-editor-panel {
+    width: 420px;
+    display: flex !important; /* Always flex on desktop */
+  }
+  
+  .bdPost-editor-footer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bdPost-preview-panel {
+    display: flex !important; /* Always flex on desktop */
+  }
+  
+  .bdPost-mobile-download-bar {
+    display: none;
+  }
+  
+  .bdPost-mobile-tabs {
+    display: none;
+  }
+}

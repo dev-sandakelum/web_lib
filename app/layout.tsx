@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Comic_Neue, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./bd.css";
+import "./bd2.css";
+import "./bd3.css";
 import { Analytics } from "@vercel/analytics/next";
 import FloatingHomeButton from "@/components/dashboard/FloatingHomeButton";
 
@@ -26,6 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      
+
       <body
         // suppress hydration warnings caused by browser extensions or client-only mutations
         suppressHydrationWarning={true}

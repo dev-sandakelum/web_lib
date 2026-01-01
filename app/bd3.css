@@ -1,0 +1,166 @@
+/* --- Post Template Styles (Append to bdPost.css) --- */
+
+.bdPost-template-root {
+  width: 1080px;
+  height: 1350px;
+  position: relative;
+  background-color: #09090b;
+  background: var(--bg);
+  /* radial-gradient(circle at 100% 0%, rgba(238, 146, 34, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.2) 0%, transparent 40%); */
+  overflow: hidden;
+  background-repeat: none;
+  background-size: cover;
+  background-position: center;
+  font-family: "Inter", sans-serif;
+  flex-shrink: 0;
+}
+
+.bdPost-template-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.bdPost-template-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 180px;
+}
+
+.bdPost-template-glow {
+  position: absolute;
+  top: 250px;
+  width: 600px;
+  height: 600px;
+  background: conic-gradient(from 180deg, #06b6d4, #3b82f6, #06b6d4);
+  filter: blur(80px);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.bdPost-template-titie-img {
+width: 735px;
+height: 188px;
+background: var(--bg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: contain;
+
+}
+/* Photo Section */
+.bdPost-template-photo-container {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  margin-bottom: 80px;
+  z-index: 10;
+}
+
+.bdPost-template-photo-ring {
+  position: absolute;
+  inset: -20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.bdPost-template-photo-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.bdPost-template-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.bdPost-template-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #18181b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #27272a;
+}
+
+/* Info Card */
+.bdPost-template-card {
+  width: 85%;
+  background-color: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 20;
+}
+
+.bdPost-template-title {
+  font-size: 40px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #06b6d4;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-family: "Arial", sans-serif;
+}
+
+.bdPost-template-name {
+  font-size: 85px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 40px;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(180deg, #fff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.bdPost-template-badge {
+  background-color: rgba(6, 182, 212, 0.1);
+  border: 1px solid #06b6d4;
+  color: #67e8f9;
+  padding: 15px 50px;
+  border-radius: 100px;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
+}
+
+.bdPost-template-footer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 24px;
+  letter-spacing: 0.2em;
+}
