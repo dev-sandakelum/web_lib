@@ -2,12 +2,13 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
-import { Upload, Download, Copy, Check, Sparkles } from "lucide-react";
+import { Upload, Download, Copy, Check, Sparkles, Send } from "lucide-react";
 import { BirthdayPostTemplate } from "./birthday-post-template";
 import { ImageCropModal } from "./image-crop-modal";
 import { TEMPLATES } from "@/lib/templates";
 import { loadScript, loadImageFile } from "@/lib/utils";
 import type { FormData } from "@/components/birthday-post";
+import { callGroq } from "@/lib/question-gen/openai-client";
 
 const DEFAULT_FORM_DATA: FormData = {
   name: "",
@@ -34,9 +35,13 @@ export default function BirthdayPostGenerator() {
   const [tempImage, setTempImage] = useState<string | null>(null);
   const [showCropper, setShowCropper] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isMsgGenerating, setIsMsgGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [msgCopied, setMsgCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
   const [scale, setScale] = useState(0.3);
+  const [MSG, setMSG] = useState("");
+  const [msgList, setMsgList] = useState<string[]>();
 
   const hiddenCanvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -128,6 +133,61 @@ export default function BirthdayPostGenerator() {
       link.click();
     } catch (error) {
       alert("Error generating image.");
+    }
+  };
+  const handleGenerateMSG = async () => {
+    setIsMsgGenerating(true);
+    try {
+      const response = await fetch("/api/bd/msg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Send the data the backend expects
+        body: JSON.stringify({
+          prompt: `Input:
+- Name: ${formData.name}
+- Sender: ${formData.batch} ${formData.faculty} ${formData.university}
+- Hashtags: [Insert 2-3 hashtags, e.g., #UOR #fot #Batch9]
+
+Instructions:
+Act as a professional Social Media Admin for a university student union. Write a birthday message for the person listed above using the following specific style rules:
+
+1. Tone: Formal, warm, inspirational, and slightly poetic. Avoid slang.
+2. Structure:
+   - Header: A short, hype phrase (e.g., "Happy Level Up Day!") with festive emojis.
+   - Salutation: "Dear ${formData.name},"
+   - Opener: A soft, welcoming sentence.
+   - Core Message: A deep sentence wishing them "growth," "light," "strength," and "success" in the upcoming year.
+   - Closing: A brief motivational bridge connecting the past to the future.
+   - Sign-off: "Best wishes from," followed by the [Sender].
+   - Tags: Place the hashtags at the very bottom.
+   -use "\n" to create line breaks.don't use <br> tags
+3. Formatting: Use line breaks between every sentence. Use elegant emojis (✨, 🌟, 🥂, 🎂, 🤍) at the end of each line.
+
+Generate the message now.`,
+        }),
+      });
+      const msg = await response.json();
+      const msgOutput: string = msg.result.content;
+      const msgSaparate = msgOutput.split("\n");
+      setMSG(msgOutput);
+      setMsgList(msgSaparate);
+      console.log(msgSaparate);
+    } catch (err) {
+      console.log(err);
+    }
+    setIsMsgGenerating(false);
+  };
+  const handleCopyMSG = async () => {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ "text/plain": MSG }),
+      ]);
+      setMsgCopied(true);
+      setTimeout(() => setMsgCopied(false), 2000);
+    } catch {
+      alert("Could not copy to clipboard.");
     }
   };
 
@@ -367,6 +427,45 @@ export default function BirthdayPostGenerator() {
                 </>
               )}
             </button>
+          </div>
+          <div className="p-5 md:p-6 border-t border-[#caced5] bg-[#fbfbfb] flex gap-3 flex-col">
+            <p
+              className={`w-full p-4 border-2 border-dashed text-sm rounded-lg cursor-pointer gap-3 transition-all`}
+            >
+              {msgList?.map((msg) => (
+                <span>{msg}<br/></span>
+              ))}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleGenerateMSG}
+                disabled={isMsgGenerating}
+                className="flex-1 py-3.5 bg-[#7b7dee] text-white border-none rounded-lg text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#6a6cd9] disabled:opacity-60 transition-all shadow-sm"
+              >
+                {isMsgGenerating ? (
+                  <span>Generating...</span>
+                ) : (
+                  <>
+                    <Send size={18} /> Generate MSG
+                  </>
+                )}
+              </button>
+              <button
+                onClick={handleCopyMSG}
+                disabled={isMsgGenerating}
+                className="px-5 py-3.5 bg-white text-[#34343e] border border-[#caced5] rounded-lg text-sm font-semibold cursor-pointer flex items-center gap-2 hover:bg-[#f9fafb] disabled:opacity-60 transition-all"
+              >
+                {msgCopied ? (
+                  <>
+                    <Check size={18} className="text-[#10b981]" /> Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy size={18} /> Copy
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
