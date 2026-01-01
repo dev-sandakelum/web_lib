@@ -179,8 +179,8 @@ export default function BirthdayPostGenerator() {
         >
           <div className="p-6 flex-1">
             <div
-              style={{ width: `100%`, height: `${1350 * 0.275}px` }}
-              className="overflow-hidden rounded-xl transition-all mb-6 md:hidden flex"
+              style={{ width: `auto`, height: `${1350 * 0.275}px` }}
+              className="overflow-hidden rounded-md transition-all mb-6 md:hidden flex"
             >
               <div
                 style={{
