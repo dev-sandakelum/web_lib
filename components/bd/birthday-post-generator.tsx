@@ -432,8 +432,8 @@ Generate the message now.`,
             <p
               className={`w-full p-4 border-2 border-dashed text-sm rounded-lg cursor-pointer gap-3 transition-all`}
             >
-              {msgList?.map((msg) => (
-                <span>{msg}<br/></span>
+              {msgList?.map((msg,idx) => (
+                <span key={idx+"o"}>{msg}<br/></span>
               ))}
             </p>
             <div className="flex gap-3">

@@ -66,7 +66,7 @@ export const BirthdayPostTemplate = React.forwardRef<
             backgroundColor: profileImage ? "transparent" : "transparent",
             border: profileImage ? "none" : "2px solid blue",
             backgroundPosition: "center",
-            backgroundSize: "cover",
+            backgroundSize: "125%",
             backgroundRepeat: "no-repeat",
             borderRadius: "50%",
             zIndex: 25,

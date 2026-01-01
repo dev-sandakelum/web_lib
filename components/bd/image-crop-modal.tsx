@@ -129,7 +129,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({ imageUrl, onSave
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[1000] p-4">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[1000] p-4 w-[500px] max-w-full">
       <div className="bg-[#fbfbfb] rounded-2xl p-6 max-w-[540px] w-full shadow-2xl flex flex-col">
         <div className="flex justify-between items-center mb-5">
           <h3 className="text-xl font-semibold text-[#34343e] m-0">Adjust Photo</h3>
@@ -162,7 +162,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({ imageUrl, onSave
               type="range"
               min="0.5"
               max="3"
-              step="0.1"
+              step="0.01"
               value={transform.scale}
               onChange={(e) => updateTransform("scale", Number.parseFloat(e.target.value))}
               className="flex-1 h-1 rounded cursor-pointer accent-[#7b7dee]"

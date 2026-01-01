@@ -1,1 +1,1 @@
-feat: add message generation functionality in BirthdayPostGenerator component and create API route for AI integration
+fix: add unique keys to message list items and adjust image crop modal styling
