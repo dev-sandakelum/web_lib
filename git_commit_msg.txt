@@ -1,1 +1,1 @@
-feat: implement Toast component with customizable variants and actions
+chore: update dependencies for Next.js and React to latest versions
