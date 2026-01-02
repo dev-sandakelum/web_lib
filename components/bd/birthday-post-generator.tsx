@@ -2,7 +2,15 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
-import { Upload, Download, Copy, Check, Sparkles, Send } from "lucide-react";
+import {
+  Upload,
+  Download,
+  Copy,
+  Check,
+  Sparkles,
+  Send,
+  RefreshCcw,
+} from "lucide-react";
 import { BirthdayPostTemplate } from "./birthday-post-template";
 import { ImageCropModal } from "./image-crop-modal";
 import { TEMPLATES } from "@/lib/templates";
@@ -44,6 +52,7 @@ export default function BirthdayPostGenerator() {
   const [scale, setScale] = useState(0.3);
   const [MSG, setMSG] = useState("");
   const [msgList, setMsgList] = useState<string[]>();
+  const [refreshMessageBtn, setRefreshMessageBtn] = useState(false);
 
   const hiddenCanvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,8 +64,8 @@ export default function BirthdayPostGenerator() {
   const handleAccess = (e: string) => {
     if (e == PASS_key) {
       setFormData((prev) => ({ ...prev, access: true }));
-    }else{
-      setFormData((prev) => ({ ...prev, access: false }) );
+    } else {
+      setFormData((prev) => ({ ...prev, access: false }));
     }
   };
 
@@ -189,6 +198,54 @@ Generate the message now.`,
     }
     setIsMsgGenerating(false);
   };
+
+  const handle_Refresh_Message = async () => {
+    setRefreshMessageBtn(true);
+
+    try {
+      const response = await fetch("/api/bd/msg", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Send the data the backend expects
+        body: JSON.stringify({
+          prompt: `Write a warm, authentic, and human-sounding birthday wish.
+
+Guidelines:
+
+Voice: Genuine, supportive, and uplifting. Avoid robotic phrases.
+
+Content: Focus on the journey, happiness, and future success.
+
+Constraint: Do not include any names or specific titles (like 'batchmate' or 'friend'). It should be universal.
+
+Emojis: Integrate a few calm, elegant emojis (like ✨, 💛, 🥂, or 🌿) naturally into the text.
+
+Length Constraint:
+
+Strict Character Count: The output must be between 300 and 340 characters (including spaces and emojis).
+
+Output Format:
+
+Provide ONLY the wish text.
+
+Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, and unforgettable memories. ✨ May this year bring new opportunities, endless happiness, and the courage to chase your dreams. You have achieved so much, and the best is yet to come—keep shining bright and spreading positivity. Celebrate your journey and enjoy another amazing year of joy! 💛`,
+        }),
+      });
+      const msg = await response.json();
+      const msgOutput: string = msg.result.content;
+      setMSG(msgOutput);
+      setFormData((pre) => ({ ...pre, ["message"]: msgOutput }));
+      console.log(msgOutput);
+    } catch (err) {
+      console.log(err);
+    }
+    setTimeout(() => {
+      setRefreshMessageBtn(false);
+    }, 1000);
+    // setRefreshMessageBtn(false);
+  };
   const handleCopyMSG = async () => {
     try {
       await navigator.clipboard.write([
@@ -261,7 +318,7 @@ Generate the message now.`,
                 }}
               >
                 <BirthdayPostTemplate
-                  data={{ ...formData, template: selectedTemplate }} 
+                  data={{ ...formData, template: selectedTemplate }}
                 />
               </div>
             </div>
@@ -353,14 +410,29 @@ Generate the message now.`,
               ))}
 
               <div>
-                <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
-                  Birthday Message
-                </label>
+                <div className="flex justify-between items-baseline pr-2">
+                  <div className="flex gap-6  items-center ">
+                    <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
+                      Birthday Message
+                    </label>
+                    <div onClick={() => handle_Refresh_Message()}>
+                      <RefreshCcw
+                        className={
+                          refreshMessageBtn
+                            ? "[animation:spin_1s_linear_infinite_reverse]"
+                            : ""
+                        }
+                        size={20}
+                      />
+                    </div>
+                  </div>
+                    <div className="text-gray-700"><p>{formData.message.length}</p></div>
+                </div>
                 <textarea
                   value={formData.message}
                   onChange={(e) => updateFormData("message", e.target.value)}
                   placeholder="Enter your birthday message..."
-                  rows={3}
+                  rows={6}
                   className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border resize-y focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
                 />
               </div>
@@ -370,9 +442,7 @@ Generate the message now.`,
                 </label>
                 <input
                   type="text"
-                  onChange={(e) =>
-                    handleAccess(e.target.value)
-                  }
+                  onChange={(e) => handleAccess(e.target.value)}
                   placeholder="Enter key to Remove bad things"
                   className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
                 />

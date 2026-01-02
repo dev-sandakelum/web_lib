@@ -1188,6 +1188,7 @@ export default function BirthdayPostGenerator() {
                     resize: "vertical",
                   }}
                 />
+                
               </div>
 
               {/* Photo Upload */}

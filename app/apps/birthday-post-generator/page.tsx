@@ -1,4 +1,5 @@
-import BirthdayPostGenerator from '@/components/bd_post_generator'
+import BirthdayPostGenerator from "@/components/bd/birthday-post-generator";
+
 
 
 export default function page() {

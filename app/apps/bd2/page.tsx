@@ -1,9 +1,7 @@
-import BirthdayPostGenerator from "@/components/bd/birthday-post-generator";
+import { redirect } from "next/navigation";
 
 
 
 export default function page() {
-  return (
-    <BirthdayPostGenerator/>
-  )
+  redirect("/apps/birthday-post-generator");
 }
