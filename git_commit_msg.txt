@@ -1,1 +1,1 @@
-feat: refactor BirthdayPostGenerator component and update routing for birthday post generation
+fix: update layout and styling in BirthdayPostGenerator component for improved responsiveness and visual consistency

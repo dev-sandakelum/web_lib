@@ -300,26 +300,40 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
       <div className="flex flex-1 overflow-hidden">
         {/* Editor Panel */}
         <div
-          className={`w-full md:w-[400px] bg-[#fbfbfb] border-r border-[#caced5] overflow-y-auto flex-col ${
+          className={`w-full md:w-[400px] bg-[#fbfbfb] border-r overflow-y-auto flex-col ${
             activeTab === "preview" ? "hidden md:flex" : "flex"
           }`}
         >
-          <div className="p-6 flex-1">
+          <div className="p-6 flex-1 justify-center  w-full h-[calc(150px * .275)}">
             <div
-              style={{ width: `auto`, height: `${1350 * 0.275}px` }}
-              className="overflow-hidden rounded-md transition-all mb-6 md:hidden flex"
+              className="flex justify-center w-full md:hidden mb-90 md:mb-0"
+              style={{ maxHeight: "calc(150px * .275)",
+                // display:
+               }}
             >
               <div
                 style={{
-                  width: "1080px",
-                  height: "1350px",
-                  transform: `scale(.275)`,
-                  transformOrigin: "top left",
+                  width: "calc(1080px * .275)",
+                  height: `${1350 * 0.275}px`,
+                  // border: "1px solid #ff0000ff",
+                  display: "flex",
                 }}
+                className=" rounded-md transition-all mb-6 flex md:hidden "
               >
-                <BirthdayPostTemplate
-                  data={{ ...formData, template: selectedTemplate }}
-                />
+                <div
+                  style={{
+                    width: "1080px",
+                    height: "1350px",
+                    transform: `scale(.275)`,
+                    transformOrigin: "top left",
+                    borderRadius:"10px",
+                  }}
+                className="flex md:hidden "
+                >
+                  <BirthdayPostTemplate
+                    data={{ ...formData, template: selectedTemplate }}
+                  />
+                </div>
               </div>
             </div>
             <h2 className="text-lg font-semibold mb-2 text-[#34343e]">
@@ -426,7 +440,9 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                       />
                     </div>
                   </div>
-                    <div className="text-gray-700"><p>{formData.message.length}</p></div>
+                  <div className="text-gray-700">
+                    <p>{formData.message.length}</p>
+                  </div>
                 </div>
                 <textarea
                   value={formData.message}
