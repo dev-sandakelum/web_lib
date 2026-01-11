@@ -160,7 +160,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = ({ imageUrl, onSave
             <ZoomOut size={18} className="text-[#666]" />
             <input
               type="range"
-              min="0.5"
+              min="0"
               max="3"
               step="0.01"
               value={transform.scale}

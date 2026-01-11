@@ -16,8 +16,6 @@ import { ImageCropModal } from "./image-crop-modal";
 import { TEMPLATES } from "@/lib/templates";
 import { loadScript, loadImageFile } from "@/lib/utils";
 import type { FormData } from "@/components/birthday-post";
-import { callGroq } from "@/lib/question-gen/openai-client";
-import { set } from "mongoose";
 
 const DEFAULT_FORM_DATA: FormData = {
   name: "",
@@ -315,7 +313,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                 style={{
                   width: "calc(1080px * .275)",
                   height: `${1350 * 0.275}px`,
-                  // border: "1px solid #ff0000ff",
+                  border: "1px solid #ff0000ff",
                   display: "flex",
                 }}
                 className=" rounded-md transition-all mb-6 flex md:hidden "

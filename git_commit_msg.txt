@@ -1,1 +1,1 @@
-fix: update layout and styling in BirthdayPostGenerator component for improved responsiveness and visual consistency
+fix: adjust image crop modal input range minimum value and update border styling in BirthdayPostGenerator component
