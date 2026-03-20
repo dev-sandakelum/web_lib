@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
+import { toPng } from "html-to-image";
 import {
   Upload,
   Download,
@@ -14,7 +15,7 @@ import {
 import { BirthdayPostTemplate } from "./birthday-post-template";
 import { ImageCropModal } from "./image-crop-modal";
 import { TEMPLATES } from "@/lib/templates";
-import { loadScript, loadImageFile } from "@/lib/utils";
+import { loadImageFile } from "@/lib/utils";
 import type { FormData } from "@/components/birthday-post";
 
 const DEFAULT_FORM_DATA: FormData = {
@@ -28,15 +29,6 @@ const DEFAULT_FORM_DATA: FormData = {
   templateId: "template1",
   access: false,
 };
-
-declare global {
-  interface Window {
-    html2canvas: (
-      element: HTMLElement | null,
-      options?: any
-    ) => Promise<HTMLCanvasElement>;
-  }
-}
 
 export default function BirthdayPostGenerator() {
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
@@ -59,6 +51,7 @@ export default function BirthdayPostGenerator() {
   const selectedTemplate =
     TEMPLATES.find((t) => t.id === formData.templateId) || TEMPLATES[0];
   const PASS_key = process.env.NEXT_PUBLIC_PASS_key;
+
   const handleAccess = (e: string) => {
     if (e == PASS_key) {
       setFormData((prev) => ({ ...prev, access: true }));
@@ -115,29 +108,48 @@ export default function BirthdayPostGenerator() {
     setTempImage(null);
   };
 
-  const generateImage = async () => {
+  // ─── generateImage using html-to-image (no oklch issue) ──────────────────────
+  // html-to-image serialises the DOM into SVG foreignObject instead of
+  // reading computed styles, so it never chokes on modern CSS color functions
+  // like oklch() that html2canvas 1.4.1 cannot parse.
+  const generateImage = async (): Promise<HTMLCanvasElement> => {
     setIsGenerating(true);
     try {
-      await loadScript(
-        "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-      );
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      if (!hiddenCanvasRef.current) throw new Error("Canvas not found");
+      if (!hiddenCanvasRef.current) throw new Error("Canvas ref not found");
 
-      const canvas = await window.html2canvas(hiddenCanvasRef.current, {
-        scale: 2,
+      const element = hiddenCanvasRef.current;
+
+      // html-to-image may mis-render on first call due to font/image loading.
+      // Calling toPng twice ensures a clean second render with everything loaded.
+      await toPng(element, { width: 1080, height: 1350, pixelRatio: 2 });
+      const dataUrl = await toPng(element, {
         width: 1080,
         height: 1350,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null,
-        logging: false,
+        pixelRatio: 2,
+        cacheBust: true,
       });
-      return canvas;
+
+      // Convert the dataUrl to an HTMLCanvasElement so the rest of the
+      // existing code (download link + clipboard copy) stays unchanged.
+      return await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return reject(new Error("Could not get canvas context"));
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas);
+        };
+        img.onerror = reject;
+        img.src = dataUrl;
+      });
     } finally {
       setIsGenerating(false);
     }
   };
+  // ─────────────────────────────────────────────────────────────────────────────
 
   const handleDownload = async () => {
     try {
@@ -149,18 +161,17 @@ export default function BirthdayPostGenerator() {
       link.href = canvas.toDataURL("image/png", 1.0);
       link.click();
     } catch (error) {
+      console.error("Download error:", error);
       alert("Error generating image.");
     }
   };
+
   const handleGenerateMSG = async () => {
     setIsMsgGenerating(true);
     try {
       const response = await fetch("/api/bd/msg", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // Send the data the backend expects
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: `Input:
 - Name: ${formData.name}
@@ -190,7 +201,6 @@ Generate the message now.`,
       const msgSaparate = msgOutput.split("\n");
       setMSG(msgOutput);
       setMsgList(msgSaparate);
-      console.log(msgSaparate);
     } catch (err) {
       console.log(err);
     }
@@ -199,14 +209,10 @@ Generate the message now.`,
 
   const handle_Refresh_Message = async () => {
     setRefreshMessageBtn(true);
-
     try {
       const response = await fetch("/api/bd/msg", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // Send the data the backend expects
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: `Write a warm, authentic, and human-sounding birthday wish.
 
@@ -235,15 +241,12 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
       const msgOutput: string = msg.result.content;
       setMSG(msgOutput);
       setFormData((pre) => ({ ...pre, ["message"]: msgOutput }));
-      console.log(msgOutput);
     } catch (err) {
       console.log(err);
     }
-    setTimeout(() => {
-      setRefreshMessageBtn(false);
-    }, 1000);
-    // setRefreshMessageBtn(false);
+    setTimeout(() => setRefreshMessageBtn(false), 1000);
   };
+
   const handleCopyMSG = async () => {
     try {
       await navigator.clipboard.write([
@@ -287,12 +290,6 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
             Birthday Post Studio - 9th Batch
           </h1>
         </div>
-        {/* <button
-          onClick={() => setActiveTab("preview")}
-          className={`md:hidden flex items-center gap-2 px-4 py-2 bg-[#7b7dee] text-white border-none rounded-lg text-sm font-semibold cursor-pointer ${activeTab === "preview" ? "hidden" : "flex"}`}
-        >
-          PREVIEW →
-        </button> */}
       </nav>
 
       <div className="flex flex-1 overflow-hidden">
@@ -302,12 +299,10 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
             activeTab === "preview" ? "hidden md:flex" : "flex"
           }`}
         >
-          <div className="p-6 flex-1 justify-center  w-full h-[calc(150px * .275)}">
+          <div className="p-6 flex-1 justify-center w-full h-[calc(150px * .275)}">
             <div
               className="flex justify-center w-full md:hidden mb-90 md:mb-0"
-              style={{ maxHeight: "calc(150px * .275)",
-                // display:
-               }}
+              style={{ maxHeight: "calc(150px * .275)" }}
             >
               <div
                 style={{
@@ -316,7 +311,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                   border: "1px solid #ff0000ff",
                   display: "flex",
                 }}
-                className=" rounded-md transition-all mb-6 flex md:hidden "
+                className="rounded-md transition-all mb-6 flex md:hidden"
               >
                 <div
                   style={{
@@ -324,9 +319,9 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                     height: "1350px",
                     transform: `scale(.275)`,
                     transformOrigin: "top left",
-                    borderRadius:"10px",
+                    borderRadius: "10px",
                   }}
-                className="flex md:hidden "
+                  className="flex md:hidden"
                 >
                   <BirthdayPostTemplate
                     data={{ ...formData, template: selectedTemplate }}
@@ -334,6 +329,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                 </div>
               </div>
             </div>
+
             <h2 className="text-lg font-semibold mb-2 text-[#34343e]">
               Details
             </h2>
@@ -365,10 +361,6 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                         }}
                         className="w-full h-20 flex items-center justify-center flex-col gap-2"
                       >
-                        {/* <div
-                          style={{ background: template.ringGradient, boxShadow: `0 0 15px ${template.ringGlow}` }}
-                          className="w-10 h-10 rounded-full"
-                        /> */}
                         <span className="text-[11px] text-white font-semibold uppercase tracking-wider">
                           {template.name}
                         </span>
@@ -384,26 +376,10 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
               </div>
 
               {[
-                {
-                  label: "Full Name",
-                  field: "name",
-                  placeholder: "Enter full name",
-                },
-                {
-                  label: "Batch",
-                  field: "batch",
-                  placeholder: "e.g. 2k23/2k24 Batch",
-                },
-                {
-                  label: "Faculty",
-                  field: "faculty",
-                  placeholder: "e.g. Faculty Of Technology",
-                },
-                {
-                  label: "University",
-                  field: "university",
-                  placeholder: "e.g. University of Ruhuna",
-                },
+                { label: "Full Name",  field: "name",       placeholder: "Enter full name" },
+                { label: "Batch",      field: "batch",      placeholder: "e.g. 2k23/2k24 Batch" },
+                { label: "Faculty",    field: "faculty",    placeholder: "e.g. Faculty Of Technology" },
+                { label: "University", field: "university", placeholder: "e.g. University of Ruhuna" },
               ].map((input) => (
                 <div key={input.field}>
                   <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
@@ -423,7 +399,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
 
               <div>
                 <div className="flex justify-between items-baseline pr-2">
-                  <div className="flex gap-6  items-center ">
+                  <div className="flex gap-6 items-center">
                     <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
                       Birthday Message
                     </label>
@@ -450,6 +426,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                   className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border resize-y focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
                 />
               </div>
+
               <div key="passkey">
                 <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
                   Access Key
@@ -461,6 +438,7 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
                   className="w-full p-3 border border-[#caced5] rounded-lg text-sm bg-white text-[#34343e] box-border focus:border-[#7b7dee] focus:ring-2 focus:ring-[#7b7dee]/20 transition-all outline-hidden"
                 />
               </div>
+
               <div>
                 <label className="block text-[13px] font-semibold text-[#34343e] mb-2 uppercase tracking-wider">
                   Profile Photo
@@ -534,10 +512,9 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
               )}
             </button>
           </div>
+
           <div className="p-5 md:p-6 border-t border-[#caced5] bg-[#fbfbfb] flex gap-3 flex-col">
-            <p
-              className={`w-full p-4 border-2 border-dashed text-sm rounded-lg cursor-pointer gap-3 transition-all`}
-            >
+            <p className="w-full p-4 border-2 border-dashed text-sm rounded-lg cursor-pointer gap-3 transition-all">
               {msgList?.map((msg, idx) => (
                 <span key={idx + "o"}>
                   {msg}
@@ -626,11 +603,19 @@ Reference Vibe (Target this length): 'Wishing you a day full of love, laughter, 
         </div>
       </div>
 
-      {/* Hidden Render Element */}
-      {/* <div className="fixed -left-[130px] -top-[300px] w-[1080px] h-[1350px] scale-45">
-        <BirthdayPostTemplate data={{ ...formData, template: selectedTemplate }} edit={true} />
-      </div> */}
-      <div className="fixed -left-[13000px] -top-[300000px] w-[1080px] h-[1350px] ">
+      {/* Hidden render element for capture — positioned just off-screen left */}
+      <div
+        style={{
+          position: "fixed",
+          left: "0px",
+          top: "-3000px",
+          width: "1080px",
+          height: "1350px",
+          pointerEvents: "none",
+          zIndex: 100,
+          // scale:.4,
+        }}
+      >
         <BirthdayPostTemplate
           ref={hiddenCanvasRef}
           data={{ ...formData, template: selectedTemplate }}

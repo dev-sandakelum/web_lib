@@ -4,10 +4,18 @@ import type { BirthdayPostData } from "@/components/birthday-post";
 
 export const BirthdayPostTemplate = React.forwardRef<
   HTMLDivElement,
-  { data: BirthdayPostData , edit?:Boolean  }
->(({ data, edit  }, ref) => {
-  const { name, batch, faculty, university, profileImage, message, template , access} =
-    data;
+  { data: BirthdayPostData; edit?: Boolean }
+>(({ data, edit }, ref) => {
+  const {
+    name,
+    batch,
+    faculty,
+    university,
+    profileImage,
+    message,
+    template,
+    access,
+  } = data;
   const noAccess = edit && !access;
   return (
     <div
@@ -27,26 +35,27 @@ export const BirthdayPostTemplate = React.forwardRef<
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
-      <div style={{
-        width: "1080px",
-        height: "1350px",
-        position: "absolute",
-        left: 0,
-        top: 0,
-        overflow: "hidden",
-        display: noAccess ?   "flex":"none",
-        flexDirection: "column",
-        alignItems: "center",
-        zIndex: 30,
-        color: "#fff",
-        fontSize: "48px",
-        fontWeight: "bold",
-        backgroundColor: "rgba(0, 0, 0, 0.6)",
-        justifyContent: "center",
-      }}>
+      <div
+        style={{
+          width: "1080px",
+          height: "1350px",
+          position: "absolute",
+          left: 0,
+          top: 0,
+          overflow: "hidden",
+          display: noAccess ? "flex" : "none",
+          flexDirection: "column",
+          alignItems: "center",
+          zIndex: 30,
+          color: "#fff",
+          fontSize: "48px",
+          fontWeight: "bold",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+          justifyContent: "center",
+        }}
+      >
         <h1>YOU DON'T HAVE ACCESS</h1>
         <p>Please enter your access key to proceed.</p>
-
       </div>
       {/* Happy Birthday Title */}
       <div
@@ -121,11 +130,11 @@ export const BirthdayPostTemplate = React.forwardRef<
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: edit ? "25px" :"18px",
+          gap: edit ? "25px" : "18px",
           fontFamily: "url('/bd/KulimPark-Bold.ttf')",
 
           height: "295px",
-          top: edit ? "782px" :"800px",
+          top: edit ? "782px" : "800px",
           // border: access ? "none" : "2px solid blue",
           zIndex: 15,
         }}
@@ -180,77 +189,77 @@ export const BirthdayPostTemplate = React.forwardRef<
       {/* Batch Badge */}
       {batch && (
         <>
-        <div
-          style={{
-            /* Group 5 */
-            position: "absolute",
-            width: "auto",
-            height: "159px",
+          <div
+            style={{
+              /* Group 5 */
+              position: "absolute",
+              width: "auto",
+              height: "159px",
 
-            border: access ? "none" : "2px solid blue",
-            top: edit ? "1140px" :"1152px"  ,
-            display: "flex",
-            flexDirection: "column",
-          fontFamily: "url('/bd/KulimPark-Bold.ttf')",
-            alignItems: "center",
-          }}
-        >
-          <p
-            style={{
-              /* -- 9th Batch -- */
-              fontStyle: "normal",
-              fontWeight: 400,
-              fontSize: "24px",
-              lineHeight: "150%",
-              /* identical to box height, or 36px */
-              textAlign: "center",
-              letterSpacing: "0.2em",
-              color: "#FFFFFF",
-            }}
-          >
-            -- {batch} --
-          </p>
-          <p
-            style={{
-              fontStyle: "normal",
-              fontWeight: 400,
-              fontSize: "24px",
-              lineHeight: "150%",
-              /* identical to box height, or 36px */
-              textAlign: "center",
-              letterSpacing: "0.2em",
-              color: "#FFFFFF",
-            }}
-          >
-            {faculty}
-          </p>
-          
-          <p
-            style={{
-              /* Faculty Of Technology UNIVERSITY OF RUHUNA */
-              fontStyle: "normal",
-              fontWeight: 400,
-              fontSize: "24px",
-              lineHeight: "250%",
-              /* or 60px */
-              textAlign: "center",
-              paddingLeft:"18px",
-              letterSpacing: "18px",
               border: access ? "none" : "2px solid blue",
-              color: "#FFFFFF",
-              marginTop: "10px",
-              textTransform: "uppercase",
-              // transform: "translateY(-64px)",
+              top: edit ? "1140px" : "1152px",
+              display: "flex",
+              flexDirection: "column",
+              fontFamily: "url('/bd/KulimPark-Bold.ttf')",
+              alignItems: "center",
             }}
           >
-            {university}
-          </p>
-        </div>
-        <div
+            <p
+              style={{
+                /* -- 9th Batch -- */
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "24px",
+                lineHeight: "150%",
+                /* identical to box height, or 36px */
+                textAlign: "center",
+                letterSpacing: "0.2em",
+                color: "#FFFFFF",
+              }}
+            >
+              -- {batch} --
+            </p>
+            <p
+              style={{
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "24px",
+                lineHeight: "150%",
+                /* identical to box height, or 36px */
+                textAlign: "center",
+                letterSpacing: "0.2em",
+                color: "#FFFFFF",
+              }}
+            >
+              {faculty}
+            </p>
+
+            <p
+              style={{
+                /* Faculty Of Technology UNIVERSITY OF RUHUNA */
+                fontStyle: "normal",
+                fontWeight: 400,
+                fontSize: "24px",
+                lineHeight: "250%",
+                /* or 60px */
+                textAlign: "center",
+                paddingLeft: "18px",
+                letterSpacing: "18px",
+                border: access ? "none" : "2px solid blue",
+                color: "#FFFFFF",
+                marginTop: "10px",
+                textTransform: "uppercase",
+                transform: edit ? "translateY(10px)" : "translateY(0)",
+              }}
+            >
+              {university}
+            </p>
+          </div>
+          <div
             style={{
               /* Faculty Of Technology UNIVERSITY OF RUHUNA */
               position: "absolute",
-              bottom:"60px",
+              bottom: "60px",
               fontStyle: "normal",
               minHeight: "54px",
               width: "622px",
