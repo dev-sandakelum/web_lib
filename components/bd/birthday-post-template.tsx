@@ -64,7 +64,7 @@ export const BirthdayPostTemplate = React.forwardRef<
           position: "absolute",
           width: "780px",
           height: "224px",
-          top: "128px",
+          top: edit ? "96px" : "128px",
           /* identical to box height */
           backgroundImage: "url(/bd/text/HappyBirthday.png)",
           backgroundRepeat: "no-repeat",
@@ -130,11 +130,11 @@ export const BirthdayPostTemplate = React.forwardRef<
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: edit ? "25px" : "18px",
+          gap: "18px",
           fontFamily: "url('/bd/KulimPark-Bold.ttf')",
 
           height: "295px",
-          top: edit ? "782px" : "800px",
+          top: edit ? "800px" : "800px",
           // border: access ? "none" : "2px solid blue",
           zIndex: 15,
         }}
@@ -197,7 +197,7 @@ export const BirthdayPostTemplate = React.forwardRef<
               height: "159px",
 
               border: access ? "none" : "2px solid blue",
-              top: edit ? "1140px" : "1152px",
+              top: edit ? "1152px" : "1152px",
               display: "flex",
               flexDirection: "column",
               fontFamily: "url('/bd/KulimPark-Bold.ttf')",
@@ -249,7 +249,7 @@ export const BirthdayPostTemplate = React.forwardRef<
                 color: "#FFFFFF",
                 marginTop: "10px",
                 textTransform: "uppercase",
-                transform: edit ? "translateY(10px)" : "translateY(0)",
+                transform: "translateY(0)",
               }}
             >
               {university}
