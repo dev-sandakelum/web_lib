@@ -181,7 +181,9 @@ export default function BirthdayGenerator3() {
         }),
       });
       const data = await res.json();
-      set("message", data.result?.content ?? "");
+      if (data.result?.content) {
+        set("message", data.result.content);
+      }
     } catch (err) { console.error(err); }
     setTimeout(() => setIsRefreshing(false), 800);
   };
