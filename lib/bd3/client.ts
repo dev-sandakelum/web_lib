@@ -20,11 +20,13 @@ function delay(ms: number) {
 
 export async function callBd3(
   messages: ChatMessage[],
-  retries = 3,
-  temperature = 0.85
+  temperature = 0.9
 ): Promise<{ content: string; model: string }> {
-  for (let attempt = 0; attempt < retries; attempt++) {
-    const apiKey = getRandomKey()
+  // Try each key before giving up — spreads load and avoids per-key rate limits
+  const shuffledKeys = [...API_KEYS].sort(() => Math.random() - 0.5)
+
+  for (let i = 0; i < shuffledKeys.length; i++) {
+    const apiKey = shuffledKeys[i]
     try {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -36,35 +38,33 @@ export async function callBd3(
           model: MODEL,
           messages,
           temperature,
-          max_tokens: 1024,
-          seed: Math.floor(Math.random() * 1_000_000),
+          max_tokens: 512,
+          seed: Math.floor(Math.random() * 9_999_999),
         }),
       })
 
       const data = await res.json().catch(() => ({}))
 
-      if (!res.ok) {
-        const msg = data?.error?.message || `Groq returned ${res.status}`
-        if (res.status === 429 && attempt < retries - 1) {
-          await delay(1000 * (attempt + 1))
-          continue
-        }
-        throw new Error(msg)
+      if (res.status === 429) {
+        // Try next key immediately instead of waiting
+        if (i < shuffledKeys.length - 1) continue
+        // All keys rate-limited — short wait then last attempt
+        await delay(1500)
+        continue
       }
 
-      const content = data?.choices?.[0]?.message?.content ?? ""
+      if (!res.ok) {
+        throw new Error(data?.error?.message || `Groq returned ${res.status}`)
+      }
+
+      const content = data?.choices?.[0]?.message?.content?.trim() ?? ""
       if (!content) throw new Error("Empty response from Groq")
       return { content, model: MODEL }
     } catch (err: any) {
-      const isRateLimit =
-        err?.message?.includes("429") ||
-        err?.message?.toLowerCase().includes("rate limit")
-      if (isRateLimit && attempt < retries - 1) {
-        await delay(1000 * (attempt + 1))
-        continue
-      }
+      if (i < shuffledKeys.length - 1) continue
       throw err
     }
   }
-  throw new Error("Failed after retries")
+
+  throw new Error("All API keys exhausted")
 }
