@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const len = result.content.length
 
       if (len >= CHAR_MIN && len <= CHAR_MAX) {
-        return NextResponse.json({ result })
+        return NextResponse.json({ result, attempts: attempt, matched: true })
       }
 
       lastResult = result
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     }
 
     // Return best effort if all attempts miss the range
-    return NextResponse.json({ result: lastResult })
+    return NextResponse.json({ result: lastResult, attempts: MAX_ATTEMPTS, matched: false })
   } catch (error) {
     console.error("[bd3/msg] Error:", error)
     return NextResponse.json(

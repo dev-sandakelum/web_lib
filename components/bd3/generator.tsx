@@ -66,6 +66,8 @@ export default function BirthdayGenerator3() {
   const downloadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMsgGen, setIsMsgGen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshAttempt, setRefreshAttempt] = useState(0);
+  const [refreshMatched, setRefreshMatched] = useState<boolean | null>(null);
   const [msgCopied, setMsgCopied] = useState(false);
   const [generatedMsg, setGeneratedMsg] = useState("");
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
@@ -172,6 +174,12 @@ export default function BirthdayGenerator3() {
 
   const handleRefreshMsg = async () => {
     setIsRefreshing(true);
+    setRefreshAttempt(0);
+    setRefreshMatched(null);
+    // Animate attempt counter while waiting (server retries happen internally)
+    const ticker = setInterval(() => {
+      setRefreshAttempt((a) => Math.min(a + 1, 4));
+    }, 900);
     try {
       const res = await fetch("/api/bd3/msg", {
         method: "POST",
@@ -182,11 +190,21 @@ export default function BirthdayGenerator3() {
         }),
       });
       const data = await res.json();
+      clearInterval(ticker);
+      setRefreshAttempt(data.attempts ?? 1);
+      setRefreshMatched(data.matched ?? true);
       if (data.result?.content) {
         set("message", data.result.content);
       }
-    } catch (err) { console.error(err); }
-    setTimeout(() => setIsRefreshing(false), 800);
+    } catch (err) {
+      clearInterval(ticker);
+      console.error(err);
+    }
+    setTimeout(() => {
+      setIsRefreshing(false);
+      setRefreshAttempt(0);
+      setRefreshMatched(null);
+    }, 2000);
   };
 
   const handleCopyMsg = async () => {
@@ -667,7 +685,15 @@ export default function BirthdayGenerator3() {
 
         /* ── Msg toolbar ── */
         .bd3-msg-toolbar { display: flex; align-items: center; justify-content: space-between; }
-        .bd3-char-count { font-size: 10.5px; color: rgba(255,255,255,0.28); font-variant-numeric: tabular-nums; }
+        .bd3-char-info { display: flex; align-items: center; gap: 6px; }
+        .bd3-char-count { font-size: 10.5px; color: rgba(255,255,255,0.28); font-variant-numeric: tabular-nums; transition: color 0.3s; }
+        .bd3-char-count.bd3-char-searching { color: #a78bfa; }
+        .bd3-char-count.bd3-char-good { color: #34d399; }
+        .bd3-char-range { font-size: 10px; color: rgba(255,255,255,0.18); }
+        .bd3-root.light .bd3-char-count { color: rgba(0,0,0,0.35); }
+        .bd3-root.light .bd3-char-range { color: rgba(0,0,0,0.25); }
+
+        /* ── Refresh button ── */
         .bd3-refresh-btn {
           display: flex; align-items: center; gap: 6px;
           padding: 5px 10px; border-radius: 8px;
@@ -678,6 +704,53 @@ export default function BirthdayGenerator3() {
         }
         .bd3-refresh-btn:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); }
         .bd3-refresh-btn:disabled { opacity: 0.45; pointer-events: none; }
+        .bd3-refresh-btn.bd3-refresh-active {
+          border-color: rgba(167,139,250,0.35);
+          background: rgba(124,58,237,0.1);
+          color: #a78bfa;
+          opacity: 1;
+          pointer-events: none;
+        }
+        .bd3-refresh-label { font-size: 11px; font-weight: 600; min-width: 40px; }
+
+        /* spinning ring inside button */
+        .bd3-refresh-ring { flex-shrink: 0; }
+        .bd3-ring-spin {
+          transform-origin: 6.5px 6.5px;
+          animation: bd3-ring 1s linear infinite;
+        }
+        @keyframes bd3-ring { to { transform: rotate(360deg); } }
+
+        /* ── Refresh progress bar ── */
+        .bd3-refresh-progress {
+          position: relative;
+          height: 3px;
+          background: rgba(255,255,255,0.06);
+          border-radius: 99px;
+          overflow: visible;
+          margin-bottom: 2px;
+        }
+        .bd3-refresh-progress-bar {
+          height: 100%;
+          border-radius: 99px;
+          background: linear-gradient(90deg, #7c3aed, #a78bfa, #34d399);
+          background-size: 200% 100%;
+          transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          animation: bd3-shimmer 1.8s linear infinite;
+        }
+        @keyframes bd3-shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        .bd3-refresh-progress-label {
+          display: block;
+          margin-top: 5px;
+          font-size: 9px; font-weight: 600;
+          color: rgba(255,255,255,0.3);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
         .bd3-spin { animation: bd3-spin 0.9s linear infinite; }
         @keyframes bd3-spin { to { transform: rotate(-360deg); } }
 
@@ -1000,17 +1073,70 @@ export default function BirthdayGenerator3() {
               {/* Birthday Message */}
               <SectionCard title="Birthday Message" icon={<MessageSquare size={13} />} accent="#86efac">
                 <div className="bd3-msg-toolbar">
-                  <span className="bd3-char-count">{form.message.length} chars</span>
+                  {/* char counter — shows live target range while refreshing */}
+                  <div className="bd3-char-info">
+                    <span className={`bd3-char-count ${
+                      isRefreshing ? "bd3-char-searching" :
+                      form.message.length >= 250 && form.message.length <= 300 ? "bd3-char-good" : ""
+                    }`}>
+                      {form.message.length} chars
+                    </span>
+                    {!isRefreshing && form.message.length > 0 && (
+                      <span className="bd3-char-range">
+                        {form.message.length >= 250 && form.message.length <= 300
+                          ? "✓ in range"
+                          : "target 250–300"}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* refresh button — morphs during search */}
                   <button
-                    className="bd3-refresh-btn"
+                    className={`bd3-refresh-btn ${isRefreshing ? "bd3-refresh-active" : ""}`}
                     onClick={handleRefreshMsg}
                     disabled={isRefreshing}
-                    title="AI: generate short message for image"
+                    title="AI: generate short message for image (250–300 chars)"
                   >
-                    <RefreshCcw size={11} className={isRefreshing ? "bd3-spin" : ""} />
-                    AI Refresh
+                    {isRefreshing ? (
+                      <>
+                        {/* animated ring */}
+                        <svg width="13" height="13" viewBox="0 0 13 13" className="bd3-refresh-ring">
+                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="rgba(139,92,246,0.25)" strokeWidth="1.5" />
+                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#a78bfa" strokeWidth="1.5"
+                            strokeDasharray="31.4" strokeDashoffset="10"
+                            strokeLinecap="round" className="bd3-ring-spin" />
+                        </svg>
+                        <span className="bd3-refresh-label">
+                          {refreshMatched === null
+                            ? `try ${Math.max(refreshAttempt, 1)}/5`
+                            : refreshMatched
+                              ? <span style={{ color: "#34d399" }}>matched ✓</span>
+                              : <span style={{ color: "#fb923c" }}>best fit</span>
+                          }
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCcw size={11} />
+                        AI Refresh
+                      </>
+                    )}
                   </button>
                 </div>
+
+                {/* progress bar — only visible while retrying */}
+                {isRefreshing && (
+                  <div className="bd3-refresh-progress">
+                    <div
+                      className="bd3-refresh-progress-bar"
+                      style={{ width: `${(Math.max(refreshAttempt, 1) / 5) * 100}%` }}
+                    />
+                    <span className="bd3-refresh-progress-label">
+                      searching for best match…
+                    </span>
+                  </div>
+                )}
+
                 <textarea
                   className="bd3-textarea"
                   value={form.message}
