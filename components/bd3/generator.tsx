@@ -67,6 +67,7 @@ export default function BirthdayGenerator3() {
   const [isMsgGen, setIsMsgGen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshAttempt, setRefreshAttempt] = useState(0);
+  const [refreshMaxAttempts, setRefreshMaxAttempts] = useState(5);
   const [refreshMatched, setRefreshMatched] = useState<boolean | null>(null);
   const [msgCopied, setMsgCopied] = useState(false);
   const [generatedMsg, setGeneratedMsg] = useState("");
@@ -177,9 +178,9 @@ export default function BirthdayGenerator3() {
     setIsRefreshing(true);
     setRefreshAttempt(0);
     setRefreshMatched(null);
-    // Animate attempt counter while waiting (server retries happen internally)
+    // Tick attempt counter visually — cap will be updated from response
     const ticker = setInterval(() => {
-      setRefreshAttempt((a) => Math.min(a + 1, 4));
+      setRefreshAttempt((a) => Math.min(a + 1, refreshMaxAttempts - 1));
     }, 900);
     try {
       const res = await fetch("/api/bd3/msg", {
@@ -193,6 +194,8 @@ export default function BirthdayGenerator3() {
       });
       const data = await res.json();
       clearInterval(ticker);
+      const max = data.maxAttempts ?? refreshMaxAttempts;
+      setRefreshMaxAttempts(max);
       setRefreshAttempt(data.attempts ?? 1);
       setRefreshMatched(data.matched ?? true);
       if (data.result?.content) {
@@ -1110,7 +1113,7 @@ export default function BirthdayGenerator3() {
                         </svg>
                         <span className="bd3-refresh-label">
                           {refreshMatched === null
-                            ? `try ${Math.max(refreshAttempt, 1)}/5`
+                            ? `try ${Math.max(refreshAttempt, 1)}/${refreshMaxAttempts}`
                             : refreshMatched
                               ? <span style={{ color: "#34d399" }}>matched ✓</span>
                               : <span style={{ color: "#fb923c" }}>best fit</span>
@@ -1131,7 +1134,7 @@ export default function BirthdayGenerator3() {
                   <div className="bd3-refresh-progress">
                     <div
                       className="bd3-refresh-progress-bar"
-                      style={{ width: `${(Math.max(refreshAttempt, 1) / 5) * 100}%` }}
+                      style={{ width: `${(Math.max(refreshAttempt, 1) / refreshMaxAttempts) * 100}%` }}
                     />
                     <span className="bd3-refresh-progress-label">
                       searching for best match…
