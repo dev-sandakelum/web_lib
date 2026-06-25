@@ -5,10 +5,11 @@ import { toPng } from "html-to-image";
 import {
   Upload, Download, Copy, Check, Sparkles, RefreshCcw,
   Eye, Pencil, Wand2, User, MessageSquare,
-  Lock, Camera, Palette, Stars, Crop,
+  Lock, Camera, Palette, Stars, Crop, Sun, Moon,
 } from "lucide-react";
 import { PostTemplate3 } from "./post-template";
 import { CropModal3 } from "./crop-modal";
+import { LoadingOverlay } from "./loading-overlay";
 import { TEMPLATES3 } from "./templates";
 import type { FormData3, ImageTransform3 } from "./types";
 import { loadImageFile } from "@/lib/utils";
@@ -59,7 +60,13 @@ export default function BirthdayGenerator3() {
   const [originalImage, setOriginalImage] = useState<string | null>(null); // raw uncropped url
   const [savedTransform, setSavedTransform] = useState<ImageTransform3 | undefined>();
   const [showCrop, setShowCrop] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
+  // delayed visibility — overlay only appears after 1s so quick ops skip it
+  const [showDownloadOverlay, setShowDownloadOverlay] = useState(false);
+  const [showCopyOverlay, setShowCopyOverlay] = useState(false);
+  const downloadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isMsgGen, setIsMsgGen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -68,6 +75,7 @@ export default function BirthdayGenerator3() {
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
   const [scale, setScale] = useState(0.3);
   const [accessInput, setAccessInput] = useState("");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -117,26 +125,25 @@ export default function BirthdayGenerator3() {
   };
 
   const captureImage = async (): Promise<HTMLCanvasElement> => {
-    setIsGenerating(true);
-    try {
-      if (!hiddenRef.current) throw new Error("Render ref not found");
-      await toPng(hiddenRef.current, { width: 1080, height: 1350, pixelRatio: 2 });
-      const dataUrl = await toPng(hiddenRef.current, { width: 1080, height: 1350, pixelRatio: 2, cacheBust: true });
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          const c = document.createElement("canvas");
-          c.width = img.width; c.height = img.height;
-          c.getContext("2d")!.drawImage(img, 0, 0);
-          resolve(c);
-        };
-        img.onerror = reject;
-        img.src = dataUrl;
-      });
-    } finally { setIsGenerating(false); }
+    if (!hiddenRef.current) throw new Error("Render ref not found");
+    await toPng(hiddenRef.current, { width: 1080, height: 1350, pixelRatio: 2 });
+    const dataUrl = await toPng(hiddenRef.current, { width: 1080, height: 1350, pixelRatio: 2, cacheBust: true });
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = img.width; c.height = img.height;
+        c.getContext("2d")!.drawImage(img, 0, 0);
+        resolve(c);
+      };
+      img.onerror = reject;
+      img.src = dataUrl;
+    });
   };
 
   const handleDownload = async () => {
+    setIsDownloading(true);
+    downloadTimerRef.current = setTimeout(() => setShowDownloadOverlay(true), 1000);
     try {
       const canvas = await captureImage();
       const a = document.createElement("a");
@@ -144,19 +151,38 @@ export default function BirthdayGenerator3() {
       a.href = canvas.toDataURL("image/png", 1.0);
       a.click();
     } catch { alert("Error generating image."); }
+    finally {
+      if (downloadTimerRef.current) clearTimeout(downloadTimerRef.current);
+      setShowDownloadOverlay(false);
+      setIsDownloading(false);
+    }
   };
 
   const handleCopyImage = async () => {
+    setIsCopying(true);
+    copyTimerRef.current = setTimeout(() => setShowCopyOverlay(true), 1000);
     try {
       const canvas = await captureImage();
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
-        try {
-          await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-          setCopied(true); setTimeout(() => setCopied(false), 2500);
-        } catch { alert("Could not copy to clipboard."); }
+      // wrap toBlob in a promise so we can await it properly
+      await new Promise<void>((resolve, reject) => {
+        canvas.toBlob(async (blob) => {
+          if (!blob) { reject(new Error("No blob")); return; }
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2500);
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        }, "image/png");
       });
-    } catch { alert("Error copying."); }
+    } catch { alert("Could not copy to clipboard."); }
+    finally {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      setShowCopyOverlay(false);
+      setIsCopying(false);
+    }
   };
 
   const handleGenerateMsg = async () => {
@@ -222,6 +248,126 @@ export default function BirthdayGenerator3() {
           position: fixed;
           inset: 0;
         }
+        /* ── Light theme overrides ── */
+        .bd3-root.light {
+          background: #f4f4f8;
+          color: #1a1a2e;
+        }
+        .bd3-root.light .bd3-nav {
+          background: rgba(255,255,255,0.9);
+          border-bottom-color: rgba(0,0,0,0.08);
+        }
+        .bd3-root.light .bd3-nav-title { color: #1a1a2e; }
+        .bd3-root.light .bd3-nav-sub   { color: rgba(0,0,0,0.4); }
+        .bd3-root.light .bd3-nav-badge {
+          background: rgba(0,0,0,0.06);
+          border-color: rgba(0,0,0,0.1);
+          color: rgba(0,0,0,0.5);
+        }
+        .bd3-root.light .bd3-theme-btn {
+          border-color: rgba(0,0,0,0.12);
+          background: rgba(0,0,0,0.04);
+          color: rgba(0,0,0,0.55);
+        }
+        .bd3-root.light .bd3-theme-btn:hover {
+          background: rgba(0,0,0,0.09);
+          color: #1a1a2e;
+        }
+        .bd3-root.light .bd3-editor {
+          background: #ffffff;
+          border-right-color: rgba(0,0,0,0.08);
+        }
+        .bd3-root.light .bd3-section {
+          background: rgba(0,0,0,0.025);
+          border-color: rgba(0,0,0,0.08);
+        }
+        .bd3-root.light .bd3-section:hover { border-color: rgba(0,0,0,0.14); }
+        .bd3-root.light .bd3-section-header {
+          background: rgba(0,0,0,0.02);
+          border-bottom-color: rgba(0,0,0,0.06);
+        }
+        .bd3-root.light .bd3-section-title { color: rgba(0,0,0,0.45); }
+        .bd3-root.light .bd3-input {
+          background: rgba(0,0,0,0.03);
+          border-color: rgba(0,0,0,0.1);
+          color: #1a1a2e;
+        }
+        .bd3-root.light .bd3-input::placeholder { color: rgba(0,0,0,0.28); }
+        .bd3-root.light .bd3-input:focus {
+          border-color: rgba(124,58,237,0.5);
+          background: rgba(124,58,237,0.04);
+        }
+        .bd3-root.light .bd3-textarea {
+          background: rgba(0,0,0,0.03);
+          border-color: rgba(0,0,0,0.1);
+          color: #1a1a2e;
+        }
+        .bd3-root.light .bd3-textarea::placeholder { color: rgba(0,0,0,0.28); }
+        .bd3-root.light .bd3-textarea:focus {
+          border-color: rgba(124,58,237,0.5);
+          background: rgba(124,58,237,0.04);
+        }
+        .bd3-root.light .bd3-field-label { color: rgba(0,0,0,0.45); }
+        .bd3-root.light .bd3-char-count  { color: rgba(0,0,0,0.35); }
+        .bd3-root.light .bd3-refresh-btn {
+          border-color: rgba(0,0,0,0.1);
+          background: rgba(0,0,0,0.03);
+          color: rgba(0,0,0,0.45);
+        }
+        .bd3-root.light .bd3-refresh-btn:hover { color: #1a1a2e; border-color: rgba(0,0,0,0.2); background: rgba(0,0,0,0.08); }
+        .bd3-root.light .bd3-photo-btn   { border-color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.02); }
+        .bd3-root.light .bd3-photo-btn:hover { border-color: rgba(0,0,0,0.25); background: rgba(0,0,0,0.05); }
+        .bd3-root.light .bd3-photo-label { color: rgba(0,0,0,0.38); }
+        .bd3-root.light .bd3-photo-sub   { color: rgba(0,0,0,0.25); }
+        .bd3-root.light .bd3-photo-card  { border-color: rgba(124,58,237,0.25); background: rgba(124,58,237,0.05); }
+        .bd3-root.light .bd3-ai-box {
+          background: rgba(0,0,0,0.025);
+          border-color: rgba(0,0,0,0.08);
+          color: rgba(0,0,0,0.55);
+        }
+        .bd3-root.light .bd3-ai-empty    { color: rgba(0,0,0,0.25); }
+        .bd3-root.light .bd3-btn-ghost {
+          border-color: rgba(0,0,0,0.12);
+          background: rgba(0,0,0,0.03);
+          color: rgba(0,0,0,0.55);
+        }
+        .bd3-root.light .bd3-btn-ghost:hover { border-color: rgba(0,0,0,0.22); background: rgba(0,0,0,0.07); color: #1a1a2e; }
+        .bd3-root.light .bd3-access-locked {
+          border-color: rgba(0,0,0,0.08);
+          background: rgba(0,0,0,0.02);
+          color: rgba(0,0,0,0.35);
+        }
+        .bd3-root.light .bd3-action-bar {
+          border-top-color: rgba(0,0,0,0.08);
+          background: rgba(244,244,248,0.95);
+        }
+        .bd3-root.light .bd3-preview { background: #eaeaf2; }
+        .bd3-root.light .bd3-preview-grid {
+          background-image: radial-gradient(rgba(0,0,0,0.08) 1px, transparent 1px);
+        }
+        .bd3-root.light .bd3-nav-tabs {
+          background: rgba(0,0,0,0.05);
+          border-color: rgba(0,0,0,0.1);
+        }
+        .bd3-root.light .bd3-nav-tab.inactive { color: rgba(0,0,0,0.4); }
+        .bd3-root.light .bd3-nav-tab.inactive:hover { color: rgba(0,0,0,0.75); background: rgba(0,0,0,0.07); }
+        .bd3-root.light .bd3-photo-action-replace {
+          border-color: rgba(0,0,0,0.12); color: rgba(0,0,0,0.45);
+        }
+        .bd3-root.light .bd3-photo-action-replace:hover { border-color: rgba(0,0,0,0.22); background: rgba(0,0,0,0.07) !important; color: rgba(0,0,0,0.8); }
+        .bd3-root.light .bd3-preview-card {
+          box-shadow:
+            0 8px 32px rgba(100,80,180,0.12),
+            0 2px 8px rgba(100,80,180,0.08),
+            0 0 0 1px rgba(124,58,237,0.1);
+        }
+        .bd3-root.light .bd3-preview-card:hover {
+          box-shadow:
+            0 12px 40px rgba(100,80,180,0.18),
+            0 4px 12px rgba(100,80,180,0.1),
+            0 0 0 1px rgba(124,58,237,0.15);
+        }
+        .bd3-root.light .bd3-tpl-card { border-color: rgba(0,0,0,0.1); }
 
         /* ── Scrollbar (legacy, kept for textarea/ai-box) ── */
 
@@ -249,6 +395,53 @@ export default function BirthdayGenerator3() {
         }
         .bd3-nav-title { font-size: 15px; font-weight: 700; color: #f1f1f8; letter-spacing: -0.3px; }
         .bd3-nav-sub { font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 500; letter-spacing: 0.08em; margin-top: 1px; }
+
+        /* ── Navbar right section ── */
+        .bd3-nav-right {
+          display: flex; align-items: center; gap: 10px;
+          margin-left: auto;
+        }
+
+        /* resolution badge in navbar */
+        .bd3-nav-badge {
+          display: none;
+          align-items: center; gap: 6px;
+          padding: 5px 13px; border-radius: 99px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
+          font-size: 11px; font-weight: 600;
+          color: rgba(255,255,255,0.45);
+          letter-spacing: 0.04em; white-space: nowrap;
+          user-select: none;
+        }
+        /* dot indicator */
+        .bd3-nav-badge-dot {
+          width: 5px; height: 5px; border-radius: 50%;
+          background: #7c3aed;
+          box-shadow: 0 0 6px rgba(124,58,237,0.7);
+          flex-shrink: 0;
+        }
+
+        /* theme toggle button */
+        .bd3-theme-btn {
+          width: 34px; height: 34px; border-radius: 10px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.05);
+          color: rgba(255,255,255,0.55);
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+        }
+        .bd3-theme-btn:hover {
+          border-color: rgba(255,255,255,0.22);
+          background: rgba(255,255,255,0.1);
+          color: #fff;
+          transform: rotate(12deg);
+        }
+        .bd3-theme-btn:active { transform: scale(0.9) rotate(12deg); }
+
+        @media (min-width: 768px) {
+          .bd3-nav-badge { display: flex; }
+        }
 
         /* ── Mobile tabs (navbar) ── */
         .bd3-nav-tabs {
@@ -614,17 +807,6 @@ export default function BirthdayGenerator3() {
         }
         .bd3-preview-card:hover { box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 40px rgba(124,58,237,0.1), 0 0 0 1px rgba(255,255,255,0.06); }
 
-        /* ── Preview label badge ── */
-        .bd3-preview-badge {
-          position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-          background: rgba(10,10,20,0.75); backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.1);
-          padding: 6px 16px; border-radius: 99px;
-          font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5);
-          letter-spacing: 0.06em; white-space: nowrap; z-index: 20;
-          pointer-events: none;
-        }
-
         /* ── Animate pulse ── */
         .bd3-pulse { animation: bd3-pulse 1.5s ease-in-out infinite; }
         @keyframes bd3-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
@@ -661,7 +843,7 @@ export default function BirthdayGenerator3() {
         }
       `}</style>
 
-      <div className="bd3-root">
+      <div className={`bd3-root${theme === "light" ? " light" : ""}`}>
         {/* NAVBAR */}
         <nav className="bd3-nav">
           <div className="bd3-nav-brand">
@@ -673,18 +855,40 @@ export default function BirthdayGenerator3() {
               <div className="bd3-nav-sub">v3 &nbsp;·&nbsp; 9th Batch</div>
             </div>
           </div>
-          {/* Mobile tabs */}
-          <div className="bd3-nav-tabs">
-            {(["edit","preview"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`bd3-nav-tab ${activeTab === tab ? "active" : "inactive"}`}
-              >
-                {tab === "edit" ? <Pencil size={11} /> : <Eye size={11} />}
-                {tab}
-              </button>
-            ))}
+
+          {/* Right side: badge + theme toggle + mobile tabs */}
+          <div className="bd3-nav-right">
+            {/* Resolution badge — hidden on mobile */}
+            <div className="bd3-nav-badge">
+              <span className="bd3-nav-badge-dot" />
+              1080 × 1350 px
+            </div>
+
+            {/* Theme toggle */}
+            <button
+              className="bd3-theme-btn"
+              onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {theme === "dark"
+                ? <Sun size={15} strokeWidth={2} />
+                : <Moon size={15} strokeWidth={2} />
+              }
+            </button>
+
+            {/* Mobile tabs */}
+            <div className="bd3-nav-tabs">
+              {(["edit","preview"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`bd3-nav-tab ${activeTab === tab ? "active" : "inactive"}`}
+                >
+                  {tab === "edit" ? <Pencil size={11} /> : <Eye size={11} />}
+                  {tab}
+                </button>
+              ))}
+            </div>
           </div>
         </nav>
 
@@ -859,13 +1063,22 @@ export default function BirthdayGenerator3() {
 
             {/* Action Bar */}
             <div className="bd3-action-bar">
-              <button className="bd3-btn-primary" onClick={handleDownload} disabled={isGenerating}>
-                {isGenerating
-                  ? <span className="bd3-pulse">Generating…</span>
-                  : <><Download size={16} /> Download HD</>
-                }
+              <button
+                className="bd3-btn-primary"
+                onClick={handleDownload}
+                disabled={isDownloading || isCopying}
+              >
+                {isDownloading ? (
+                  <span className="bd3-pulse">Downloading…</span>
+                ) : (
+                  <><Download size={16} /> Download HD</>
+                )}
               </button>
-              <button className="bd3-btn-ghost" onClick={handleCopyImage} disabled={isGenerating}>
+              <button
+                className="bd3-btn-ghost"
+                onClick={handleCopyImage}
+                disabled={isDownloading || isCopying}
+              >
                 {copied ? <Check size={15} color="#34d399" /> : <Copy size={15} />}
                 {copied ? "Copied!" : "Copy"}
               </button>
@@ -894,10 +1107,10 @@ export default function BirthdayGenerator3() {
               </div>
             </div>
 
-            <div className="bd3-preview-badge">1080 × 1350 px · Preview</div>
+            <div className="bd3-preview-badge" style={{ display: "none" }} />
 
-            <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isGenerating}>
-              {isGenerating ? <span className="bd3-pulse">Generating…</span> : <><Download size={17} /> Save Image</>}
+            <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading || isCopying}>
+              {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save Image</>}
             </button>
           </main>
         </div>
@@ -921,6 +1134,18 @@ export default function BirthdayGenerator3() {
             onClose={() => { setShowCrop(false); setTempImage(null); }}
           />
         )}
+
+        {/* LOADING OVERLAYS */}
+        <LoadingOverlay
+          isVisible={showDownloadOverlay}
+          icon="download"
+          message="Generating your HD image…"
+        />
+        <LoadingOverlay
+          isVisible={showCopyOverlay}
+          icon="loading"
+          message="Copying image to clipboard…"
+        />
       </div>
     </>
   );
