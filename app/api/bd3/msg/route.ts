@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
-import { callGroq, ChatMessage } from "@/lib/question-gen/openai-client"
+import { callBd3 } from "@/lib/bd3/client"
+import type { ChatMessage } from "@/lib/question-gen/openai-client"
 
 const CHAR_MIN = 250
 const CHAR_MAX = 300
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
     const body = await req.json()
     const { prompt, enforceCharRange } = body
 
-    const userContent = prompt || `Write a birthday wish.`
+    const userContent = prompt || "Write a birthday wish."
 
     const messages: ChatMessage[] = [
       {
@@ -22,28 +23,28 @@ export async function POST(req: Request) {
     ]
 
     if (!enforceCharRange) {
-      // No char constraint — single call
-      const aiResponse = await callGroq(messages)
-      return NextResponse.json({ result: aiResponse })
+      const result = await callBd3(messages)
+      return NextResponse.json({ result })
     }
 
-    // Enforce 250–300 char range — retry until it fits or we hit MAX_ATTEMPTS
-    let lastResponse = null
+    // Retry until content is within 250–300 chars
+    let lastResult = null
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      const aiResponse = await callGroq(messages)
-      const len = aiResponse.content.length
+      const result = await callBd3(messages)
+      const len = result.content.length
 
       if (len >= CHAR_MIN && len <= CHAR_MAX) {
-        return NextResponse.json({ result: aiResponse })
+        return NextResponse.json({ result })
       }
 
-      lastResponse = aiResponse
-      console.log(`[bd3/msg] attempt ${attempt}: ${len} chars — retrying (target ${CHAR_MIN}–${CHAR_MAX})`)
+      lastResult = result
+      console.log(
+        `[bd3/msg] attempt ${attempt}: ${len} chars — retrying (target ${CHAR_MIN}–${CHAR_MAX})`
+      )
     }
 
-    // All attempts done — return the closest result to the target midpoint
-    return NextResponse.json({ result: lastResponse })
-
+    // Return best effort if all attempts miss the range
+    return NextResponse.json({ result: lastResult })
   } catch (error) {
     console.error("[bd3/msg] Error:", error)
     return NextResponse.json(
