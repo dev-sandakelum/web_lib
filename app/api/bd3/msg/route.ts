@@ -4,7 +4,7 @@ import type { ChatMessage } from "@/lib/question-gen/openai-client"
 
 const CHAR_MIN = 250
 const CHAR_MAX = 300
-const MAX_ATTEMPTS = 5
+const MAX_ATTEMPTS = 20
 
 export async function POST(req: Request) {
   try {
