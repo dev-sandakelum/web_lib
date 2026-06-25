@@ -177,7 +177,8 @@ export default function BirthdayGenerator3() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: "Write a warm, authentic birthday wish. Voice: genuine, supportive, uplifting. No names or specific titles. Calm elegant emojis (✨ 💛 🥂 🌿) naturally integrated. STRICT 300-340 characters including spaces and emojis. Output ONLY the wish text.",
+          prompt: "Write a warm, authentic birthday wish. Voice: genuine, supportive, uplifting. No names or specific titles. Calm elegant emojis (✨ 💛 🥂 🌿) naturally integrated. STRICT 250-300 characters including spaces and emojis. Output ONLY the wish text.",
+          enforceCharRange: true,
         }),
       });
       const data = await res.json();

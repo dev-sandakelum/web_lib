@@ -19,7 +19,6 @@ const API_KEYS = [
  */
 const MODELS = [
   "llama-3.3-70b-versatile",
-  "moonshotai/kimi-k2-instruct-0905",
   "openai/gpt-oss-120b",
   "openai/gpt-oss-20b",
   "llama-3.1-8b-instant",
