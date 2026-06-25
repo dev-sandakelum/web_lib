@@ -185,7 +185,7 @@ export default function BirthdayGenerator3() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: "Write a warm, authentic birthday wish. Voice: genuine, supportive, uplifting. No names or specific titles. Calm elegant emojis (✨ 💛 🥂 🌿) naturally integrated. STRICT 250-300 characters including spaces and emojis. Output ONLY the wish text.",
+          prompt: `Write a warm, authentic birthday wish. Voice: genuine, supportive, uplifting. No names or specific titles. Calm elegant emojis (✨ 💛 🥂 🌿) naturally integrated. STRICT 250-300 characters including spaces and emojis. Output ONLY the wish text. [v${Math.random().toString(36).slice(2, 7)}]`,
           enforceCharRange: true,
         }),
       });
@@ -728,7 +728,7 @@ export default function BirthdayGenerator3() {
           background: rgba(255,255,255,0.06);
           border-radius: 99px;
           overflow: visible;
-          margin-bottom: 2px;
+          margin-bottom: 12px;
         }
         .bd3-refresh-progress-bar {
           height: 100%;

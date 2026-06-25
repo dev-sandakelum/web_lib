@@ -37,6 +37,7 @@ export async function callBd3(
           messages,
           temperature,
           max_tokens: 1024,
+          seed: Math.floor(Math.random() * 1_000_000),
         }),
       })
 
