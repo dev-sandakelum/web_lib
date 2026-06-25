@@ -162,6 +162,7 @@ export default function BirthdayGenerator3() {
       const res = await fetch("/api/bd3/msg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: "no-store",
         body: JSON.stringify({
           prompt: `Input:\n- Name: ${form.name}\n- Sender: ${form.batch} ${form.faculty} ${form.university}\n\nInstructions:\nAct as a professional Social Media Admin for a university student union. Write a birthday message:\n1. Tone: Formal, warm, inspirational, slightly poetic.\n2. Structure: Header with festive emojis, Salutation "Dear ${form.name},", Opener, Core Message (growth/light/strength/success), Closing, Sign-off "Best wishes from," + sender, Hashtags at bottom.\n3. Use "\\n" line breaks. Use elegant emojis (✨ 🌟 🥂 🎂 🤍) at end of each line.\nGenerate now.`,
         }),
@@ -184,6 +185,7 @@ export default function BirthdayGenerator3() {
       const res = await fetch("/api/bd3/msg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: "no-store",
         body: JSON.stringify({
           prompt: `Write a warm, authentic birthday wish. Voice: genuine, supportive, uplifting. No names or specific titles. Calm elegant emojis (✨ 💛 🥂 🌿) naturally integrated. STRICT 250-300 characters including spaces and emojis. Output ONLY the wish text. [v${Math.random().toString(36).slice(2, 7)}]`,
           enforceCharRange: true,

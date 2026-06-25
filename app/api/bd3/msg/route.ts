@@ -30,11 +30,16 @@ export async function POST(req: Request) {
     // Retry until content is within 250–300 chars
     let lastResult = null
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      const result = await callBd3(messages)
+      // Inject a unique variation tag per attempt so the model never repeats
+      const attemptMessages: ChatMessage[] = [
+        messages[0],
+        { ...messages[1], content: `${messages[1].content} [attempt:${attempt}-${Math.random().toString(36).slice(2, 8)}]` },
+      ]
+      const result = await callBd3(attemptMessages)
       const len = result.content.length
 
       if (len >= CHAR_MIN && len <= CHAR_MAX) {
-        return NextResponse.json({ result, attempts: attempt, matched: true })
+        return NextResponse.json({ result, attempts: attempt, matched: true, ts: Date.now() })
       }
 
       lastResult = result
