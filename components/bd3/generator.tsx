@@ -67,7 +67,7 @@ export default function BirthdayGenerator3() {
   const [isMsgGen, setIsMsgGen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshAttempt, setRefreshAttempt] = useState(0);
-  const [refreshMaxAttempts, setRefreshMaxAttempts] = useState(5);
+  const [refreshMaxAttempts, setRefreshMaxAttempts] = useState(20);
   const [refreshMatched, setRefreshMatched] = useState<boolean | null>(null);
   const [msgCopied, setMsgCopied] = useState(false);
   const [generatedMsg, setGeneratedMsg] = useState("");
@@ -181,7 +181,7 @@ export default function BirthdayGenerator3() {
     // Tick attempt counter visually — cap will be updated from response
     const ticker = setInterval(() => {
       setRefreshAttempt((a) => Math.min(a + 1, refreshMaxAttempts - 1));
-    }, 900);
+    }, 600);
     try {
       const res = await fetch("/api/bd3/msg", {
         method: "POST",
