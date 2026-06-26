@@ -5,12 +5,13 @@ import { toPng } from "html-to-image";
 import {
   Upload, Download, Copy, Check, RefreshCcw,
   Eye, Pencil, Wand2, User, MessageSquare,
-  Lock, Camera, Palette, Stars, Crop, Sun, Moon, Settings2,
+  Lock, Camera, Palette, Stars, Crop, Sun, Moon,
 } from "lucide-react";
 import { PostTemplate3 } from "./post-template";
 import { CropModal3 } from "./crop-modal";
 import { LoadingOverlay } from "./loading-overlay";
 import { TEMPLATES3 } from "./templates";
+import StartupPopup from "./startup-popup";
 import type { FormData3, ImageTransform3, NameStyle } from "./types";
 import { loadImageFile } from "@/lib/utils";
 
@@ -21,7 +22,6 @@ const DEFAULT_NAME_STYLE: NameStyle = {
   borderRadius: 10,
   fontSize: 48,
   paddingY: 8,
-  marginTop: 0,
 };
 
 const DEFAULT_FORM: FormData3 = {
@@ -30,7 +30,7 @@ const DEFAULT_FORM: FormData3 = {
   faculty: "Faculty of Technology",
   university: "University of Ruhuna",
   profileImage: null,
-  message: "Wishing you a remarkable birthday filled with continued success, happiness, and fulfillment in all your professional endeavors. May this upcoming year bring exciting new milestones, growth, and the wonderful opportunities you truly deserve. Cheers to celebrating your inspiring journey and wishing you a prosperous year ahead! ✨ 💛 🌿",
+  message: "Happy birthday, I hope your day is filled with joy and laughter, and that all your dreams come true 💛. Wishing you a year ahead that's successful and happy, with amazing memories to cherish 🎂. Have a fantastic day and an incredible journey ahead ✨ ✨",
   templateId: "t1",
   access: false,
   nameStyle: DEFAULT_NAME_STYLE,
@@ -86,7 +86,6 @@ export default function BirthdayGenerator3() {
   const [scale, setScale] = useState(0.3);
   const [accessInput, setAccessInput] = useState("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [showNameSettings, setShowNameSettings] = useState(false);
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -1096,81 +1095,26 @@ export default function BirthdayGenerator3() {
               {/* Person Details */}
               <SectionCard title="Person Details" icon={<User size={13} />} accent="#67e8f9">
                 <Field label="Full Name">
-                  <div style={{ position: "relative" }}>
-                    <div style={{ display: "flex", gap: 8 }}>
-                      <input
-                        className="bd3-input"
-                        type="text"
-                        value={form.name}
-                        onChange={(e) => set("name", e.target.value)}
-                        placeholder="Enter full name"
-                        style={{ flex: 1 }}
-                      />
-                      <button
-                        title="Name style settings"
-                        onClick={() => setShowNameSettings((v) => !v)}
-                        style={{
-                          flexShrink: 0,
-                          width: 38, height: 38,
-                          borderRadius: 10,
-                          border: showNameSettings
-                            ? "1px solid rgba(212,175,55,0.6)"
-                            : "1px solid rgba(255,255,255,0.09)",
-                          background: showNameSettings
-                            ? "rgba(212,175,55,0.15)"
-                            : "rgba(255,255,255,0.04)",
-                          color: showNameSettings ? "#d4af37" : "rgba(255,255,255,0.4)",
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                          cursor: "pointer", transition: "all 0.18s",
-                        }}
-                      >
-                        <Settings2 size={15} />
-                      </button>
-                    </div>
-
-                    {/* ── Popup panel ── */}
-                    {showNameSettings && (
-                      <div style={{
-                        position: "absolute",
-                        top: "calc(100% + 8px)",
-                        left: 0, right: 0,
-                        zIndex: 100,
-                        background: "#16162a",
-                        border: "1px solid rgba(212,175,55,0.3)",
-                        borderRadius: 14,
-                        padding: "14px 15px 16px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 12,
-                        boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.1)",
-                      }}>
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
-                          <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(212,175,55,0.8)" }}>Name Style</span>
-                          <button onClick={() => setForm((p) => ({ ...p, nameStyle: DEFAULT_NAME_STYLE }))}
-                            style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}>
-                            Reset
-                          </button>
-                        </div>
-
-                        {/* Font Size — 35–50px only */}
-                        <Field label="Font Size" hint={`${form.nameStyle.fontSize ?? 48}px`}>
-                          <input type="range" min={35} max={50} step={1}
-                            value={form.nameStyle.fontSize ?? 48}
-                            onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))}
-                            className="bd3-slider" />
-                          <div className="bd3-slider-marks"><span>35</span><span>42</span><span>50</span></div>
-                        </Field>
-
-                        {/* Margin Top */}
-                        <Field label="Margin Top" hint={`${form.nameStyle.marginTop}px`}>
-                          <input type="range" min={0} max={200} step={5}
-                            value={form.nameStyle.marginTop}
-                            onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, marginTop: Number(e.target.value) } }))}
-                            className="bd3-slider" />
-                          <div className="bd3-slider-marks"><span>0</span><span>100</span><span>200</span></div>
-                        </Field>
-                      </div>
-                    )}
+                  <input
+                    className="bd3-input"
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => set("name", e.target.value)}
+                    placeholder="Enter full name"
+                  />
+                  {/* Font size slider — always visible below name input */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                    <span className="bd3-field-label" style={{ flexShrink: 0 }}>Font Size</span>
+                    <input
+                      type="range" min={35} max={50} step={1}
+                      value={form.nameStyle.fontSize ?? 48}
+                      onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))}
+                      className="bd3-slider"
+                      style={{ flex: 1 }}
+                    />
+                    <span className="bd3-field-hint" style={{ flexShrink: 0, minWidth: 32, textAlign: "right" }}>
+                      {form.nameStyle.fontSize ?? 48}px
+                    </span>
                   </div>
                 </Field>
                 <div className="bd3-grid-2">
@@ -1413,6 +1357,9 @@ export default function BirthdayGenerator3() {
           icon="download"
           message="Generating your HD image…"
         />
+
+        {/* Startup changelog popup */}
+        <StartupPopup />
       </div>
     </>
   );

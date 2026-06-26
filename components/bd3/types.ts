@@ -32,10 +32,9 @@ export interface FormData3 {
 }
 
 export interface NameStyle {
-  borderRadius: number;   // 0–60, default 10
-  fontSize: number | null; // null = auto, otherwise 35–50
-  paddingY: number;       // 8–60, default 8
-  marginTop: number;      // 0–200, default 0
+  borderRadius: number;
+  fontSize: number | null;
+  paddingY: number;
 }
 
 export interface ImageTransform3 {

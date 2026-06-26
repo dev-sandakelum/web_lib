@@ -231,9 +231,7 @@ export const PostTemplate3 = React.forwardRef<
       <div
         style={{
           position: "absolute",
-          bottom: 140,
-          // border: "1px solid red",
-          height:"400px",
+          bottom: 180,
           left: 0,
           width: "100%",
           zIndex: 15,
@@ -265,7 +263,7 @@ export const PostTemplate3 = React.forwardRef<
           const radius = nameStyle.borderRadius;
 
           return (
-            <div style={{ position: "relative", display: "inline-flex", marginTop: nameStyle.marginTop }}>
+            <div style={{ position: "relative", display: "inline-flex" }}>
 
               {/* Dark shadow wings */}
               <div style={{
@@ -293,11 +291,7 @@ export const PostTemplate3 = React.forwardRef<
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   border: "2px solid rgba(180,130,0,0.6)",
-                  boxShadow: [
-                    "inset 0 1px 0 rgba(255,220,80,0.4)",
-                    "0 6px 24px rgba(0,0,0,0.8)",
-                    "0 2px 6px rgba(0,0,0,0.9)",
-                  ].join(", "),
+                  
                   overflow: "hidden",
                 }}
               >
@@ -326,13 +320,14 @@ export const PostTemplate3 = React.forwardRef<
 {/* Separator image */}
           <div
             style={{
-              width: 600,
-              height: 32,
+              width: 1200,
+              height: 64,
               backgroundImage: "url('/bd3/saparater.png')",
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
               backgroundPosition: "center",
-              marginBottom: -10,
+              marginBottom: -20,
+              marginTop:-22,
               opacity: 0.85,
             }}
           />

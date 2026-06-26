@@ -7,14 +7,14 @@ const CHAR_MAX = 300
 const MAX_ATTEMPTS = 8   // fewer needed — trimming handles the range
 
 const STYLE_VARIANTS = [
-  "poetic and metaphorical, open with a nature image",
-  "warm and energetic, open with a celebration phrase",
-  "calm and reflective, open with a thoughtful observation",
-  "uplifting and motivational, open with an empowering statement",
-  "gentle and heartfelt, open with a tender greeting",
-  "bright and joyful, open with light or sunshine imagery",
-  "inspiring and forward-looking, open with future possibilities",
-  "sincere and grounded, open with an honest appreciation",
+  "warm and energetic",
+  "calm and sincere",
+  "uplifting and motivational",
+  "gentle and heartfelt",
+  "bright and joyful",
+  "friendly and celebratory",
+  "inspiring and forward-looking",
+  "sincere and grounded",
 ]
 
 // Closing emojis to pad a message that lands slightly under CHAR_MIN
@@ -93,7 +93,8 @@ export async function POST(req: Request) {
           role: "system",
           content:
             "You are a social media manager for the 9th Batch of the Faculty of Technology, University of Ruhuna. " +
-            "You write elegant, warm, and inspirational birthday posts on behalf of the 9th Batch. " +
+            "You write warm, friendly, and inspirational birthday posts on behalf of the 9th Batch. " +
+            "Write like a close batchmate — genuine, direct, and human. Never overly poetic or abstract. " +
             "Never mention 'student union'. Follow the structure and formatting instructions precisely.",
         },
         { role: "user", content: userContent },
@@ -120,27 +121,27 @@ export async function POST(req: Request) {
 
           controller.enqueue(sseChunk("attempt", { attempt, maxAttempts: MAX_ATTEMPTS }))
 
-          // Ask for a natural short paragraph — no character-counting instruction.
-          // The model reliably produces 2-3 sentences when asked this way.
-          // We enforce the exact range server-side via fitToRange().
           const messages: ChatMessage[] = [
             {
               role: "system",
               content:
-                `You are a birthday message writer. ` +
-                `Write a single short paragraph — no headers, no lists, no sign-off. ` +
-                `Style: ${style}. Output ONLY the message text.`,
+                `You are a birthday message writer for a university batch group. ` +
+                `Write genuine, friendly birthday wishes — like a warm batchmate would write, not a poet. ` +
+                `Keep language simple, direct, and human. Never use abstract metaphors. ` +
+                `Output ONLY the message text — no headers, no sign-off, no quotes.`,
             },
             {
               role: "user",
               content:
-                `Write a warm, professional birthday wish as ONE short paragraph (2–3 sentences, roughly 50 words).\n` +
+                `Write a birthday wish as ONE short paragraph (2–3 sentences, roughly 50 words).\n` +
                 `Rules:\n` +
-                `• No names or titles\n` +
-                `• 2–3 elegant emojis (✨ 💛 🌿 🎂 🌸) woven in naturally\n` +
-                `• Tone: Professional, inspiring, and focused on growth, success, and future milestones\n` +
-                `• Style: ${style}\n` +
-                `• Keep it concise — do not write more than 3 sentences\n` +
+                `• MUST open with "Happy birthday" or "Wishing you" — not a metaphor or nature image\n` +
+                `• Write like a warm, genuine friend — simple, direct, human. No poetry.\n` +
+                `• NO abstract metaphors (no sunrise, garden, river, blossom, dawn, petals, etc.)\n` +
+                `• Use real, grounded words: joy, laughter, memories, dreams, success, journey, happiness\n` +
+                `• Place 2–3 emojis (✨ 💛 🌸 🎂 🌿) only at the END of sentences, never mid-clause\n` +
+                `• Max 3 sentences. Do not exceed this.\n` +
+                `• Tone: ${style}\n` +
                 `• Variation: ${variationTag}`,
             },
           ]
@@ -151,7 +152,7 @@ export async function POST(req: Request) {
             const fitted = fitToRange(raw)
 
             console.log(
-              `[bd3/msg] attempt ${attempt}/${MAX_ATTEMPTS}: raw=${raw.length} fitted=${fitted?.length ?? "null"} — ${style.split(",")[0]}`
+              `[bd3/msg] attempt ${attempt}/${MAX_ATTEMPTS}: raw=${raw.length} fitted=${fitted?.length ?? "null"} — ${style}`
             )
 
             if (fitted !== null) {
@@ -241,14 +242,17 @@ function buildSocialPostPrompt({
     `Structure:\n` +
     `1. Header line with festive emojis (✨ 🎂 🌟)\n` +
     `2. Salutation: "Dear ${name || "Friend"},"\n` +
-    `3. Warm opener (1–2 sentences)\n` +
-    `4. Core message about growth, light, strength, and success (2–3 sentences)\n` +
-    `5. Closing sentence\n` +
+    `3. Warm opener (1–2 sentences) — friendly, like a close batchmate\n` +
+    `4. Core message about joy, memories, dreams, and success ahead (2–3 sentences)\n` +
+    `5. Closing sentence wishing them a wonderful day\n` +
     `6. Sign-off: "Best wishes from," followed by sender name (use the batch name, not "student union")\n` +
     `7. 3–5 relevant hashtags\n\n` +
-    `Tone: formal, warm, inspirational, slightly poetic.\n` +
-    `IMPORTANT: Never use the words "student union" — the sender is the 9th Batch.\n` +
-    `Use elegant emojis (✨ 🌟 🥂 🎂 🤍) at the end of each line.\n` +
-    `Use actual line breaks between sections.`
+    `Tone: warm, genuine, friendly, and inspiring — like a real batchmate, not a poet.\n` +
+    `IMPORTANT:\n` +
+    `• Never use the words "student union" — the sender is the 9th Batch\n` +
+    `• No abstract metaphors (no sunrise, garden, river, blossom imagery)\n` +
+    `• Use real, human language: joy, laughter, memories, success, journey\n` +
+    `• Use elegant emojis (✨ 🌟 🥂 🎂 🤍) at the end of lines, not mid-sentence\n` +
+    `• Use actual line breaks between sections`
   )
 }
