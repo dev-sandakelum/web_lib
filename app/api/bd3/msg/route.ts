@@ -134,10 +134,11 @@ export async function POST(req: Request) {
             {
               role: "user",
               content:
-                `Write a warm birthday wish as ONE short paragraph (2–3 sentences, roughly 50 words).\n` +
+                `Write a warm, professional birthday wish as ONE short paragraph (2–3 sentences, roughly 50 words).\n` +
                 `Rules:\n` +
                 `• No names or titles\n` +
                 `• 2–3 elegant emojis (✨ 💛 🌿 🎂 🌸) woven in naturally\n` +
+                `• Tone: Professional, inspiring, and focused on growth, success, and future milestones\n` +
                 `• Style: ${style}\n` +
                 `• Keep it concise — do not write more than 3 sentences\n` +
                 `• Variation: ${variationTag}`,

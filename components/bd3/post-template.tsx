@@ -52,7 +52,7 @@ export const PostTemplate3 = React.forwardRef<
   HTMLDivElement,
   { data: BirthdayPostData3; edit?: boolean }
 >(({ data, edit }, ref) => {
-  const { name, batch, faculty, university, profileImage, message, template, access } = data;
+  const { name, batch, faculty, university, profileImage, message, template, access, nameStyle } = data;
   const noAccess = edit && !access;
 
   return (
@@ -70,6 +70,15 @@ export const PostTemplate3 = React.forwardRef<
         fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif",
       }}
     >
+      {/* Load Roboto Mono for the name pill */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700;900&display=swap');
+        .bd3-name-text {
+          font-family: "Roboto Mono", monospace;
+          font-optical-sizing: auto;
+          font-style: normal;
+        }
+      `}</style>
       {/* ── Access Overlay ── */}
       {noAccess && (
         <div
@@ -137,7 +146,7 @@ export const PostTemplate3 = React.forwardRef<
       <div
         style={{
           position: "absolute",
-          top: 350,
+          top: 320,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 10,
@@ -161,20 +170,20 @@ export const PostTemplate3 = React.forwardRef<
         <div
           style={{
             position: "absolute",
-            width: 720,
-            height: 540,
+            width: 1220,
+            height: 700,
             backgroundImage: "url('/bd3/outline.png')",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain",
-            zIndex: 7,
+            zIndex: 13,
           }}
         />
         {/* Frosted ring border */}
         <div
           style={{
-            width: 400,
-            height: 400,
+            width: 600,
+            height: 600,
             // borderRadius: "50%",
             // border: `3px solid ${template.accentColor}`,
             padding: 10,
@@ -222,7 +231,9 @@ export const PostTemplate3 = React.forwardRef<
       <div
         style={{
           position: "absolute",
-          top: 800,
+          bottom: 140,
+          // border: "1px solid red",
+          height:"400px",
           left: 0,
           width: "100%",
           zIndex: 15,
@@ -245,25 +256,73 @@ export const PostTemplate3 = React.forwardRef<
           }}
         />
 
-        {/* Name */}
-        <h2
-          style={{
-            margin: 0,
-            padding: 0,
-            fontSize: getNameFontSize(name),
-            fontWeight: 500,
-            lineHeight: 1.2,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            textAlign: "center",
-            color: "rgba(255,255,255,0.92)",
-            textShadow: `0 2px 24px rgba(0,0,0,0.5), 0 0 60px ${template.accentGlow}`,
-            maxWidth: 960,
-            wordBreak: "break-word",
-          }}
-        >
-          {name || "YOUR NAME"}
-        </h2>
+        {/* Name — gold pill, CSS auto-width */}
+        {(() => {
+          const displayName = name || "YOUR NAME";
+          const autoFs = getNameFontSize(displayName);
+          const fs = nameStyle.fontSize ?? autoFs;
+          const padY = nameStyle.paddingY;
+          const radius = nameStyle.borderRadius;
+
+          return (
+            <div style={{ position: "relative", display: "inline-flex", marginTop: nameStyle.marginTop }}>
+
+              {/* Dark shadow wings */}
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: radius,
+                boxShadow: [
+                  "0 0 60px 10px rgba(0,0,0,0.85)",
+                  "0 0 120px 10px rgba(0,0,0,0.5)",
+                ].join(", "),
+                zIndex: 0,
+                pointerEvents: "none",
+              }} />
+
+              {/* Gold pill — width fully auto from CSS */}
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: radius,
+                  backgroundImage: "url('/bd3/text-bg.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  border: "2px solid rgba(180,130,0,0.6)",
+                  boxShadow: [
+                    "inset 0 1px 0 rgba(255,220,80,0.4)",
+                    "0 6px 24px rgba(0,0,0,0.8)",
+                    "0 2px 6px rgba(0,0,0,0.9)",
+                  ].join(", "),
+                  overflow: "hidden",
+                }}
+              >
+                <h2
+                  className="bd3-name-text"
+                  style={{
+                    margin: 0,
+                    padding: `${padY}px 32px`,
+                    fontSize: fs,
+                    fontWeight: 900,
+                    lineHeight: 1.3,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    textAlign: "center",
+                    color: "#0a0a0a",
+                    whiteSpace: "nowrap",
+                    textShadow: "0 1px 2px rgba(0,0,0,0.25)",
+                  }}
+                >
+                  {displayName}
+                </h2>
+              </div>
+            </div>
+          );
+        })()}
 {/* Separator image */}
           <div
             style={{

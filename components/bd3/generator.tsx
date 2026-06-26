@@ -5,17 +5,24 @@ import { toPng } from "html-to-image";
 import {
   Upload, Download, Copy, Check, RefreshCcw,
   Eye, Pencil, Wand2, User, MessageSquare,
-  Lock, Camera, Palette, Stars, Crop, Sun, Moon,
+  Lock, Camera, Palette, Stars, Crop, Sun, Moon, Settings2,
 } from "lucide-react";
 import { PostTemplate3 } from "./post-template";
 import { CropModal3 } from "./crop-modal";
 import { LoadingOverlay } from "./loading-overlay";
 import { TEMPLATES3 } from "./templates";
-import type { FormData3, ImageTransform3 } from "./types";
+import type { FormData3, ImageTransform3, NameStyle } from "./types";
 import { loadImageFile } from "@/lib/utils";
 
 // Matches MAX_ATTEMPTS on the server — used as fallback display cap
 const MAX_ATTEMPTS_DISPLAY = 20;
+
+const DEFAULT_NAME_STYLE: NameStyle = {
+  borderRadius: 10,
+  fontSize: 48,
+  paddingY: 8,
+  marginTop: 0,
+};
 
 const DEFAULT_FORM: FormData3 = {
   name: "",
@@ -23,9 +30,10 @@ const DEFAULT_FORM: FormData3 = {
   faculty: "Faculty of Technology",
   university: "University of Ruhuna",
   profileImage: null,
-  message: "Wishing you a spectacular birthday! As you mark another milestone in your life today, take a moment to celebrate not just how far you have come, but the incredible person you are becoming. May this special day be filled with the warmth of love, the echo of laughter, and moments that turn into cherished memories.",
+  message: "Wishing you a remarkable birthday filled with continued success, happiness, and fulfillment in all your professional endeavors. May this upcoming year bring exciting new milestones, growth, and the wonderful opportunities you truly deserve. Cheers to celebrating your inspiring journey and wishing you a prosperous year ahead! ✨ 💛 🌿",
   templateId: "t1",
   access: false,
+  nameStyle: DEFAULT_NAME_STYLE,
 };
 
 /* ─── Field ─────────────────────────────────────── */
@@ -78,13 +86,14 @@ export default function BirthdayGenerator3() {
   const [scale, setScale] = useState(0.3);
   const [accessInput, setAccessInput] = useState("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [showNameSettings, setShowNameSettings] = useState(false);
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const selectedTemplate = TEMPLATES3.find((t) => t.id === form.templateId) || TEMPLATES3[0];
-  const PASS_KEY = process.env.NEXT_PUBLIC_PASS_key;
+  const PASS_KEY = process.env.NEXT_PUBLIC_PASS_key_bd3;
 
   useEffect(() => {
     const update = () => {
@@ -921,6 +930,38 @@ export default function BirthdayGenerator3() {
         }
         .bd3-preview-card:hover { box-shadow: 0 40px 100px rgba(0,0,0,0.9), 0 0 40px rgba(124,58,237,0.1), 0 0 0 1px rgba(255,255,255,0.06); }
 
+        /* ── Slider (Advanced Settings) ── */
+        .bd3-slider {
+          width: 100%; height: 4px; border-radius: 99px;
+          appearance: none; -webkit-appearance: none;
+          background: rgba(255,255,255,0.1);
+          outline: none; cursor: pointer;
+          accent-color: #a78bfa;
+        }
+        .bd3-slider::-webkit-slider-thumb {
+          appearance: none; -webkit-appearance: none;
+          width: 16px; height: 16px; border-radius: 50%;
+          background: #a78bfa;
+          box-shadow: 0 0 0 3px rgba(167,139,250,0.25);
+          cursor: pointer; transition: box-shadow 0.15s;
+        }
+        .bd3-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(167,139,250,0.35); }
+        .bd3-slider:disabled { opacity: 0.35; cursor: not-allowed; }
+        .bd3-slider-marks {
+          display: flex; justify-content: space-between;
+          font-size: 9.5px; color: rgba(255,255,255,0.25);
+          margin-top: 3px; font-weight: 500;
+        }
+        .bd3-slider-auto-btn {
+          flex-shrink: 0; padding: 5px 10px; border-radius: 8px;
+          border: 1px solid rgba(167,139,250,0.3);
+          background: rgba(167,139,250,0.08);
+          color: #a78bfa; font-size: 11px; font-weight: 600;
+          cursor: pointer; white-space: nowrap; font-family: inherit;
+          transition: all 0.15s;
+        }
+        .bd3-slider-auto-btn:hover { background: rgba(167,139,250,0.18); border-color: rgba(167,139,250,0.55); }
+
         /* ── Animate pulse ── */
         .bd3-pulse { animation: bd3-pulse 1.5s ease-in-out infinite; }
         @keyframes bd3-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
@@ -1055,13 +1096,82 @@ export default function BirthdayGenerator3() {
               {/* Person Details */}
               <SectionCard title="Person Details" icon={<User size={13} />} accent="#67e8f9">
                 <Field label="Full Name">
-                  <input
-                    className="bd3-input"
-                    type="text"
-                    value={form.name}
-                    onChange={(e) => set("name", e.target.value)}
-                    placeholder="Enter full name"
-                  />
+                  <div style={{ position: "relative" }}>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <input
+                        className="bd3-input"
+                        type="text"
+                        value={form.name}
+                        onChange={(e) => set("name", e.target.value)}
+                        placeholder="Enter full name"
+                        style={{ flex: 1 }}
+                      />
+                      <button
+                        title="Name style settings"
+                        onClick={() => setShowNameSettings((v) => !v)}
+                        style={{
+                          flexShrink: 0,
+                          width: 38, height: 38,
+                          borderRadius: 10,
+                          border: showNameSettings
+                            ? "1px solid rgba(212,175,55,0.6)"
+                            : "1px solid rgba(255,255,255,0.09)",
+                          background: showNameSettings
+                            ? "rgba(212,175,55,0.15)"
+                            : "rgba(255,255,255,0.04)",
+                          color: showNameSettings ? "#d4af37" : "rgba(255,255,255,0.4)",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          cursor: "pointer", transition: "all 0.18s",
+                        }}
+                      >
+                        <Settings2 size={15} />
+                      </button>
+                    </div>
+
+                    {/* ── Popup panel ── */}
+                    {showNameSettings && (
+                      <div style={{
+                        position: "absolute",
+                        top: "calc(100% + 8px)",
+                        left: 0, right: 0,
+                        zIndex: 100,
+                        background: "#16162a",
+                        border: "1px solid rgba(212,175,55,0.3)",
+                        borderRadius: 14,
+                        padding: "14px 15px 16px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 12,
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.1)",
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
+                          <span style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(212,175,55,0.8)" }}>Name Style</span>
+                          <button onClick={() => setForm((p) => ({ ...p, nameStyle: DEFAULT_NAME_STYLE }))}
+                            style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}>
+                            Reset
+                          </button>
+                        </div>
+
+                        {/* Font Size — 35–50px only */}
+                        <Field label="Font Size" hint={`${form.nameStyle.fontSize ?? 48}px`}>
+                          <input type="range" min={35} max={50} step={1}
+                            value={form.nameStyle.fontSize ?? 48}
+                            onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))}
+                            className="bd3-slider" />
+                          <div className="bd3-slider-marks"><span>35</span><span>42</span><span>50</span></div>
+                        </Field>
+
+                        {/* Margin Top */}
+                        <Field label="Margin Top" hint={`${form.nameStyle.marginTop}px`}>
+                          <input type="range" min={0} max={200} step={5}
+                            value={form.nameStyle.marginTop}
+                            onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, marginTop: Number(e.target.value) } }))}
+                            className="bd3-slider" />
+                          <div className="bd3-slider-marks"><span>0</span><span>100</span><span>200</span></div>
+                        </Field>
+                      </div>
+                    )}
+                  </div>
                 </Field>
                 <div className="bd3-grid-2">
                   <Field label="Batch">
