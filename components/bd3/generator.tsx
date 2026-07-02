@@ -89,6 +89,15 @@ export default function BirthdayGenerator3() {
   const [showCreator, setShowCreator] = useState(false);
   const [activeMobPanel, setActiveMobPanel] = useState<string | null>(null);
   const [mobToolbarHidden, setMobToolbarHidden] = useState(false);
+  const [appReady, setAppReady] = useState(false);
+  const [splashMounted, setSplashMounted] = useState(true);
+
+  useEffect(() => {
+    // Trigger fade-out after 900ms, then unmount after fade completes
+    const fadeTimer = setTimeout(() => setAppReady(true), 900);
+    const unmountTimer = setTimeout(() => setSplashMounted(false), 900 + 600);
+    return () => { clearTimeout(fadeTimer); clearTimeout(unmountTimer); };
+  }, []);
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -415,6 +424,60 @@ export default function BirthdayGenerator3() {
         }
         .bd3-root.light .bd3-tpl-card { border-color: rgba(99,103,255,0.12); }
         .bd3-root.light .bd3-char-range { color: rgba(10,38,71,0.25); }
+
+        /* ── Light theme: mobile toolbar ── */
+        .bd3-root.light .bd3-mob-toolbar {
+          background: rgba(255,255,255,0.92);
+          border-color: rgba(99,103,255,0.18);
+          box-shadow: 0 8px 32px rgba(99,103,255,0.14), 0 0 0 1px rgba(99,103,255,0.1);
+        }
+        .bd3-root.light .bd3-mob-tool-btn {
+          color: rgba(10,38,71,0.45);
+        }
+        .bd3-root.light .bd3-mob-tool-btn:hover,
+        .bd3-root.light .bd3-mob-tool-btn.active {
+          background: rgba(99,103,255,0.1);
+          color: rgba(10,38,71,0.85);
+        }
+        .bd3-root.light .bd3-mob-tool-btn.active {
+          background: rgba(99,103,255,0.15);
+          box-shadow: 0 0 0 1.5px rgba(99,103,255,0.4);
+        }
+        .bd3-root.light .bd3-mob-toolbar-divider {
+          background: rgba(99,103,255,0.12);
+        }
+        .bd3-root.light .bd3-mob-toolbar-toggle {
+          background: rgba(99,103,255,0.07);
+          color: rgba(10,38,71,0.4);
+        }
+        .bd3-root.light .bd3-mob-toolbar-toggle:hover {
+          background: rgba(99,103,255,0.14);
+          color: rgba(10,38,71,0.75);
+        }
+
+        /* ── Light theme: bottom sheet ── */
+        .bd3-root.light .bd3-mob-sheet {
+          background: #FFFFFF;
+          border-top-color: rgba(99,103,255,0.15);
+          box-shadow: 0 -8px 40px rgba(99,103,255,0.12);
+        }
+        .bd3-root.light .bd3-mob-sheet-handle {
+          background: rgba(99,103,255,0.2);
+        }
+        .bd3-root.light .bd3-mob-sheet-title-text {
+          color: #0A2647;
+        }
+        .bd3-root.light .bd3-mob-sheet-title-icon {
+          background: rgba(99,103,255,0.08);
+        }
+        .bd3-root.light .bd3-mob-sheet-close {
+          background: rgba(99,103,255,0.07);
+          color: rgba(10,38,71,0.4);
+        }
+        .bd3-root.light .bd3-mob-sheet-close:hover {
+          background: rgba(99,103,255,0.15);
+          color: #0A2647;
+        }
 
 
         /* ── Navbar ── */
@@ -1302,6 +1365,107 @@ export default function BirthdayGenerator3() {
         /* logo hover hint */
         .bd3-nav-logo { cursor: pointer; transition: opacity 0.15s; }
         .bd3-nav-logo:hover { opacity: 0.8; }
+
+        /* ── Pre-ready splash screen ── */
+        @keyframes bd3-splash-spin  { to { transform: rotate(360deg); } }
+        @keyframes bd3-splash-rspin { to { transform: rotate(-360deg); } }
+        @keyframes bd3-splash-pulse {
+          0%,100% { opacity: 0.4; transform: scale(1); }
+          50%      { opacity: 0.85; transform: scale(1.15); }
+        }
+        @keyframes bd3-splash-bar {
+          0%   { width: 0%; opacity: 1; }
+          85%  { width: 92%; opacity: 1; }
+          100% { width: 100%; opacity: 0.6; }
+        }
+        @keyframes bd3-splash-dot {
+          0%,80%,100% { transform: translateY(0) scale(0.85); opacity: 0.4; }
+          40%          { transform: translateY(-9px) scale(1.15); opacity: 1; }
+        }
+        @keyframes bd3-splash-fadeout {
+          0%   { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        .bd3-splash {
+          position: fixed; inset: 0; z-index: 9000;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center; gap: 28px;
+          background: #0A2647;
+          transition: opacity 0.55s ease;
+        }
+        .bd3-splash.ready {
+          opacity: 0;
+          pointer-events: none;
+          animation: bd3-splash-fadeout 0.55s ease forwards;
+        }
+        .bd3-splash-glow {
+          position: absolute; width: 480px; height: 480px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(99,103,255,0.18) 0%, transparent 68%);
+          filter: blur(60px); pointer-events: none;
+          animation: bd3-splash-pulse 2.6s ease-in-out infinite;
+        }
+        .bd3-splash-logo {
+          position: relative; z-index: 1;
+          width: 80px; height: 80px; border-radius: 22px; overflow: hidden;
+          border: 2px solid rgba(99,103,255,0.35);
+          box-shadow: 0 0 0 6px rgba(99,103,255,0.1), 0 16px 48px rgba(0,0,0,0.5);
+          animation: bd3-splash-pulse 2.6s ease-in-out infinite;
+        }
+        .bd3-splash-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .bd3-splash-spinner {
+          position: relative; z-index: 1;
+          width: 96px; height: 96px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .bd3-splash-track {
+          position: absolute; inset: 0; border-radius: 50%;
+          border: 2px solid rgba(255,255,255,0.05);
+        }
+        .bd3-splash-arc {
+          position: absolute; inset: 0; border-radius: 50%;
+          border: 2px solid transparent;
+          border-top-color: #6367FF;
+          border-right-color: #8494FF;
+          animation: bd3-splash-spin 1.1s linear infinite;
+          filter: drop-shadow(0 0 6px rgba(99,103,255,0.7));
+        }
+        .bd3-splash-arc2 {
+          position: absolute; inset: 10px; border-radius: 50%;
+          border: 1.5px solid transparent;
+          border-bottom-color: rgba(132,148,255,0.5);
+          animation: bd3-splash-rspin 1.9s linear infinite;
+        }
+        .bd3-splash-title {
+          position: relative; z-index: 1;
+          font-size: 18px; font-weight: 800;
+          color: #E8F0FE; letter-spacing: -0.3px;
+          text-align: center;
+        }
+        .bd3-splash-sub {
+          position: relative; z-index: 1;
+          font-size: 12px; font-weight: 500;
+          color: rgba(196,218,255,0.35);
+          letter-spacing: 0.06em; text-transform: uppercase;
+          margin-top: -20px; text-align: center;
+        }
+        .bd3-splash-bar-wrap {
+          position: relative; z-index: 1;
+          width: 180px; height: 3px; border-radius: 99px;
+          background: rgba(99,103,255,0.15); overflow: hidden;
+        }
+        .bd3-splash-bar-fill {
+          height: 100%; border-radius: 99px;
+          background: linear-gradient(90deg, #6367FF, #8494FF, #C9BEFF);
+          animation: bd3-splash-bar 0.85s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        .bd3-splash-dots { position: relative; z-index: 1; display: flex; gap: 7px; }
+        .bd3-splash-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: linear-gradient(135deg, #6367FF, #8494FF);
+          animation: bd3-splash-dot 1.5s ease-in-out infinite;
+        }
+        .bd3-splash-dot:nth-child(2) { animation-delay: 0.18s; }
+        .bd3-splash-dot:nth-child(3) { animation-delay: 0.36s; }
       `}</style>
 
       <div className={`bd3-root${theme === "light" ? " light" : ""}`}>
@@ -1409,7 +1573,15 @@ export default function BirthdayGenerator3() {
         {/* ── Mobile bottom-sheet ── */}
         {activeMobPanel && (
           <>
-            <div className="bd3-mob-sheet-backdrop" onClick={() => setActiveMobPanel(null)} />
+            <div 
+              className="bd3-mob-sheet-backdrop" 
+              onClick={() => activeMobPanel !== "template" && setActiveMobPanel(null)}
+              style={{ 
+                backdropFilter: activeMobPanel === "template" ? "none" : undefined,
+                WebkitBackdropFilter: activeMobPanel === "template" ? "none" : undefined,
+                background: activeMobPanel === "template" ? "rgba(0,0,0,0.35)" : undefined
+              }}
+            />
             <div className="bd3-mob-sheet">
               <div className="bd3-mob-sheet-handle-wrap">
                 <div className="bd3-mob-sheet-handle" />
@@ -1448,7 +1620,7 @@ export default function BirthdayGenerator3() {
                   {activeMobPanel === "template" && (
                     <div className="bd3-tpl-grid">
                       {TEMPLATES3.map((tpl) => (
-                        <button key={tpl.id} onClick={() => { set("templateId", tpl.id); setActiveMobPanel(null); }}
+                        <button key={tpl.id} onClick={() => set("templateId", tpl.id)}
                           className={`bd3-tpl-card ${form.templateId === tpl.id ? "selected" : ""}`}
                           style={{ backgroundImage: tpl.background }}>
                           <div className="bd3-tpl-overlay"><span className="bd3-tpl-name">{tpl.name}</span></div>
@@ -1760,6 +1932,31 @@ export default function BirthdayGenerator3() {
         )}
         <LoadingOverlay isVisible={showDownloadOverlay} icon="download" message="Generating your HD image…" />
         <StartupPopup />
+
+        {/* ── Pre-ready splash ── */}
+        {splashMounted && (
+          <div className={`bd3-splash${appReady ? " ready" : ""}`}>
+            <div className="bd3-splash-glow" />
+            <div className="bd3-splash-logo">
+              <img src="/bd3/logo.jpeg" alt="Birthday Post Studio" />
+            </div>
+            <div className="bd3-splash-spinner">
+              <div className="bd3-splash-track" />
+              <div className="bd3-splash-arc" />
+              <div className="bd3-splash-arc2" />
+            </div>
+            <div className="bd3-splash-title">Birthday Post Studio</div>
+            <div className="bd3-splash-sub">v3 · 9th Batch</div>
+            <div className="bd3-splash-bar-wrap">
+              <div className="bd3-splash-bar-fill" />
+            </div>
+            <div className="bd3-splash-dots">
+              <div className="bd3-splash-dot" />
+              <div className="bd3-splash-dot" />
+              <div className="bd3-splash-dot" />
+            </div>
+          </div>
+        )}
 
         {/* CREATOR INFO POPUP */}
         {showCreator && (
