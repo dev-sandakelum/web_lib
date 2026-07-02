@@ -1,4 +1,4 @@
-
+﻿
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -90,6 +90,25 @@ export default function BirthdayGenerator3() {
   const [activeMobPanel, setActiveMobPanel] = useState<string | null>(null);
   const [mobToolbarHidden, setMobToolbarHidden] = useState(false);
   const [creatorTab, setCreatorTab] = useState<"about" | "changelog">("about");
+  const [showCachePrompt, setShowCachePrompt] = useState(false);
+
+  useEffect(() => {
+    // Ask once if user wants to cache the logo image for offline use
+    const cacheKey = "bd3_logo_cached_v1";
+    if (!localStorage.getItem(cacheKey) && "caches" in window) {
+      setShowCachePrompt(true);
+    }
+  }, []);
+
+  const handleCacheLogo = async (accept: boolean) => {
+    setShowCachePrompt(false);
+    localStorage.setItem("bd3_logo_cached_v1", "1");
+    if (!accept || !("caches" in window)) return;
+    try {
+      const cache = await caches.open("bd3-assets-v1");
+      await cache.addAll(["/bd3/logo.jpeg", "/bd3/happy birthday.png", "/bd3/outline.png", "/bd3/text-bg.jpg", "/bd3/saparater.png"]);
+    } catch { /* silent fail */ }
+  };
   const [appReady, setAppReady] = useState(false);
   const [splashMounted, setSplashMounted] = useState(true);
 
@@ -1497,6 +1516,66 @@ export default function BirthdayGenerator3() {
         /* logo hover hint */
         .bd3-nav-logo { cursor: pointer; transition: opacity 0.15s; }
         .bd3-nav-logo:hover { opacity: 0.8; }
+        .bd3-nav-brand:hover .bd3-nav-logo { opacity: 0.85; }
+        .bd3-nav-brand:hover .bd3-nav-title { color: #C9BEFF; }
+
+        /* ── Cache prompt toast ── */
+        @keyframes bd3-toast-in {
+          from { opacity:0; transform:translateY(12px); }
+          to   { opacity:1; transform:translateY(0); }
+        }
+        .bd3-cache-toast {
+          position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+          z-index: 2000;
+          background: #0D2E55;
+          border: 1px solid rgba(99,103,255,0.3);
+          border-radius: 16px;
+          padding: 14px 18px;
+          width: calc(100% - 32px); max-width: 380px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(99,103,255,0.1);
+          animation: bd3-toast-in 0.28s cubic-bezier(0.34,1.56,0.64,1);
+          display: flex; flex-direction: column; gap: 12px;
+        }
+        .bd3-root.light .bd3-cache-toast {
+          background: #FFFFFF;
+          border-color: rgba(99,103,255,0.18);
+          box-shadow: 0 8px 32px rgba(99,103,255,0.12);
+        }
+        .bd3-cache-toast-header {
+          display: flex; align-items: center; gap: 10px;
+        }
+        .bd3-cache-toast-icon {
+          width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+          background: rgba(99,103,255,0.12);
+          display: flex; align-items: center; justify-content: center;
+        }
+        .bd3-cache-toast-title {
+          font-size: 13.5px; font-weight: 700; color: #E8F0FE; letter-spacing: -0.1px;
+        }
+        .bd3-root.light .bd3-cache-toast-title { color: #0A2647; }
+        .bd3-cache-toast-sub {
+          font-size: 11.5px; color: rgba(196,218,255,0.45); margin-top: 1px; line-height: 1.5;
+        }
+        .bd3-root.light .bd3-cache-toast-sub { color: rgba(10,38,71,0.45); }
+        .bd3-cache-toast-btns {
+          display: flex; gap: 8px;
+        }
+        .bd3-cache-yes {
+          flex: 1; padding: 9px; border-radius: 10px; border: none; cursor: pointer;
+          background: #6367FF; color: #fff; font-size: 12.5px; font-weight: 700;
+          font-family: inherit; box-shadow: 0 3px 12px rgba(99,103,255,0.35);
+          transition: all 0.15s;
+        }
+        .bd3-cache-yes:hover { background: #5558E8; transform: translateY(-1px); }
+        .bd3-cache-no {
+          flex: 1; padding: 9px; border-radius: 10px; cursor: pointer;
+          border: 1px solid rgba(32,82,149,0.4);
+          background: transparent; color: rgba(196,218,255,0.5);
+          font-size: 12.5px; font-weight: 600; font-family: inherit;
+          transition: all 0.15s;
+        }
+        .bd3-root.light .bd3-cache-no { border-color: rgba(99,103,255,0.15); color: rgba(10,38,71,0.45); }
+        .bd3-cache-no:hover { border-color: rgba(99,103,255,0.35); color: rgba(196,218,255,0.85); }
 
         /* ── Pre-ready splash screen ── */
         @keyframes bd3-splash-spin  { to { transform: rotate(360deg); } }
@@ -1602,8 +1681,15 @@ export default function BirthdayGenerator3() {
 
       <div className={`bd3-root${theme === "light" ? " light" : ""}`}>
         <nav className="bd3-nav">
-          <div className="bd3-nav-brand">
-            <div className="bd3-nav-logo" onClick={() => setShowCreator(true)} title="About">
+          <div className="bd3-nav-brand"
+            onClick={() => setShowCreator(true)}
+            style={{ cursor: "pointer" }}
+            title="About this app"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e: React.KeyboardEvent) => e.key === "Enter" && setShowCreator(true)}
+          >
+            <div className="bd3-nav-logo">
               <img src="/bd3/logo.jpeg" alt="Birthday Post Studio" />
             </div>
             <div>
@@ -2090,6 +2176,29 @@ export default function BirthdayGenerator3() {
         <LoadingOverlay isVisible={showDownloadOverlay} icon="download" message="Generating your HD image…" theme={theme} />
         <StartupPopup theme={theme} />
 
+        {/* ── Logo cache prompt ── */}
+        {showCachePrompt && (
+          <div className="bd3-cache-toast">
+            <div className="bd3-cache-toast-header">
+              <div className="bd3-cache-toast-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8494FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </div>
+              <div>
+                <div className="bd3-cache-toast-title">Save app for offline use?</div>
+                <div className="bd3-cache-toast-sub">Cache the logo & images so the app loads faster next time</div>
+              </div>
+            </div>
+            <div className="bd3-cache-toast-btns">
+              <button className="bd3-cache-yes" onClick={() => handleCacheLogo(true)}>Save to cache</button>
+              <button className="bd3-cache-no" onClick={() => handleCacheLogo(false)}>Not now</button>
+            </div>
+          </div>
+        )}
+
         {/* ── Pre-ready splash ── */}
         {splashMounted && (
           <div className={`bd3-splash${appReady ? " ready" : ""}`}>
@@ -2174,7 +2283,7 @@ export default function BirthdayGenerator3() {
                           />
                           <div>
                             <div className="bd3-creator-name">Hasitha Sandakelum</div>
-                            <div className="bd3-creator-role">Developer</div>
+                            <div className="bd3-creator-role">Full-Stack Developer</div>
                           </div>
                         </div>
                         <div className="bd3-creator-divider" />
@@ -2201,14 +2310,14 @@ export default function BirthdayGenerator3() {
                             <span className="bd3-creator-meta-val">2025</span>
                           </div>
                         </div>
-                        <div style={{
+                        {/* <div style={{
                           marginTop: 4, padding: "10px 14px", borderRadius: 10,
                           background: "rgba(10,38,71,0.4)", border: "1px solid rgba(32,82,149,0.4)",
                           fontSize: 11.5, color: "rgba(196,218,255,0.35)", lineHeight: 1.6,
                           textAlign: "center",
                         }}>
                           Part of <span style={{ color: "#8494FF", fontWeight: 600 }}>9th Batch</span> · University of Ruhuna
-                        </div>
+                        </div> */}
                       </div>
                     )}
 
