@@ -427,9 +427,9 @@ export default function BirthdayGenerator3() {
 
         /* ── Light theme: mobile toolbar ── */
         .bd3-root.light .bd3-mob-toolbar {
-          background: rgba(255,255,255,0.92);
-          border-color: rgba(99,103,255,0.18);
-          box-shadow: 0 8px 32px rgba(99,103,255,0.14), 0 0 0 1px rgba(99,103,255,0.1);
+          background: rgba(255,255,255,0.98);
+          border-color: rgba(99,103,255,0.15);
+          box-shadow: 0 4px 16px rgba(99,103,255,0.1);
         }
         .bd3-root.light .bd3-mob-tool-btn {
           color: rgba(10,38,71,0.45);
@@ -1071,38 +1071,50 @@ export default function BirthdayGenerator3() {
           .bd3-nav-tabs { display: none !important; }
           /* Hide the desktop editor panel */
           .bd3-editor { display: none !important; }
-          /* Preview always fills the body */
+          /* Preview always fills the body — add top padding for the icon bar */
           .bd3-preview {
             display: flex !important;
-            padding: 16px 12px 100px;
+            padding: 72px 12px 100px;
             align-items: flex-start;
             justify-content: center;
             overflow-y: auto;
+            transition: padding-top 0.3s cubic-bezier(0.4,0,0.2,1);
+          }
+          .bd3-preview.bar-hidden {
+            padding-top: 16px;
           }
           /* Hide the old back btn – replaced by toolbar */
           .bd3-back-btn { display: none !important; }
 
-          /* ── Floating left toolbar ── */
+          /* ── Horizontal icon bar — below navbar ── */
           .bd3-mob-toolbar {
             position: fixed;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 56px;
+            left: 0; right: 0;
             z-index: 300;
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background: rgba(10,30,60,0.82);
-            backdrop-filter: blur(16px) saturate(1.4);
-            -webkit-backdrop-filter: blur(16px) saturate(1.4);
-            border: 1px solid rgba(99,103,255,0.2);
-            border-radius: 18px;
-            padding: 8px 6px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(99,103,255,0.1);
+            flex-direction: row;
+            align-items: center;
+            gap: 0;
+            background: rgba(10,30,60,0.96);
+            border: none;
+            border-bottom: 1px solid rgba(99,103,255,0.15);
+            border-radius: 0;
+            padding: 0 4px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            height: 52px;
+            overflow: hidden;
+            transition: height 0.3s cubic-bezier(0.4,0,0.2,1);
+          }
+          .bd3-mob-toolbar.bar-hidden {
+            height: 0;
+            border-bottom-color: transparent;
+            box-shadow: none;
           }
           .bd3-mob-tool-btn {
-            width: 40px; height: 40px;
-            border-radius: 12px;
+            flex: 1;
+            height: 44px;
+            border-radius: 10px;
             border: none; cursor: pointer;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             gap: 3px;
@@ -1123,7 +1135,7 @@ export default function BirthdayGenerator3() {
           }
           .bd3-mob-tool-btn-dot {
             position: absolute;
-            top: 6px; right: 7px;
+            top: 6px; right: calc(50% - 14px);
             width: 5px; height: 5px; border-radius: 50%;
             background: #34d399;
             box-shadow: 0 0 5px rgba(52,211,153,0.8);
@@ -1135,40 +1147,59 @@ export default function BirthdayGenerator3() {
             line-height: 1;
           }
           .bd3-mob-toolbar-divider {
-            height: 1px; margin: 2px 4px;
+            width: 1px; height: 24px; margin: 0 2px;
             background: rgba(99,103,255,0.15);
             border-radius: 99px;
+            flex-shrink: 0;
           }
 
-          /* toggle visibility button — always visible at top of toolbar */
+          /* toggle button — right end of the bar, always visible */
           .bd3-mob-toolbar-toggle {
-            width: 40px; height: 32px;
+            width: 36px; height: 36px; flex-shrink: 0;
             border-radius: 10px; border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             background: rgba(99,103,255,0.1);
             color: rgba(196,218,255,0.45);
             transition: all 0.2s;
-            flex-shrink: 0;
+            margin-left: 2px;
           }
           .bd3-mob-toolbar-toggle:hover {
             background: rgba(99,103,255,0.22);
             color: rgba(196,218,255,0.85);
           }
           .bd3-mob-toolbar-toggle:active { transform: scale(0.92); }
-          /* chevron icon rotates when hidden */
           .bd3-mob-toolbar-toggle svg {
             transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
           }
+          /* chevron flips when bar is hidden */
           .bd3-mob-toolbar-toggle.hidden svg { transform: rotate(180deg); }
 
-          /* tool buttons collapse animation */
-          .bd3-mob-tools-wrap {
-            display: flex; flex-direction: column; gap: 6px;
-            overflow: hidden;
-            transition: max-height 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+          /* show toggle btn outside bar when collapsed — pinned to navbar right */
+          .bd3-mob-bar-show-btn {
+            display: none;
+            position: fixed;
+            top: 10px; right: 60px;
+            z-index: 350;
+            width: 34px; height: 34px;
+            border-radius: 10px; border: none; cursor: pointer;
+            align-items: center; justify-content: center;
+            background: rgba(99,103,255,0.15);
+            border: 1px solid rgba(99,103,255,0.25);
+            color: rgba(196,218,255,0.65);
+            transition: all 0.2s;
           }
-          .bd3-mob-tools-wrap.visible { max-height: 400px; opacity: 1; }
-          .bd3-mob-tools-wrap.collapsed { max-height: 0; opacity: 0; pointer-events: none; }
+          .bd3-mob-bar-show-btn.visible { display: flex; }
+          .bd3-mob-bar-show-btn:hover { background: rgba(99,103,255,0.25); color: #E0DBFF; }
+
+          /* tool buttons wrap — horizontal, always shown inside bar */
+          .bd3-mob-tools-wrap {
+            display: flex; flex-direction: row; gap: 0;
+            flex: 1; align-items: center;
+            overflow: hidden;
+            transition: opacity 0.2s ease;
+          }
+          .bd3-mob-tools-wrap.visible { opacity: 1; }
+          .bd3-mob-tools-wrap.collapsed { opacity: 0; pointer-events: none; }
 
           /* ── Mobile download FAB ── */
           .bd3-mobile-dl {
@@ -1185,9 +1216,7 @@ export default function BirthdayGenerator3() {
           /* ── Bottom-sheet panel ── */
           .bd3-mob-sheet-backdrop {
             position: fixed; inset: 0; z-index: 400;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.5);
             animation: bd3-sheet-fade-in 0.22s ease-out;
           }
           @keyframes bd3-sheet-fade-in {
@@ -1500,24 +1529,10 @@ export default function BirthdayGenerator3() {
             </div>
           </div>
         </nav>
-        {/* ── Mobile floating toolbar ── */}
-        <nav className="bd3-mob-toolbar">
-          {/* Toggle button — always visible */}
-          <button
-            className={`bd3-mob-toolbar-toggle${mobToolbarHidden ? " hidden" : ""}`}
-            onClick={() => { setMobToolbarHidden(h => !h); setActiveMobPanel(null); }}
-            aria-label={mobToolbarHidden ? "Show tools" : "Hide tools"}
-            title={mobToolbarHidden ? "Show tools" : "Hide tools"}
-          >
-            {/* Double chevron up/down */}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="18 15 12 9 6 15" />
-            </svg>
-          </button>
-
-          {/* Tool buttons — collapsible */}
+        {/* ── Mobile horizontal icon bar ── */}
+        <nav className={`bd3-mob-toolbar${mobToolbarHidden ? " bar-hidden" : ""}`}>
+          {/* Tool buttons */}
           <div className={`bd3-mob-tools-wrap${mobToolbarHidden ? " collapsed" : " visible"}`}>
-            <div className="bd3-mob-toolbar-divider" style={{ margin: "0 4px 2px" }} />
             {([
               { id: "template",  icon: <Palette size={16} />,      label: "Style",   accent: "#8494FF",  dot: false },
               { id: "person",    icon: <User size={16} />,          label: "Person",  accent: "#67e8f9",  dot: false },
@@ -1539,19 +1554,16 @@ export default function BirthdayGenerator3() {
                       </svg>
                     )}
                     <span style={{
-                      position: "absolute",
-                      width: 4, height: 4, borderRadius: "50%",
+                      position: "absolute", width: 4, height: 4, borderRadius: "50%",
                       background: form.access ? "#fcd34d" : "currentColor",
                       opacity: form.access ? 1 : 0.5,
-                      top: "52%", left: "50%",
-                      transform: "translate(-50%, -50%)",
+                      top: "52%", left: "50%", transform: "translate(-50%, -50%)",
                       boxShadow: form.access ? "0 0 6px #fcd34d" : "none",
-                      transition: "all 0.3s",
-                      pointerEvents: "none",
+                      transition: "all 0.3s", pointerEvents: "none",
                     }} />
                   </span>
                 ), label: "Key", accent: "#fcd34d", dot: !!form.access },
-              { id: "ai",        icon: <Stars size={16} />,         label: "AI",      accent: "#c4b5fd",  dot: !!generatedMsg },
+              { id: "ai", icon: <Stars size={16} />, label: "AI", accent: "#c4b5fd", dot: !!generatedMsg },
             ]).map(({ id, icon, label, accent, dot }, i, arr) => (
               <React.Fragment key={id}>
                 <button
@@ -1564,23 +1576,29 @@ export default function BirthdayGenerator3() {
                   {icon}
                   <span className="bd3-mob-tool-label">{label}</span>
                 </button>
-                {i < arr.length - 1 && i === 2 && <div className="bd3-mob-toolbar-divider" />}
+                {i === 2 && i < arr.length - 1 && <div className="bd3-mob-toolbar-divider" />}
               </React.Fragment>
             ))}
           </div>
+          {/* Toggle — right end of bar */}
+          <button
+            className={`bd3-mob-toolbar-toggle${mobToolbarHidden ? " hidden" : ""}`}
+            onClick={() => { setMobToolbarHidden(h => !h); setActiveMobPanel(null); }}
+            aria-label={mobToolbarHidden ? "Show tools" : "Hide tools"}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="18 9 12 15 6 9" />
+            </svg>
+          </button>
         </nav>
 
         {/* ── Mobile bottom-sheet ── */}
         {activeMobPanel && (
           <>
-            <div 
-              className="bd3-mob-sheet-backdrop" 
+            <div
+              className="bd3-mob-sheet-backdrop"
               onClick={() => activeMobPanel !== "template" && setActiveMobPanel(null)}
-              style={{ 
-                backdropFilter: activeMobPanel === "template" ? "none" : undefined,
-                WebkitBackdropFilter: activeMobPanel === "template" ? "none" : undefined,
-                background: activeMobPanel === "template" ? "rgba(0,0,0,0.35)" : undefined
-              }}
+              style={{ background: activeMobPanel === "template" ? "rgba(0,0,0,0.3)" : undefined }}
             />
             <div className="bd3-mob-sheet">
               <div className="bd3-mob-sheet-handle-wrap">
@@ -1898,7 +1916,7 @@ export default function BirthdayGenerator3() {
             </div>
             <div className="bd3-action-bar" style={{ display: "none" }} />
           </aside>
-          <main ref={previewRef} className="bd3-preview" style={{ display: activeTab === "edit" ? "none" : "flex" }}>
+          <main ref={previewRef} className={`bd3-preview${mobToolbarHidden ? " bar-hidden" : ""}`} style={{ display: activeTab === "edit" ? "none" : "flex" }}>
             <div className="bd3-preview-grid" />
             <div className="bd3-preview-glow" />
             <button className="bd3-back-btn" onClick={() => setActiveTab("edit")}><Pencil size={11} /> Edit</button>
