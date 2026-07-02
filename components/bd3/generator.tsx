@@ -1166,7 +1166,7 @@ export default function BirthdayGenerator3() {
           /* Preview always fills the body — add top padding for the icon bar */
           .bd3-preview {
             display: flex !important;
-            padding: 72px 12px 100px;
+            padding: 72px 12px 80px;
             align-items: flex-start;
             justify-content: center;
             overflow: hidden;
@@ -1186,25 +1186,74 @@ export default function BirthdayGenerator3() {
           }
           .bd3-mob-canvas:active { cursor: grabbing; }
 
-          /* reset zoom pill */
-          .bd3-mob-reset-zoom {
-            position: fixed; bottom: 24px; right: 16px;
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 14px; border-radius: 12px; border: none; cursor: pointer;
-            font-size: 12px; font-weight: 700; color: rgba(196,218,255,0.7);
-            background: rgba(10,30,60,0.82);
-            border: 1px solid rgba(99,103,255,0.25);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            font-family: inherit; z-index: 300;
+          /* reset zoom pill — hidden, now inside bottom nav */
+          .bd3-mob-reset-zoom { display: none; }
+
+          /* ── Mobile bottom nav bar ── */
+          .bd3-mob-bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            z-index: 300;
+            height: 64px;
+            background: rgba(10,30,60,0.96);
+            border-top: 1px solid rgba(99,103,255,0.15);
+            display: flex; align-items: center;
+            padding: 0 12px;
+            gap: 8px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+          }
+          .bd3-root.light .bd3-mob-bottom-nav {
+            background: rgba(255,255,255,0.98);
+            border-top-color: rgba(99,103,255,0.14);
+            box-shadow: 0 -4px 20px rgba(99,103,255,0.08);
+          }
+
+          /* primary download button — grows */
+          .bd3-mob-dl-btn {
+            flex: 1;
+            height: 42px;
+            border-radius: 12px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #6367FF;
+            color: #fff; font-size: 14px; font-weight: 700;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(99,103,255,0.45);
             transition: all 0.18s;
           }
-          .bd3-mob-reset-zoom:hover { background: rgba(99,103,255,0.18); color: #E0DBFF; }
-          .bd3-root.light .bd3-mob-reset-zoom {
-            background: rgba(255,255,255,0.95);
-            border-color: rgba(99,103,255,0.2);
-            color: rgba(10,38,71,0.55);
-            box-shadow: 0 4px 16px rgba(99,103,255,0.1);
+          .bd3-mob-dl-btn:hover { background: #5558E8; }
+          .bd3-mob-dl-btn:active { transform: scale(0.97); }
+          .bd3-mob-dl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+          /* icon-only square buttons */
+          .bd3-mob-nav-btn {
+            width: 44px; height: 42px; flex-shrink: 0;
+            border-radius: 12px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(99,103,255,0.1);
+            border: 1px solid rgba(99,103,255,0.18);
+            color: rgba(196,218,255,0.6);
+            transition: all 0.18s;
           }
+          .bd3-mob-nav-btn:hover { background: rgba(99,103,255,0.2); color: #C9BEFF; }
+          .bd3-mob-nav-btn:active { transform: scale(0.94); }
+          .bd3-mob-nav-btn.active {
+            background: rgba(99,103,255,0.25);
+            border-color: rgba(99,103,255,0.4);
+            color: #C9BEFF;
+          }
+          .bd3-root.light .bd3-mob-nav-btn {
+            background: rgba(99,103,255,0.06);
+            border-color: rgba(99,103,255,0.15);
+            color: rgba(10,38,71,0.45);
+          }
+          .bd3-root.light .bd3-mob-nav-btn:hover { background: rgba(99,103,255,0.12); color: #0A2647; }
+          .bd3-root.light .bd3-mob-nav-btn.active {
+            background: rgba(99,103,255,0.14);
+            border-color: rgba(99,103,255,0.3);
+            color: #0A2647;
+          }
+
+          /* ── Mobile download FAB — replaced by bottom nav ── */
+          .bd3-mobile-dl { display: none !important; }
           /* Hide the old back btn – replaced by toolbar */
           .bd3-back-btn { display: none !important; }
 
@@ -1409,11 +1458,11 @@ export default function BirthdayGenerator3() {
         @media (min-width: 768px) {
           .bd3-editor { display: flex !important; }
           .bd3-preview { display: flex !important; }
-          .bd3-mobile-dl { display: none !important; }
           .bd3-back-btn { display: none !important; }
           .bd3-mob-toolbar { display: none !important; }
           .bd3-mob-sheet-backdrop { display: none !important; }
           .bd3-mob-sheet { display: none !important; }
+          .bd3-mob-bottom-nav { display: none !important; }
         }
 
         /* ── Creator popup ── */
@@ -2141,22 +2190,44 @@ export default function BirthdayGenerator3() {
               </div>
             </div>
             <div className="bd3-preview-badge" style={{ display: "none" }} />
-            {/* Mobile download FAB */}
-            <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading}>
-              {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save</>}
-            </button>
-            {/* Reset zoom — only show when zoomed/panned */}
-            {(mobTransform.scale !== 1 || mobTransform.x !== 0 || mobTransform.y !== 0) && (
-              <button className="bd3-mob-reset-zoom" onClick={resetMobTransform}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3.5 3.5l17 17M3.5 20.5l17-17"/>
-                  <circle cx="12" cy="12" r="7"/>
-                </svg>
-                Reset
-              </button>
-            )}
           </main>
         </div>
+
+        {/* ── Mobile bottom nav ── */}
+        <nav className="bd3-mob-bottom-nav">
+          {/* Focus / reset zoom */}
+          <button
+            className={`bd3-mob-nav-btn${(mobTransform.scale !== 1 || mobTransform.x !== 0 || mobTransform.y !== 0) ? " active" : ""}`}
+            onClick={resetMobTransform}
+            title="Reset zoom & position"
+            aria-label="Reset zoom"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+          </button>
+
+          {/* Download */}
+          <button className="bd3-mob-dl-btn" onClick={handleDownload} disabled={isDownloading}>
+            {isDownloading
+              ? <span className="bd3-pulse">Generating…</span>
+              : <><Download size={17} strokeWidth={2.5} /> Save Image</>
+            }
+          </button>
+
+          {/* Theme toggle */}
+          <button
+            className="bd3-mob-nav-btn"
+            onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark"
+              ? <Sun size={18} strokeWidth={2} />
+              : <Moon size={18} strokeWidth={2} />
+            }
+          </button>
+        </nav>
         <div style={{ position: "fixed", left: 0, top: "-3000px", width: 1080, height: 1350, pointerEvents: "none", zIndex: -1 }}>
           <PostTemplate3 ref={hiddenRef} data={{ ...form, template: selectedTemplate }} edit={true} />
         </div>
