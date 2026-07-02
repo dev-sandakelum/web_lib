@@ -129,14 +129,12 @@ export default function StartupPopup() {
         <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: 18 }}>
           {CHANGES.map((section) => (
             <div key={section.category}>
-              {/* Section header */}
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                 <span style={{ fontSize: 15 }}>{section.icon}</span>
                 <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: "rgba(196,218,255,0.45)" }}>
                   {section.category}
                 </span>
               </div>
-              {/* Items */}
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                 {section.items.map((item, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
@@ -160,7 +158,6 @@ export default function StartupPopup() {
           justifyContent: "space-between",
           gap: 12,
         }}>
-          {/* Don't show again checkbox */}
           <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", userSelect: "none" }}>
             <div
               onClick={() => setDontShow((v) => !v)}
@@ -183,8 +180,6 @@ export default function StartupPopup() {
               Don&apos;t show this again
             </span>
           </label>
-
-          {/* Got it button */}
           <button
             onClick={handleClose}
             style={{

@@ -19,7 +19,6 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
   const [transform, setTransform] = useState<ImageTransform3>({ x: 0, y: 0, scale: 1, rotation: 0, flip: false });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  // base scale so image fills the circle at scale=1
   const baseScaleRef = useRef(1);
 
   const SIZE = 420;
@@ -30,18 +29,17 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
     img.crossOrigin = "anonymous";
     img.onload = () => {
       imgRef.current = img;
-      // compute a base scale so the shorter side fills the circle diameter
       const diameter = RADIUS * 2;
       const fit = Math.max(diameter / img.width, diameter / img.height);
       baseScaleRef.current = fit;
-      // restore previous transform if editing, otherwise start fresh
       setTransform(initialTransform ?? { x: 0, y: 0, scale: 1, rotation: 0, flip: false });
       setTimeout(() => renderCanvas(), 0);
     };
     img.src = imageUrl;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl]);
 
-  useEffect(() => { renderCanvas(); }, [transform]);
+  useEffect(() => { renderCanvas(); }, [transform]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderCanvas = () => {
     const canvas = canvasRef.current;
@@ -53,11 +51,9 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
     const cx = SIZE / 2, cy = SIZE / 2;
     ctx.clearRect(0, 0, SIZE, SIZE);
 
-    // ── 1. Fill entire canvas with dark background ──
     ctx.fillStyle = "#071d38";
     ctx.fillRect(0, 0, SIZE, SIZE);
 
-    // ── 2. Subtle dot grid over the whole canvas ──
     ctx.fillStyle = "rgba(99,103,255,0.04)";
     for (let x = 0; x < SIZE; x += 20) {
       for (let y = 0; y < SIZE; y += 20) {
@@ -65,31 +61,28 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
       }
     }
 
-    // ── 3. Draw image clipped to circle (no compositing tricks) ──
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2);
-    ctx.clip();                                    // clip region = circle
+    ctx.clip();
 
     const { x, y, scale, rotation, flip } = transform;
-    const bs = baseScaleRef.current;              // base scale: image fills circle at scale=1
+    const bs = baseScaleRef.current;
     const effective = bs * scale;
     ctx.translate(cx + x, cy + y);
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.scale(flip ? -effective : effective, effective);
     ctx.drawImage(img, -img.width / 2, -img.height / 2);
-    ctx.restore();                                 // clip removed here
+    ctx.restore();
 
-    // ── 4. Dim the area OUTSIDE the circle (pure source-over, no compositing) ──
     ctx.save();
     ctx.fillStyle = "rgba(7,29,56,0.65)";
     ctx.beginPath();
-    ctx.rect(0, 0, SIZE, SIZE);                    // outer rectangle
-    ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2, true); // hole = clockwise circle subtracted
-    ctx.fill("evenodd");                            // fills rect minus circle
+    ctx.rect(0, 0, SIZE, SIZE);
+    ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2, true);
+    ctx.fill("evenodd");
     ctx.restore();
 
-    // ── 5. Gradient ring border ──
     const grad = ctx.createLinearGradient(cx - RADIUS, cy - RADIUS, cx + RADIUS, cy + RADIUS);
     grad.addColorStop(0,   "rgba(99,103,255,0.9)");
     grad.addColorStop(0.5, "rgba(132,148,255,0.9)");
@@ -98,7 +91,6 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
     ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.arc(cx, cy, RADIUS, 0, Math.PI * 2); ctx.stroke();
 
-    // ── 6. Inner subtle ring ──
     ctx.strokeStyle = "rgba(99,103,255,0.12)";
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.arc(cx, cy, RADIUS - 6, 0, Math.PI * 2); ctx.stroke();
@@ -258,11 +250,10 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
 
       <div className="bd3-modal-backdrop" onClick={(e) => e.target === e.currentTarget && onClose()}>
         <div className="bd3-modal-card">
-          {/* Header */}
           <div className="bd3-modal-header">
             <div className="bd3-modal-title-wrap">
               <div className="bd3-modal-icon">
-                <Camera size={14} color="#8494FF" />
+                <CameraIcon size={14} color="#8494FF" />
               </div>
               <div>
                 <div className="bd3-modal-title">Adjust Photo</div>
@@ -272,7 +263,6 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
             <button className="bd3-modal-close" onClick={onClose}><X size={16} /></button>
           </div>
 
-          {/* Canvas */}
           <div className="bd3-canvas-wrap">
             <canvas
               ref={canvasRef}
@@ -287,9 +277,7 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
             <div className="bd3-canvas-hint"><Move size={10} /> Drag to reposition</div>
           </div>
 
-          {/* Controls */}
           <div className="bd3-controls">
-            {/* Zoom */}
             <div className="bd3-zoom-row">
               <ZoomOut size={15} color="rgba(196,218,255,0.35)" />
               <input
@@ -304,7 +292,6 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
               </span>
             </div>
 
-            {/* Transform buttons */}
             <div className="bd3-transform-btns">
               <span className="bd3-transform-label">Transform</span>
               <button className="bd3-tbtn" onClick={() => setTransform((p) => ({ ...p, rotation: p.rotation - 90 }))} title="Rotate left">
@@ -319,7 +306,6 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
             </div>
           </div>
 
-          {/* Footer */}
           <div className="bd3-modal-footer">
             <button className="bd3-modal-reset" onClick={() => setTransform({ x: 0, y: 0, scale: 1, rotation: 0, flip: false })}>
               <RotateCcw size={14} /> Reset
@@ -334,8 +320,7 @@ export const CropModal3: React.FC<CropModalProps> = ({ imageUrl, initialTransfor
   );
 };
 
-// Camera icon (local use in modal)
-function Camera({ size, color }: { size: number; color: string }) {
+function CameraIcon({ size, color }: { size: number; color: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
