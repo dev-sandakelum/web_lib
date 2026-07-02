@@ -1,34 +1,52 @@
-/*
- * BD3 – Base & Reset Styles
- * Imported once in generator.tsx via <style> injection.
- * All selectors are namespaced under .bd3-root to avoid leakage.
- */
-
+/* BD3 – CSS custom properties + global resets */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* ── Root ───────────────────────────────────────── */
+/* ── Root tokens (dark mode) ── */
 .bd3-root {
-  width: 100vw;
-  height: 100vh;
+  --bg:            #0A2647;
+  --surface:       #0D2E55;
+  --card:          #112F56;
+  --card-border:   rgba(32,82,149,0.55);
+  --nav-bg:        rgba(10,38,71,0.96);
+  --nav-border:    rgba(32,82,149,0.5);
+  --input-bg:      rgba(20,66,114,0.5);
+  --input-border:  rgba(32,82,149,0.6);
+  --accent:        #6367FF;
+  --accent-hover:  #5558E8;
+  --accent-alt:    #8494FF;
+  --accent-light:  #C9BEFF;
+  --text:          #E8F0FE;
+  --text-muted:    rgba(196,218,255,0.4);
+  --text-dim:      rgba(196,218,255,0.25);
+  --preview-bg:    #071d38;
+  --scroll-thumb:  rgba(99,103,255,0.35);
+  --success:       #34d399;
+}
+
+/* ── Light mode tokens ── */
+.bd3-root.light {
+  --bg:           #F0F4FF;
+  --surface:      #FFFFFF;
+  --card:         #FAFCFF;
+  --card-border:  rgba(99,103,255,0.15);
+  --nav-bg:       rgba(255,255,255,0.92);
+  --nav-border:   rgba(99,103,255,0.12);
+  --input-bg:     rgba(99,103,255,0.04);
+  --input-border: rgba(99,103,255,0.2);
+  --text:         #0A2647;
+  --text-muted:   rgba(10,38,71,0.45);
+  --text-dim:     rgba(10,38,71,0.28);
+  --preview-bg:   #E8EEFF;
+}
+
+.bd3-root {
+  width: 100vw; height: 100vh;
+  background: var(--bg);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: fixed;
   inset: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* dark (default) */
-.bd3-root {
-  background: #0A2647;
-  color: #E8F0FE;
-}
-
-/* light override */
-.bd3-root.light {
-  background: #F0F4FF;
-  color: #0A2647;
 }
