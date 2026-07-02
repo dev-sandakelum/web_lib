@@ -454,6 +454,16 @@ export default function BirthdayGenerator3() {
           background: rgba(99,103,255,0.14);
           color: rgba(10,38,71,0.75);
         }
+        .bd3-root.light .bd3-mob-bar-show-btn {
+          background: rgba(255,255,255,0.95);
+          border-color: rgba(99,103,255,0.2);
+          color: rgba(10,38,71,0.5);
+          box-shadow: 0 2px 12px rgba(99,103,255,0.12);
+        }
+        .bd3-root.light .bd3-mob-bar-show-btn:hover {
+          background: rgba(99,103,255,0.1);
+          color: rgba(10,38,71,0.8);
+        }
 
         /* ── Light theme: bottom sheet ── */
         .bd3-root.light .bd3-mob-sheet {
@@ -1592,13 +1602,26 @@ export default function BirthdayGenerator3() {
           </button>
         </nav>
 
+        {/* ── Restore bar button — shown when bar is hidden ── */}
+        {mobToolbarHidden && (
+          <button
+            className={`bd3-mob-bar-show-btn visible`}
+            onClick={() => setMobToolbarHidden(false)}
+            aria-label="Show toolbar"
+            title="Show toolbar"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        )}
+
         {/* ── Mobile bottom-sheet ── */}
         {activeMobPanel && (
           <>
             <div
               className="bd3-mob-sheet-backdrop"
-              onClick={() => activeMobPanel !== "template" && setActiveMobPanel(null)}
-              style={{ background: activeMobPanel === "template" ? "rgba(0,0,0,0.3)" : undefined }}
+              onClick={() => setActiveMobPanel(null)}
             />
             <div className="bd3-mob-sheet">
               <div className="bd3-mob-sheet-handle-wrap">
