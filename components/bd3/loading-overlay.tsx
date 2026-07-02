@@ -7,13 +7,16 @@ interface LoadingOverlayProps {
   isVisible: boolean;
   message?: string;
   icon?: "loading" | "download";
+  theme?: "dark" | "light";
 }
 
 export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   isVisible,
   message = "Generating your birthday post...",
   icon = "loading",
+  theme = "dark",
 }) => {
+  const lt = theme === "light";
   return (
     <>
       <style>{`
@@ -35,7 +38,6 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
         .bd3ov-backdrop {
           position: fixed; inset: 0; z-index: 9999;
           display: flex; align-items: center; justify-content: center;
-          background: rgba(7,29,56,0.9);
           backdrop-filter: blur(22px) saturate(1.4);
           -webkit-backdrop-filter: blur(22px) saturate(1.4);
           pointer-events: none; opacity: 0; transition: opacity 0.35s ease;
@@ -43,9 +45,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
         .bd3ov-backdrop.visible { opacity: 1; pointer-events: all; animation: bd3ov-fadein 0.35s ease forwards; }
         .bd3ov-card {
           display: flex; flex-direction: column; align-items: center;
-          gap: 26px; padding: 52px 56px; background: #112F56;
-          border: 1px solid rgba(99,103,255,0.2); border-radius: 28px;
-          box-shadow: 0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+          gap: 26px; padding: 52px 56px; border-radius: 28px;
           position: relative; overflow: hidden; min-width: 280px;
         }
         .bd3ov-card::before {
@@ -55,11 +55,9 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
         }
         .bd3ov-glow {
           position: absolute; width: 320px; height: 320px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(99,103,255,0.2) 0%, transparent 70%);
           filter: blur(50px); pointer-events: none; animation: bd3ov-glow-pulse 2.4s ease-in-out infinite;
         }
         .bd3ov-spinner { position: relative; width: 110px; height: 110px; z-index: 1; display: flex; align-items: center; justify-content: center; }
-        .bd3ov-track { position: absolute; inset: 0; border-radius: 50%; border: 2.5px solid rgba(255,255,255,0.06); }
         .bd3ov-arc {
           position: absolute; inset: 0; border-radius: 50%; border: 2.5px solid transparent;
           border-top-color: #6367FF; border-right-color: #8494FF;
@@ -76,23 +74,39 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
           box-shadow: 0 8px 32px rgba(99,103,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
           animation: bd3ov-badge-pulse 2.2s ease-in-out infinite;
         }
-        .bd3ov-message { font-size: 17px; font-weight: 700; color: #E8F0FE; letter-spacing: -0.2px; text-align: center; margin: 0; z-index: 1; font-family: Inter, system-ui, sans-serif; }
         .bd3ov-dots { display: flex; gap: 7px; align-items: center; z-index: 1; }
         .bd3ov-dot { width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(135deg, #6367FF, #8494FF); animation: bd3ov-dot 1.5s ease-in-out infinite; }
         .bd3ov-dot:nth-child(2) { animation-delay: 0.18s; }
         .bd3ov-dot:nth-child(3) { animation-delay: 0.36s; }
         .bd3ov-sub {
           font-size: 13px; text-align: center; z-index: 1; font-family: Inter, system-ui, sans-serif;
-          background: linear-gradient(90deg, rgba(196,218,255,0.28) 0%, rgba(196,218,255,0.6) 50%, rgba(196,218,255,0.28) 100%);
           background-size: 200% 100%; -webkit-background-clip: text; background-clip: text;
           -webkit-text-fill-color: transparent; animation: bd3ov-shimmer 2.2s linear infinite; margin: -10px 0 0;
         }
       `}</style>
-      <div className={`bd3ov-backdrop${isVisible ? " visible" : ""}`}>
-        <div className="bd3ov-card">
-          <div className="bd3ov-glow" />
+      <div
+        className={`bd3ov-backdrop${isVisible ? " visible" : ""}`}
+        style={{ background: lt ? "rgba(240,244,255,0.88)" : "rgba(7,29,56,0.9)" }}
+      >
+        <div
+          className="bd3ov-card"
+          style={{
+            background: lt ? "#FFFFFF" : "#112F56",
+            border: `1px solid ${lt ? "rgba(99,103,255,0.18)" : "rgba(99,103,255,0.2)"}`,
+            boxShadow: lt
+              ? "0 32px 80px rgba(99,103,255,0.15), 0 0 0 1px rgba(99,103,255,0.1)"
+              : "0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)",
+          }}
+        >
+          <div
+            className="bd3ov-glow"
+            style={{ background: `radial-gradient(circle, rgba(99,103,255,${lt ? "0.12" : "0.2"}) 0%, transparent 70%)` }}
+          />
           <div className="bd3ov-spinner">
-            <div className="bd3ov-track" />
+            <div style={{
+              position: "absolute", inset: 0, borderRadius: "50%",
+              border: `2.5px solid ${lt ? "rgba(99,103,255,0.12)" : "rgba(255,255,255,0.06)"}`,
+            }} />
             <div className="bd3ov-arc" />
             <div className="bd3ov-arc2" />
             <div className="bd3ov-badge">
@@ -102,14 +116,28 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
               }
             </div>
           </div>
-          <p className="bd3ov-message">{message}</p>
+          <p style={{
+            fontSize: 17, fontWeight: 700, letterSpacing: "-0.2px",
+            textAlign: "center", margin: 0, zIndex: 1,
+            fontFamily: "Inter, system-ui, sans-serif",
+            color: lt ? "#0A2647" : "#E8F0FE",
+          }}>
+            {message}
+          </p>
           <div className="bd3ov-dots">
             <div className="bd3ov-dot" />
             <div className="bd3ov-dot" />
             <div className="bd3ov-dot" />
           </div>
-          <p className="bd3ov-sub">
-            {icon === "download" ? "Rendering your HD 1080 x 1350 image" : "Writing to clipboard..."}
+          <p
+            className="bd3ov-sub"
+            style={{
+              backgroundImage: lt
+                ? "linear-gradient(90deg, rgba(10,38,71,0.3) 0%, rgba(10,38,71,0.65) 50%, rgba(10,38,71,0.3) 100%)"
+                : "linear-gradient(90deg, rgba(196,218,255,0.28) 0%, rgba(196,218,255,0.6) 50%, rgba(196,218,255,0.28) 100%)",
+            }}
+          >
+            {icon === "download" ? "Rendering your HD 1080 × 1350 image" : "Writing to clipboard..."}
           </p>
         </div>
       </div>

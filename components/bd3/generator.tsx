@@ -1930,8 +1930,8 @@ export default function BirthdayGenerator3() {
             onClose={() => { setShowCrop(false); setTempImage(null); }}
           />
         )}
-        <LoadingOverlay isVisible={showDownloadOverlay} icon="download" message="Generating your HD image…" />
-        <StartupPopup />
+        <LoadingOverlay isVisible={showDownloadOverlay} icon="download" message="Generating your HD image…" theme={theme} />
+        <StartupPopup theme={theme} />
 
         {/* ── Pre-ready splash ── */}
         {splashMounted && (
