@@ -1,0 +1,34 @@
+/*
+ * BD3 – Base & Reset Styles
+ * Imported once in generator.tsx via <style> injection.
+ * All selectors are namespaced under .bd3-root to avoid leakage.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Root ───────────────────────────────────────── */
+.bd3-root {
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* dark (default) */
+.bd3-root {
+  background: #0A2647;
+  color: #E8F0FE;
+}
+
+/* light override */
+.bd3-root.light {
+  background: #F0F4FF;
+  color: #0A2647;
+}
