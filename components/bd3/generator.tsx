@@ -2162,7 +2162,16 @@ export default function BirthdayGenerator3() {
                     {creatorTab === "about" && (
                       <div className="bd3-creator-body">
                         <div className="bd3-creator-row">
-                          <div className="bd3-creator-avatar">HS</div>
+                          <img
+                            src="/bd3/dev/dev.png"
+                            alt="Hasitha Sandakelum"
+                            style={{
+                              width: 44, height: 44, borderRadius: "50%",
+                              objectFit: "cover", flexShrink: 0,
+                              border: "2px solid rgba(99,103,255,0.4)",
+                              boxShadow: "0 0 0 3px rgba(99,103,255,0.12)",
+                            }}
+                          />
                           <div>
                             <div className="bd3-creator-name">Hasitha Sandakelum</div>
                             <div className="bd3-creator-role">Developer</div>
@@ -2198,7 +2207,7 @@ export default function BirthdayGenerator3() {
                           fontSize: 11.5, color: "rgba(196,218,255,0.35)", lineHeight: 1.6,
                           textAlign: "center",
                         }}>
-                          Part of <span style={{ color: "#8494FF", fontWeight: 600 }}>ICT HUB</span> · University of Ruhuna
+                          Part of <span style={{ color: "#8494FF", fontWeight: 600 }}>9th Batch</span> · University of Ruhuna
                         </div>
                       </div>
                     )}
@@ -2263,7 +2272,7 @@ export default function BirthdayGenerator3() {
 
                     <div className="bd3-creator-footer">
                       <span className="bd3-creator-built">
-                        {creatorTab === "changelog" ? <>v3 · <span>2025</span></> : <>Part of <span>ICT HUB</span></>}
+                        {creatorTab === "changelog" ? <>v3 · <span>2025</span></> : <>Part of <span>9th Batch</span></>}
                       </span>
                       <button className="bd3-creator-dismiss" onClick={() => { setShowCreator(false); setCreatorTab("about"); }}>Close</button>
                     </div>
