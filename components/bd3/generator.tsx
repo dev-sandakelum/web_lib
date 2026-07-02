@@ -90,6 +90,7 @@ export default function BirthdayGenerator3() {
   const [activeMobPanel, setActiveMobPanel] = useState<string | null>(null);
   const [mobToolbarHidden, setMobToolbarHidden] = useState(false);
   const [creatorTab, setCreatorTab] = useState<"about" | "changelog">("about");
+  const [justUnlocked, setJustUnlocked] = useState(false);
   const [showCachePrompt, setShowCachePrompt] = useState(false);
 
   useEffect(() => {
@@ -364,7 +365,12 @@ export default function BirthdayGenerator3() {
   };
 
   const handleEnableAccess = () => {
-    set("access", accessInput === PASS_KEY);
+    const granted = accessInput === PASS_KEY;
+    set("access", granted);
+    if (granted) {
+      setJustUnlocked(true);
+      setTimeout(() => setJustUnlocked(false), 500);
+    }
   };
 
 
@@ -612,16 +618,43 @@ export default function BirthdayGenerator3() {
           display: none;
           align-items: center; gap: 7px;
           padding: 7px 16px; border-radius: 10px; border: none;
-          background: #6367FF;
-          color: #fff; font-size: 13px; font-weight: 700;
+          font-size: 13px; font-weight: 700;
           cursor: pointer; font-family: inherit; white-space: nowrap;
-          box-shadow: 0 4px 14px rgba(99,103,255,0.4);
-          transition: all 0.18s;
+          transition: background 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                      box-shadow 0.35s ease,
+                      transform 0.18s ease,
+                      color 0.25s ease;
+          overflow: hidden; position: relative;
         }
-        .bd3-nav-download:hover { background: #5558E8; box-shadow: 0 6px 20px rgba(99,103,255,0.55); transform: translateY(-1px); }
-        .bd3-nav-download:active { transform: translateY(0); }
+        .bd3-nav-download.locked {
+          background: rgba(32,82,149,0.35);
+          color: rgba(196,218,255,0.6);
+          box-shadow: none;
+          border: 1px solid rgba(99,103,255,0.25);
+        }
+        .bd3-nav-download.locked:hover {
+          background: rgba(99,103,255,0.2);
+          color: rgba(196,218,255,0.9);
+        }
+        .bd3-nav-download.unlocked {
+          background: #6367FF;
+          color: #fff;
+          box-shadow: 0 4px 14px rgba(99,103,255,0.4);
+          border: none;
+        }
+        .bd3-nav-download.unlocked:hover { background: #5558E8; box-shadow: 0 6px 20px rgba(99,103,255,0.55); transform: translateY(-1px); }
+        .bd3-nav-download:active { transform: translateY(0) scale(0.97); }
         .bd3-nav-download:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         @media (min-width: 768px) { .bd3-nav-download { display: flex; } }
+
+        /* download btn content swap animation */
+        @keyframes bd3-btn-unlock {
+          0%   { transform: scale(1) rotate(0deg); }
+          30%  { transform: scale(1.2) rotate(-10deg); }
+          60%  { transform: scale(0.9) rotate(4deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        .bd3-nav-download.just-unlocked { animation: bd3-btn-unlock 0.45s cubic-bezier(0.34,1.56,0.64,1); }
 
         /* resolution badge in navbar */
         .bd3-nav-badge {
@@ -1213,15 +1246,34 @@ export default function BirthdayGenerator3() {
             height: 42px;
             border-radius: 12px; border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            background: #6367FF;
-            color: #fff; font-size: 14px; font-weight: 700;
+            font-size: 14px; font-weight: 700;
             font-family: inherit;
-            box-shadow: 0 4px 16px rgba(99,103,255,0.45);
-            transition: all 0.18s;
+            transition: background 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                        box-shadow 0.35s ease,
+                        color 0.25s ease,
+                        border-color 0.3s ease;
+            overflow: hidden; position: relative;
           }
-          .bd3-mob-dl-btn:hover { background: #5558E8; }
+          .bd3-mob-dl-btn.locked {
+            background: rgba(32,82,149,0.35);
+            color: rgba(196,218,255,0.6);
+            border: 1px solid rgba(99,103,255,0.25);
+            box-shadow: none;
+          }
+          .bd3-mob-dl-btn.locked:hover {
+            background: rgba(99,103,255,0.18);
+            color: rgba(196,218,255,0.9);
+          }
+          .bd3-mob-dl-btn.unlocked {
+            background: #6367FF;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 16px rgba(99,103,255,0.45);
+          }
+          .bd3-mob-dl-btn.unlocked:hover { background: #5558E8; }
           .bd3-mob-dl-btn:active { transform: scale(0.97); }
           .bd3-mob-dl-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+          .bd3-mob-dl-btn.just-unlocked { animation: bd3-btn-unlock 0.45s cubic-bezier(0.34,1.56,0.64,1); }
 
           /* icon-only square buttons */
           .bd3-mob-nav-btn {
@@ -1751,8 +1803,18 @@ export default function BirthdayGenerator3() {
               <span className="bd3-nav-badge-dot" />
               1080 × 1350 px
             </div>
-            <button className="bd3-nav-download" onClick={handleDownload} disabled={isDownloading}>
-              {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={14} /> Download HD</>}
+            <button
+              className={`bd3-nav-download${form.access ? " unlocked" : " locked"}${justUnlocked ? " just-unlocked" : ""}`}
+              onClick={form.access ? handleDownload : () => setActiveMobPanel("access")}
+              disabled={isDownloading}
+              title={form.access ? "Download HD image" : "Access key required"}
+            >
+              {isDownloading
+                ? <span className="bd3-pulse">Downloading…</span>
+                : form.access
+                  ? <><Download size={14} /> Download HD</>
+                  : <><Lock size={13} /> Unlock</>
+              }
             </button>
             <button className="bd3-theme-btn" onClick={() => setTheme(t => t === "dark" ? "light" : "dark")} title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
               {theme === "dark" ? <Sun size={15} strokeWidth={2} /> : <Moon size={15} strokeWidth={2} />}
@@ -2208,10 +2270,17 @@ export default function BirthdayGenerator3() {
           </button>
 
           {/* Download */}
-          <button className="bd3-mob-dl-btn" onClick={handleDownload} disabled={isDownloading}>
+          <button
+            className={`bd3-mob-dl-btn${form.access ? " unlocked" : " locked"}${justUnlocked ? " just-unlocked" : ""}`}
+            onClick={form.access ? handleDownload : () => { setActiveMobPanel("access"); setMobToolbarHidden(false); }}
+            disabled={isDownloading}
+            title={form.access ? "Save image" : "Access key required — tap to unlock"}
+          >
             {isDownloading
               ? <span className="bd3-pulse">Generating…</span>
-              : <><Download size={17} strokeWidth={2.5} /> Save Image</>
+              : form.access
+                ? <><Download size={17} strokeWidth={2.5} /> Save Image</>
+                : <><Lock size={16} strokeWidth={2.5} /> Unlock to Save</>
             }
           </button>
 
