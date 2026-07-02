@@ -32,6 +32,8 @@ const CHANGES = [
     items: [
       "Advanced settings open as a popup near the name field — not a separate section",
       "Light / dark theme toggle added to navbar",
+      "Canva-style mobile toolbar with bottom-sheet panels",
+      "Pinch to zoom & pan the preview on mobile",
     ],
   },
 ];
@@ -58,152 +60,219 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
   if (!visible) return null;
 
   // ── colour tokens ──────────────────────────────────────────────
-  const bg         = lt ? "#FFFFFF"                     : "#0D2E55";
-  const bgHeader   = lt ? "#FFFFFF"                     : "#0D2E55";
-  const border     = lt ? "rgba(99,103,255,0.18)"       : "rgba(32,82,149,0.5)";
-  const borderSub  = lt ? "rgba(99,103,255,0.12)"       : "rgba(32,82,149,0.4)";
-  const shadow     = lt
+  const bg        = lt ? "#FFFFFF"                          : "#0D2E55";
+  const border    = lt ? "rgba(99,103,255,0.18)"            : "rgba(32,82,149,0.5)";
+  const borderSub = lt ? "rgba(99,103,255,0.12)"            : "rgba(32,82,149,0.4)";
+  const shadow    = lt
+    ? "0 -8px 40px rgba(99,103,255,0.12), 0 0 0 1px rgba(99,103,255,0.1)"
+    : "0 -8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,103,255,0.12)";
+  const shadowDt  = lt
     ? "0 24px 80px rgba(99,103,255,0.15), 0 0 0 1px rgba(99,103,255,0.12)"
     : "0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(99,103,255,0.15)";
-  const backdrop   = lt ? "rgba(200,210,240,0.7)"       : "rgba(0,0,0,0.72)";
-  const titleColor = lt ? "#0A2647"                     : "#E8F0FE";
-  const subColor   = lt ? "rgba(10,38,71,0.35)"         : "rgba(196,218,255,0.35)";
-  const catColor   = lt ? "rgba(10,38,71,0.45)"         : "rgba(196,218,255,0.45)";
-  const itemColor  = lt ? "rgba(10,38,71,0.75)"         : "rgba(196,218,255,0.75)";
-  const closeBg    = lt ? "rgba(99,103,255,0.07)"       : "rgba(32,82,149,0.3)";
-  const closeBgHov = lt ? "rgba(99,103,255,0.15)"       : "rgba(32,82,149,0.5)";
-  const closeColor = lt ? "rgba(10,38,71,0.4)"          : "rgba(196,218,255,0.45)";
-  const closeHov   = lt ? "#0A2647"                     : "#E8F0FE";
-  const closeBdr   = lt ? "rgba(99,103,255,0.15)"       : "rgba(32,82,149,0.5)";
-  const cbBg       = lt ? "rgba(99,103,255,0.06)"       : "rgba(20,66,114,0.3)";
-  const cbBdr      = lt ? "rgba(99,103,255,0.25)"       : "rgba(196,218,255,0.25)";
-  const dontColor  = lt ? "rgba(10,38,71,0.4)"          : "rgba(196,218,255,0.4)";
-  const scrollClr  = lt ? "rgba(99,103,255,0.2) transparent" : "rgba(99,103,255,0.3) transparent";
+  const backdrop  = lt ? "rgba(200,210,240,0.65)"           : "rgba(0,0,0,0.65)";
+  const titleClr  = lt ? "#0A2647"                          : "#E8F0FE";
+  const subClr    = lt ? "rgba(10,38,71,0.35)"              : "rgba(196,218,255,0.35)";
+  const catClr    = lt ? "rgba(10,38,71,0.4)"               : "rgba(196,218,255,0.4)";
+  const itemClr   = lt ? "rgba(10,38,71,0.75)"              : "rgba(196,218,255,0.75)";
+  const closeBg   = lt ? "rgba(99,103,255,0.07)"            : "rgba(32,82,149,0.3)";
+  const closeBdr  = lt ? "rgba(99,103,255,0.15)"            : "rgba(32,82,149,0.5)";
+  const closeClr  = lt ? "rgba(10,38,71,0.4)"               : "rgba(196,218,255,0.45)";
+  const cbBg      = lt ? "rgba(99,103,255,0.06)"            : "rgba(20,66,114,0.3)";
+  const cbBdr     = lt ? "rgba(99,103,255,0.25)"            : "rgba(196,218,255,0.25)";
+  const dontClr   = lt ? "rgba(10,38,71,0.4)"               : "rgba(196,218,255,0.4)";
+  const handleClr = lt ? "rgba(99,103,255,0.2)"             : "rgba(99,103,255,0.3)";
+  const scrollClr = lt ? "rgba(99,103,255,0.2) transparent" : "rgba(99,103,255,0.3) transparent";
 
   return (
-    <div
-      style={{
-        position: "fixed", inset: 0, zIndex: 1000,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        background: backdrop,
-        backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
-        padding: "20px",
-      }}
-      onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
-    >
-      <div style={{
-        width: "100%", maxWidth: 560, maxHeight: "90vh", overflowY: "auto",
-        background: bg, border: `1px solid ${border}`, borderRadius: 20,
-        boxShadow: shadow,
-        scrollbarWidth: "thin", scrollbarColor: scrollClr,
-      }}>
-        {/* Header */}
-        <div style={{
-          display: "flex", alignItems: "flex-start", justifyContent: "space-between",
-          padding: "22px 24px 16px", borderBottom: `1px solid ${borderSub}`,
-          position: "sticky", top: 0, background: bgHeader, zIndex: 1,
-          borderRadius: "20px 20px 0 0",
-        }}>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-              <Sparkles size={16} color="#8494FF" />
-              <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#8494FF" }}>
-                What&apos;s new
-              </span>
-            </div>
-            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: titleColor, letterSpacing: "-0.3px" }}>
-              Birthday Post Studio
-              <span style={{ fontSize: 14, fontWeight: 600, color: "rgba(132,148,255,0.8)", marginLeft: 10 }}>v3</span>
-            </h2>
-            <p style={{ margin: "4px 0 0", fontSize: 12.5, color: subColor, fontWeight: 400 }}>
-              Changes from bd2 → bd3
-            </p>
+    <>
+      <style>{`
+        @keyframes bd3sp-fadein { from { opacity:0 } to { opacity:1 } }
+        @keyframes bd3sp-slideup { from { transform:translateY(100%) } to { transform:translateY(0) } }
+        @keyframes bd3sp-popin {
+          from { opacity:0; transform:scale(0.94) translateY(12px) }
+          to   { opacity:1; transform:scale(1) translateY(0) }
+        }
+
+        /* shared */
+        .bd3sp-backdrop {
+          position:fixed; inset:0; z-index:1000;
+          display:flex; align-items:flex-end; justify-content:center;
+          animation: bd3sp-fadein 0.22s ease forwards;
+        }
+        .bd3sp-scroll {
+          overflow-y:auto; flex:1; min-height:0;
+          scrollbar-width:thin;
+        }
+
+        /* ── Mobile: bottom-sheet ── */
+        @media (max-width: 640px) {
+          .bd3sp-backdrop { padding:0; }
+          .bd3sp-modal {
+            width:100%; max-height:88vh;
+            border-radius:24px 24px 0 0;
+            display:flex; flex-direction:column;
+            animation: bd3sp-slideup 0.32s cubic-bezier(0.32,0.72,0,1) forwards;
+          }
+          .bd3sp-handle-wrap {
+            display:flex; align-items:center; justify-content:center;
+            padding:10px 0 6px; flex-shrink:0;
+          }
+          .bd3sp-close-btn { display:none !important; }
+          .bd3sp-header { padding:0 20px 14px; }
+          .bd3sp-title { font-size:19px; }
+          .bd3sp-body { padding:12px 20px 4px; }
+          .bd3sp-footer { padding:12px 20px 28px; }
+          .bd3sp-item-text { font-size:13px; }
+        }
+
+        /* ── Desktop: centered modal ── */
+        @media (min-width: 641px) {
+          .bd3sp-backdrop {
+            align-items:center; padding:20px;
+          }
+          .bd3sp-modal {
+            width:100%; max-width:540px; max-height:90vh;
+            border-radius:20px;
+            display:flex; flex-direction:column;
+            animation: bd3sp-popin 0.22s ease forwards;
+          }
+          .bd3sp-handle-wrap { display:none; }
+          .bd3sp-header { padding:22px 24px 16px; }
+          .bd3sp-title { font-size:22px; }
+          .bd3sp-body { padding:16px 24px 4px; }
+          .bd3sp-footer { padding:14px 24px 20px; }
+          .bd3sp-item-text { font-size:13.5px; }
+        }
+      `}</style>
+
+      <div
+        className="bd3sp-backdrop"
+        style={{ background: backdrop }}
+        onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
+      >
+        <div
+          className="bd3sp-modal"
+          style={{
+            background: bg,
+            border: `1px solid ${border}`,
+            boxShadow: window.innerWidth < 641 ? shadow : shadowDt,
+          }}
+        >
+          {/* Mobile drag handle */}
+          <div className="bd3sp-handle-wrap">
+            <div style={{ width:36, height:4, borderRadius:99, background: handleClr }} />
           </div>
-          <button
-            onClick={handleClose}
+
+          {/* Header */}
+          <div
+            className="bd3sp-header"
             style={{
-              width: 32, height: 32, borderRadius: 8, border: `1px solid ${closeBdr}`,
-              background: closeBg, color: closeColor,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "pointer", flexShrink: 0, marginTop: 2, transition: "all 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = closeBgHov;
-              (e.currentTarget as HTMLButtonElement).style.color = closeHov;
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = closeBg;
-              (e.currentTarget as HTMLButtonElement).style.color = closeColor;
+              borderBottom: `1px solid ${borderSub}`,
+              display:"flex", alignItems:"flex-start", justifyContent:"space-between",
+              flexShrink:0,
+              position:"sticky", top:0, background:bg, zIndex:1,
             }}
           >
-            <X size={14} />
-          </button>
-        </div>
-
-        {/* Change sections */}
-        <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", gap: 18 }}>
-          {CHANGES.map((section) => (
-            <div key={section.category}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <span style={{ fontSize: 15 }}>{section.icon}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: catColor }}>
-                  {section.category}
+            <div>
+              <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:5 }}>
+                <Sparkles size={14} color="#8494FF" />
+                <span style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:"#8494FF" }}>
+                  What&apos;s new
                 </span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                {section.items.map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                    <CheckCircle2 size={15} color="#34d399" style={{ flexShrink: 0, marginTop: 2 }} />
-                    <span style={{ fontSize: 13.5, color: itemColor, lineHeight: 1.55 }}>{item}</span>
-                  </div>
-                ))}
-              </div>
+              <h2 className="bd3sp-title" style={{ margin:0, fontWeight:800, color:titleClr, letterSpacing:"-0.3px" }}>
+                Birthday Post Studio
+                <span style={{ fontSize:13, fontWeight:600, color:"rgba(132,148,255,0.8)", marginLeft:8 }}>v3</span>
+              </h2>
+              <p style={{ margin:"3px 0 0", fontSize:12, color:subClr, fontWeight:400 }}>
+                Changes from bd2 → bd3
+              </p>
             </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        <div style={{
-          padding: "14px 24px 20px", borderTop: `1px solid ${borderSub}`,
-          display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
-        }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", userSelect: "none" }}>
-            <div
-              onClick={() => setDontShow((v) => !v)}
+            <button
+              className="bd3sp-close-btn"
+              onClick={handleClose}
               style={{
-                width: 18, height: 18, borderRadius: 5,
-                border: dontShow ? "none" : `1.5px solid ${cbBdr}`,
-                background: dontShow ? "#6367FF" : cbBg,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0, transition: "all 0.15s", cursor: "pointer",
-                boxShadow: dontShow ? "0 0 0 3px rgba(99,103,255,0.2)" : "none",
+                width:30, height:30, borderRadius:8, border:`1px solid ${closeBdr}`,
+                background:closeBg, color:closeClr, flexShrink:0, marginTop:2,
+                display:"flex", alignItems:"center", justifyContent:"center",
+                cursor:"pointer", transition:"all 0.15s",
               }}
             >
-              {dontShow && (
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
+              <X size={13} />
+            </button>
+          </div>
+
+          {/* Scrollable body */}
+          <div className="bd3sp-scroll bd3sp-body" style={{ scrollbarColor: scrollClr }}>
+            <div style={{ display:"flex", flexDirection:"column", gap:16, paddingBottom:4 }}>
+              {CHANGES.map((section) => (
+                <div key={section.category}>
+                  <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:9 }}>
+                    <span style={{ fontSize:14 }}>{section.icon}</span>
+                    <span style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.09em", color:catClr }}>
+                      {section.category}
+                    </span>
+                  </div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:7 }}>
+                    {section.items.map((item, i) => (
+                      <div key={i} style={{ display:"flex", alignItems:"flex-start", gap:9 }}>
+                        <CheckCircle2 size={14} color="#34d399" style={{ flexShrink:0, marginTop:2 }} />
+                        <span className="bd3sp-item-text" style={{ color:itemClr, lineHeight:1.55 }}>
+                          {item}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-            <span style={{ fontSize: 12, color: dontColor, fontWeight: 500 }}>
-              Don&apos;t show this again
-            </span>
-          </label>
-          <button
-            onClick={handleClose}
+          </div>
+
+          {/* Footer */}
+          <div
+            className="bd3sp-footer"
             style={{
-              padding: "9px 22px", borderRadius: 10, border: "none", cursor: "pointer",
-              background: "#6367FF", color: "#fff", fontSize: 13, fontWeight: 700,
-              fontFamily: "inherit", boxShadow: "0 4px 14px rgba(99,103,255,0.35)",
-              transition: "all 0.18s",
+              borderTop:`1px solid ${borderSub}`,
+              display:"flex", alignItems:"center", justifyContent:"space-between",
+              gap:12, flexShrink:0,
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)"; }}
           >
-            Got it ✓
-          </button>
+            <label style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer", userSelect:"none" }}>
+              <div
+                onClick={() => setDontShow(v => !v)}
+                style={{
+                  width:17, height:17, borderRadius:5,
+                  border: dontShow ? "none" : `1.5px solid ${cbBdr}`,
+                  background: dontShow ? "#6367FF" : cbBg,
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  flexShrink:0, transition:"all 0.15s", cursor:"pointer",
+                  boxShadow: dontShow ? "0 0 0 3px rgba(99,103,255,0.2)" : "none",
+                }}
+              >
+                {dontShow && (
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 5l2.5 2.5L8 3" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </div>
+              <span style={{ fontSize:12, color:dontClr, fontWeight:500 }}>Don&apos;t show again</span>
+            </label>
+            <button
+              onClick={handleClose}
+              style={{
+                padding:"10px 24px", borderRadius:12, border:"none", cursor:"pointer",
+                background:"#6367FF", color:"#fff", fontSize:13, fontWeight:700,
+                fontFamily:"inherit", boxShadow:"0 4px 14px rgba(99,103,255,0.35)",
+                transition:"all 0.18s", letterSpacing:"-0.1px",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 6px 20px rgba(99,103,255,0.5)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = ""; (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 4px 14px rgba(99,103,255,0.35)"; }}
+            >
+              Got it ✓
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

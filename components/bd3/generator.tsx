@@ -2143,7 +2143,7 @@ export default function BirthdayGenerator3() {
                   <div className="bd3-creator-avatar">HS</div>
                   <div>
                     <div className="bd3-creator-name">Hasitha Sandakelum</div>
-                    <div className="bd3-creator-role">Developer · ICT HUB</div>
+                    <div className="bd3-creator-role">Developer</div>
                   </div>
                 </div>
 
@@ -2175,12 +2175,12 @@ export default function BirthdayGenerator3() {
               </div>
 
               {/* Footer */}
-              <div className="bd3-creator-footer">
+              {/* <div className="bd3-creator-footer">
                 <span className="bd3-creator-built">Part of <span>ICT HUB</span> · University of Ruhuna</span>
                 <button className="bd3-creator-dismiss" onClick={() => setShowCreator(false)}>
                   Close
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
