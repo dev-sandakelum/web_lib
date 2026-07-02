@@ -93,11 +93,73 @@ export default function BirthdayGenerator3() {
   const [splashMounted, setSplashMounted] = useState(true);
 
   useEffect(() => {
-    // Trigger fade-out after 900ms, then unmount after fade completes
     const fadeTimer = setTimeout(() => setAppReady(true), 900);
     const unmountTimer = setTimeout(() => setSplashMounted(false), 900 + 600);
     return () => { clearTimeout(fadeTimer); clearTimeout(unmountTimer); };
   }, []);
+
+  // ── Mobile pinch-zoom / pan ──
+  const [mobTransform, setMobTransform] = useState({ x: 0, y: 0, scale: 1 });
+  const mobGestureRef = useRef<{
+    startDist: number; startScale: number;
+    startMidX: number; startMidY: number;
+    startTX: number; startTY: number;
+    isPinch: boolean;
+    lastX: number; lastY: number;
+  } | null>(null);
+
+  const handleMobTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const t1 = e.touches[0], t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+      mobGestureRef.current = {
+        startDist: dist, startScale: mobTransform.scale,
+        startMidX: midX, startMidY: midY,
+        startTX: mobTransform.x, startTY: mobTransform.y,
+        isPinch: true, lastX: midX, lastY: midY,
+      };
+    } else if (e.touches.length === 1) {
+      mobGestureRef.current = {
+        startDist: 0, startScale: mobTransform.scale,
+        startMidX: e.touches[0].clientX, startMidY: e.touches[0].clientY,
+        startTX: mobTransform.x, startTY: mobTransform.y,
+        isPinch: false,
+        lastX: e.touches[0].clientX, lastY: e.touches[0].clientY,
+      };
+    }
+  }, [mobTransform]);
+
+  const handleMobTouchMove = useCallback((e: React.TouchEvent) => {
+    const g = mobGestureRef.current;
+    if (!g) return;
+    e.preventDefault();
+    if (e.touches.length === 2 && g.isPinch) {
+      const t1 = e.touches[0], t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const midX = (t1.clientX + t2.clientX) / 2;
+      const midY = (t1.clientY + t2.clientY) / 2;
+      const newScale = Math.min(Math.max(g.startScale * (dist / g.startDist), 0.2), 5);
+      setMobTransform({
+        scale: newScale,
+        x: g.startTX + (midX - g.startMidX),
+        y: g.startTY + (midY - g.startMidY),
+      });
+    } else if (e.touches.length === 1 && !g.isPinch) {
+      const dx = e.touches[0].clientX - g.lastX;
+      const dy = e.touches[0].clientY - g.lastY;
+      g.lastX = e.touches[0].clientX;
+      g.lastY = e.touches[0].clientY;
+      setMobTransform(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
+    }
+  }, []);
+
+  const handleMobTouchEnd = useCallback(() => {
+    mobGestureRef.current = null;
+  }, []);
+
+  const resetMobTransform = useCallback(() => setMobTransform({ x: 0, y: 0, scale: 1 }), []);
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -1087,11 +1149,41 @@ export default function BirthdayGenerator3() {
             padding: 72px 12px 100px;
             align-items: flex-start;
             justify-content: center;
-            overflow-y: auto;
+            overflow: hidden;
+            touch-action: none;
             transition: padding-top 0.3s cubic-bezier(0.4,0,0.2,1);
           }
-          .bd3-preview.bar-hidden {
-            padding-top: 16px;
+          .bd3-preview.bar-hidden { padding-top: 16px; }
+
+          /* canvas container that receives transform */
+          .bd3-mob-canvas {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+            cursor: grab;
+            user-select: none;
+          }
+          .bd3-mob-canvas:active { cursor: grabbing; }
+
+          /* reset zoom pill */
+          .bd3-mob-reset-zoom {
+            position: fixed; bottom: 24px; right: 16px;
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 12px; border: none; cursor: pointer;
+            font-size: 12px; font-weight: 700; color: rgba(196,218,255,0.7);
+            background: rgba(10,30,60,0.82);
+            border: 1px solid rgba(99,103,255,0.25);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            font-family: inherit; z-index: 300;
+            transition: all 0.18s;
+          }
+          .bd3-mob-reset-zoom:hover { background: rgba(99,103,255,0.18); color: #E0DBFF; }
+          .bd3-root.light .bd3-mob-reset-zoom {
+            background: rgba(255,255,255,0.95);
+            border-color: rgba(99,103,255,0.2);
+            color: rgba(10,38,71,0.55);
+            box-shadow: 0 4px 16px rgba(99,103,255,0.1);
           }
           /* Hide the old back btn – replaced by toolbar */
           .bd3-back-btn { display: none !important; }
@@ -1213,7 +1305,7 @@ export default function BirthdayGenerator3() {
 
           /* ── Mobile download FAB ── */
           .bd3-mobile-dl {
-            position: fixed; bottom: 20px; right: 16px;
+            position: fixed; bottom: 20px; left: 16px;
             display: flex; align-items: center; gap: 8px;
             padding: 13px 22px; border-radius: 16px; border: none; cursor: pointer;
             font-size: 14px; font-weight: 700; color: #fff; z-index: 300;
@@ -1939,20 +2031,43 @@ export default function BirthdayGenerator3() {
             </div>
             <div className="bd3-action-bar" style={{ display: "none" }} />
           </aside>
-          <main ref={previewRef} className={`bd3-preview${mobToolbarHidden ? " bar-hidden" : ""}`} style={{ display: activeTab === "edit" ? "none" : "flex" }}>
+          <main
+            ref={previewRef}
+            className={`bd3-preview${mobToolbarHidden ? " bar-hidden" : ""}`}
+            style={{ display: activeTab === "edit" ? "none" : "flex" }}
+            onTouchStart={handleMobTouchStart}
+            onTouchMove={handleMobTouchMove}
+            onTouchEnd={handleMobTouchEnd}
+          >
             <div className="bd3-preview-grid" />
             <div className="bd3-preview-glow" />
             <button className="bd3-back-btn" onClick={() => setActiveTab("edit")}><Pencil size={11} /> Edit</button>
-            <div className="bd3-preview-card" style={{ width: `${1080 * scale}px`, height: `${1350 * scale}px` }}>
-              <div style={{ width: 1080, height: 1350, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-                <PostTemplate3 data={{ ...form, template: selectedTemplate }} />
+            {/* Mobile: canvas with pinch-zoom/pan transform */}
+            <div
+              className="bd3-mob-canvas"
+              style={{ transform: `translate(${mobTransform.x}px, ${mobTransform.y}px) scale(${mobTransform.scale})` }}
+            >
+              <div className="bd3-preview-card" style={{ width: `${1080 * scale}px`, height: `${1350 * scale}px` }}>
+                <div style={{ width: 1080, height: 1350, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+                  <PostTemplate3 data={{ ...form, template: selectedTemplate }} />
+                </div>
               </div>
             </div>
             <div className="bd3-preview-badge" style={{ display: "none" }} />
-            {/* Mobile download FAB — always visible on mobile */}
+            {/* Mobile download FAB */}
             <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading}>
               {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save</>}
             </button>
+            {/* Reset zoom — only show when zoomed/panned */}
+            {(mobTransform.scale !== 1 || mobTransform.x !== 0 || mobTransform.y !== 0) && (
+              <button className="bd3-mob-reset-zoom" onClick={resetMobTransform}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3.5 3.5l17 17M3.5 20.5l17-17"/>
+                  <circle cx="12" cy="12" r="7"/>
+                </svg>
+                Reset
+              </button>
+            )}
           </main>
         </div>
         <div style={{ position: "fixed", left: 0, top: "-3000px", width: 1080, height: 1350, pointerEvents: "none", zIndex: -1 }}>
