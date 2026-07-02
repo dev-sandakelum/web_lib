@@ -166,22 +166,27 @@
 
 /* ─── Responsive breakpoints ─────────────────────────────── */
 
-/* Tablet (768px+) — show toolbar + editor + preview */
+/* Tablet (768px+) — show editor + preview side-by-side */
 @media (min-width: 768px) {
   .bd3-mobile-toolbar {
-    display: flex;
+    display: none !important;
   }
 
   .bd3-editor {
     display: flex !important;
+    width: 35%;
+    min-width: 300px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--card-border);
   }
 
   .bd3-preview {
-    display: none !important;
+    display: flex !important;
+    flex: 1;
   }
 
   .bd3-panel-sheet {
-    max-height: 90vh;
+    display: none !important;
   }
 
   .bd3-panel-backdrop {
@@ -193,7 +198,7 @@
   }
 }
 
-/* Desktop (1024px+) — hide mobile UI completely */
+/* Desktop (1024px+) — same as tablet, full layout */
 @media (min-width: 1024px) {
   .bd3-mobile-toolbar {
     display: none !important;
@@ -201,10 +206,13 @@
 
   .bd3-editor {
     display: flex !important;
+    width: 30%;
+    min-width: 320px;
   }
 
   .bd3-preview {
     display: flex !important;
+    flex: 1;
   }
 
   .bd3-panel-sheet {
