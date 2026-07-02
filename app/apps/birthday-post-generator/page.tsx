@@ -1,9 +1,5 @@
-import BirthdayPostGenerator from "@/components/bd/birthday-post-generator";
-
-
+import BirthdayGeneratorMobile from "@/components/bd3/GeneratorMobile";
 
 export default function page() {
-  return (
-    <BirthdayPostGenerator/>
-  )
+  return <BirthdayGeneratorMobile />;
 }
