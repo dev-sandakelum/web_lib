@@ -87,6 +87,8 @@ export default function BirthdayGenerator3() {
   const [accessInput, setAccessInput] = useState("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [showCreator, setShowCreator] = useState(false);
+  const [activeMobPanel, setActiveMobPanel] = useState<string | null>(null);
+  const [mobToolbarHidden, setMobToolbarHidden] = useState(false);
 
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -266,7 +268,12 @@ export default function BirthdayGenerator3() {
 
   const handleAccessChange = (v: string) => {
     setAccessInput(v);
-    set("access", v === PASS_KEY);
+    // Reset access if input is cleared
+    if (!v) set("access", false);
+  };
+
+  const handleEnableAccess = () => {
+    set("access", accessInput === PASS_KEY);
   };
 
 
@@ -437,9 +444,7 @@ export default function BirthdayGenerator3() {
         }
         .bd3-nav-title { font-size: 15px; font-weight: 700; color: #E8F0FE; letter-spacing: -0.3px; }
         .bd3-nav-sub { font-size: 10px; color: rgba(196,218,255,0.4); font-weight: 500; letter-spacing: 0.08em; margin-top: 1px; }
-        @media (max-width: 767px) {
-          .bd3-nav-title { display: none; }
-        }
+
 
         /* ── Navbar right section ── */
         .bd3-nav-right {
@@ -954,39 +959,247 @@ export default function BirthdayGenerator3() {
         }
         .bd3-slider-auto-btn:hover { background: rgba(99,103,255,0.18); border-color: rgba(99,103,255,0.55); }
 
+        /* ── Access enable button ── */
+        .bd3-access-row { display: flex; gap: 8px; align-items: stretch; }
+        .bd3-access-row .bd3-input { flex: 1; min-width: 0; }
+        .bd3-btn-enable {
+          flex-shrink: 0;
+          display: flex; align-items: center; gap: 6px;
+          padding: 10px 14px; border-radius: 10px; border: 1px solid;
+          font-size: 12.5px; font-weight: 700; cursor: pointer;
+          font-family: inherit; white-space: nowrap;
+          transition: all 0.2s;
+        }
+        .bd3-btn-enable.locked {
+          border-color: rgba(252,211,77,0.35);
+          background: rgba(252,211,77,0.08);
+          color: #fcd34d;
+        }
+        .bd3-btn-enable.locked:hover {
+          border-color: rgba(252,211,77,0.65);
+          background: rgba(252,211,77,0.15);
+        }
+        .bd3-btn-enable.locked:active { transform: scale(0.96); }
+        .bd3-btn-enable.granted {
+          border-color: rgba(52,211,153,0.35);
+          background: rgba(52,211,153,0.08);
+          color: #34d399;
+          cursor: default;
+        }
+
         /* ── Animate pulse ── */
         .bd3-pulse { animation: bd3-pulse 1.5s ease-in-out infinite; }
         @keyframes bd3-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
 
+        /* ── Lock/unlock pop animation ── */
+        @keyframes bd3-unlock-pop {
+          0%   { transform: scale(1) rotate(0deg); }
+          30%  { transform: scale(1.35) rotate(-12deg); }
+          55%  { transform: scale(0.9) rotate(6deg); }
+          75%  { transform: scale(1.12) rotate(-3deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        .bd3-mob-tool-btn .bd3-lock-icon { display: flex; align-items: center; justify-content: center; }
+        .bd3-mob-tool-btn.access-granted .bd3-lock-icon { animation: bd3-unlock-pop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
         /* ── Mobile ── */
         @media (max-width: 767px) {
-          .bd3-nav-tabs { display: flex; }
-          .bd3-editor { width: 100%; border-right: none; }
-          .bd3-preview { padding: 20px 16px 100px; }
+          /* Hide desktop tabs in navbar */
+          .bd3-nav-tabs { display: none !important; }
+          /* Hide the desktop editor panel */
+          .bd3-editor { display: none !important; }
+          /* Preview always fills the body */
+          .bd3-preview {
+            display: flex !important;
+            padding: 16px 12px 100px;
+            align-items: flex-start;
+            justify-content: center;
+            overflow-y: auto;
+          }
+          /* Hide the old back btn – replaced by toolbar */
+          .bd3-back-btn { display: none !important; }
+
+          /* ── Floating left toolbar ── */
+          .bd3-mob-toolbar {
+            position: fixed;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(10,30,60,0.82);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(99,103,255,0.2);
+            border-radius: 18px;
+            padding: 8px 6px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(99,103,255,0.1);
+          }
+          .bd3-mob-tool-btn {
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            border: none; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 3px;
+            background: transparent;
+            color: rgba(196,218,255,0.55);
+            transition: all 0.18s;
+            position: relative;
+          }
+          .bd3-mob-tool-btn:hover,
+          .bd3-mob-tool-btn.active {
+            background: rgba(99,103,255,0.18);
+            color: #C9BEFF;
+          }
+          .bd3-mob-tool-btn.active {
+            background: rgba(99,103,255,0.28);
+            color: #E0DBFF;
+            box-shadow: 0 0 0 1.5px rgba(99,103,255,0.5);
+          }
+          .bd3-mob-tool-btn-dot {
+            position: absolute;
+            top: 6px; right: 7px;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 5px rgba(52,211,153,0.8);
+          }
+          .bd3-mob-tool-label {
+            font-size: 8px; font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            line-height: 1;
+          }
+          .bd3-mob-toolbar-divider {
+            height: 1px; margin: 2px 4px;
+            background: rgba(99,103,255,0.15);
+            border-radius: 99px;
+          }
+
+          /* toggle visibility button — always visible at top of toolbar */
+          .bd3-mob-toolbar-toggle {
+            width: 40px; height: 32px;
+            border-radius: 10px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(99,103,255,0.1);
+            color: rgba(196,218,255,0.45);
+            transition: all 0.2s;
+            flex-shrink: 0;
+          }
+          .bd3-mob-toolbar-toggle:hover {
+            background: rgba(99,103,255,0.22);
+            color: rgba(196,218,255,0.85);
+          }
+          .bd3-mob-toolbar-toggle:active { transform: scale(0.92); }
+          /* chevron icon rotates when hidden */
+          .bd3-mob-toolbar-toggle svg {
+            transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+          }
+          .bd3-mob-toolbar-toggle.hidden svg { transform: rotate(180deg); }
+
+          /* tool buttons collapse animation */
+          .bd3-mob-tools-wrap {
+            display: flex; flex-direction: column; gap: 6px;
+            overflow: hidden;
+            transition: max-height 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+          }
+          .bd3-mob-tools-wrap.visible { max-height: 400px; opacity: 1; }
+          .bd3-mob-tools-wrap.collapsed { max-height: 0; opacity: 0; pointer-events: none; }
+
+          /* ── Mobile download FAB ── */
           .bd3-mobile-dl {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 20px; right: 16px;
             display: flex; align-items: center; gap: 8px;
-            padding: 14px 32px; border-radius: 16px; border: none; cursor: pointer;
-            font-size: 14px; font-weight: 700; color: #fff; z-index: 200;
+            padding: 13px 22px; border-radius: 16px; border: none; cursor: pointer;
+            font-size: 14px; font-weight: 700; color: #fff; z-index: 300;
             background: #6367FF;
             box-shadow: 0 8px 32px rgba(99,103,255,0.55);
             font-family: inherit; white-space: nowrap;
           }
-          .bd3-back-btn {
-            position: absolute; top: 14px; left: 14px;
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(32,82,149,0.5);
-            background: rgba(10,38,71,0.8); backdrop-filter: blur(8px);
-            font-size: 12px; font-weight: 600; color: rgba(196,218,255,0.6);
-            cursor: pointer; z-index: 20; font-family: inherit;
+          .bd3-mobile-dl:disabled { opacity: 0.55; }
+
+          /* ── Bottom-sheet panel ── */
+          .bd3-mob-sheet-backdrop {
+            position: fixed; inset: 0; z-index: 400;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: bd3-sheet-fade-in 0.22s ease-out;
           }
-          .bd3-back-btn:hover { color: #E8F0FE; border-color: rgba(99,103,255,0.4); }
+          @keyframes bd3-sheet-fade-in {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+          }
+          .bd3-mob-sheet {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 401;
+            background: #0D2E55;
+            border-top: 1px solid rgba(99,103,255,0.2);
+            border-radius: 24px 24px 0 0;
+            max-height: 80vh;
+            display: flex; flex-direction: column;
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.6);
+            animation: bd3-sheet-slide-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+          }
+          @keyframes bd3-sheet-slide-up {
+            from { transform: translateY(100%); }
+            to   { transform: translateY(0); }
+          }
+          .bd3-mob-sheet-handle-wrap {
+            padding: 10px 0 4px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+          }
+          .bd3-mob-sheet-handle {
+            width: 36px; height: 4px; border-radius: 99px;
+            background: rgba(99,103,255,0.3);
+          }
+          .bd3-mob-sheet-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 18px 12px;
+            flex-shrink: 0;
+          }
+          .bd3-mob-sheet-title {
+            display: flex; align-items: center; gap: 9px;
+          }
+          .bd3-mob-sheet-title-icon {
+            width: 30px; height: 30px; border-radius: 9px;
+            background: rgba(99,103,255,0.12);
+            display: flex; align-items: center; justify-content: center;
+          }
+          .bd3-mob-sheet-title-text {
+            font-size: 15px; font-weight: 700; color: #E8F0FE; letter-spacing: -0.2px;
+          }
+          .bd3-mob-sheet-close {
+            width: 30px; height: 30px; border-radius: 9px; border: none;
+            background: rgba(32,82,149,0.3); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(196,218,255,0.55); transition: all 0.15s;
+          }
+          .bd3-mob-sheet-close:hover { background: rgba(32,82,149,0.55); color: #E8F0FE; }
+          .bd3-mob-sheet-scroll {
+            flex: 1; min-height: 0;
+            overflow-y: auto;
+            padding: 0 18px 32px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(99,103,255,0.35) transparent;
+          }
+          .bd3-mob-sheet-scroll::-webkit-scrollbar { width: 3px; }
+          .bd3-mob-sheet-scroll::-webkit-scrollbar-thumb { background: rgba(99,103,255,0.35); border-radius: 4px; }
+          .bd3-mob-sheet-inner {
+            display: flex; flex-direction: column; gap: 14px;
+          }
         }
         @media (min-width: 768px) {
           .bd3-editor { display: flex !important; }
           .bd3-preview { display: flex !important; }
           .bd3-mobile-dl { display: none !important; }
           .bd3-back-btn { display: none !important; }
+          .bd3-mob-toolbar { display: none !important; }
+          .bd3-mob-sheet-backdrop { display: none !important; }
+          .bd3-mob-sheet { display: none !important; }
         }
 
         /* ── Creator popup ── */
@@ -1123,6 +1336,260 @@ export default function BirthdayGenerator3() {
             </div>
           </div>
         </nav>
+        {/* ── Mobile floating toolbar ── */}
+        <nav className="bd3-mob-toolbar">
+          {/* Toggle button — always visible */}
+          <button
+            className={`bd3-mob-toolbar-toggle${mobToolbarHidden ? " hidden" : ""}`}
+            onClick={() => { setMobToolbarHidden(h => !h); setActiveMobPanel(null); }}
+            aria-label={mobToolbarHidden ? "Show tools" : "Hide tools"}
+            title={mobToolbarHidden ? "Show tools" : "Hide tools"}
+          >
+            {/* Double chevron up/down */}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+
+          {/* Tool buttons — collapsible */}
+          <div className={`bd3-mob-tools-wrap${mobToolbarHidden ? " collapsed" : " visible"}`}>
+            <div className="bd3-mob-toolbar-divider" style={{ margin: "0 4px 2px" }} />
+            {([
+              { id: "template",  icon: <Palette size={16} />,      label: "Style",   accent: "#8494FF",  dot: false },
+              { id: "person",    icon: <User size={16} />,          label: "Person",  accent: "#67e8f9",  dot: false },
+              { id: "photo",     icon: <Camera size={16} />,        label: "Photo",   accent: "#f9a8d4",  dot: !!form.profileImage },
+              { id: "message",   icon: <MessageSquare size={16} />, label: "Msg",     accent: "#86efac",  dot: false },
+              { id: "access",    icon: (
+                  <span className="bd3-lock-icon" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {form.access ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                        style={{ transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)", filter: form.access ? "drop-shadow(0 0 4px #fcd34d)" : "none" }}>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                        style={{ transition: "all 0.3s" }}>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                    )}
+                    <span style={{
+                      position: "absolute",
+                      width: 4, height: 4, borderRadius: "50%",
+                      background: form.access ? "#fcd34d" : "currentColor",
+                      opacity: form.access ? 1 : 0.5,
+                      top: "52%", left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      boxShadow: form.access ? "0 0 6px #fcd34d" : "none",
+                      transition: "all 0.3s",
+                      pointerEvents: "none",
+                    }} />
+                  </span>
+                ), label: "Key", accent: "#fcd34d", dot: !!form.access },
+              { id: "ai",        icon: <Stars size={16} />,         label: "AI",      accent: "#c4b5fd",  dot: !!generatedMsg },
+            ]).map(({ id, icon, label, accent, dot }, i, arr) => (
+              <React.Fragment key={id}>
+                <button
+                  className={`bd3-mob-tool-btn${activeMobPanel === id ? " active" : ""}${id === "access" && form.access ? " access-granted" : ""}`}
+                  style={{ color: activeMobPanel === id ? accent : undefined } as React.CSSProperties}
+                  onClick={() => setActiveMobPanel(activeMobPanel === id ? null : id)}
+                  aria-label={label}
+                >
+                  {dot && <span className="bd3-mob-tool-btn-dot" />}
+                  {icon}
+                  <span className="bd3-mob-tool-label">{label}</span>
+                </button>
+                {i < arr.length - 1 && i === 2 && <div className="bd3-mob-toolbar-divider" />}
+              </React.Fragment>
+            ))}
+          </div>
+        </nav>
+
+        {/* ── Mobile bottom-sheet ── */}
+        {activeMobPanel && (
+          <>
+            <div className="bd3-mob-sheet-backdrop" onClick={() => setActiveMobPanel(null)} />
+            <div className="bd3-mob-sheet">
+              <div className="bd3-mob-sheet-handle-wrap">
+                <div className="bd3-mob-sheet-handle" />
+              </div>
+              <div className="bd3-mob-sheet-header">
+                <div className="bd3-mob-sheet-title">
+                  <div className="bd3-mob-sheet-title-icon" style={{ background: "rgba(99,103,255,0.12)" }}>
+                    {activeMobPanel === "template"  && <Palette size={15} color="#8494FF" />}
+                    {activeMobPanel === "person"    && <User size={15} color="#67e8f9" />}
+                    {activeMobPanel === "photo"     && <Camera size={15} color="#f9a8d4" />}
+                    {activeMobPanel === "message"   && <MessageSquare size={15} color="#86efac" />}
+                    {activeMobPanel === "access"    && (form.access
+                      ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                      : <Lock size={15} color="#fcd34d" />
+                    )}
+                    {activeMobPanel === "ai"        && <Stars size={15} color="#c4b5fd" />}
+                  </div>
+                  <span className="bd3-mob-sheet-title-text">
+                    {activeMobPanel === "template"  && "Template"}
+                    {activeMobPanel === "person"    && "Person Details"}
+                    {activeMobPanel === "photo"     && "Profile Photo"}
+                    {activeMobPanel === "message"   && "Birthday Message"}
+                    {activeMobPanel === "access"    && "Access Key"}
+                    {activeMobPanel === "ai"        && "AI Social Post"}
+                  </span>
+                </div>
+                <button className="bd3-mob-sheet-close" onClick={() => setActiveMobPanel(null)} aria-label="Close panel">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+              <div className="bd3-mob-sheet-scroll">
+                <div className="bd3-mob-sheet-inner">
+                  {/* Template panel */}
+                  {activeMobPanel === "template" && (
+                    <div className="bd3-tpl-grid">
+                      {TEMPLATES3.map((tpl) => (
+                        <button key={tpl.id} onClick={() => { set("templateId", tpl.id); setActiveMobPanel(null); }}
+                          className={`bd3-tpl-card ${form.templateId === tpl.id ? "selected" : ""}`}
+                          style={{ backgroundImage: tpl.background }}>
+                          <div className="bd3-tpl-overlay"><span className="bd3-tpl-name">{tpl.name}</span></div>
+                          {form.templateId === tpl.id && (
+                            <div className="bd3-tpl-check"><Check size={11} color="#fff" strokeWidth={3} /></div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {/* Person Details panel */}
+                  {activeMobPanel === "person" && (
+                    <>
+                      <Field label="Full Name">
+                        <input className="bd3-input" type="text" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Enter full name" />
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                          <span className="bd3-field-label" style={{ flexShrink: 0 }}>Font Size</span>
+                          <input type="range" min={35} max={50} step={1} value={form.nameStyle.fontSize ?? 48} onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))} className="bd3-slider" style={{ flex: 1 }} />
+                          <span className="bd3-field-hint" style={{ flexShrink: 0, minWidth: 32, textAlign: "right" }}>{form.nameStyle.fontSize ?? 48}px</span>
+                        </div>
+                      </Field>
+                      <div className="bd3-grid-2">
+                        <Field label="Batch"><input className="bd3-input" type="text" value={form.batch} onChange={(e) => set("batch", e.target.value)} placeholder="9th Batch" /></Field>
+                        <Field label="Faculty"><input className="bd3-input" type="text" value={form.faculty} onChange={(e) => set("faculty", e.target.value)} placeholder="Faculty of Tech" /></Field>
+                      </div>
+                      <Field label="University"><input className="bd3-input" type="text" value={form.university} onChange={(e) => set("university", e.target.value)} placeholder="University of Ruhuna" /></Field>
+                    </>
+                  )}
+                  {/* Photo panel */}
+                  {activeMobPanel === "photo" && (
+                    <>
+                      {form.profileImage ? (
+                        <div className="bd3-photo-card">
+                          <img src={form.profileImage} alt="Profile" className="bd3-photo-img" />
+                          <div className="bd3-photo-info">
+                            <div className="bd3-photo-ready">Photo ready ✓</div>
+                            <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
+                          </div>
+                          <div className="bd3-photo-actions">
+                            <button className="bd3-photo-action-btn bd3-photo-action-edit" onClick={handleReEdit}><Crop size={12} /> Edit</button>
+                            <button className="bd3-photo-action-btn bd3-photo-action-replace" onClick={() => fileRef.current?.click()}><Upload size={12} /> Replace</button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button className="bd3-photo-btn" onClick={() => fileRef.current?.click()}>
+                          <div className="bd3-photo-icon-wrap"><Upload size={19} color="rgba(196,218,255,0.4)" /></div>
+                          <span className="bd3-photo-label">Tap to upload photo</span>
+                          <span className="bd3-photo-sub">PNG, JPG up to 10MB</span>
+                        </button>
+                      )}
+                    </>
+                  )}
+                  {/* Message panel */}
+                  {activeMobPanel === "message" && (
+                    <>
+                      <div className="bd3-msg-toolbar">
+                        <div className="bd3-char-info">
+                          <span className={`bd3-char-count ${isRefreshing ? "bd3-char-searching" : form.message.length >= 250 && form.message.length <= 300 ? "bd3-char-good" : ""}`}>
+                            {form.message.length} chars
+                          </span>
+                          {!isRefreshing && form.message.length > 0 && (
+                            <span className="bd3-char-range">
+                              {form.message.length >= 250 && form.message.length <= 300 ? "✓ in range" : "target 250–300"}
+                            </span>
+                          )}
+                        </div>
+                        <button className={`bd3-refresh-btn ${isRefreshing ? "bd3-refresh-active" : ""}`} onClick={handleRefreshMsg} disabled={isRefreshing}>
+                          {isRefreshing ? (
+                            <>
+                              <svg width="13" height="13" viewBox="0 0 13 13" className="bd3-refresh-ring">
+                                <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="rgba(99,103,255,0.25)" strokeWidth="1.5" />
+                                <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#8494FF" strokeWidth="1.5" strokeDasharray="31.4" strokeDashoffset="10" strokeLinecap="round" className="bd3-ring-spin" />
+                              </svg>
+                              <span className="bd3-refresh-label">
+                                {refreshMatched === null ? `try ${Math.max(refreshAttempt, 1)}/${refreshMaxAttempts}` : refreshMatched ? <span style={{ color: "#34d399" }}>matched ✓</span> : <span style={{ color: "#fb923c" }}>best fit</span>}
+                              </span>
+                            </>
+                          ) : (
+                            <><RefreshCcw size={11} />AI Refresh</>
+                          )}
+                        </button>
+                      </div>
+                      {isRefreshing && (
+                        <div className="bd3-refresh-progress">
+                          <div className="bd3-refresh-progress-bar" style={{ width: `${(Math.max(refreshAttempt, 1) / refreshMaxAttempts) * 100}%` }} />
+                          <span className="bd3-refresh-progress-label">searching for best match…</span>
+                        </div>
+                      )}
+                      <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={6} placeholder="Enter a heartfelt birthday message..." />
+                    </>
+                  )}
+                  {/* Access Key panel */}
+                  {activeMobPanel === "access" && (
+                    <>
+                      <Field label="Key">
+                        <div className="bd3-access-row">
+                          <input
+                            className="bd3-input"
+                            type="text"
+                            value={accessInput}
+                            onChange={(e) => handleAccessChange(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && !form.access && handleEnableAccess()}
+                            placeholder="Enter access key"
+                          />
+                          <button
+                            className={`bd3-btn-enable ${form.access ? "granted" : "locked"}`}
+                            onClick={!form.access ? handleEnableAccess : undefined}
+                          >
+                            {form.access ? <><Check size={13} /> Enabled</> : "Enable"}
+                          </button>
+                        </div>
+                      </Field>
+                      <div className={`bd3-access-status ${form.access ? "bd3-access-granted" : "bd3-access-locked"}`}>
+                        <div className="bd3-access-dot" />
+                        {form.access ? "Access granted — post generation unlocked" : "Enter key and tap Enable"}
+                      </div>
+                    </>
+                  )}
+                  {/* AI Social Post panel */}
+                  {activeMobPanel === "ai" && (
+                    <>
+                      <div className="bd3-ai-box">
+                        {generatedMsg ? generatedMsg : <span className="bd3-ai-empty">Generated social media caption will appear here…</span>}
+                      </div>
+                      <div className="bd3-btn-row">
+                        <button className="bd3-btn-ai" onClick={handleGenerateMsg} disabled={isMsgGen}>
+                          {isMsgGen ? <span className="bd3-pulse">Generating…</span> : <><Wand2 size={14} /> Generate</>}
+                        </button>
+                        <button className="bd3-btn-ghost" onClick={handleCopyMsg} disabled={!generatedMsg} style={{ paddingLeft: "14px", paddingRight: "14px" }}>
+                          {msgCopied ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
+                          {msgCopied ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="bd3-body">
           <aside className="bd3-editor" style={{ display: activeTab === "preview" ? "none" : "flex", flexDirection: "column" }}>
             <div className="bd3-editor-scroll">
@@ -1219,11 +1686,26 @@ export default function BirthdayGenerator3() {
               </SectionCard>
               <SectionCard title="Access Key" icon={<Lock size={13} />} accent="#fcd34d">
                 <Field label="Key">
-                  <input className="bd3-input" type="password" value={accessInput} onChange={(e) => handleAccessChange(e.target.value)} placeholder="Enter access key" />
+                  <div className="bd3-access-row">
+                    <input
+                      className="bd3-input"
+                      type="text"
+                      value={accessInput}
+                      onChange={(e) => handleAccessChange(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && !form.access && handleEnableAccess()}
+                      placeholder="Enter access key"
+                    />
+                    <button
+                      className={`bd3-btn-enable ${form.access ? "granted" : "locked"}`}
+                      onClick={!form.access ? handleEnableAccess : undefined}
+                    >
+                      {form.access ? <><Check size={13} /> Enabled</> : "Enable"}
+                    </button>
+                  </div>
                 </Field>
                 <div className={`bd3-access-status ${form.access ? "bd3-access-granted" : "bd3-access-locked"}`}>
                   <div className="bd3-access-dot" />
-                  {form.access ? "Access granted — post generation unlocked" : "Enter key to unlock post generation"}
+                  {form.access ? "Access granted — post generation unlocked" : "Enter key and click Enable"}
                 </div>
               </SectionCard>
               <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
@@ -1254,11 +1736,10 @@ export default function BirthdayGenerator3() {
               </div>
             </div>
             <div className="bd3-preview-badge" style={{ display: "none" }} />
-            {activeTab === "preview" && (
-              <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading}>
-                {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save Image</>}
-              </button>
-            )}
+            {/* Mobile download FAB — always visible on mobile */}
+            <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading}>
+              {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save</>}
+            </button>
           </main>
         </div>
         <div style={{ position: "fixed", left: 0, top: "-3000px", width: 1080, height: 1350, pointerEvents: "none", zIndex: -1 }}>
