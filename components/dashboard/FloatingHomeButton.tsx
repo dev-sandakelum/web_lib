@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Home,
   ArrowLeft,
@@ -14,9 +14,16 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Routes where the floating button should be hidden
+const HIDDEN_ON = ["/apps/bd3"];
+
 export default function FloatingToolButtons() {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Hide on bd3 — it has its own bottom nav
+  if (HIDDEN_ON.some((p) => pathname?.startsWith(p))) return null;
 
   const goHome = () => {
     if (window.location.pathname === "/") {
