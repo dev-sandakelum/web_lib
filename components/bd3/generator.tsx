@@ -2,11 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { toPng } from "html-to-image";
-import {
-  Upload, Download, Copy, Check, RefreshCcw,
-  Eye, Pencil, Wand2, User, MessageSquare,
-  Lock, Camera, Palette, Stars, Crop, Sun, Moon,
-} from "lucide-react";
+import { Download, Sun, Moon } from "lucide-react";
 import { PostTemplate3 } from "./post-template";
 import { CropModal3 } from "./crop-modal";
 import { LoadingOverlay } from "./loading-overlay";
@@ -14,7 +10,10 @@ import { TEMPLATES3 } from "./templates";
 import StartupPopup from "./startup-popup";
 import type { FormData3, ImageTransform3, NameStyle } from "./types";
 import { loadImageFile } from "@/lib/utils";
-import "./generator.css";
+import { Preview, EditPanel, MobileToolbar, PanelSheet } from "./ui";
+import { MobilePanelContent } from "./ui/MobilePanelContent";
+import "./styles/base.css";
+import "./styles/mobile.css";
 
 // Matches MAX_ATTEMPTS on the server — used as fallback display cap
 const MAX_ATTEMPTS_DISPLAY = 20;
@@ -36,34 +35,6 @@ const DEFAULT_FORM: FormData3 = {
   access: false,
   nameStyle: DEFAULT_NAME_STYLE,
 };
-
-/* ─── Field ─────────────────────────────────────── */
-function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
-  return (
-    <div className="bd3-field">
-      <div className="bd3-field-header">
-        <label className="bd3-field-label">{label}</label>
-        {hint && <span className="bd3-field-hint">{hint}</span>}
-      </div>
-      {children}
-    </div>
-  );
-}
-
-/* ─── Section card ───────────────────────────────── */
-function SectionCard({ title, icon, children, accent }: {
-  title: string; icon: React.ReactNode; children: React.ReactNode; accent?: string;
-}) {
-  return (
-    <div className="bd3-section">
-      <div className="bd3-section-header">
-        <span className="bd3-section-icon" style={{ color: accent ?? "#a78bfa" }}>{icon}</span>
-        <span className="bd3-section-title">{title}</span>
-      </div>
-      <div className="bd3-section-body">{children}</div>
-    </div>
-  );
-}
 
 /* ═══ Main Component ═══════════════════════════════ */
 export default function BirthdayGenerator3() {
@@ -276,6 +247,9 @@ export default function BirthdayGenerator3() {
     set("access", v === PASS_KEY);
   };
 
+  // Panel state for mobile
+  const [mobilePanel, setMobilePanel] = useState<"template" | "person" | "photo" | "message" | "access" | "ai" | null>(null);
+
   return (
     <>
       <div className={`bd3-root${theme === "light" ? " light" : ""}`}>
@@ -322,294 +296,49 @@ export default function BirthdayGenerator3() {
                 : <Moon size={15} strokeWidth={2} />
               }
             </button>
-
-            {/* Mobile tabs */}
-            <div className="bd3-nav-tabs">
-              {(["edit","preview"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`bd3-nav-tab ${activeTab === tab ? "active" : "inactive"}`}
-                >
-                  {tab === "edit" ? <Pencil size={11} /> : <Eye size={11} />}
-                  {tab}
-                </button>
-              ))}
-            </div>
           </div>
         </nav>
 
         {/* BODY */}
-        <div className="bd3-body">
+        <div className="bd3-body" style={{ display: "flex" }}>
+          {/* Mobile Toolbar — shown on small screens */}
+          <MobileToolbar 
+            activePanel={mobilePanel}
+            onToolClick={setMobilePanel}
+          />
 
-          {/* ═══ EDITOR ═══ */}
-          <aside
-            className="bd3-editor"
-            style={{ display: activeTab === "preview" ? "none" : "flex", flexDirection: "column" }}
-          >
-            <div className="bd3-editor-scroll">
-              <div className="bd3-editor-inner">
-
-              {/* Template */}
-              <SectionCard title="Template" icon={<Palette size={13} />} accent="#a78bfa">
-                <div className="bd3-tpl-grid">
-                  {TEMPLATES3.map((tpl) => (
-                    <button
-                      key={tpl.id}
-                      onClick={() => set("templateId", tpl.id)}
-                      className={`bd3-tpl-card ${form.templateId === tpl.id ? "selected" : ""}`}
-                      style={{ backgroundImage: tpl.background }}
-                    >
-                      <div className="bd3-tpl-overlay">
-                        <span className="bd3-tpl-name">{tpl.name}</span>
-                      </div>
-                      {form.templateId === tpl.id && (
-                        <div className="bd3-tpl-check">
-                          <Check size={11} color="#fff" strokeWidth={3} />
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </SectionCard>
-
-              {/* Person Details */}
-              <SectionCard title="Person Details" icon={<User size={13} />} accent="#67e8f9">
-                <Field label="Full Name">
-                  <input
-                    className="bd3-input"
-                    type="text"
-                    value={form.name}
-                    onChange={(e) => set("name", e.target.value)}
-                    placeholder="Enter full name"
-                  />
-                  {/* Font size slider — always visible below name input */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
-                    <span className="bd3-field-label" style={{ flexShrink: 0 }}>Font Size</span>
-                    <input
-                      type="range" min={35} max={50} step={1}
-                      value={form.nameStyle.fontSize ?? 48}
-                      onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))}
-                      className="bd3-slider"
-                      style={{ flex: 1 }}
-                    />
-                    <span className="bd3-field-hint" style={{ flexShrink: 0, minWidth: 32, textAlign: "right" }}>
-                      {form.nameStyle.fontSize ?? 48}px
-                    </span>
-                  </div>
-                </Field>
-                <div className="bd3-grid-2">
-                  <Field label="Batch">
-                    <input className="bd3-input" type="text" value={form.batch} onChange={(e) => set("batch", e.target.value)} placeholder="9th Batch" />
-                  </Field>
-                  <Field label="Faculty">
-                    <input className="bd3-input" type="text" value={form.faculty} onChange={(e) => set("faculty", e.target.value)} placeholder="Faculty of Tech" />
-                  </Field>
-                </div>
-                <Field label="University">
-                  <input className="bd3-input" type="text" value={form.university} onChange={(e) => set("university", e.target.value)} placeholder="University of Ruhuna" />
-                </Field>
-              </SectionCard>
-
-              {/* Profile Photo */}
-              <SectionCard title="Profile Photo" icon={<Camera size={13} />} accent="#f9a8d4">
-                <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
-
-                {form.profileImage ? (
-                  /* ── Has photo: card with edit + replace ── */
-                  <div className="bd3-photo-card">
-                    <img src={form.profileImage} alt="Profile" className="bd3-photo-img" />
-                    <div className="bd3-photo-info">
-                      <div className="bd3-photo-ready">Photo ready ✓</div>
-                      <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
-                    </div>
-                    <div className="bd3-photo-actions">
-                      <button
-                        className="bd3-photo-action-btn bd3-photo-action-edit"
-                        onClick={handleReEdit}
-                        title="Re-open crop editor with original photo"
-                      >
-                        <Crop size={12} /> Edit
-                      </button>
-                      <button
-                        className="bd3-photo-action-btn bd3-photo-action-replace"
-                        onClick={() => fileRef.current?.click()}
-                        title="Upload a different photo"
-                      >
-                        <Upload size={12} /> Replace
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  /* ── No photo: upload prompt ── */
-                  <button className="bd3-photo-btn" onClick={() => fileRef.current?.click()}>
-                    <div className="bd3-photo-icon-wrap">
-                      <Upload size={19} color="rgba(255,255,255,0.3)" />
-                    </div>
-                    <span className="bd3-photo-label">Click to upload photo</span>
-                    <span className="bd3-photo-sub">PNG, JPG up to 10MB</span>
-                  </button>
-                )}
-              </SectionCard>
-
-              {/* Birthday Message */}
-              <SectionCard title="Birthday Message" icon={<MessageSquare size={13} />} accent="#86efac">
-                <div className="bd3-msg-toolbar">
-                  {/* char counter — shows live target range while refreshing */}
-                  <div className="bd3-char-info">
-                    <span className={`bd3-char-count ${
-                      isRefreshing ? "bd3-char-searching" :
-                      form.message.length >= 250 && form.message.length <= 300 ? "bd3-char-good" : ""
-                    }`}>
-                      {form.message.length} chars
-                    </span>
-                    {!isRefreshing && form.message.length > 0 && (
-                      <span className="bd3-char-range">
-                        {form.message.length >= 250 && form.message.length <= 300
-                          ? "✓ in range"
-                          : "target 250–300"}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* refresh button — morphs during search */}
-                  <button
-                    className={`bd3-refresh-btn ${isRefreshing ? "bd3-refresh-active" : ""}`}
-                    onClick={handleRefreshMsg}
-                    disabled={isRefreshing}
-                    title="AI: generate short message for image (250–300 chars)"
-                  >
-                    {isRefreshing ? (
-                      <>
-                        {/* animated ring */}
-                        <svg width="13" height="13" viewBox="0 0 13 13" className="bd3-refresh-ring">
-                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="rgba(139,92,246,0.25)" strokeWidth="1.5" />
-                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#a78bfa" strokeWidth="1.5"
-                            strokeDasharray="31.4" strokeDashoffset="10"
-                            strokeLinecap="round" className="bd3-ring-spin" />
-                        </svg>
-                        <span className="bd3-refresh-label">
-                          {refreshMatched === null
-                            ? `try ${Math.max(refreshAttempt, 1)}/${refreshMaxAttempts}`
-                            : refreshMatched
-                              ? <span style={{ color: "#34d399" }}>matched ✓</span>
-                              : <span style={{ color: "#fb923c" }}>best fit</span>
-                          }
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <RefreshCcw size={11} />
-                        AI Refresh
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* progress bar — only visible while retrying */}
-                {isRefreshing && (
-                  <div className="bd3-refresh-progress">
-                    <div
-                      className="bd3-refresh-progress-bar"
-                      style={{ width: `${(Math.max(refreshAttempt, 1) / refreshMaxAttempts) * 100}%` }}
-                    />
-                    <span className="bd3-refresh-progress-label">
-                      searching for best match…
-                    </span>
-                  </div>
-                )}
-
-                <textarea
-                  className="bd3-textarea"
-                  value={form.message}
-                  onChange={(e) => set("message", e.target.value)}
-                  rows={5}
-                  placeholder="Enter a heartfelt birthday message..."
-                />
-              </SectionCard>
-
-              {/* Access Key */}
-              <SectionCard title="Access Key" icon={<Lock size={13} />} accent="#fcd34d">
-                <Field label="Key">
-                  <input
-                    className="bd3-input"
-                    type="password"
-                    value={accessInput}
-                    onChange={(e) => handleAccessChange(e.target.value)}
-                    placeholder="Enter access key"
-                  />
-                </Field>
-                <div className={`bd3-access-status ${form.access ? "bd3-access-granted" : "bd3-access-locked"}`}>
-                  <div className="bd3-access-dot" />
-                  {form.access ? "Access granted — post generation unlocked" : "Enter key to unlock post generation"}
-                </div>
-              </SectionCard>
-
-              {/* AI Social Post */}
-              <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
-                <div className="bd3-ai-box">
-                  {generatedMsg
-                    ? generatedMsg
-                    : <span className="bd3-ai-empty">Generated social media caption will appear here…</span>
-                  }
-                </div>
-                <div className="bd3-btn-row">
-                  <button className="bd3-btn-ai" onClick={handleGenerateMsg} disabled={isMsgGen}>
-                    {isMsgGen
-                      ? <span className="bd3-pulse">Generating…</span>
-                      : <><Wand2 size={14} /> Generate</>
-                    }
-                  </button>
-                  <button
-                    className="bd3-btn-ghost"
-                    onClick={handleCopyMsg}
-                    disabled={!generatedMsg}
-                    style={{ paddingLeft: "14px", paddingRight: "14px" }}
-                  >
-                    {msgCopied ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
-                    {msgCopied ? "Copied!" : "Copy"}
-                  </button>
-                </div>
-              </SectionCard>
-
-            </div>{/* end bd3-editor-inner */}
-            </div>{/* end bd3-editor-scroll */}
-
-            {/* Action Bar — Download is in navbar on desktop, fixed btn on mobile */}
-            <div className="bd3-action-bar" style={{ display: "none" }} />
-          </aside>
+          {/* ═══ EDITOR ═══ — Desktop only or when mobile panel is active */}
+          <EditPanel
+            form={form}
+            onFormChange={set}
+            onNameStyleChange={(style) => setForm((p) => ({ ...p, nameStyle: style }))}
+            onFileClick={() => fileRef.current?.click()}
+            onFileChange={handleFileChange}
+            onReEdit={handleReEdit}
+            onRefreshMsg={handleRefreshMsg}
+            onGenerateMsg={handleGenerateMsg}
+            onCopyMsg={handleCopyMsg}
+            onAccessChange={handleAccessChange}
+            isRefreshing={isRefreshing}
+            isMsgGen={isMsgGen}
+            msgCopied={msgCopied}
+            refreshAttempt={refreshAttempt}
+            refreshMaxAttempts={refreshMaxAttempts}
+            refreshMatched={refreshMatched}
+            generatedMsg={generatedMsg}
+          />
 
           {/* ═══ PREVIEW ═══ */}
-          <main
+          <Preview
             ref={previewRef}
-            className="bd3-preview"
-            style={{ display: activeTab === "edit" ? "none" : "flex" }}
-          >
-            <div className="bd3-preview-grid" />
-            <div className="bd3-preview-glow" />
+            form={form}
+            selectedTemplate={selectedTemplate}
+            scale={scale}
+            onDownload={handleDownload}
+            onEditClick={() => {}}
+            isDownloading={isDownloading}
+          />
 
-            <button className="bd3-back-btn" onClick={() => setActiveTab("edit")}>
-              <Pencil size={11} /> Edit
-            </button>
-
-            <div
-              className="bd3-preview-card"
-              style={{ width: `${1080 * scale}px`, height: `${1350 * scale}px` }}
-            >
-              <div style={{ width: 1080, height: 1350, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-                <PostTemplate3 data={{ ...form, template: selectedTemplate }} />
-              </div>
-            </div>
-
-            <div className="bd3-preview-badge" style={{ display: "none" }} />
-
-            {/* Mobile download — fixed bottom, preview tab only */}
-            {activeTab === "preview" && (
-              <button className="bd3-mobile-dl" onClick={handleDownload} disabled={isDownloading}>
-                {isDownloading ? <span className="bd3-pulse">Downloading…</span> : <><Download size={17} /> Save Image</>}
-              </button>
-            )}
-          </main>
         </div>
 
         {/* HIDDEN RENDER */}
@@ -641,6 +370,48 @@ export default function BirthdayGenerator3() {
 
         {/* Startup changelog popup */}
         <StartupPopup />
+
+        {/* Mobile Panel Sheet — for editing tools on small screens */}
+        {mobilePanel && (
+          <PanelSheet
+            isOpen={!!mobilePanel}
+            onClose={() => setMobilePanel(null)}
+            title={
+              mobilePanel === "template"
+                ? "Template"
+                : mobilePanel === "person"
+                  ? "Person Details"
+                  : mobilePanel === "photo"
+                    ? "Profile Photo"
+                    : mobilePanel === "message"
+                      ? "Birthday Message"
+                      : mobilePanel === "access"
+                        ? "Access Key"
+                        : "AI Social Post"
+            }
+          >
+            <MobilePanelContent
+              tool={mobilePanel}
+              form={form}
+              onFormChange={set}
+              onNameStyleChange={(style) => setForm((p) => ({ ...p, nameStyle: style }))}
+              onFileClick={() => fileRef.current?.click()}
+              onFileChange={handleFileChange}
+              onReEdit={handleReEdit}
+              onRefreshMsg={handleRefreshMsg}
+              onGenerateMsg={handleGenerateMsg}
+              onCopyMsg={handleCopyMsg}
+              onAccessChange={handleAccessChange}
+              isRefreshing={isRefreshing}
+              isMsgGen={isMsgGen}
+              msgCopied={msgCopied}
+              refreshAttempt={refreshAttempt}
+              refreshMaxAttempts={refreshMaxAttempts}
+              refreshMatched={refreshMatched}
+              generatedMsg={generatedMsg}
+            />
+          </PanelSheet>
+        )}
       </div>
     </>
   );
