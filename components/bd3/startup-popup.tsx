@@ -2,41 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { X, Sparkles, CheckCircle2 } from "lucide-react";
+import { getLatestMajorChanges } from "./changelog";
 
-const STORAGE_KEY = "bd3_startup_popup_dismissed_v1";
-
-const CHANGES = [
-  {
-    category: "New Features",
-    icon: "✨",
-    items: [
-      "Gold textured name pill with auto-width - fits any name perfectly",
-      "Roboto Mono font for the name - clean, bold, monospace style",
-      "Advanced name style settings - font size & margin top controls",
-      "Dark shadow wings on the name pill for depth and contrast",
-    ],
-  },
-  {
-    category: "AI Message",
-    icon: "🤖",
-    items: [
-      "Real-time attempt counter - frontend synced to backend via SSE stream",
-      "Server-side character trimming - always returns 250–300 chars",
-      "Fixed model: llama-3.3-70b-versatile (was broken on Groq before)",
-      "Certain words banned from AI output - messages stay clean and on-brand",
-    ],
-  },
-  {
-    category: "Design & UX",
-    icon: "🎨",
-    items: [
-      "Advanced settings open as a popup near the name field - not a separate section",
-      "Light / dark theme toggle added to navbar",
-      "Canva-style mobile toolbar with bottom-sheet panels",
-      "Pinch to zoom & pan the preview on mobile",
-    ],
-  },
-];
+const STORAGE_KEY = "bd3_startup_popup_dismissed_v2";
 
 interface StartupPopupProps {
   theme?: "dark" | "light";
@@ -46,6 +14,8 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
   const [visible, setVisible] = useState(false);
   const [dontShow, setDontShow] = useState(false);
   const lt = theme === "light";
+
+  const entry = getLatestMajorChanges();
 
   useEffect(() => {
     const dismissed = localStorage.getItem(STORAGE_KEY);
@@ -57,7 +27,7 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
     setVisible(false);
   };
 
-  if (!visible) return null;
+  if (!visible || !entry) return null;
 
   // ── colour tokens ──────────────────────────────────────────────
   const bg        = lt ? "#FFFFFF"                          : "#0D2E55";
@@ -92,8 +62,6 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
           from { opacity:0; transform:scale(0.94) translateY(12px) }
           to   { opacity:1; transform:scale(1) translateY(0) }
         }
-
-        /* shared */
         .bd3sp-backdrop {
           position:fixed; inset:0; z-index:1000;
           display:flex; align-items:flex-end; justify-content:center;
@@ -103,8 +71,6 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
           overflow-y:auto; flex:1; min-height:0;
           scrollbar-width:thin;
         }
-
-        /* ── Mobile: bottom-sheet ── */
         @media (max-width: 640px) {
           .bd3sp-backdrop { padding:0; }
           .bd3sp-modal {
@@ -124,12 +90,8 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
           .bd3sp-footer { padding:12px 20px 28px; }
           .bd3sp-item-text { font-size:13px; }
         }
-
-        /* ── Desktop: centered modal ── */
         @media (min-width: 641px) {
-          .bd3sp-backdrop {
-            align-items:center; padding:20px;
-          }
+          .bd3sp-backdrop { align-items:center; padding:20px; }
           .bd3sp-modal {
             width:100%; max-width:540px; max-height:90vh;
             border-radius:20px;
@@ -155,7 +117,7 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
           style={{
             background: bg,
             border: `1px solid ${border}`,
-            boxShadow: window.innerWidth < 641 ? shadow : shadowDt,
+            boxShadow: typeof window !== "undefined" && window.innerWidth < 641 ? shadow : shadowDt,
           }}
         >
           {/* Mobile drag handle */}
@@ -169,8 +131,7 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
             style={{
               borderBottom: `1px solid ${borderSub}`,
               display:"flex", alignItems:"flex-start", justifyContent:"space-between",
-              flexShrink:0,
-              position:"sticky", top:0, background:bg, zIndex:1,
+              flexShrink:0, position:"sticky", top:0, background:bg, zIndex:1,
             }}
           >
             <div>
@@ -179,13 +140,22 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
                 <span style={{ fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", color:"#8494FF" }}>
                   What&apos;s new
                 </span>
+                {entry.label && (
+                  <span style={{
+                    fontSize:9, fontWeight:700, padding:"2px 7px", borderRadius:99,
+                    background:"rgba(99,103,255,0.15)", border:"1px solid rgba(99,103,255,0.3)",
+                    color:"#8494FF", letterSpacing:"0.06em", textTransform:"uppercase",
+                  }}>
+                    {entry.label}
+                  </span>
+                )}
               </div>
               <h2 className="bd3sp-title" style={{ margin:0, fontWeight:800, color:titleClr, letterSpacing:"-0.3px" }}>
                 Birthday Post Studio
-                <span style={{ fontSize:13, fontWeight:600, color:"rgba(132,148,255,0.8)", marginLeft:8 }}>v3</span>
+                <span style={{ fontSize:13, fontWeight:600, color:"rgba(132,148,255,0.8)", marginLeft:8 }}>v{entry.version}</span>
               </h2>
               <p style={{ margin:"3px 0 0", fontSize:12, color:subClr, fontWeight:400 }}>
-                Changes from bd2 → bd3
+                {entry.date} · latest major release
               </p>
             </div>
             <button
@@ -202,10 +172,10 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
             </button>
           </div>
 
-          {/* Scrollable body */}
+          {/* Scrollable body — only latest major release */}
           <div className="bd3sp-scroll bd3sp-body" style={{ scrollbarColor: scrollClr }}>
             <div style={{ display:"flex", flexDirection:"column", gap:16, paddingBottom:4 }}>
-              {CHANGES.map((section) => (
+              {entry.sections.map((section) => (
                 <div key={section.category}>
                   <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:9 }}>
                     <span style={{ fontSize:14 }}>{section.icon}</span>

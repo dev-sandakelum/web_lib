@@ -13,6 +13,7 @@ import { CropModal3 } from "./crop-modal";
 import { LoadingOverlay } from "./loading-overlay";
 import { TEMPLATES3 } from "./templates";
 import StartupPopup from "./startup-popup";
+import { getAllChanges } from "./changelog";
 import type { FormData3, ImageTransform3, NameStyle } from "./types";
 import { loadImageFile } from "@/lib/utils";
 
@@ -2561,53 +2562,61 @@ export default function BirthdayGenerator3() {
                     {creatorTab === "changelog" && (
                       <div style={{
                         padding: "16px 20px 20px",
-                        display: "flex", flexDirection: "column", gap: 18,
+                        display: "flex", flexDirection: "column", gap: 22,
                         maxHeight: 340, overflowY: "auto",
                         scrollbarWidth: "thin",
                         scrollbarColor: "rgba(99,103,255,0.3) transparent",
                       }}>
-                        {[
-                          { category: "New Features", icon: "✨", items: [
-                            "Gold textured name pill with auto-width",
-                            "Roboto Mono font for the name",
-                            "Advanced name style settings — font size controls",
-                            "Dark shadow wings on the name pill",
-                          ]},
-                          { category: "AI Message", icon: "🤖", items: [
-                            "Real-time attempt counter via SSE stream",
-                            "Server-side character trimming — 250–300 chars",
-                            "Fixed model: llama-3.3-70b-versatile",
-                            "Banned words to keep AI output clean",
-                          ]},
-                          { category: "Design & UX", icon: "🎨", items: [
-                            "Light / dark theme toggle",
-                            "Canva-style mobile toolbar with bottom-sheet panels",
-                            "Pinch to zoom & pan the preview on mobile",
-                            "Horizontal icon bar below navbar on mobile",
-                            "Loading splash screen on startup",
-                          ]},
-                        ].map(section => (
-                          <div key={section.category}>
+                        {getAllChanges().map(entry => (
+                          <div key={entry.version}>
+                            {/* Version header */}
                             <div style={{
-                              display: "flex", alignItems: "center", gap: 7,
-                              marginBottom: 9,
+                              display: "flex", alignItems: "center", gap: 8, marginBottom: 12,
+                              paddingBottom: 8, borderBottom: "1px solid rgba(32,82,149,0.35)",
                             }}>
-                              <span style={{ fontSize: 13 }}>{section.icon}</span>
                               <span style={{
-                                fontSize: 10, fontWeight: 700, textTransform: "uppercase",
-                                letterSpacing: "0.09em", color: "rgba(196,218,255,0.4)",
+                                fontSize: 11, fontWeight: 800, color: entry.major ? "#8494FF" : "rgba(196,218,255,0.5)",
+                                letterSpacing: "0.04em",
                               }}>
-                                {section.category}
+                                v{entry.version}
+                              </span>
+                              {entry.label && (
+                                <span style={{
+                                  fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 99,
+                                  background: "rgba(99,103,255,0.15)", border: "1px solid rgba(99,103,255,0.3)",
+                                  color: "#8494FF", letterSpacing: "0.06em", textTransform: "uppercase",
+                                }}>
+                                  {entry.label}
+                                </span>
+                              )}
+                              <span style={{ fontSize: 10, color: "rgba(196,218,255,0.25)", marginLeft: "auto" }}>
+                                {entry.date}
                               </span>
                             </div>
-                            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                              {section.items.map((item, i) => (
-                                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
-                                    <circle cx="6" cy="6" r="5.5" fill="rgba(99,103,255,0.15)" stroke="rgba(99,103,255,0.4)" strokeWidth="1"/>
-                                    <path d="M3.5 6l1.7 1.7L8.5 4.5" stroke="#8494FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                                  </svg>
-                                  <span style={{ fontSize: 12.5, color: "rgba(196,218,255,0.65)", lineHeight: 1.55 }}>{item}</span>
+                            {/* Sections */}
+                            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                              {entry.sections.map(section => (
+                                <div key={section.category}>
+                                  <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 7 }}>
+                                    <span style={{ fontSize: 12 }}>{section.icon}</span>
+                                    <span style={{
+                                      fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+                                      letterSpacing: "0.09em", color: "rgba(196,218,255,0.4)",
+                                    }}>
+                                      {section.category}
+                                    </span>
+                                  </div>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                                    {section.items.map((item, i) => (
+                                      <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
+                                          <circle cx="6" cy="6" r="5.5" fill="rgba(99,103,255,0.15)" stroke="rgba(99,103,255,0.4)" strokeWidth="1"/>
+                                          <path d="M3.5 6l1.7 1.7L8.5 4.5" stroke="#8494FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        <span style={{ fontSize: 12, color: "rgba(196,218,255,0.65)", lineHeight: 1.55 }}>{item}</span>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                               ))}
                             </div>
@@ -2618,7 +2627,10 @@ export default function BirthdayGenerator3() {
 
                     <div className="bd3-creator-footer">
                       <span className="bd3-creator-built">
-                        {creatorTab === "changelog" ? <>v3 · <span>2025</span></> : <>Part of <span>9th Batch</span></>}
+                        {creatorTab === "changelog"
+                          ? <>v{getAllChanges().at(-1)?.version} · <span>2025</span></>
+                          : <>Part of <span>9th Batch</span></>
+                        }
                       </span>
                       <button className="bd3-creator-dismiss" onClick={() => { setShowCreator(false); setCreatorTab("about"); }}>Close</button>
                     </div>
