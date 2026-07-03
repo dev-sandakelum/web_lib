@@ -2244,24 +2244,6 @@ export default function BirthdayGenerator3() {
                 )}
                 <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={5} placeholder="Enter a heartfelt birthday message..." />
               </SectionCard>
-              <SectionCard title="Access Key" icon={<Lock size={13} />} accent="#fcd34d">
-                <div className="bd3-access-row">
-                  {form.access ? (
-                    <div className={`bd3-access-status bd3-access-granted`} style={{ flex: 1 }}>
-                      <div className="bd3-access-dot" />
-                      Access granted — download unlocked
-                    </div>
-                  ) : (
-                    <button
-                      className="bd3-btn-primary"
-                      onClick={() => setShowAccessPopup(true)}
-                      style={{ gap: 8 }}
-                    >
-                      <Lock size={14} /> Enter Access Key
-                    </button>
-                  )}
-                </div>
-              </SectionCard>
               <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
                 <div className="bd3-ai-box">
                   {generatedMsg ? generatedMsg : <span className="bd3-ai-empty">Generated social media caption will appear here…</span>}
