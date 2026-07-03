@@ -204,7 +204,7 @@ export const PostTemplate3 = React.forwardRef<
                 borderRadius: "50%",
                 backgroundImage: `url(${profileImage})`,
                 backgroundPosition: "center",
-                backgroundSize: "cover",
+                backgroundSize: "115%",
                 backgroundRepeat: "no-repeat",
               }}
             />

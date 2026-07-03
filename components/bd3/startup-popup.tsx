@@ -117,6 +117,7 @@ export default function StartupPopup({ theme = "dark" }: StartupPopupProps) {
           style={{
             background: bg,
             border: `1px solid ${border}`,
+            overflow: `hidden`,
             boxShadow: typeof window !== "undefined" && window.innerWidth < 641 ? shadow : shadowDt,
           }}
         >
