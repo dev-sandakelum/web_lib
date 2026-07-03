@@ -321,7 +321,7 @@ export default function BirthdayGenerator3() {
 
         for (const part of parts) {
           const eventMatch = part.match(/^event:\s*(\w+)/m);
-          const dataMatch  = part.match(/^data:\s*(.+)/m);
+          const dataMatch = part.match(/^data:\s*(.+)/m);
           if (!eventMatch || !dataMatch) continue;
 
           const eventName = eventMatch[1];
@@ -910,7 +910,7 @@ export default function BirthdayGenerator3() {
         }
         .bd3-photo-img {
           width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
-          background-size: cover; background-position: center; background-repeat: no-repeat;
+          background-size: 122%; background-position: center; background-repeat: no-repeat;
           border: 2px solid rgba(99,103,255,0.6);
           box-shadow: 0 0 0 3px rgba(99,103,255,0.14);
           
@@ -919,6 +919,9 @@ export default function BirthdayGenerator3() {
         .bd3-photo-ready { font-size: 11.5px; font-weight: 600; color: #8494FF; }
         .bd3-photo-hint  { font-size: 10.5px; color: rgba(196,218,255,0.35); margin-top: 2px; }
         .bd3-photo-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .bd3-photo-card-right {
+          display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 8px;
+        }
         .bd3-photo-action-btn {
           display: flex; align-items: center; gap: 5px;
           padding: 6px 10px; border-radius: 8px; border: 1px solid;
@@ -1880,7 +1883,7 @@ export default function BirthdayGenerator3() {
               {theme === "dark" ? <Sun size={15} strokeWidth={2} /> : <Moon size={15} strokeWidth={2} />}
             </button>
             <div className="bd3-nav-tabs">
-              {(["edit","preview"] as const).map((tab) => (
+              {(["edit", "preview"] as const).map((tab) => (
                 <button key={tab} onClick={() => setActiveTab(tab)} className={`bd3-nav-tab ${activeTab === tab ? "active" : "inactive"}`}>
                   {tab === "edit" ? <Pencil size={11} /> : <Eye size={11} />}
                   {tab}
@@ -1894,23 +1897,24 @@ export default function BirthdayGenerator3() {
           {/* Tool buttons */}
           <div className={`bd3-mob-tools-wrap${mobToolbarHidden ? " collapsed" : " visible"}`}>
             {([
-              { id: "template",  icon: <Palette size={16} />,      label: "Style",   accent: "#8494FF",  dot: false },
-              { id: "person",    icon: <User size={16} />,          label: "Person",  accent: "#67e8f9",  dot: false },
-              { id: "photo",     icon: <Camera size={16} />,        label: "Photo",   accent: "#f9a8d4",  dot: !!form.profileImage },
-              { id: "message",   icon: <MessageSquare size={16} />, label: "Msg",     accent: "#86efac",  dot: false },
-              { id: "access",    icon: (
+              { id: "template", icon: <Palette size={16} />, label: "Style", accent: "#8494FF", dot: false },
+              { id: "person", icon: <User size={16} />, label: "Person", accent: "#67e8f9", dot: false },
+              { id: "photo", icon: <Camera size={16} />, label: "Photo", accent: "#f9a8d4", dot: !!form.profileImage },
+              { id: "message", icon: <MessageSquare size={16} />, label: "Msg", accent: "#86efac", dot: false },
+              {
+                id: "access", icon: (
                   <span className="bd3-lock-icon" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {form.access ? (
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                         style={{ transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)", filter: form.access ? "drop-shadow(0 0 4px #fcd34d)" : "none" }}>
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 9.9-1" />
                       </svg>
                     ) : (
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                         style={{ transition: "all 0.3s" }}>
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                       </svg>
                     )}
                     <span style={{
@@ -1922,7 +1926,8 @@ export default function BirthdayGenerator3() {
                       transition: "all 0.3s", pointerEvents: "none",
                     }} />
                   </span>
-                ), label: "Key", accent: "#fcd34d", dot: !!form.access },
+                ), label: "Key", accent: "#fcd34d", dot: !!form.access
+              },
               { id: "ai", icon: <Stars size={16} />, label: "AI", accent: "#c4b5fd", dot: !!generatedMsg },
             ]).map(({ id, icon, label, accent, dot }, i, arr) => (
               <React.Fragment key={id}>
@@ -1980,28 +1985,28 @@ export default function BirthdayGenerator3() {
               <div className="bd3-mob-sheet-header">
                 <div className="bd3-mob-sheet-title">
                   <div className="bd3-mob-sheet-title-icon" style={{ background: "rgba(99,103,255,0.12)" }}>
-                    {activeMobPanel === "template"  && <Palette size={15} color="#8494FF" />}
-                    {activeMobPanel === "person"    && <User size={15} color="#67e8f9" />}
-                    {activeMobPanel === "photo"     && <Camera size={15} color="#f9a8d4" />}
-                    {activeMobPanel === "message"   && <MessageSquare size={15} color="#86efac" />}
-                    {activeMobPanel === "access"    && (form.access
-                      ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                    {activeMobPanel === "template" && <Palette size={15} color="#8494FF" />}
+                    {activeMobPanel === "person" && <User size={15} color="#67e8f9" />}
+                    {activeMobPanel === "photo" && <Camera size={15} color="#f9a8d4" />}
+                    {activeMobPanel === "message" && <MessageSquare size={15} color="#86efac" />}
+                    {activeMobPanel === "access" && (form.access
+                      ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>
                       : <Lock size={15} color="#fcd34d" />
                     )}
-                    {activeMobPanel === "ai"        && <Stars size={15} color="#c4b5fd" />}
+                    {activeMobPanel === "ai" && <Stars size={15} color="#c4b5fd" />}
                   </div>
                   <span className="bd3-mob-sheet-title-text">
-                    {activeMobPanel === "template"  && "Template"}
-                    {activeMobPanel === "person"    && "Person Details"}
-                    {activeMobPanel === "photo"     && "Profile Photo"}
-                    {activeMobPanel === "message"   && "Birthday Message"}
-                    {activeMobPanel === "access"    && "Access Key"}
-                    {activeMobPanel === "ai"        && "AI Social Post"}
+                    {activeMobPanel === "template" && "Template"}
+                    {activeMobPanel === "person" && "Person Details"}
+                    {activeMobPanel === "photo" && "Profile Photo"}
+                    {activeMobPanel === "message" && "Birthday Message"}
+                    {activeMobPanel === "access" && "Access Key"}
+                    {activeMobPanel === "ai" && "AI Social Post"}
                   </span>
                 </div>
                 <button className="bd3-mob-sheet-close" onClick={() => setActiveMobPanel(null)} aria-label="Close panel">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
@@ -2046,13 +2051,15 @@ export default function BirthdayGenerator3() {
                       {form.profileImage ? (
                         <div className="bd3-photo-card">
                           <div className="bd3-photo-img" style={{ backgroundImage: `url(${form.profileImage})` }} />
-                          <div className="bd3-photo-info">
-                            <div className="bd3-photo-ready">Photo ready ✓</div>
-                            <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
-                          </div>
-                          <div className="bd3-photo-actions">
-                            <button className="bd3-photo-action-btn bd3-photo-action-edit" onClick={handleReEdit}><Crop size={12} /> Edit</button>
-                            <button className="bd3-photo-action-btn bd3-photo-action-replace" onClick={() => fileRef.current?.click()}><Upload size={12} /> Replace</button>
+                          <div className="bd3-photo-card-right">
+                            <div className="bd3-photo-info">
+                              <div className="bd3-photo-ready">Photo ready ✓</div>
+                              <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
+                            </div>
+                            <div className="bd3-photo-actions">
+                              <button className="bd3-photo-action-btn bd3-photo-action-edit" onClick={handleReEdit}><Crop size={12} /> Edit</button>
+                              <button className="bd3-photo-action-btn bd3-photo-action-replace" onClick={() => fileRef.current?.click()}><Upload size={12} /> Replace</button>
+                            </div>
                           </div>
                         </div>
                       ) : (
@@ -2157,110 +2164,112 @@ export default function BirthdayGenerator3() {
           <aside className="bd3-editor" style={{ display: activeTab === "preview" ? "none" : "flex", flexDirection: "column" }}>
             <div className="bd3-editor-scroll">
               <div className="bd3-editor-inner">
-              <SectionCard title="Template" icon={<Palette size={13} />} accent="#8494FF">
-                <div className="bd3-tpl-grid">
-                  {TEMPLATES3.map((tpl) => (
-                    <button key={tpl.id} onClick={() => set("templateId", tpl.id)} className={`bd3-tpl-card ${form.templateId === tpl.id ? "selected" : ""}`} style={{ backgroundImage: tpl.background }}>
-                      <div className="bd3-tpl-overlay"><span className="bd3-tpl-name">{tpl.name}</span></div>
-                      {form.templateId === tpl.id && (
-                        <div className="bd3-tpl-check"><Check size={11} color="#fff" strokeWidth={3} /></div>
+                <SectionCard title="Template" icon={<Palette size={13} />} accent="#8494FF">
+                  <div className="bd3-tpl-grid">
+                    {TEMPLATES3.map((tpl) => (
+                      <button key={tpl.id} onClick={() => set("templateId", tpl.id)} className={`bd3-tpl-card ${form.templateId === tpl.id ? "selected" : ""}`} style={{ backgroundImage: tpl.background }}>
+                        <div className="bd3-tpl-overlay"><span className="bd3-tpl-name">{tpl.name}</span></div>
+                        {form.templateId === tpl.id && (
+                          <div className="bd3-tpl-check"><Check size={11} color="#fff" strokeWidth={3} /></div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </SectionCard>
+                <SectionCard title="Person Details" icon={<User size={13} />} accent="#67e8f9">
+                  <Field label="Full Name">
+                    <input className="bd3-input" type="text" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Enter full name" />
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                      <span className="bd3-field-label" style={{ flexShrink: 0 }}>Font Size</span>
+                      <input type="range" min={35} max={50} step={1} value={form.nameStyle.fontSize ?? 48} onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))} className="bd3-slider" style={{ flex: 1 }} />
+                      <span className="bd3-field-hint" style={{ flexShrink: 0, minWidth: 32, textAlign: "right" }}>{form.nameStyle.fontSize ?? 48}px</span>
+                    </div>
+                  </Field>
+                  <div className="bd3-grid-2">
+                    <Field label="Batch"><input className="bd3-input" type="text" value={form.batch} onChange={(e) => set("batch", e.target.value)} placeholder="9th Batch" /></Field>
+                    <Field label="Faculty"><input className="bd3-input" type="text" value={form.faculty} onChange={(e) => set("faculty", e.target.value)} placeholder="Faculty of Tech" /></Field>
+                  </div>
+                  <Field label="University"><input className="bd3-input" type="text" value={form.university} onChange={(e) => set("university", e.target.value)} placeholder="University of Ruhuna" /></Field>
+                </SectionCard>
+                <SectionCard title="Profile Photo" icon={<Camera size={13} />} accent="#f9a8d4">
+                  <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
+                  {form.profileImage ? (
+                    <div className="bd3-photo-card">
+                      <div className="bd3-photo-img" style={{ backgroundImage: `url(${form.profileImage})` }} />
+                      <div className="bd3-photo-card-right">
+                        <div className="bd3-photo-info">
+                          <div className="bd3-photo-ready">Photo ready ✓</div>
+                          <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
+                        </div>
+                        <div className="bd3-photo-actions">
+                          <button className="bd3-photo-action-btn bd3-photo-action-edit" onClick={handleReEdit} title="Re-open crop editor with original photo"><Crop size={12} /> Edit</button>
+                          <button className="bd3-photo-action-btn bd3-photo-action-replace" onClick={() => fileRef.current?.click()} title="Upload a different photo"><Upload size={12} /> Replace</button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <button className="bd3-photo-btn" onClick={() => fileRef.current?.click()}>
+                      <div className="bd3-photo-icon-wrap"><Upload size={19} color="rgba(196,218,255,0.4)" /></div>
+                      <span className="bd3-photo-label">Click to upload photo</span>
+                      <span className="bd3-photo-sub">PNG, JPG up to 10MB</span>
+                    </button>
+                  )}
+                </SectionCard>
+                <SectionCard title="Birthday Message" icon={<MessageSquare size={13} />} accent="#86efac">
+                  <div className="bd3-msg-toolbar">
+                    <div className="bd3-char-info">
+                      <span className={`bd3-char-count ${isRefreshing ? "bd3-char-searching" : form.message.length >= 250 && form.message.length <= 300 ? "bd3-char-good" : ""}`}>
+                        {form.message.length} chars
+                      </span>
+                      {!isRefreshing && form.message.length > 0 && (
+                        <span className="bd3-char-range">
+                          {form.message.length >= 250 && form.message.length <= 300 ? "✓ in range" : "target 250–300"}
+                        </span>
+                      )}
+                    </div>
+                    <button className={`bd3-refresh-btn ${isRefreshing ? "bd3-refresh-active" : ""}`} onClick={handleRefreshMsg} disabled={isRefreshing} title="AI: generate short message for image (250–300 chars)">
+                      {isRefreshing ? (
+                        <>
+                          <svg width="13" height="13" viewBox="0 0 13 13" className="bd3-refresh-ring">
+                            <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="rgba(99,103,255,0.25)" strokeWidth="1.5" />
+                            <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#8494FF" strokeWidth="1.5" strokeDasharray="31.4" strokeDashoffset="10" strokeLinecap="round" className="bd3-ring-spin" />
+                          </svg>
+                          <span className="bd3-refresh-label">
+                            {refreshMatched === null
+                              ? `try ${Math.max(refreshAttempt, 1)}/${refreshMaxAttempts}`
+                              : refreshMatched
+                                ? <span style={{ color: "#34d399" }}>matched ✓</span>
+                                : <span style={{ color: "#fb923c" }}>best fit</span>
+                            }
+                          </span>
+                        </>
+                      ) : (
+                        <><RefreshCcw size={11} />AI Refresh</>
                       )}
                     </button>
-                  ))}
-                </div>
-              </SectionCard>
-              <SectionCard title="Person Details" icon={<User size={13} />} accent="#67e8f9">
-                <Field label="Full Name">
-                  <input className="bd3-input" type="text" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Enter full name" />
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
-                    <span className="bd3-field-label" style={{ flexShrink: 0 }}>Font Size</span>
-                    <input type="range" min={35} max={50} step={1} value={form.nameStyle.fontSize ?? 48} onChange={(e) => setForm((p) => ({ ...p, nameStyle: { ...p.nameStyle, fontSize: Number(e.target.value) } }))} className="bd3-slider" style={{ flex: 1 }} />
-                    <span className="bd3-field-hint" style={{ flexShrink: 0, minWidth: 32, textAlign: "right" }}>{form.nameStyle.fontSize ?? 48}px</span>
                   </div>
-                </Field>
-                <div className="bd3-grid-2">
-                  <Field label="Batch"><input className="bd3-input" type="text" value={form.batch} onChange={(e) => set("batch", e.target.value)} placeholder="9th Batch" /></Field>
-                  <Field label="Faculty"><input className="bd3-input" type="text" value={form.faculty} onChange={(e) => set("faculty", e.target.value)} placeholder="Faculty of Tech" /></Field>
-                </div>
-                <Field label="University"><input className="bd3-input" type="text" value={form.university} onChange={(e) => set("university", e.target.value)} placeholder="University of Ruhuna" /></Field>
-              </SectionCard>
-              <SectionCard title="Profile Photo" icon={<Camera size={13} />} accent="#f9a8d4">
-                <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
-                {form.profileImage ? (
-                  <div className="bd3-photo-card">
-                    <div className="bd3-photo-img" style={{ backgroundImage: `url(${form.profileImage})` }} />
-                    <div className="bd3-photo-info">
-                      <div className="bd3-photo-ready">Photo ready ✓</div>
-                      <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
+                  {isRefreshing && (
+                    <div className="bd3-refresh-progress">
+                      <div className="bd3-refresh-progress-bar" style={{ width: `${(Math.max(refreshAttempt, 1) / refreshMaxAttempts) * 100}%` }} />
+                      <span className="bd3-refresh-progress-label">searching for best match…</span>
                     </div>
-                    <div className="bd3-photo-actions">
-                      <button className="bd3-photo-action-btn bd3-photo-action-edit" onClick={handleReEdit} title="Re-open crop editor with original photo"><Crop size={12} /> Edit</button>
-                      <button className="bd3-photo-action-btn bd3-photo-action-replace" onClick={() => fileRef.current?.click()} title="Upload a different photo"><Upload size={12} /> Replace</button>
-                    </div>
+                  )}
+                  <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={5} placeholder="Enter a heartfelt birthday message..." />
+                </SectionCard>
+                <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
+                  <div className="bd3-ai-box">
+                    {generatedMsg ? generatedMsg : <span className="bd3-ai-empty">Generated social media caption will appear here…</span>}
                   </div>
-                ) : (
-                  <button className="bd3-photo-btn" onClick={() => fileRef.current?.click()}>
-                    <div className="bd3-photo-icon-wrap"><Upload size={19} color="rgba(196,218,255,0.4)" /></div>
-                    <span className="bd3-photo-label">Click to upload photo</span>
-                    <span className="bd3-photo-sub">PNG, JPG up to 10MB</span>
-                  </button>
-                )}
-              </SectionCard>
-              <SectionCard title="Birthday Message" icon={<MessageSquare size={13} />} accent="#86efac">
-                <div className="bd3-msg-toolbar">
-                  <div className="bd3-char-info">
-                    <span className={`bd3-char-count ${isRefreshing ? "bd3-char-searching" : form.message.length >= 250 && form.message.length <= 300 ? "bd3-char-good" : ""}`}>
-                      {form.message.length} chars
-                    </span>
-                    {!isRefreshing && form.message.length > 0 && (
-                      <span className="bd3-char-range">
-                        {form.message.length >= 250 && form.message.length <= 300 ? "✓ in range" : "target 250–300"}
-                      </span>
-                    )}
+                  <div className="bd3-btn-row">
+                    <button className="bd3-btn-ai" onClick={handleGenerateMsg} disabled={isMsgGen}>
+                      {isMsgGen ? <span className="bd3-pulse">Generating…</span> : <><Wand2 size={14} /> Generate</>}
+                    </button>
+                    <button className="bd3-btn-ghost" onClick={handleCopyMsg} disabled={!generatedMsg} style={{ paddingLeft: "14px", paddingRight: "14px" }}>
+                      {msgCopied ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
+                      {msgCopied ? "Copied!" : "Copy"}
+                    </button>
                   </div>
-                  <button className={`bd3-refresh-btn ${isRefreshing ? "bd3-refresh-active" : ""}`} onClick={handleRefreshMsg} disabled={isRefreshing} title="AI: generate short message for image (250–300 chars)">
-                    {isRefreshing ? (
-                      <>
-                        <svg width="13" height="13" viewBox="0 0 13 13" className="bd3-refresh-ring">
-                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="rgba(99,103,255,0.25)" strokeWidth="1.5" />
-                          <circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#8494FF" strokeWidth="1.5" strokeDasharray="31.4" strokeDashoffset="10" strokeLinecap="round" className="bd3-ring-spin" />
-                        </svg>
-                        <span className="bd3-refresh-label">
-                          {refreshMatched === null
-                            ? `try ${Math.max(refreshAttempt, 1)}/${refreshMaxAttempts}`
-                            : refreshMatched
-                              ? <span style={{ color: "#34d399" }}>matched ✓</span>
-                              : <span style={{ color: "#fb923c" }}>best fit</span>
-                          }
-                        </span>
-                      </>
-                    ) : (
-                      <><RefreshCcw size={11} />AI Refresh</>
-                    )}
-                  </button>
-                </div>
-                {isRefreshing && (
-                  <div className="bd3-refresh-progress">
-                    <div className="bd3-refresh-progress-bar" style={{ width: `${(Math.max(refreshAttempt, 1) / refreshMaxAttempts) * 100}%` }} />
-                    <span className="bd3-refresh-progress-label">searching for best match…</span>
-                  </div>
-                )}
-                <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={5} placeholder="Enter a heartfelt birthday message..." />
-              </SectionCard>
-              <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
-                <div className="bd3-ai-box">
-                  {generatedMsg ? generatedMsg : <span className="bd3-ai-empty">Generated social media caption will appear here…</span>}
-                </div>
-                <div className="bd3-btn-row">
-                  <button className="bd3-btn-ai" onClick={handleGenerateMsg} disabled={isMsgGen}>
-                    {isMsgGen ? <span className="bd3-pulse">Generating…</span> : <><Wand2 size={14} /> Generate</>}
-                  </button>
-                  <button className="bd3-btn-ghost" onClick={handleCopyMsg} disabled={!generatedMsg} style={{ paddingLeft: "14px", paddingRight: "14px" }}>
-                    {msgCopied ? <Check size={14} color="#34d399" /> : <Copy size={14} />}
-                    {msgCopied ? "Copied!" : "Copy"}
-                  </button>
-                </div>
-              </SectionCard>
+                </SectionCard>
               </div>
             </div>
             <div className="bd3-action-bar" style={{ display: "none" }} />
@@ -2301,7 +2310,7 @@ export default function BirthdayGenerator3() {
             aria-label="Reset zoom"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
             </svg>
           </button>
 
@@ -2364,7 +2373,7 @@ export default function BirthdayGenerator3() {
                     display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                   }}>
                     {form.access
-                      ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                      ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 9.9-1" /></svg>
                       : <Lock size={14} color="#fcd34d" />
                     }
                   </div>
@@ -2372,7 +2381,7 @@ export default function BirthdayGenerator3() {
                 </div>
                 <button className="bd3-access-popup-close" onClick={() => setShowAccessPopup(false)}>
                   <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
@@ -2398,7 +2407,7 @@ export default function BirthdayGenerator3() {
                     </div>
                     {wrongKey && (
                       <div style={{ fontSize: 12, color: "#fb923c", display: "flex", alignItems: "center", gap: 6, marginTop: -6 }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                         Incorrect key — try again
                       </div>
                     )}
@@ -2422,9 +2431,9 @@ export default function BirthdayGenerator3() {
             <div className="bd3-cache-toast-header">
               <div className="bd3-cache-toast-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8494FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
               </div>
               <div>
@@ -2482,75 +2491,75 @@ export default function BirthdayGenerator3() {
                 </div>
                 <button className="bd3-creator-close" onClick={() => { setShowCreator(false); setCreatorTab("about"); }}>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
 
               {/* Tab switcher */}
-                    <div style={{
-                      display: "flex", gap: 4, padding: "10px 16px 0",
-                      borderBottom: "1px solid rgba(32,82,149,0.4)",
-                    }}>
-                      {(["about", "changelog"] as const).map(tab => (
-                        <button key={tab} onClick={() => setCreatorTab(tab)} style={{
-                          padding: "7px 16px", borderRadius: "9px 9px 0 0",
-                          border: "none", cursor: "pointer", fontFamily: "inherit",
-                          fontSize: 12, fontWeight: 700, textTransform: "capitalize",
-                          letterSpacing: "0.02em",
-                          background: creatorTab === tab ? "rgba(99,103,255,0.18)" : "transparent",
-                          color: creatorTab === tab ? "#C9BEFF" : "rgba(196,218,255,0.35)",
-                          borderBottom: creatorTab === tab ? "2px solid #6367FF" : "2px solid transparent",
-                          transition: "all 0.15s",
-                        }}>
-                          {tab === "about" ? "About" : "Changelog"}
-                        </button>
-                      ))}
-                    </div>
+              <div style={{
+                display: "flex", gap: 4, padding: "10px 16px 0",
+                borderBottom: "1px solid rgba(32,82,149,0.4)",
+              }}>
+                {(["about", "changelog"] as const).map(tab => (
+                  <button key={tab} onClick={() => setCreatorTab(tab)} style={{
+                    padding: "7px 16px", borderRadius: "9px 9px 0 0",
+                    border: "none", cursor: "pointer", fontFamily: "inherit",
+                    fontSize: 12, fontWeight: 700, textTransform: "capitalize",
+                    letterSpacing: "0.02em",
+                    background: creatorTab === tab ? "rgba(99,103,255,0.18)" : "transparent",
+                    color: creatorTab === tab ? "#C9BEFF" : "rgba(196,218,255,0.35)",
+                    borderBottom: creatorTab === tab ? "2px solid #6367FF" : "2px solid transparent",
+                    transition: "all 0.15s",
+                  }}>
+                    {tab === "about" ? "About" : "Changelog"}
+                  </button>
+                ))}
+              </div>
 
-                    {creatorTab === "about" && (
-                      <div className="bd3-creator-body">
-                        <div className="bd3-creator-row">
-                          <img
-                            src="/bd3/dev/dev.png"
-                            alt="Hasitha Sandakelum"
-                            style={{
-                              width: 44, height: 44, borderRadius: "50%",
-                              objectFit: "cover", flexShrink: 0,
-                              border: "2px solid rgba(99,103,255,0.4)",
-                              boxShadow: "0 0 0 3px rgba(99,103,255,0.12)",
-                            }}
-                          />
-                          <div>
-                            <div className="bd3-creator-name">Hasitha Sandakelum</div>
-                            <div className="bd3-creator-role">Full-Stack Developer</div>
-                          </div>
-                        </div>
-                        <div className="bd3-creator-divider" />
-                        <div className="bd3-creator-meta">
-                          <div className="bd3-creator-meta-row">
-                            <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
-                            </svg>
-                            <span>Stack&nbsp;</span>
-                            <span className="bd3-creator-meta-val">Next.js · TypeScript · Groq AI</span>
-                          </div>
-                          <div className="bd3-creator-meta-row">
-                            <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                            </svg>
-                            <span>Output&nbsp;</span>
-                            <span className="bd3-creator-meta-val">1080 × 1350 px HD PNG</span>
-                          </div>
-                          <div className="bd3-creator-meta-row">
-                            <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                            </svg>
-                            <span>Built&nbsp;</span>
-                            <span className="bd3-creator-meta-val">2025</span>
-                          </div>
-                        </div>
-                        {/* <div style={{
+              {creatorTab === "about" && (
+                <div className="bd3-creator-body">
+                  <div className="bd3-creator-row">
+                    <img
+                      src="/bd3/dev/dev.png"
+                      alt="Hasitha Sandakelum"
+                      style={{
+                        width: 44, height: 44, borderRadius: "50%",
+                        objectFit: "cover", flexShrink: 0,
+                        border: "2px solid rgba(99,103,255,0.4)",
+                        boxShadow: "0 0 0 3px rgba(99,103,255,0.12)",
+                      }}
+                    />
+                    <div>
+                      <div className="bd3-creator-name">Hasitha Sandakelum</div>
+                      <div className="bd3-creator-role">Full-Stack Developer</div>
+                    </div>
+                  </div>
+                  <div className="bd3-creator-divider" />
+                  <div className="bd3-creator-meta">
+                    <div className="bd3-creator-meta-row">
+                      <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" />
+                      </svg>
+                      <span>Stack&nbsp;</span>
+                      <span className="bd3-creator-meta-val">Next.js · TypeScript · Groq AI</span>
+                    </div>
+                    <div className="bd3-creator-meta-row">
+                      <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                      </svg>
+                      <span>Output&nbsp;</span>
+                      <span className="bd3-creator-meta-val">1080 × 1350 px HD PNG</span>
+                    </div>
+                    <div className="bd3-creator-meta-row">
+                      <svg className="bd3-creator-meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      <span>Built&nbsp;</span>
+                      <span className="bd3-creator-meta-val">2025</span>
+                    </div>
+                  </div>
+                  {/* <div style={{
                           marginTop: 4, padding: "10px 14px", borderRadius: 10,
                           background: "rgba(10,38,71,0.4)", border: "1px solid rgba(32,82,149,0.4)",
                           fontSize: 11.5, color: "rgba(196,218,255,0.35)", lineHeight: 1.6,
@@ -2558,84 +2567,84 @@ export default function BirthdayGenerator3() {
                         }}>
                           Part of <span style={{ color: "#8494FF", fontWeight: 600 }}>9th Batch</span> · University of Ruhuna
                         </div> */}
-                      </div>
-                    )}
+                </div>
+              )}
 
-                    {creatorTab === "changelog" && (
+              {creatorTab === "changelog" && (
+                <div style={{
+                  padding: "16px 20px 20px",
+                  display: "flex", flexDirection: "column", gap: 22,
+                  maxHeight: 340, overflowY: "auto",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "rgba(99,103,255,0.3) transparent",
+                }}>
+                  {getAllChanges().map(entry => (
+                    <div key={entry.version}>
+                      {/* Version header */}
                       <div style={{
-                        padding: "16px 20px 20px",
-                        display: "flex", flexDirection: "column", gap: 22,
-                        maxHeight: 340, overflowY: "auto",
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "rgba(99,103,255,0.3) transparent",
+                        display: "flex", alignItems: "center", gap: 8, marginBottom: 12,
+                        paddingBottom: 8, borderBottom: "1px solid rgba(32,82,149,0.35)",
                       }}>
-                        {getAllChanges().map(entry => (
-                          <div key={entry.version}>
-                            {/* Version header */}
-                            <div style={{
-                              display: "flex", alignItems: "center", gap: 8, marginBottom: 12,
-                              paddingBottom: 8, borderBottom: "1px solid rgba(32,82,149,0.35)",
-                            }}>
+                        <span style={{
+                          fontSize: 11, fontWeight: 800, color: entry.major ? "#8494FF" : "rgba(196,218,255,0.5)",
+                          letterSpacing: "0.04em",
+                        }}>
+                          v{entry.version}
+                        </span>
+                        {entry.label && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 99,
+                            background: "rgba(99,103,255,0.15)", border: "1px solid rgba(99,103,255,0.3)",
+                            color: "#8494FF", letterSpacing: "0.06em", textTransform: "uppercase",
+                          }}>
+                            {entry.label}
+                          </span>
+                        )}
+                        <span style={{ fontSize: 10, color: "rgba(196,218,255,0.25)", marginLeft: "auto" }}>
+                          {entry.date}
+                        </span>
+                      </div>
+                      {/* Sections */}
+                      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {entry.sections.map(section => (
+                          <div key={section.category}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 7 }}>
+                              <span style={{ fontSize: 12 }}>{section.icon}</span>
                               <span style={{
-                                fontSize: 11, fontWeight: 800, color: entry.major ? "#8494FF" : "rgba(196,218,255,0.5)",
-                                letterSpacing: "0.04em",
+                                fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+                                letterSpacing: "0.09em", color: "rgba(196,218,255,0.4)",
                               }}>
-                                v{entry.version}
-                              </span>
-                              {entry.label && (
-                                <span style={{
-                                  fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 99,
-                                  background: "rgba(99,103,255,0.15)", border: "1px solid rgba(99,103,255,0.3)",
-                                  color: "#8494FF", letterSpacing: "0.06em", textTransform: "uppercase",
-                                }}>
-                                  {entry.label}
-                                </span>
-                              )}
-                              <span style={{ fontSize: 10, color: "rgba(196,218,255,0.25)", marginLeft: "auto" }}>
-                                {entry.date}
+                                {section.category}
                               </span>
                             </div>
-                            {/* Sections */}
-                            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                              {entry.sections.map(section => (
-                                <div key={section.category}>
-                                  <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 7 }}>
-                                    <span style={{ fontSize: 12 }}>{section.icon}</span>
-                                    <span style={{
-                                      fontSize: 10, fontWeight: 700, textTransform: "uppercase",
-                                      letterSpacing: "0.09em", color: "rgba(196,218,255,0.4)",
-                                    }}>
-                                      {section.category}
-                                    </span>
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                                    {section.items.map((item, i) => (
-                                      <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
-                                          <circle cx="6" cy="6" r="5.5" fill="rgba(99,103,255,0.15)" stroke="rgba(99,103,255,0.4)" strokeWidth="1"/>
-                                          <path d="M3.5 6l1.7 1.7L8.5 4.5" stroke="#8494FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>
-                                        <span style={{ fontSize: 12, color: "rgba(196,218,255,0.65)", lineHeight: 1.55 }}>{item}</span>
-                                      </div>
-                                    ))}
-                                  </div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                              {section.items.map((item, i) => (
+                                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, marginTop: 3 }}>
+                                    <circle cx="6" cy="6" r="5.5" fill="rgba(99,103,255,0.15)" stroke="rgba(99,103,255,0.4)" strokeWidth="1" />
+                                    <path d="M3.5 6l1.7 1.7L8.5 4.5" stroke="#8494FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>
+                                  <span style={{ fontSize: 12, color: "rgba(196,218,255,0.65)", lineHeight: 1.55 }}>{item}</span>
                                 </div>
                               ))}
                             </div>
                           </div>
                         ))}
                       </div>
-                    )}
-
-                    <div className="bd3-creator-footer">
-                      <span className="bd3-creator-built">
-                        {creatorTab === "changelog"
-                          ? <>v{getAllChanges().at(-1)?.version} · <span>2025</span></>
-                          : <>Part of <span>9th Batch</span></>
-                        }
-                      </span>
-                      <button className="bd3-creator-dismiss" onClick={() => { setShowCreator(false); setCreatorTab("about"); }}>Close</button>
                     </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="bd3-creator-footer">
+                <span className="bd3-creator-built">
+                  {creatorTab === "changelog"
+                    ? <>v{getAllChanges().at(-1)?.version} · <span>2025</span></>
+                    : <>Part of <span>9th Batch</span></>
+                  }
+                </span>
+                <button className="bd3-creator-dismiss" onClick={() => { setShowCreator(false); setCreatorTab("about"); }}>Close</button>
+              </div>
             </div>
           </div>
         )}
