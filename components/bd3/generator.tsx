@@ -91,6 +91,8 @@ export default function BirthdayGenerator3() {
   const [mobToolbarHidden, setMobToolbarHidden] = useState(false);
   const [creatorTab, setCreatorTab] = useState<"about" | "changelog">("about");
   const [justUnlocked, setJustUnlocked] = useState(false);
+  const [showAccessPopup, setShowAccessPopup] = useState(false);
+  const [wrongKey, setWrongKey] = useState(false);
   const [showCachePrompt, setShowCachePrompt] = useState(false);
 
   useEffect(() => {
@@ -369,7 +371,11 @@ export default function BirthdayGenerator3() {
     set("access", granted);
     if (granted) {
       setJustUnlocked(true);
+      setShowAccessPopup(false);
       setTimeout(() => setJustUnlocked(false), 500);
+    } else {
+      setWrongKey(true);
+      setTimeout(() => setWrongKey(false), 450);
     }
   };
 
@@ -1620,6 +1626,57 @@ export default function BirthdayGenerator3() {
         .bd3-nav-brand:hover .bd3-nav-logo { opacity: 0.85; }
         .bd3-nav-brand:hover .bd3-nav-title { color: #C9BEFF; }
 
+        /* ── Access key popup ── */
+        .bd3-access-popup-backdrop {
+          position: fixed; inset: 0; z-index: 1200;
+          display: flex; align-items: center; justify-content: center; padding: 20px;
+          background: rgba(0,0,0,0.65);
+          animation: bd3-modal-in 0.2s ease-out;
+        }
+        .bd3-access-popup {
+          background: #0D2E55;
+          border: 1px solid rgba(99,103,255,0.25);
+          border-radius: 20px;
+          width: 100%; max-width: 360px;
+          box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,103,255,0.1);
+          overflow: hidden;
+          animation: bd3-modal-in 0.22s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .bd3-root.light .bd3-access-popup {
+          background: #FFFFFF;
+          border-color: rgba(99,103,255,0.18);
+          box-shadow: 0 24px 60px rgba(99,103,255,0.15);
+        }
+        .bd3-access-popup-header {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 18px 20px 14px;
+          border-bottom: 1px solid rgba(32,82,149,0.4);
+        }
+        .bd3-root.light .bd3-access-popup-header { border-bottom-color: rgba(99,103,255,0.12); }
+        .bd3-access-popup-title {
+          display: flex; align-items: center; gap: 9px;
+          font-size: 15px; font-weight: 700; color: #E8F0FE; letter-spacing: -0.2px;
+        }
+        .bd3-root.light .bd3-access-popup-title { color: #0A2647; }
+        .bd3-access-popup-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 14px; }
+        .bd3-access-popup-close {
+          width: 28px; height: 28px; border-radius: 8px; border: none;
+          background: rgba(32,82,149,0.3); cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(196,218,255,0.5); transition: all 0.15s;
+        }
+        .bd3-access-popup-close:hover { background: rgba(32,82,149,0.55); color: #E8F0FE; }
+        .bd3-root.light .bd3-access-popup-close { background: rgba(99,103,255,0.07); color: rgba(10,38,71,0.4); }
+        .bd3-root.light .bd3-access-popup-close:hover { background: rgba(99,103,255,0.14); color: #0A2647; }
+        @keyframes bd3-access-wrong {
+          0%,100% { transform: translateX(0); }
+          20%     { transform: translateX(-6px); }
+          40%     { transform: translateX(6px); }
+          60%     { transform: translateX(-4px); }
+          80%     { transform: translateX(4px); }
+        }
+        .bd3-access-popup.wrong { animation: bd3-access-wrong 0.4s ease; }
+
         /* ── Cache prompt toast ── */
         @keyframes bd3-toast-in {
           from { opacity:0; transform:translateY(12px); }
@@ -1805,7 +1862,7 @@ export default function BirthdayGenerator3() {
             </div>
             <button
               className={`bd3-nav-download${form.access ? " unlocked" : " locked"}${justUnlocked ? " just-unlocked" : ""}`}
-              onClick={form.access ? handleDownload : () => setActiveMobPanel("access")}
+              onClick={form.access ? handleDownload : () => setShowAccessPopup(true)}
               disabled={isDownloading}
               title={form.access ? "Download HD image" : "Access key required"}
             >
@@ -1813,7 +1870,7 @@ export default function BirthdayGenerator3() {
                 ? <span className="bd3-pulse">Downloading…</span>
                 : form.access
                   ? <><Download size={14} /> Download HD</>
-                  : <><Lock size={13} /> Unlock</>
+                  : <><Lock size={13} /> Download</>
               }
             </button>
             <button className="bd3-theme-btn" onClick={() => setTheme(t => t === "dark" ? "light" : "dark")} title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
@@ -2188,27 +2245,21 @@ export default function BirthdayGenerator3() {
                 <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={5} placeholder="Enter a heartfelt birthday message..." />
               </SectionCard>
               <SectionCard title="Access Key" icon={<Lock size={13} />} accent="#fcd34d">
-                <Field label="Key">
-                  <div className="bd3-access-row">
-                    <input
-                      className="bd3-input"
-                      type="text"
-                      value={accessInput}
-                      onChange={(e) => handleAccessChange(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && !form.access && handleEnableAccess()}
-                      placeholder="Enter access key"
-                    />
+                <div className="bd3-access-row">
+                  {form.access ? (
+                    <div className={`bd3-access-status bd3-access-granted`} style={{ flex: 1 }}>
+                      <div className="bd3-access-dot" />
+                      Access granted — download unlocked
+                    </div>
+                  ) : (
                     <button
-                      className={`bd3-btn-enable ${form.access ? "granted" : "locked"}`}
-                      onClick={!form.access ? handleEnableAccess : undefined}
+                      className="bd3-btn-primary"
+                      onClick={() => setShowAccessPopup(true)}
+                      style={{ gap: 8 }}
                     >
-                      {form.access ? <><Check size={13} /> Enabled</> : "Enable"}
+                      <Lock size={14} /> Enter Access Key
                     </button>
-                  </div>
-                </Field>
-                <div className={`bd3-access-status ${form.access ? "bd3-access-granted" : "bd3-access-locked"}`}>
-                  <div className="bd3-access-dot" />
-                  {form.access ? "Access granted — post generation unlocked" : "Enter key and click Enable"}
+                  )}
                 </div>
               </SectionCard>
               <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
@@ -2272,7 +2323,7 @@ export default function BirthdayGenerator3() {
           {/* Download */}
           <button
             className={`bd3-mob-dl-btn${form.access ? " unlocked" : " locked"}${justUnlocked ? " just-unlocked" : ""}`}
-            onClick={form.access ? handleDownload : () => { setActiveMobPanel("access"); setMobToolbarHidden(false); }}
+            onClick={form.access ? handleDownload : () => setShowAccessPopup(true)}
             disabled={isDownloading}
             title={form.access ? "Save image" : "Access key required — tap to unlock"}
           >
@@ -2280,7 +2331,7 @@ export default function BirthdayGenerator3() {
               ? <span className="bd3-pulse">Generating…</span>
               : form.access
                 ? <><Download size={17} strokeWidth={2.5} /> Save Image</>
-                : <><Lock size={16} strokeWidth={2.5} /> Unlock to Save</>
+                : <><Lock size={16} strokeWidth={2.5} /> Download</>
             }
           </button>
 
@@ -2315,6 +2366,70 @@ export default function BirthdayGenerator3() {
         )}
         <LoadingOverlay isVisible={showDownloadOverlay} icon="download" message="Generating your HD image…" theme={theme} />
         <StartupPopup theme={theme} />
+
+        {/* ── Access key popup ── */}
+        {showAccessPopup && (
+          <div className="bd3-access-popup-backdrop" onClick={(e) => e.target === e.currentTarget && setShowAccessPopup(false)}>
+            <div className={`bd3-access-popup${wrongKey ? " wrong" : ""}`}>
+              <div className="bd3-access-popup-header">
+                <div className="bd3-access-popup-title">
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8,
+                    background: "rgba(252,211,77,0.12)",
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  }}>
+                    {form.access
+                      ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ filter: "drop-shadow(0 0 4px #fcd34d)" }}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                      : <Lock size={14} color="#fcd34d" />
+                    }
+                  </div>
+                  {form.access ? "Access granted" : "Enter access key"}
+                </div>
+                <button className="bd3-access-popup-close" onClick={() => setShowAccessPopup(false)}>
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+              <div className="bd3-access-popup-body">
+                {form.access ? (
+                  <div className="bd3-access-status bd3-access-granted" style={{ justifyContent: "center", padding: "12px 0" }}>
+                    <div className="bd3-access-dot" />
+                    Download is unlocked ✓
+                  </div>
+                ) : (
+                  <>
+                    <div className="bd3-access-row">
+                      <input
+                        className="bd3-input"
+                        type="text"
+                        value={accessInput}
+                        onChange={(e) => handleAccessChange(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleEnableAccess()}
+                        placeholder="Enter access key…"
+                        autoFocus
+                        style={{ fontSize: 14 }}
+                      />
+                    </div>
+                    {wrongKey && (
+                      <div style={{ fontSize: 12, color: "#fb923c", display: "flex", alignItems: "center", gap: 6, marginTop: -6 }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Incorrect key — try again
+                      </div>
+                    )}
+                    <button
+                      className="bd3-btn-primary"
+                      onClick={handleEnableAccess}
+                      style={{ gap: 8, fontSize: 14 }}
+                    >
+                      <Check size={15} strokeWidth={2.5} /> Enable
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── Logo cache prompt ── */}
         {showCachePrompt && (
