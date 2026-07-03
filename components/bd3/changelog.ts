@@ -1,15 +1,3 @@
-/**
- * BD3 — Birthday Post Studio changelog
- * Generated from git history.
- *
- * version:  semver string  (e.g. "1.0", "1.5", "2.3")
- * label:    optional short display name shown as a badge
- * major:    true  → shown in the startup "What's new" popup (latest only)
- *           false → only shown in the dev-info Changelog tab
- * date:     release / sprint date string
- * sections: grouped list of changes
- */
-
 export interface ChangeSection {
   category: string;
   icon: string;
@@ -36,13 +24,12 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "Core",
         icon: "🚀",
         items: [
-          "Birthday post generator launched (component: BirthdayPostGenerator)",
-          "Profile photo upload with crop modal",
-          "Access key functionality and access-control on template",
-          "Message generation via AI integration (first API route)",
-          "HD 1080 × 1350 px PNG export",
-          "Batch / Faculty / University footer text",
-          "Initial placeholder text & input tweaks",
+          "Birthday post generator launched",
+          "Profile photo upload with crop support",
+          "Template access control system added",
+          "AI-powered message generation introduced",
+          "HD PNG export support (1080 × 1350)",
+          "Batch, Faculty, and University footer support",
         ],
       },
     ],
@@ -58,11 +45,10 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "Fixes",
         icon: "🐛",
         items: [
-          "Adjusted image crop modal input range minimum value",
-          "Updated border styling in BirthdayPostGenerator",
-          "Improved responsiveness and visual consistency in layout",
-          "Added unique keys to message list items",
-          "Adjusted image crop modal styling",
+          "Improved image crop controls",
+          "Updated border styling",
+          "Better responsiveness across layouts",
+          "General visual consistency improvements",
         ],
       },
     ],
@@ -75,11 +61,11 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2025-01",
     sections: [
       {
-        category: "Routing & Structure",
+        category: "Improvements",
         icon: "🔧",
         items: [
-          "Refactored BirthdayPostGenerator and updated routing for post generation",
-          "Removed copy image button from generator",
+          "Improved generator workflow",
+          "Removed unnecessary copy image button",
         ],
       },
     ],
@@ -96,15 +82,11 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "AI Message",
         icon: "🤖",
         items: [
-          "Fixed bd3 msg API: correct model, SSE streaming, server-side char trimming, banned 'student union'",
-          "Enforce 250–300 char range on AI refresh, fix bad model in callGroq",
-          "Protected refresh from blanking message — uses callGroq same as bd2",
-          "Fix stale msg: per-attempt variation tag, cache:no-store, cleared Next.js cache",
-          "Fix repeated msg: random seed + variation token added to prompt",
-          "Visual retry progress: spinner ring, progress bar, attempt counter",
-          "Faster ticker on try counter display",
-          "Increased MAX_ATTEMPTS to 20, synced to frontend as maxAttempts from server",
-          "Dedicated Groq client using llama-3.3-70b-versatile",
+          "AI-generated messages are now smarter and more unique",
+          "Reduced repeated message generation",
+          "Improved message generation speed",
+          "Added retry progress indicator",
+          "Better reliability during refresh attempts",
         ],
       },
     ],
@@ -121,33 +103,29 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "Visual Overhaul",
         icon: "✨",
         items: [
-          "Full UI redesign with new color system (#6367FF accent, deep blue palette)",
-          "Split-pane editor + preview layout",
-          "Section cards with per-tool accent colours",
-          "Improved template grid with checkmark indicator",
-          "Loading overlay, theme toggle, nav resolution badge, crop fixes",
-          "Startup popup showing version changelog",
-          "Font size slider in Person Details section",
-          "Separator height bug fixed in post template",
+          "Complete UI redesign with modern visuals",
+          "New split editor and live preview layout",
+          "Improved template selection interface",
+          "Loading overlay and theme toggle added",
+          "Startup popup with version updates",
+          "Font size control added",
         ],
       },
       {
-        category: "Name Pill",
+        category: "Name Design",
         icon: "🎨",
         items: [
-          "Gold textured name pill with auto-width — fits any name",
-          "Roboto Mono font for the name — bold monospace style",
-          "Advanced settings popup for font size & padding",
-          "Dark shadow wings on the name pill for depth",
-          "New passkey system, improved prompts",
+          "Premium gold name pill design",
+          "Auto-width name fitting",
+          "Advanced font and padding customization",
+          "Enhanced shadows and depth effects",
         ],
       },
       {
         category: "Creator Info",
         icon: "👤",
         items: [
-          "Creator info popup on logo click",
-          "Forces TS server cache refresh after component recreation",
+          "Creator info popup added",
         ],
       },
     ],
@@ -163,8 +141,8 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "Polish",
         icon: "🔧",
         items: [
-          "Updated creator role display",
-          "Enhanced startup popup with new features list and styling",
+          "Updated creator information",
+          "Enhanced startup popup design",
         ],
       },
     ],
@@ -181,85 +159,75 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "Mobile UX",
         icon: "📱",
         items: [
-          "Canva-style mobile redesign: preview always visible, editing via toolbar",
-          "Horizontal icon bar fixed below navbar (6 tools)",
-          "Bottom-sheet panels — each tool opens its own focused sheet",
-          "Template tab stays open until closed by X button",
-          "Pinch-to-zoom & single-finger pan on preview canvas",
-          "Reset zoom button appears when canvas is zoomed/panned",
-          "Toolbar collapse/restore with chevron toggle",
-          "Restore button shown in navbar when bar is hidden",
-          "All sheets close on backdrop tap",
-          "Mobile save button moved to left side",
+          "New Canva-style mobile experience",
+          "Preview always visible while editing",
+          "Toolbar-based editing workflow",
+          "Pinch-to-zoom and drag support",
+          "Reset zoom shortcut added",
+          "Collapsible mobile toolbar",
         ],
       },
       {
-        category: "Bottom Nav Bar",
+        category: "Bottom Navigation",
         icon: "🧭",
         items: [
-          "Fixed bottom nav bar: Save · Focus (reset zoom) · Theme toggle",
-          "FloatingHomeButton hidden on /apps/bd3 route",
-          "Mobile download FAB replaced by bottom nav",
+          "New bottom navigation bar",
+          "Quick access to Save, Focus, and Theme tools",
+          "Improved mobile workflow",
         ],
       },
       {
         category: "Access & Security",
         icon: "🔒",
         items: [
-          "Download locked without valid access key (both mobile and desktop)",
-          "Access key entered via modal popup — removed from editor panel",
-          "Lock → unlock spring animation on both download buttons",
-          "Shake animation + inline error on wrong key",
-          "Desktop navbar button: locked = opens popup, unlocked = downloads",
+          "Download protected with access key",
+          "New unlock animation",
+          "Better error feedback for invalid keys",
         ],
       },
       {
         category: "Light Theme",
         icon: "☀️",
         items: [
-          "Light theme applied to mobile toolbar, bottom sheets, popups",
-          "Light theme for loading overlay and download animation",
-          "Light theme for startup popup and creator info popup",
-          "Theme toggle in both navbar and mobile bottom nav",
+          "Light theme added for mobile UI",
+          "Improved popup and loading screen appearance",
+          "Theme switching available everywhere",
         ],
       },
       {
         category: "Splash & Loading",
         icon: "⚡",
         items: [
-          "Pre-ready splash screen on first paint with logo + spinner + progress bar",
-          "Smooth fade-out after 900ms, DOM unmount after 1500ms",
-          "Logo & assets cache prompt on first visit (browser Cache API)",
+          "New splash screen on startup",
+          "Smoother loading transitions",
+          "Faster asset loading experience",
         ],
       },
       {
-        category: "Creator Info Popup",
+        category: "Creator Info",
         icon: "👤",
         items: [
-          "About + Changelog tabs inside dev info popup",
-          "Entire navbar brand area (logo + name) opens the popup",
-          "Developer photo (dev.png) replaces initials avatar",
-          "Replaced 'ICT HUB' with '9th Batch' affiliation",
+          "About and Changelog tabs added",
+          "Improved developer profile section",
+          "Updated batch affiliation display",
         ],
       },
       {
         category: "Startup Popup",
         icon: "🗞️",
         items: [
-          "Redesigned as bottom-sheet on mobile with drag handle",
-          "Shows only latest major release changes",
-          "Sourced from shared changelog.ts — single source of truth",
-          "Version badge and release date in header",
+          "Redesigned mobile startup popup",
+          "Now highlights major updates only",
+          "Version badge and release date shown",
         ],
       },
       {
-        category: "Changelog System",
+        category: "Changelog",
         icon: "📋",
         items: [
-          "Separate changelog.ts file with full version history",
-          "Startup popup uses getLatestMajorChanges()",
-          "Dev info Changelog tab uses getAllChanges() — full history v1.0→latest",
-          "Each entry: version, label, major flag, date, grouped sections",
+          "Complete version history available",
+          "Better organized release notes",
+          "Grouped updates by category",
         ],
       },
     ],
@@ -267,17 +235,23 @@ export const CHANGELOG: ChangelogEntry[] = [
 ];
 
 /**
- * Returns the most recent entry marked as major.
- * Used by the startup popup — shows only the latest major release.
+ * Returns latest major release
+ * Used for startup popup
  */
 export function getLatestMajorChanges(): ChangelogEntry | undefined {
-  return [...CHANGELOG].reverse().find((e) => e.major);
+  return [...CHANGELOG].reverse().find((entry) => entry.major);
 }
 
 /**
- * Returns ALL entries in chronological order.
- * Used by the dev-info Changelog tab.
+ * Returns all public changes
  */
 export function getAllChanges(): ChangelogEntry[] {
+  return CHANGELOG;
+}
+
+/**
+ * Future-proof helper if you ever add internal-only entries
+ */
+export function getPublicChanges(): ChangelogEntry[] {
   return CHANGELOG;
 }
