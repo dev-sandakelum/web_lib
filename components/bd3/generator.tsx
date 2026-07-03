@@ -909,9 +909,11 @@ export default function BirthdayGenerator3() {
           display: flex; align-items: center; gap: 12px;
         }
         .bd3-photo-img {
-          width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+          width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+          background-size: cover; background-position: center; background-repeat: no-repeat;
           border: 2px solid rgba(99,103,255,0.6);
           box-shadow: 0 0 0 3px rgba(99,103,255,0.14);
+          
         }
         .bd3-photo-info { flex: 1; min-width: 0; }
         .bd3-photo-ready { font-size: 11.5px; font-weight: 600; color: #8494FF; }
@@ -2043,7 +2045,7 @@ export default function BirthdayGenerator3() {
                     <>
                       {form.profileImage ? (
                         <div className="bd3-photo-card">
-                          <img src={form.profileImage} alt="Profile" className="bd3-photo-img" />
+                          <div className="bd3-photo-img" style={{ backgroundImage: `url(${form.profileImage})` }} />
                           <div className="bd3-photo-info">
                             <div className="bd3-photo-ready">Photo ready ✓</div>
                             <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
@@ -2186,7 +2188,7 @@ export default function BirthdayGenerator3() {
                 <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
                 {form.profileImage ? (
                   <div className="bd3-photo-card">
-                    <img src={form.profileImage} alt="Profile" className="bd3-photo-img" />
+                    <div className="bd3-photo-img" style={{ backgroundImage: `url(${form.profileImage})` }} />
                     <div className="bd3-photo-info">
                       <div className="bd3-photo-ready">Photo ready ✓</div>
                       <div className="bd3-photo-hint">Adjust crop or upload a new one</div>
