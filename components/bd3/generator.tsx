@@ -188,6 +188,16 @@ export default function BirthdayGenerator3() {
   const hiddenRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+  const msgTextareaRefs = useRef<(HTMLTextAreaElement | null)[]>([]);
+
+  // Auto-resize all message textareas whenever the message value changes
+  useEffect(() => {
+    msgTextareaRefs.current.forEach((el) => {
+      if (!el) return;
+      el.style.height = "auto";
+      el.style.height = `${el.scrollHeight}px`;
+    });
+  }, [form.message]);
 
   const selectedTemplate = TEMPLATES3.find((t) => t.id === form.templateId) || TEMPLATES3[0];
   const PASS_KEY = process.env.NEXT_PUBLIC_PASS_key_bd3;
@@ -834,7 +844,7 @@ export default function BirthdayGenerator3() {
           border-radius: 10px;
           padding: 10px 13px;
           font-size: 13px; font-family: inherit; line-height: 1.6;
-          color: #E8F0FE; resize: vertical; min-height: 110px;
+          color: #E8F0FE; resize: none; overflow: hidden;
           outline: none;
           transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
         }
@@ -845,14 +855,6 @@ export default function BirthdayGenerator3() {
           box-shadow: 0 0 0 3px rgba(99,103,255,0.15);
         }
         .bd3-textarea:hover:not(:focus) { border-color: rgba(99,103,255,0.35); }
-
-        /* ── Scrollbar for textarea ── */
-        .bd3-textarea {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(99,103,255,0.35) transparent;
-        }
-        .bd3-textarea::-webkit-scrollbar { width: 4px; }
-        .bd3-textarea::-webkit-scrollbar-thumb { background: rgba(99,103,255,0.35); border-radius: 4px; }
 
         /* ── Template Grid ── */
         .bd3-tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -2107,7 +2109,7 @@ export default function BirthdayGenerator3() {
                           <span className="bd3-refresh-progress-label">searching for best match…</span>
                         </div>
                       )}
-                      <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={6} placeholder="Enter a heartfelt birthday message..." />
+                      <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} ref={(el) => { msgTextareaRefs.current[0] = el; }} placeholder="Enter a heartfelt birthday message..." />
                     </>
                   )}
                   {/* Access Key panel */}
@@ -2254,7 +2256,7 @@ export default function BirthdayGenerator3() {
                       <span className="bd3-refresh-progress-label">searching for best match…</span>
                     </div>
                   )}
-                  <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} rows={5} placeholder="Enter a heartfelt birthday message..." />
+                  <textarea className="bd3-textarea" value={form.message} onChange={(e) => set("message", e.target.value)} ref={(el) => { msgTextareaRefs.current[1] = el; }} placeholder="Enter a heartfelt birthday message..." />
                 </SectionCard>
                 <SectionCard title="AI Social Post" icon={<Stars size={13} />} accent="#c4b5fd">
                   <div className="bd3-ai-box">
