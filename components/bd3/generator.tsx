@@ -847,6 +847,7 @@ export default function BirthdayGenerator3() {
           color: #E8F0FE; resize: none; overflow: hidden;
           outline: none;
           transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+          min-height: 120px;
         }
         .bd3-textarea::placeholder { color: rgba(196,218,255,0.25); }
         .bd3-textarea:focus {
