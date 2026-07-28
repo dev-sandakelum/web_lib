@@ -36,9 +36,11 @@ const OPENING_STARTERS = [
   "From lectures to laughter,",
   "May this birthday mark",
   "Wishing a birthday filled with",
+  "Cheers to you on your special day!",
   "Our batch would not be the same without you —",
   "Happy birthday, and thank you",
   "To one of the best people in our batch —",
+  "Here's to celebrating you today!",
 ]
 
 // Thematic focus angles to further diversify content
