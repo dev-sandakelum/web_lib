@@ -15,6 +15,48 @@ const STYLE_VARIANTS = [
   "friendly and celebratory",
   "inspiring and forward-looking",
   "sincere and grounded",
+  "grateful and appreciative",
+  "playful and fun",
+  "thoughtful and meaningful",
+  "enthusiastic and upbeat",
+]
+
+// Opening hooks to force varied sentence starts
+const OPENING_STARTERS = [
+  "Happy birthday to",
+  "Wishing our amazing batchmate",
+  "From all of us in the batch,",
+  "Happy birthday!",
+  "On this special day,",
+  "Our batch is truly lucky to have you —",
+  "Sending the warmest birthday wishes",
+  "Here's wishing you",
+  "Wishing you the happiest of birthdays",
+  "Happy birthday to a true gem of our batch!",
+  "The whole batch is celebrating you today —",
+  "Happy birthday to someone who makes our batch",
+  "From lectures to laughter,",
+  "May this birthday mark",
+  "Wishing a birthday filled with",
+  "Cheers to you on your special day!",
+  "Our batch would not be the same without you —",
+  "Happy birthday, and thank you",
+  "To one of the best people in our batch —",
+  "Here's to celebrating you today!",
+]
+
+// Thematic focus angles to further diversify content
+const FOCUS_ANGLES = [
+  "shared batch memories and friendships",
+  "achievements and success in the year ahead",
+  "joy, laughter, and good vibes in the batch",
+  "appreciation for their positive energy and kindness",
+  "wishing health, happiness, and exciting new adventures",
+  "gratitude for being a wonderful batchmate",
+  "celebrating their unique presence in the batch",
+  "the journey ahead and all the dreams to chase",
+  "the good times shared and the great ones coming",
+  "how much the batch values and cherishes them",
 ]
 
 // Closing emojis to pad a message that lands slightly under CHAR_MIN
@@ -117,6 +159,8 @@ export async function POST(req: Request) {
 
         for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
           const style = STYLE_VARIANTS[(attempt - 1) % STYLE_VARIANTS.length]
+          const opener = OPENING_STARTERS[Math.floor(Math.random() * OPENING_STARTERS.length)]
+          const focus = FOCUS_ANGLES[Math.floor(Math.random() * FOCUS_ANGLES.length)]
           const variationTag = `v${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`
 
           controller.enqueue(sseChunk("attempt", { attempt, maxAttempts: MAX_ATTEMPTS }))
@@ -126,7 +170,7 @@ export async function POST(req: Request) {
               role: "system",
               content:
                 `You are a birthday message writer for a university batch group. ` +
-                `Write genuine, friendly birthday wishes — like a warm batchmate would write, not a poet. ` +
+                `Write genuine, friendly birthday wishes — like a warm batchmate, not a poet. ` +
                 `Keep language simple, direct, and human. Never use abstract metaphors. ` +
                 `Output ONLY the message text — no headers, no sign-off, no quotes.`,
             },
@@ -135,14 +179,16 @@ export async function POST(req: Request) {
               content:
                 `Write a birthday wish as ONE short paragraph (2–3 sentences, roughly 50 words).\n` +
                 `Rules:\n` +
-                `• MUST open with "Happy birthday" or "Wishing you" — not a metaphor or nature image\n` +
-                `• Write like a warm, genuine friend — simple, direct, human. No poetry.\n` +
+                `• START the message with this exact opener: "${opener}"\n` +
+                `• Focus angle: ${focus}\n` +
+                `• Write like a warm, genuine batchmate — simple, direct, human. No poetry.\n` +
+                `• Reference "batch", "batchmates", or "all of us" naturally somewhere\n` +
                 `• NO abstract metaphors (no sunrise, garden, river, blossom, dawn, petals, etc.)\n` +
                 `• Use real, grounded words: joy, laughter, memories, dreams, success, journey, happiness\n` +
-                `• Place 2–3 emojis (✨ 💛 🌸 🎂 🌿) only at the END of sentences, never mid-clause\n` +
+                `• Place 1–2 emojis (✨ 💛 🌸 🎂 🌿) only at the END of sentences, never mid-clause\n` +
                 `• Max 3 sentences. Do not exceed this.\n` +
                 `• Tone: ${style}\n` +
-                `• Variation: ${variationTag}`,
+                `• Variation seed: ${variationTag}`,
             },
           ]
 
