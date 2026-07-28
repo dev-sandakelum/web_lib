@@ -32,7 +32,7 @@ const DEFAULT_FORM: FormData3 = {
   faculty: "Faculty of Technology",
   university: "University of Ruhuna",
   profileImage: null,
-  message: "Happy birthday, I hope your day is filled with joy and laughter, and that all your dreams come true 💛. Wishing you a year ahead that's successful and happy, with amazing memories to cherish 🎂. Have a fantastic day and an incredible journey ahead ✨ ✨",
+  message: "May this birthday mark the start of an amazing year filled with joy and laughter, thinking of all the great memories we've shared as batchmates and looking forward to many more, wishing you happiness and success on your journey 🎂 💛",
   templateId: "t1",
   access: false,
   nameStyle: DEFAULT_NAME_STYLE,
@@ -302,10 +302,61 @@ export default function BirthdayGenerator3() {
     }
   };
 
+  /**
+   * Measures how many visual lines `text` would occupy inside the template's
+   * message <p> (fontSize 26px, lineHeight 1.75, maxWidth 860px, letterSpacing
+   * 0.04em, whiteSpace pre-line, font "Segoe UI").
+   * The template card is 1080px wide; the <p> sits in a flex column with
+   * padding 0 60px on both sides, so its effective width is 860px (maxWidth).
+   */
+  const countRenderedLines = useCallback((text: string): number => {
+    const probe = document.createElement("p");
+    Object.assign(probe.style, {
+      position: "fixed",
+      top: "-9999px",
+      left: "-9999px",
+      visibility: "hidden",
+      margin: "0",
+      padding: "0",
+      fontSize: "26px",
+      fontWeight: "400",
+      lineHeight: "1.75",
+      letterSpacing: "0.04em",
+      textAlign: "center",
+      maxWidth: "860px",
+      width: "860px",
+      whiteSpace: "pre-line",
+      fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif",
+    });
+    probe.textContent = text;
+    document.body.appendChild(probe);
+    const lineHeightPx = 26 * 1.75; // 45.5px
+    const lines = Math.round(probe.scrollHeight / lineHeightPx);
+    document.body.removeChild(probe);
+    return lines;
+  }, []);
+
+  const TARGET_LINES = 4;
+
+  /**
+   * Scores how "safe" a candidate is relative to the 4-line target.
+   * Overflowing past 4 lines physically breaks the post layout, so any
+   * candidate that fits at or under 4 lines is always preferred over one
+   * that overflows — even if the overflow is numerically "closer" to 4.
+   */
+  const scoreCandidate = (lines: number): number => {
+    const diff = lines - TARGET_LINES;
+    if (diff === 0) return 0;
+    if (diff < 0) return -diff; // under target: rank by closeness (1, 2, 3…)
+    return 1000 + diff; // over target: always worse than any under-target fit
+  };
+
   const handleRefreshMsg = async () => {
     setIsRefreshing(true);
     setRefreshAttempt(0);
     setRefreshMatched(null);
+
+    const abortController = new AbortController();
 
     try {
       const res = await fetch("/api/bd3/msg", {
@@ -313,6 +364,7 @@ export default function BirthdayGenerator3() {
         headers: { "Content-Type": "application/json" },
         cache: "no-store",
         body: JSON.stringify({ enforceCharRange: true }),
+        signal: abortController.signal,
       });
 
       if (!res.ok || !res.body) throw new Error(`Server error ${res.status}`);
@@ -320,8 +372,11 @@ export default function BirthdayGenerator3() {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
+      let matched = false;
+      let bestCandidate: string | null = null;
+      let bestScore = Infinity;
 
-      while (true) {
+      outer: while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
@@ -341,19 +396,45 @@ export default function BirthdayGenerator3() {
           if (eventName === "attempt") {
             setRefreshAttempt(payload.attempt);
             setRefreshMaxAttempts(payload.maxAttempts);
+          } else if (eventName === "candidate") {
+            setRefreshAttempt(payload.attempt);
+            const content: string = payload.result?.content ?? "";
+
+            const lines = countRenderedLines(content);
+            console.log(`[bd3/refresh] attempt ${payload.attempt}: ${lines} lines`);
+
+            const score = scoreCandidate(lines);
+            if (score < bestScore) {
+              bestScore = score;
+              bestCandidate = content;
+            }
+
+            if (lines === TARGET_LINES) {
+              // Found a good one — stop immediately, no need to keep retrying.
+              matched = true;
+              setRefreshMatched(true);
+              set("message", content);
+              abortController.abort();
+              break outer;
+            }
           } else if (eventName === "done") {
-            setRefreshAttempt(payload.attempts ?? 1);
             setRefreshMaxAttempts(payload.maxAttempts ?? MAX_ATTEMPTS_DISPLAY);
-            setRefreshMatched(payload.matched ?? true);
-            if (payload.result?.content) {
-              set("message", payload.result.content);
+            // Nothing hit exactly 4 lines — fall back to the best-fitting
+            // candidate seen so far (never one that overflows, if avoidable).
+            if (!matched && bestCandidate) {
+              setRefreshMatched(false);
+              set("message", bestCandidate);
             }
           }
         }
       }
+
+      if (!matched && !bestCandidate) setRefreshMatched(false);
     } catch (err: any) {
-      console.error("[refresh]", err);
-      setRefreshMatched(false);
+      if (err?.name !== "AbortError") {
+        console.error("[refresh]", err);
+        setRefreshMatched((prev) => (prev === null ? false : prev));
+      }
     } finally {
       setTimeout(() => {
         setIsRefreshing(false);

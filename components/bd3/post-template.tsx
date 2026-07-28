@@ -348,7 +348,7 @@ export const PostTemplate3 = React.forwardRef<
           }}
         >
           {message ||
-            "Wishing you a day full of love, laughter, and unforgettable memories. ✨\nMay this year bring you new opportunities and the courage to chase every dream. 💛"}
+            "May this birthday mark the start of an amazing year filled with joy and laughter, thinking of all the great memories we've shared as batchmates and looking forward to many more, wishing you happiness and success on your journey 🎂 💛"}
         </p>
       </div>
 

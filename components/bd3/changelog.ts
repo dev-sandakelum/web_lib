@@ -248,6 +248,26 @@ export const CHANGELOG: ChangelogEntry[] = [
       },
     ],
   },
+
+  // ─── v3.2 ─────────────────────────────────────────────────────────
+  {
+    version: "3.2",
+    label: "Smart Message Fit",
+    major: false,
+    date: "2026-07",
+    sections: [
+      {
+        category: "AI Message",
+        icon: "🤖",
+        items: [
+          "Refresh now stops as soon as a message fits exactly 4 preview lines — no more wasting all 12 retries",
+          "Real-time line measurement matches the actual post template (26px font, 860px width)",
+          "Smarter fallback picks the best-fitting candidate and avoids messages that overflow past 4 lines",
+          "Updated default birthday message to a continuous 4-line paragraph",
+        ],
+      },
+    ],
+  },
 ];
 
 /**
