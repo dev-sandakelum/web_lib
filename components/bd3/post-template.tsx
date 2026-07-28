@@ -379,6 +379,9 @@ export const PostTemplate3 = React.forwardRef<
               textAlign: "center",
               textShadow: `0 0 16px ${template.accentGlow}`,
               lineHeight: 1.4,
+              display: "block",
+              width: "100%",
+              boxSizing: "border-box",
             }}
           >
             ── {formatBatchWithSup(batch)} ──

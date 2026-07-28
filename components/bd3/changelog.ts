@@ -232,6 +232,22 @@ export const CHANGELOG: ChangelogEntry[] = [
       },
     ],
   },
+
+  // ─── v3.1 ─────────────────────────────────────────────────────────
+  {
+    version: "3.1",
+    major: false,
+    date: "2026-07",
+    sections: [
+      {
+        category: "Fixes",
+        icon: "🐛",
+        items: [
+          "Fixed batch label alignment in preview — now spans full width and centers correctly",
+        ],
+      },
+    ],
+  },
 ];
 
 /**
