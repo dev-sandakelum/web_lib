@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   BookOpen,
-  FolderOpen,
   Play,
   Search,
   CheckCircle,
@@ -15,26 +14,19 @@ import {
   ChevronRight,
   Sparkles,
   HomeIcon,
+  Archive,
+  GraduationCap,
 } from "lucide-react";
 
-// Define types for quiz structure
-interface Question {
-  question: string;
-  options: string[];
-  correctIndex: number;
-}
-
-interface Quiz {
-  id: string;
-  title: string;
-  category: string;
-  questions: Question[];
-}
-
-// Built-in quizzes data
-import { builtInQuizzes } from "./quiz-data";
+import {
+  builtInQuizzes,
+  currentSemesterQuizzes,
+  archivedQuizzes,
+  Quiz,
+  Question,
+} from "./quiz-data";
+import { currentSemester, archivedSemesters } from "../data";
 import { quiz_font } from "../fonts";
-
 
 export default function ModelQuizzes() {
   const router = useRouter();
@@ -49,7 +41,8 @@ export default function ModelQuizzes() {
   const [userAnswers, setUserAnswers] = useState<(number | null)[]>([]);
   const [finished, setFinished] = useState(false);
   const [score, setScore] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [currentCategory, setCurrentCategory] = useState<string>("all");
+  const [archiveCategory, setArchiveCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(
     new Set()
@@ -163,186 +156,238 @@ export default function ModelQuizzes() {
     router.push("/", { scroll: false });
   };
 
-  const categories = [
-    { id: "all", name: "All Quizzes" },
-    ...Array.from(new Set(builtInQuizzes.map((q) => q.category))).map(
-      (cat) => ({ id: cat, name: cat })
-    ),
+  // Subject filters are scoped per section, so old subjects never mix
+  // with the new semester's subjects.
+  const categoriesOf = (quizzes: Quiz[]) => [
+    { id: "all", name: "All Subjects" },
+    ...Array.from(new Set(quizzes.map((q) => q.category))).map((cat) => ({
+      id: cat,
+      name: cat,
+    })),
   ];
+  const currentCategories = categoriesOf(currentSemesterQuizzes);
+  const archiveCategories = categoriesOf(archivedQuizzes);
 
-  const filteredQuizzes = builtInQuizzes.filter((quiz) => {
-    const matchesCategory =
-      selectedCategory === "all" || quiz.category === selectedCategory;
-    const matchesSearch = quiz.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const matchesSearch = (quiz: Quiz) =>
+    quiz.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const filteredCurrent = currentSemesterQuizzes.filter(
+    (q) =>
+      matchesSearch(q) &&
+      (currentCategory === "all" || q.category === currentCategory)
+  );
+  const filteredArchived = archivedQuizzes.filter(
+    (q) =>
+      matchesSearch(q) &&
+      (archiveCategory === "all" || q.category === archiveCategory)
+  );
+  const isFiltering = searchTerm.trim() !== "" || archiveCategory !== "all";
 
   const progressPercentage = activeQuiz
     ? ((currentQuestion + 1) / shuffledQuestions.length) * 100
     : 0;
   const answeredCount = userAnswers.filter((a) => a !== null).length;
 
-  const cardGradients = [
-    {
-      bg: "from-amber-50 to-orange-100",
-      label: "bg-amber-200/50",
-      labelText: "text-amber-900",
-      border: "border-amber-300/50",
-      shape: "ellipse-gradient-amber",
-    },
-    {
-      bg: "from-purple-50 to-pink-100",
-      label: "bg-purple-200/50",
-      labelText: "text-purple-900",
-      border: "border-purple-300/50",
-      shape: "ellipse-gradient-purple",
-    },
-    {
-      bg: "from-green-50 to-emerald-100",
-      label: "bg-green-200/50",
-      labelText: "text-green-900",
-      border: "border-green-300/50",
-      shape: "ellipse-gradient-green",
-    },
-    {
-      bg: "from-pink-50 to-rose-100",
-      label: "bg-pink-200/50",
-      labelText: "text-pink-900",
-      border: "border-pink-300/50",
-      shape: "ellipse-gradient-pink",
-    },
-  ];
+  const renderCategoryPills = (
+    cats: { id: string; name: string }[],
+    selected: string,
+    onSelect: (id: string) => void
+  ) => (
+    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide mb-4 sm:mb-6">
+      {cats.map((cat) => (
+        <button
+          key={cat.id}
+          onClick={() => onSelect(cat.id)}
+          className={`flex-shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap transition-all duration-200 ${
+            selected === cat.id
+              ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-900/40"
+              : "bg-[#161b22] text-slate-400 border border-[#30363d] hover:border-emerald-500/50 hover:text-slate-200"
+          }`}
+        >
+          {cat.name}
+        </button>
+      ))}
+    </div>
+  );
+
+  const renderQuizCard = (quiz: Quiz, accent: "current" | "archive") => (
+    <div
+      key={quiz.id}
+      className={`group relative bg-[#161b22] rounded-2xl border border-[#30363d] p-4 sm:p-6 flex flex-col min-h-44 sm:min-h-48 transition-all duration-300 hover:-translate-y-1 ${
+        accent === "current"
+          ? "hover:border-emerald-500/60 hover:shadow-[0_0_30px_-10px_rgba(16,185,129,0.3)]"
+          : "hover:border-purple-500/50 hover:shadow-[0_0_30px_-10px_rgba(168,85,247,0.3)]"
+      }`}
+    >
+      <h3
+        className={`text-base sm:text-lg font-bold text-slate-200 leading-snug mb-1 sm:mb-2 transition-colors ${
+          accent === "current"
+            ? "group-hover:text-emerald-400"
+            : "group-hover:text-purple-300"
+        }`}
+      >
+        {quiz.title}
+      </h3>
+
+      <p className="text-xs sm:text-sm text-slate-500 mb-3 sm:mb-4 flex-1">
+        {quiz.category}
+      </p>
+
+      <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-400 mb-3 sm:mb-4">
+        <Sparkles
+          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+            accent === "current" ? "text-emerald-500" : "text-purple-400"
+          }`}
+        />
+        {quiz.questions.length} Questions
+      </div>
+
+      <button
+        onClick={() => startQuiz(quiz)}
+        className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2 text-sm sm:text-base"
+      >
+        Start Quiz
+        <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      </button>
+    </div>
+  );
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-b from-slate-50 via-slate-50 to-gray-100 ${quiz_font.variable} font-sans antialiased`}
+      className={`min-h-screen bg-[#0d1117] text-slate-100 ${quiz_font.variable} font-sans antialiased`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200 px-3 py-2 sm:px-6 sm:py-6 shadow-sm">
-          {/* <div className=" "> */}
-            <div className="flex items-center gap-2 sm:gap-4 ">
-              <div className="p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl">
-                <BookOpen className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
+        <header className="sticky top-0 z-40 backdrop-blur-md bg-[#0d1117]/80 border-b border-[#30363d] px-3 py-3 sm:px-6 sm:py-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="p-2 sm:p-3 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl shadow-lg shadow-purple-900/20">
+                <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-3xl font-bold text-slate-900">
-                  Quiz Master
+                <h1 className="text-lg sm:text-2xl font-bold text-white">
+                  Quizzes
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0">
-                  Learn & Test Your Knowledge
+                <p className="text-xs sm:text-sm text-slate-400 mt-0">
+                  Learn & test your knowledge
                 </p>
               </div>
-            {/* </div> */}
-            <div className="p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl z-100 absolute right-0  sm:mr-6 mr-3"
-            onClick={BackToHome}>
-              <HomeIcon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-sm font-medium text-emerald-300">
+                <GraduationCap className="w-4 h-4" />
+                <span>{currentSemester.title}</span>
+              </div>
+              <button
+                onClick={BackToHome}
+                className="p-2 sm:p-2.5 rounded-xl bg-[#161b22] border border-[#30363d] text-slate-400 hover:text-white hover:border-purple-500/50 transition-colors"
+                title="Home"
+              >
+                <HomeIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
             </div>
           </div>
         </header>
 
-        {/* Search & Category Filter */}
+        {/* Search */}
         {!activeQuiz && (
-          <section className="px-3 py-3 sm:px-6 sm:py-7 bg-white/50 border-b border-slate-200">
-            <div className="space-y-3 sm:space-y-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="Search quizzes..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 sm:py-3.5 bg-slate-50 border border-slate-300 rounded-xl text-sm sm:text-base text-slate-900 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 transition-all font-medium"
-                />
-              </div>
-
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`flex-shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap transition-all duration-200 ${
-                      selectedCategory === cat.id
-                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-300/50"
-                        : "bg-white text-slate-700 border border-slate-300 hover:border-emerald-400"
-                    }`}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
-              </div>
+          <section className="px-3 py-3 sm:px-6 sm:py-6 border-b border-[#30363d]/50">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-500 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search quizzes..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3.5 bg-[#161b22] border border-[#30363d] rounded-xl text-sm sm:text-base text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+              />
             </div>
           </section>
         )}
 
-        {/* Quiz Cards Grid */}
+        {/* Quiz Browse View */}
         {!activeQuiz ? (
-          <section className="p-3 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
-            <h2 className="flex items-center gap-2 text-xl sm:text-3xl font-bold text-slate-900">
-              <FolderOpen className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-600" />
-              Available Quizzes
-            </h2>
+          <section className="p-3 sm:p-6 lg:p-8 space-y-8 sm:space-y-12">
+            {/* Current Semester */}
+            <div>
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+                <h2 className="text-lg sm:text-2xl font-bold text-white">
+                  {currentSemester.title}
+                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20 ml-1">
+                  Current
+                </span>
+              </div>
 
-            {filteredQuizzes.length === 0 ? (
-              <div className="text-center py-12 sm:py-16 px-4 bg-white rounded-3xl border-2 border-dashed border-slate-300">
-                <p className="text-slate-500 text-lg font-semibold">
-                  No quizzes found
+              {currentSemesterQuizzes.length > 0 &&
+                renderCategoryPills(
+                  currentCategories,
+                  currentCategory,
+                  setCurrentCategory
+                )}
+
+              {currentSemesterQuizzes.length === 0 ? (
+                <div className="rounded-2xl sm:rounded-3xl border-2 border-dashed border-emerald-500/25 bg-emerald-500/[0.03] p-8 sm:p-10 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 mx-auto mb-3">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-200 mb-1">
+                    Ready for the new semester
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+                    Quizzes for {currentSemester.title} will appear here as
+                    they are added.
+                  </p>
+                </div>
+              ) : filteredCurrent.length === 0 ? (
+                <p className="text-slate-500 text-sm px-1">
+                  No current-semester quizzes match your search.
                 </p>
+              ) : (
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {filteredCurrent.map((quiz) =>
+                    renderQuizCard(quiz, "current")
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Archive */}
+            <div>
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                <Archive className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
+                <h2 className="text-lg sm:text-2xl font-bold text-slate-300">
+                  {archivedSemesters[0]?.title}
+                </h2>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-white/5 px-2 py-1 rounded-full border border-white/10 ml-1">
+                  Archive
+                </span>
               </div>
-            ) : (
-              <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredQuizzes.map((quiz, idx) => {
-                  const gradient = cardGradients[idx % cardGradients.length];
-                  return (
-                    <div
-                      key={quiz.id}
-                      className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${gradient.bg} border ${gradient.border} shadow-lg hover:shadow-2xl transition-all duration-300 p-4 sm:p-6 flex flex-col min-h-44 sm:min-h-48 hover:-translate-y-2`}
-                    >
-                      <div
-                        className={`absolute -bottom-16 -right-16 w-40 h-40 rounded-full opacity-40 blur-3xl ${gradient.shape} pointer-events-none`}
-                      />
 
-                      {/* Card Content */}
-                      <div className="relative z-10 flex flex-col h-full">
-                        {/* Label */}
-                        {/* <div
-                          className={`inline-flex w-fit px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-bold mb-2 sm:mb-3 ${gradient.label} ${gradient.labelText}`}
-                        >
-                          QUIZ
-                        </div> */}
+              {archivedQuizzes.length > 0 &&
+                renderCategoryPills(
+                  archiveCategories,
+                  archiveCategory,
+                  setArchiveCategory
+                )}
 
-                        {/* Title */}
-                        <h3 className="text-base sm:text-xl font-bold text-slate-900 leading-snug mb-1 sm:mb-2 group-hover:text-emerald-700 transition-colors">
-                          {quiz.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="text-xs sm:text-sm text-slate-700 mb-3 sm:mb-4 flex-1">
-                          {quiz.category}
-                        </p>
-
-                        {/* Question Count */}
-                        <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-800 mb-3 sm:mb-4">
-                          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
-                          {quiz.questions.length} Questions
-                        </div>
-
-                        {/* Learn More Button */}
-                        <button
-                          onClick={() => startQuiz(quiz)}
-                          className="w-full py-2.5 sm:py-3 px-3 sm:px-4 bg-white hover:bg-slate-50 text-emerald-700 font-bold rounded-xl border border-emerald-200 hover:border-emerald-400 transition-all active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
-                        >
-                          Start Quiz
-                          <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+              {filteredArchived.length === 0 ? (
+                <div className="text-center py-12 sm:py-16 px-4 bg-[#161b22] rounded-3xl border-2 border-dashed border-[#30363d]">
+                  <p className="text-slate-500 text-lg font-semibold">
+                    No quizzes found
+                    {isFiltering ? " for your search" : ""}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {filteredArchived.map((quiz) =>
+                    renderQuizCard(quiz, "archive")
+                  )}
+                </div>
+              )}
+            </div>
           </section>
         ) : finished ? (
           // Results Screen
@@ -396,7 +441,7 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Overall Score */}
-            <div className="bg-gradient-to-r from-slate-800 to-slate-900 border border-emerald-500/30 rounded-2xl p-4 sm:p-6 text-center">
+            <div className="bg-[#161b22] border border-emerald-500/30 rounded-2xl p-4 sm:p-6 text-center">
               <p className="text-slate-400 font-medium text-xs sm:text-sm mb-1 sm:mb-2">
                 Your Final Score
               </p>
@@ -459,8 +504,8 @@ export default function ModelQuizzes() {
                   }
                   className={`flex-shrink-0 px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap transition-all ${
                     reviewFilter === filter.id
-                      ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
-                      : "bg-slate-700/50 text-slate-300 border border-slate-600"
+                      ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg"
+                      : "bg-[#161b22] text-slate-400 border border-[#30363d]"
                   }`}
                 >
                   {filter.label}{" "}
@@ -472,7 +517,7 @@ export default function ModelQuizzes() {
             </div>
 
             {/* Questions Review */}
-            <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-5 space-y-3 max-h-96 overflow-y-auto">
+            <div className="bg-[#161b22] border border-[#30363d] rounded-2xl p-5 space-y-3 max-h-96 overflow-y-auto">
               {shuffledQuestions
                 .map((q: Question, idx: number) => {
                   const userAnswer = userAnswers[idx];
@@ -494,7 +539,7 @@ export default function ModelQuizzes() {
                     key={idx}
                     className={`rounded-xl p-4 border transition-all ${
                       !isAnswered
-                        ? "bg-slate-700/30 border-slate-600"
+                        ? "bg-white/[0.02] border-[#30363d]"
                         : isCorrect
                         ? "bg-emerald-500/10 border-emerald-500/30"
                         : "bg-red-500/10 border-red-500/30"
@@ -504,7 +549,7 @@ export default function ModelQuizzes() {
                       <div
                         className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
                           !isAnswered
-                            ? "bg-slate-600 text-slate-300"
+                            ? "bg-slate-700 text-slate-300"
                             : isCorrect
                             ? "bg-emerald-500 text-white"
                             : "bg-red-500 text-white"
@@ -550,14 +595,14 @@ export default function ModelQuizzes() {
             <div className="flex flex-col gap-2 sm:gap-3 pt-3 sm:pt-4">
               <button
                 onClick={() => startQuiz(activeQuiz)}
-                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 text-sm sm:text-base"
+                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                 Retry Quiz
               </button>
               <button
                 onClick={backToQuizzes}
-                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
+                className="w-full py-2.5 sm:py-3.5 px-3 sm:px-4 bg-[#161b22] hover:bg-[#1f2937] border border-[#30363d] text-slate-200 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
               >
                 Back to Quizzes
               </button>
@@ -569,27 +614,27 @@ export default function ModelQuizzes() {
             {/* Progress Bar */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <h2 className="text-base sm:text-xl font-bold text-slate-900 truncate">
+                <h2 className="text-base sm:text-xl font-bold text-white truncate">
                   {activeQuiz.title}
                 </h2>
-                <span className="text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 bg-emerald-100 text-emerald-700 rounded-full border border-emerald-300 whitespace-nowrap flex-shrink-0">
+                <span className="text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 bg-emerald-500/10 text-emerald-300 rounded-full border border-emerald-500/30 whitespace-nowrap flex-shrink-0">
                   {currentQuestion + 1} / {shuffledQuestions.length}
                 </span>
               </div>
-              <div className="w-full h-2.5 sm:h-3 bg-slate-200 rounded-full overflow-hidden shadow-inner">
+              <div className="w-full h-2.5 sm:h-3 bg-[#161b22] border border-[#30363d] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500 shadow-lg"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
-              <p className="text-xs text-slate-600 font-semibold">
+              <p className="text-xs text-slate-400 font-medium">
                 {answeredCount} of {shuffledQuestions.length} questions answered
               </p>
             </div>
 
             {/* Question Card */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-8 shadow-lg">
-              <p className="text-base sm:text-2xl font-bold text-slate-900 leading-snug sm:leading-relaxed mb-6 sm:mb-8">
+            <div className="bg-[#161b22] border border-[#30363d] rounded-3xl p-4 sm:p-8 shadow-xl">
+              <p className="text-base sm:text-2xl font-bold text-slate-100 leading-snug sm:leading-relaxed mb-6 sm:mb-8">
                 {shuffledQuestions[currentQuestion].question}
               </p>
 
@@ -607,20 +652,19 @@ export default function ModelQuizzes() {
                     if (isAnswered && showFeedback) {
                       if (isCorrect) {
                         style +=
-                          "bg-emerald-50 border-emerald-400 text-emerald-900 shadow-md";
+                          "bg-emerald-500/10 border-emerald-500 text-emerald-300";
                       } else if (isSelected) {
-                        style +=
-                          "bg-red-50 border-red-400 text-red-900 shadow-md";
+                        style += "bg-red-500/10 border-red-500 text-red-300";
                       } else {
                         style +=
-                          "bg-slate-50 border-slate-300 text-slate-500 opacity-60";
+                          "bg-white/[0.02] border-[#30363d] text-slate-500 opacity-60";
                       }
                     } else if (isAnswered) {
                       style +=
-                        "bg-slate-50 border-slate-300 text-slate-500 cursor-not-allowed opacity-50";
+                        "bg-white/[0.02] border-[#30363d] text-slate-500 cursor-not-allowed opacity-50";
                     } else {
                       style +=
-                        "bg-slate-50 border-slate-300 hover:bg-white hover:border-emerald-400 text-slate-900 cursor-pointer active:scale-95 hover:shadow-md";
+                        "bg-[#0d1117] border-[#30363d] hover:border-emerald-500/60 hover:bg-emerald-500/[0.04] text-slate-200 cursor-pointer active:scale-[0.98]";
                     }
 
                     return (
@@ -630,17 +674,17 @@ export default function ModelQuizzes() {
                         disabled={isAnswered}
                         className={style}
                       >
-                        <span className="flex-shrink-0 w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold">
+                        <span className="flex-shrink-0 w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg bg-[#21262d] border border-[#30363d] text-slate-300 flex items-center justify-center text-xs font-bold">
                           {String.fromCharCode(65 + idx)}
                         </span>
                         <span className="flex-1">{option}</span>
                         {isAnswered && showFeedback && (
                           <>
                             {isCorrect && (
-                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 flex-shrink-0" />
+                              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
                             )}
                             {!isCorrect && isSelected && (
-                              <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0" />
+                              <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 flex-shrink-0" />
                             )}
                           </>
                         )}
@@ -650,11 +694,11 @@ export default function ModelQuizzes() {
                 )}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-slate-200">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4 sm:pt-6 border-t border-[#30363d]">
                 <button
                   onClick={nextQuestion}
                   disabled={currentQuestion >= shuffledQuestions.length - 1}
-                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm sm:text-base"
+                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/30 text-sm sm:text-base"
                 >
                   Next
                   <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -662,7 +706,7 @@ export default function ModelQuizzes() {
                 <button
                   onClick={finishQuiz}
                   disabled={answeredCount === 0}
-                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm sm:text-base"
+                  className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-amber-900/30 text-sm sm:text-base"
                 >
                   <StopCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   Finish
@@ -671,7 +715,7 @@ export default function ModelQuizzes() {
 
               <button
                 onClick={backToQuizzes}
-                className="w-full mt-2 sm:mt-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
+                className="w-full mt-2 sm:mt-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-[#0d1117] hover:bg-[#1f2937] border border-[#30363d] text-slate-300 font-bold rounded-xl transition-all active:scale-95 text-sm sm:text-base"
               >
                 ← Back to Quiz Menu
               </button>
@@ -680,11 +724,11 @@ export default function ModelQuizzes() {
         )}
         <div className="h-20 w-full"></div>
         {/* Footer */}
-        <footer className="border-t border-slate-200 bg-white px-3 py-4 sm:px-6 sm:py-6 text-center shadow-sm bottom-0 fixed w-full z-100">
-          <p className="text-base font-bold text-slate-900">
+        <footer className="border-t border-[#30363d] bg-[#0d1117]/90 backdrop-blur-md px-3 py-4 sm:px-6 sm:py-5 text-center bottom-0 fixed w-full z-30">
+          <p className="text-sm sm:text-base font-bold text-slate-200">
             Quiz Master 3.0 – Learn Smarter
           </p>
-          <p className="text-xs font-medium mt-1 text-blue-500">
+          <p className="text-xs font-medium mt-1 text-purple-400">
             Created by Hasitha Sandakelum
           </p>
         </footer>

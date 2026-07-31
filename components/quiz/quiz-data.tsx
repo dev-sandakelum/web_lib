@@ -25,20 +25,30 @@ import {
 } from "@/resources/json/Q8";
 import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resources/json/Q9";
 
-interface Question {
+export interface Question {
   question: string;
   options: string[];
   correctIndex: number;
 }
 
-interface Quiz {
+export interface Quiz {
   id: string;
   title: string;
   category: string;
   questions: Question[];
 }
 
-export const builtInQuizzes: Quiz[] = [
+// ─────────────────────────────────────────────────────────────
+// CURRENT SEMESTER (Year 2 · Semester 1) — add new quizzes here.
+// Import the quiz object and drop it into this array; it will
+// appear in the "Current" section on /quiz automatically.
+// ─────────────────────────────────────────────────────────────
+export const currentSemesterQuizzes: Quiz[] = []
+
+// ─────────────────────────────────────────────────────────────
+// ARCHIVE (Year 1 · Semester 1) — all first-year quizzes.
+// ─────────────────────────────────────────────────────────────
+export const archivedQuizzes: Quiz[] = [
   // CacheMemoryQuiz,
   // ComputerArithmeticQuiz,
   PhysicalLayerQuiz,
@@ -61,4 +71,10 @@ export const builtInQuizzes: Quiz[] = [
   DigitalImagesQuiz,
   AnimationBasicsQuiz,
   AdvancedTopicsQuiz,
+];
+
+// Combined list — used for quiz lookup by id (?quiz=... URLs keep working).
+export const builtInQuizzes: Quiz[] = [
+  ...currentSemesterQuizzes,
+  ...archivedQuizzes,
 ];
