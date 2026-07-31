@@ -59,7 +59,7 @@ export default function TopicView({ title, description, items, parentLink = "/",
         results.push({ type: "main", data: topic, level: 1 })
       }
       topic.subTopics.forEach((subTopic) => {
-        if (subTopic.title.toLowerCase().includes(query)) {
+        if (subTopic.title.toLowerCase().includes(query) && subTopic.items.length > 0) {
           results.push({ type: "subtopic", data: subTopic, parentTopic: topic, level: 2 })
         }
         subTopic.items.forEach((item) => {

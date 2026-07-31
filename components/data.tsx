@@ -1,19 +1,130 @@
-import { Clock11, DonutIcon, File, BookOpen, Sparkles, FileText } from "lucide-react"
+import { DonutIcon, File, LayoutGrid } from "lucide-react"
 
-export const notifications = [
-  { title: "New note added: 'Physics Basics'", time: "2d ago", icon: <BookOpen className="w-5 h-5" /> },
-  { title: "Quiz completed: 'Algebra'", time: "1w ago", icon: <Sparkles className="w-5 h-5" /> },
-  { title: "New PDF uploaded: 'Calculus'", time: "2w ago", icon: <FileText className="w-5 h-5" /> },
-]
+// ─────────────────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────────────────
 
-export const mainTopics = [
+export interface NoteItem {
+  id: string
+  title: string
+  readTime: string
+  cardColor?: string
+  tags: string[]
+  link: string
+}
+
+export interface Subject {
+  id: string
+  title: string
+  cardColor: string
+  items: NoteItem[]
+}
+
+export interface Semester {
+  id: string
+  title: string
+  label: string
+  status: "current" | "archived"
+  subjects: Subject[]
+}
+
+// ─────────────────────────────────────────────────────────────
+// CURRENT SEMESTER — add new subjects here as the semester goes.
+//
+// Template for a new subject:
+//
+//   {
+//     id: "subject-id",              // becomes the URL: /notes/subject-id
+//     title: "Subject Name",
+//     cardColor: "from-blue-500 to-cyan-600",
+//     items: [
+//       {
+//         id: "unique-id",
+//         title: "Note title",
+//         readTime: "10 min",
+//         tags: ["tag1", "tag2"],
+//         link: "/notes/subject-id/note-page",
+//       },
+//     ],
+//   },
+// ─────────────────────────────────────────────────────────────
+
+export const currentSemester: Semester = {
+  id: "year-2-semester-1",
+  title: "Year 2 · Semester 1",
+  label: "Current",
+  status: "current",
+  subjects: [
+    {
+      id: "dsa",
+      title: "Data Structures & Algorithms",
+      cardColor: "from-blue-500 to-indigo-600",
+      items: [],
+    },
+    {
+      id: "e-business",
+      title: "E-Business Systems",
+      cardColor: "from-teal-500 to-cyan-600",
+      items: [],
+    },
+    {
+      id: "ooad",
+      title: "Object Oriented Analysis & Design",
+      cardColor: "from-violet-500 to-purple-600",
+      items: [],
+    },
+    {
+      id: "business-economics",
+      title: "Business Economics",
+      cardColor: "from-amber-500 to-orange-600",
+      items: [],
+    },
+    {
+      id: "soft-skills",
+      title: "Soft Skills",
+      cardColor: "from-pink-500 to-rose-600",
+      items: [],
+    },
+    {
+      id: "oop",
+      title: "Object Oriented Programming",
+      cardColor: "from-emerald-500 to-green-600",
+      items: [],
+    },
+    {
+      id: "oop-practicum",
+      title: "Object Oriented Programming Practicum",
+      cardColor: "from-lime-500 to-emerald-600",
+      items: [],
+    },
+    {
+      id: "mis",
+      title: "Management Information Systems",
+      cardColor: "from-sky-500 to-blue-600",
+      items: [],
+    },
+    {
+      id: "english-iii",
+      title: "English III",
+      cardColor: "from-fuchsia-500 to-pink-600",
+      items: [],
+    },
+  ],
+}
+
+// ─────────────────────────────────────────────────────────────
+// ARCHIVE — everything from previous semesters lives here.
+// Old links keep working: subjects are still served at /notes/[id].
+// ─────────────────────────────────────────────────────────────
+
+// Note: Year 1 · Semester 2 has no notes (semester was missed), so it is not listed.
+export const archivedSemesters: Semester[] = [
   {
-    id: "notes",
-    title: "Short Notes",
-    icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
-    color: "from-blue-500 to-blue-600",
-    description: "Quick reference materials",
-    subTopics: [
+    id: "year-1-semester-1",
+    title: "Year 1 · Semester 1",
+    label: "Archive",
+    status: "archived",
+    subjects: [
       {
         id: "networking",
         title: "Networking",
@@ -40,16 +151,15 @@ export const mainTopics = [
             title: "networking full 2",
             readTime: "interactive",
             cardColor: "from-amber-500 to-blue-600",
-            tags: ["networking", "full", "", "guide"],
+            tags: ["networking", "full", "guide"],
             link: "/notes/networking/full2",
-          
           },
           {
             id: "n1",
             title: "cisco packet tracer",
-            readTime: "esaily navigable",
+            readTime: "easily navigable",
             cardColor: "from-yellow-500 to-purple-600",
-            tags: ["networking", "cisco" ,"packet-tracer" ,"guide"],
+            tags: ["networking", "cisco", "packet-tracer", "guide"],
             link: "/notes/networking/cisco-packet-tracer",
           },
           {
@@ -57,7 +167,7 @@ export const mainTopics = [
             title: "cisco packet tracer old",
             readTime: "unnavigable",
             cardColor: "from-gray-300 to-gray-600",
-            tags: ["networking", "cisco" ,"packet-tracer" ,"old"],
+            tags: ["networking", "cisco", "packet-tracer", "old"],
             link: "/notes/networking/cisco-packet-tracer-old",
           },
           {
@@ -65,7 +175,7 @@ export const mainTopics = [
             title: "cisco packet tracer v2",
             readTime: "unnavigable",
             cardColor: "from-gray-300 to-gray-600",
-            tags: ["networking", "cisco" ,"packet-tracer" ,"v2"],
+            tags: ["networking", "cisco", "packet-tracer", "v2"],
             link: "/notes/networking/cisco-packet-tracer-v2",
           },
         ],
@@ -78,16 +188,16 @@ export const mainTopics = [
           {
             id: "a0",
             title: "full notes on computer architecture",
-            readTime: "not applicable",
+            readTime: "comprehensive",
             tags: ["architecture"],
             link: "/notes/architecture/full",
           },
           {
             id: "a1",
-            title: "",
-            readTime: "not applicable",
-            tags: ["architecture"],
-            link: "/notes/architecture/a1-4",
+            title: "Computer Architecture quiz notes (units 1-4)",
+            readTime: "interactive",
+            tags: ["architecture", "quiz"],
+            link: "/notes/architecture/A1-4",
           },
           {
             id: "a2",
@@ -95,20 +205,6 @@ export const mainTopics = [
             readTime: "7 min",
             tags: ["architecture"],
             link: "/notes/architecture/memory",
-          },
-        ],
-      },
-      {
-        id: "c1",
-        title: "C Programming",
-        cardColor: "from-blue-500 to-cyan-600",
-        items: [
-          {
-            id: "c1-1",
-            title: "full c programming notes",
-            readTime: "unlimited",
-            tags: ["c programming", "pointers" ,"arrays" ,"functions" ,"structures" ,"file handling"],
-            link: "/notes/c/full-c-notes",
           },
         ],
       },
@@ -121,43 +217,29 @@ export const mainTopics = [
             id: "isfull",
             title: "Information systems full notes",
             readTime: "comprehensive",
-            tags: ["information systems", "full" ,"notes"],
+            tags: ["information systems", "full", "notes"],
             link: "/notes/information-systems/full",
-          },{
+          },
+          {
             id: "isfullq",
             title: "Information systems full quiz",
             readTime: "comprehensive",
-            tags: ["information systems", "full" ,"quiz"],
+            tags: ["information systems", "full", "quiz"],
             link: "/notes/information-systems/fullq",
           },
-          
           {
             id: "is3-4",
-            title: "Information systems notes 3rd and 4th ",
+            title: "Information systems notes 3rd and 4th",
             readTime: "unlimited",
-            tags: ["information systems", "is" ,"notes"],
+            tags: ["information systems", "is", "notes"],
             link: "/notes/information-systems/is3-4",
           },
           {
             id: "new",
             title: "Fundamentals of Information Systems",
             readTime: "comprehensive",
-            tags: ["information systems" ,"fundamentals" ,"notes"],
+            tags: ["information systems", "fundamentals", "notes"],
             link: "/notes/information-systems/new",
-          }
-        ],
-      },
-      {
-        id: "multimedia",
-        title: "Multimedia",
-        cardColor: "from-pink-500 to-rose-600",
-        items: [
-          {
-            id: "mm1",
-            title: "Multimedia Study Guide",
-            readTime: "comprehensive",
-            tags: ["multimedia", "design", "typography", "CRAP"],
-            link: "/notes/multimedia",
           },
         ],
       },
@@ -172,20 +254,44 @@ export const mainTopics = [
             readTime: "5 min",
             tags: ["math", "AI", "Groq"],
             link: "/notes/maths/solver",
-          }
+          },
         ],
-      }
+      },
     ],
+  },
+]
+
+// All subjects across semesters — keeps /notes/[subtopic] routing and
+// global search working for both current and archived content.
+export const allSubjects: Subject[] = [
+  ...currentSemester.subjects,
+  ...archivedSemesters.flatMap((s) => s.subjects),
+]
+
+export function subjectsWithResources(subjects: Subject[]): Subject[] {
+  return subjects.filter((subject) => subject.items.length > 0)
+}
+
+export const visibleSubjects: Subject[] = subjectsWithResources(allSubjects)
+
+export const mainTopics = [
+  {
+    id: "notes",
+    title: "Short Notes",
+    icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-blue-500 to-blue-600",
+    description: "Quick reference materials",
+    link: "/notes",
+    subTopics: visibleSubjects,
   },
   {
     id: "quizes",
-    title: "Quizes",
+    title: "Quizzes",
     icon: <DonutIcon className="w-6 h-6 sm:w-8 sm:h-8" />,
     color: "from-green-500 to-green-600",
     description: "Interactive assessments",
-    link : "/quiz",
+    link: "/quiz",
     subTopics: [],
-   
   },
   {
     id: "pdfs",
@@ -193,15 +299,16 @@ export const mainTopics = [
     icon: <File className="w-6 h-6 sm:w-8 sm:h-8" />,
     color: "from-red-500 to-red-600",
     description: "Comprehensive documents",
-    link : "/pdf_links",
+    link: "/pdf_links",
     subTopics: [],
-  },{
-    id:"Question-gen",
-    title: "Question Generator",
-    icon: <Clock11 className="w-6 h-6 sm:w-8 sm:h-8" />,
-    color: "from-purple-500 to-purple-600",
-    description: "AI-Powered Quiz Creation",
-    link : "/question-gen",
+  },
+  {
+    id: "apps",
+    title: "Apps",
+    icon: <LayoutGrid className="w-6 h-6 sm:w-8 sm:h-8" />,
+    color: "from-orange-500 to-amber-600",
+    description: "Tools to enhance your workflow",
+    link: "/apps",
     subTopics: [],
   },
 ]
