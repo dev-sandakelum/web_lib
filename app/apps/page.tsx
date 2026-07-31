@@ -1,6 +1,6 @@
 "use client"
 
-import { Calculator, ArrowLeft, Construction } from "lucide-react"
+import { Calculator, ArrowLeft, Construction, Cake, Sparkles, Gift } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export default function AppsPage() {
@@ -13,7 +13,31 @@ export default function AppsPage() {
       icon: Calculator,
       description: "Standard & Scientific",
       status: "Available",
-      link: "/apps/calculator"
+      link: "/notes/maths/solver",
+    },
+    {
+      id: "q-gen",
+      title: "Q-Gen",
+      icon: Sparkles,
+      description: "AI Question Generator",
+      status: "Available",
+      link: "/question-gen",
+    },
+    {
+      id: "bd2",
+      title: "BD2",
+      icon: Cake,
+      description: "Birthday Post Studio",
+      status: "Available",
+      link: "/apps/bd2",
+    },
+    {
+      id: "bd3",
+      title: "BD3",
+      icon: Gift,
+      description: "Birthday Post Generator",
+      status: "Available",
+      link: "/apps/bd3",
     },
     {
       id: "pomodoro",
@@ -21,8 +45,8 @@ export default function AppsPage() {
       icon: Construction,
       description: "Productivity Tool",
       status: "Coming Soon",
-      link: "#"
-    }
+      link: "#",
+    },
   ]
 
   return (
