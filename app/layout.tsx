@@ -6,6 +6,7 @@ import "./bd2.css";
 import "./bd3.css";
 import { Analytics } from "@vercel/analytics/next";
 import FloatingHomeButton from "@/components/dashboard/FloatingHomeButton";
+import ScrollGlowRail from "@/components/dashboard/ScrollGlowRail";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
+        <ScrollGlowRail />
         <FloatingHomeButton />
       </body>
     </html>
