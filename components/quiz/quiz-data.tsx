@@ -24,6 +24,7 @@ import {
   PhysicalLayerQuiz,
 } from "@/resources/json/Q8";
 import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resources/json/Q9";
+import { MISLecture01Quiz, MISLecture02Quiz, MISLecture03Quiz } from "@/resources/json/Y2L1/Y2L1Q1";
 
 export interface Question {
   question: string;
@@ -43,7 +44,11 @@ export interface Quiz {
 // Import the quiz object and drop it into this array; it will
 // appear in the "Current" section on /quiz automatically.
 // ─────────────────────────────────────────────────────────────
-export const currentSemesterQuizzes: Quiz[] = []
+export const currentSemesterQuizzes: Quiz[] = [
+  MISLecture01Quiz,
+  MISLecture02Quiz,
+  MISLecture03Quiz
+]
 
 // ─────────────────────────────────────────────────────────────
 // ARCHIVE (Year 1 · Semester 1) — all first-year quizzes.
