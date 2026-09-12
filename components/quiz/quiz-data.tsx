@@ -24,6 +24,7 @@ import {
   PhysicalLayerQuiz,
 } from "@/resources/json/Q8";
 import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resources/json/Q9";
+import { Ict1152Quiz, Ict1152Quiz2 } from "@/resources/json/Y1S1/Q1";
 import { MISLecture01Quiz, MISLecture02Quiz, MISLecture03Quiz } from "@/resources/json/Y2L1/Y2L1Q1";
 
 export interface Question {
@@ -56,6 +57,8 @@ export const currentSemesterQuizzes: Quiz[] = [
 export const archivedQuizzes: Quiz[] = [
   // CacheMemoryQuiz,
   // ComputerArithmeticQuiz,
+  Ict1152Quiz,
+  Ict1152Quiz2,
   PhysicalLayerQuiz,
   ComputerNetworksQuiz,
   DataLinkMACQuiz,
