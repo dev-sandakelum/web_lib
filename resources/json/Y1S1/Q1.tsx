@@ -1,5 +1,5 @@
 export const Ict1152Quiz = {
-  "id": "1",
+  "id": "ict1152-lec01",
   "title": "Computer Architecture ICT1152 - Lecture 01: Introduction & Background",
   "category": "Computer Architecture",
   "questions": [
@@ -559,7 +559,7 @@ export const Ict1152Quiz = {
 };
 
 export const Ict1152Quiz2 = {
-  "id": "is2",
+  "id": "ict1152-lec02",
   "title": "Computer Architecture ICT1152 - Lecture 02: Instruction Cycle and Interrupts",
   "category": "Computer Architecture",
   "questions": [
