@@ -723,16 +723,16 @@ export default function ModelQuizzes() {
           </section>
         )}
         <div className="h-20 w-full"></div>
-        {/* Footer */}
-        <footer className="border-t border-[#30363d] bg-[#0d1117]/90 backdrop-blur-md px-3 py-4 sm:px-6 sm:py-5 text-center bottom-0 fixed w-full z-30">
-          <p className="text-sm sm:text-base font-bold text-slate-200">
-            Quiz Master 3.0 – Learn Smarter
-          </p>
-          <p className="text-xs font-medium mt-1 text-purple-400">
-            Created by Hasitha Sandakelum
-          </p>
-        </footer>
       </div>
+      {/* Footer */}
+      <footer className="border-t border-[#30363d] bg-[#0d1117]/90 backdrop-blur-md px-3 py-4 sm:px-6 sm:py-5 text-center bottom-0 fixed w-full z-30">
+        <p className="text-sm sm:text-base font-bold text-slate-200">
+          Quiz Master 3.0 – Learn Smarter
+        </p>
+        <p className="text-xs font-medium mt-1 text-purple-400">
+          Created by Hasitha Sandakelum
+        </p>
+      </footer>
     </div>
   );
 }
