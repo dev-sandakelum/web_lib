@@ -26,6 +26,7 @@ import {
 import { NetworkTransportQuiz, TransportProtocolsQuiz } from "@/resources/json/Q9";
 import { Ict1152Quiz, Ict1152Quiz2 } from "@/resources/json/Y1S1/Q1";
 import { MISLecture01Quiz, MISLecture02Quiz, MISLecture03Quiz } from "@/resources/json/Y2L1/Y2L1Q1";
+import { DSA_Q1, DSA_Q2 } from "@/resources/json/Y2L1/Y2L1Q2";
 
 export interface Question {
   question: string;
@@ -46,6 +47,8 @@ export interface Quiz {
 // appear in the "Current" section on /quiz automatically.
 // ─────────────────────────────────────────────────────────────
 export const currentSemesterQuizzes: Quiz[] = [
+  DSA_Q1,
+  DSA_Q2,
   MISLecture01Quiz,
   MISLecture02Quiz,
   MISLecture03Quiz
