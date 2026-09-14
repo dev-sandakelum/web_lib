@@ -1,7 +1,7 @@
 import type { ChatMessage } from "@/lib/question-gen/openai-client"
 
-// Best Groq model for instruction-following and creative writing
-const MODEL = "llama-3.3-70b-versatile"
+// Best available Groq model for instruction-following and creative writing
+const MODEL = "qwen/qwen3.8-27b"
 
 const API_KEYS = [
   process.env.GROQ_API_KEY_1,
