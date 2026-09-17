@@ -28,6 +28,7 @@ import { Ict1152Quiz, Ict1152Quiz2 } from "@/resources/json/Y1S1/Q1";
 import { MISLecture01Quiz, MISLecture02Quiz, MISLecture03Quiz } from "@/resources/json/Y2L1/Y2L1Q1";
 import { DSA_Q1, DSA_Q2 } from "@/resources/json/Y2L1/Y2L1Q2";
 import { eBusiness1, eBusiness2, eBusiness3 } from "@/resources/json/Y2L1/Y2L1Q3";
+import { ClassesAndObjectsPart2Quiz, ClassesAndObjectsQuiz, IntroToOOPQuiz } from "@/resources/json/Y2L1/Y2L1Q4";
 
 export interface Question {
   question: string;
@@ -48,6 +49,9 @@ export interface Quiz {
 // appear in the "Current" section on /quiz automatically.
 // ─────────────────────────────────────────────────────────────
 export const currentSemesterQuizzes: Quiz[] = [
+  IntroToOOPQuiz,
+  ClassesAndObjectsQuiz,
+  ClassesAndObjectsPart2Quiz,
   eBusiness1,
   eBusiness2,
   eBusiness3,
