@@ -30,6 +30,7 @@ import { DSA_Q1, DSA_Q2 } from "@/resources/json/Y2L1/Y2L1Q2";
 import { eBusiness1, eBusiness2, eBusiness3 } from "@/resources/json/Y2L1/Y2L1Q3";
 import { ClassesAndObjectsPart2Quiz, ClassesAndObjectsQuiz, IntroToOOPQuiz } from "@/resources/json/Y2L1/Y2L1Q4";
 import { EBSLecture04Quiz, EBSLecture06Quiz } from "@/resources/json/Y2L1/Y2L1Q5";
+import { EBSLecture07Quiz, EBSLecture08Quiz, EBSLecture09Quiz } from "@/resources/json/Y2L1/Y2L1Q6";
 
 export interface Question {
   question: string;
@@ -50,6 +51,9 @@ export interface Quiz {
 // appear in the "Current" section on /quiz automatically.
 // ─────────────────────────────────────────────────────────────
 export const currentSemesterQuizzes: Quiz[] = [
+  EBSLecture07Quiz,
+  EBSLecture08Quiz,
+  EBSLecture09Quiz,
   EBSLecture04Quiz,
   EBSLecture06Quiz,
   IntroToOOPQuiz,
